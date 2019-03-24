@@ -1177,4 +1177,50 @@ namespace MWWorld
             }
         }
     }
+    
+    /*
+        Start of tes3mp addition
+
+        Make it possible to clear cell data (e.g. to reset cells)
+    */
+    void CellStore::clear()
+    {
+        if (mState != State_Unloaded)
+        {
+            mState = State_Unloaded;
+
+            mIds.clear();
+
+            mActivators.mList.clear();
+            mPotions.mList.clear();
+            mAppas.mList.clear();
+            mArmors.mList.clear();
+            mBooks.mList.clear();
+            mClothes.mList.clear();
+            mContainers.mList.clear();
+            mCreatures.mList.clear();
+            mDoors.mList.clear();
+            mIngreds.mList.clear();
+            mCreatureLists.mList.clear();
+            mItemLists.mList.clear();
+            mLights.mList.clear();
+            mLockpicks.mList.clear();
+            mMiscItems.mList.clear();
+            mNpcs.mList.clear();
+            mProbes.mList.clear();
+            mRepairs.mList.clear();
+            mStatics.mList.clear();
+            mWeapons.mList.clear();
+            mBodyParts.mList.clear();
+
+            mMovedHere.clear();
+            mMovedToAnotherCell.clear();
+            mMergedRefs.clear();
+
+            mFogState = NULL;
+        }
+    }
+    /*
+        End of tes3mp addition
+    */
 }

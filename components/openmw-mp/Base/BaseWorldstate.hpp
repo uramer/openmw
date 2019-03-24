@@ -232,6 +232,8 @@ namespace mwmp
         std::vector<SpellRecord> spellRecords;
         std::vector<WeaponRecord> weaponRecords;
 
+        std::vector<ESM::Cell> cellsToReset;
+
         bool isValid;
     };
 }

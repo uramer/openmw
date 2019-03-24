@@ -435,6 +435,16 @@ namespace MWWorld
             void respawn ();
             ///< Check mLastRespawn and respawn references if necessary. This is a no-op if the cell is not loaded.
 
+            /*
+                Start of tes3mp addition
+
+                Make it possible to clear cell data (e.g. to reset cells).
+            */
+            void clear ();
+            /*
+                End of tes3mp addition
+            */
+
         private:
 
             /// Run through references and store IDs

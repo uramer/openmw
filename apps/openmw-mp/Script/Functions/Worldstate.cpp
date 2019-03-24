@@ -5,6 +5,8 @@
 #include <apps/openmw-mp/Script/ScriptFunctions.hpp>
 #include <fstream>
 
+#include <apps/openmw-mp/Utils.hpp>
+
 #include "Worldstate.hpp"
 
 using namespace std;
@@ -158,9 +160,20 @@ void WorldstateFunctions::AddEnforcedCollisionRefId(const char *refId) noexcept
     writeWorldstate.enforcedCollisionRefIds.push_back(refId);
 }
 
+void WorldstateFunctions::AddCellToReset(const char *cellDescription) noexcept
+{
+    ESM::Cell cell = Utils::getCellFromDescription(cellDescription);
+    writeWorldstate.cellsToReset.push_back(cell);
+}
+
 void WorldstateFunctions::ClearEnforcedCollisionRefIds() noexcept
 {
     writeWorldstate.enforcedCollisionRefIds.clear();
+}
+
+void WorldstateFunctions::ClearCellsToReset() noexcept
+{
+    writeWorldstate.cellsToReset.clear();
 }
 
 void WorldstateFunctions::SaveMapTileImageFile(unsigned int index, const char *filePath) noexcept
@@ -274,6 +287,20 @@ void WorldstateFunctions::SendWorldRegionAuthority(unsigned short pid) noexcept
 
     // This packet should always be sent to all other players
     packet->Send(true);
+}
+
+void WorldstateFunctions::SendCellReset(unsigned short pid, bool sendToOtherPlayers) noexcept
+{
+    mwmp::WorldstatePacket *packet = mwmp::Networking::get().getWorldstatePacketController()->GetPacket(ID_CELL_RESET);
+
+    Player *player;
+    GET_PLAYER(pid, player, );
+
+    writeWorldstate.guid = player->guid;
+
+    packet->setWorldstate(&writeWorldstate);
+    
+    packet->Send(sendToOtherPlayers);
 }
 
 
