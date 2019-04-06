@@ -57,7 +57,7 @@
     \
     {"AddCellToReset",                    WorldstateFunctions::AddCellToReset},\
     {"ClearCellsToReset",                 WorldstateFunctions::ClearCellsToReset},\
-    {"SendCellsToReset",                  WorldstateFunctions::SendCellReset},\
+    {"SendCellReset",                  WorldstateFunctions::SendCellReset},\
     \
     {"ReadLastWorldstate",                WorldstateFunctions::ReadLastWorldstate},\
     {"CopyLastWorldstateToStore",         WorldstateFunctions::CopyLastWorldstateToStore}

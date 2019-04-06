@@ -35,7 +35,7 @@ void CellController::updateLocal(bool forceUpdate)
     {
         mwmp::Cell *mpCell = it->second;
 
-        if (!MWBase::Environment::get().getWorld()->isCellActive(mpCell->getCellStore()))
+        if (!MWBase::Environment::get().getWorld()->isCellActive(*(mpCell->getCellStore()->getCell())))
         {
             mpCell->uninitializeLocalActors();
             mpCell->uninitializeDedicatedActors();
@@ -312,11 +312,7 @@ bool CellController::isInitializedCell(const ESM::Cell& cell)
 
 bool CellController::isActiveWorldCell(const ESM::Cell& cell)
 {
-    MWWorld::CellStore *cellStore = getCellStore(cell);
-
-    if (!cellStore) return false;
-
-    return MWBase::Environment::get().getWorld()->isCellActive(cellStore);
+    return MWBase::Environment::get().getWorld()->isCellActive(cell);
 }
 
 Cell *CellController::getCell(const ESM::Cell& cell)

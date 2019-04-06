@@ -579,7 +579,17 @@ namespace MWBase
 
                 Make it possible to check whether a cell is active
             */
-            virtual bool isCellActive(MWWorld::CellStore* cell) = 0;
+            virtual bool isCellActive(ESM::Cell cell) = 0;
+            /*
+                End of tes3mp addition
+            */
+
+            /*
+                Start of tes3mp addition
+
+                Make it possible to reload active cells (e.g. for CellReset)
+            */
+            virtual void reloadCells(std::vector<ESM::Cell> * cells) = 0;
             /*
                 End of tes3mp addition
             */

@@ -289,6 +289,26 @@ namespace MWWorld
                 End of tes3mp addition
             */
 
+            /*
+                Start of tes3mp addition
+
+                Make it possible to get the mContainers in the CellStore from elsewhere in the code
+            */
+            std::vector<Ptr> getMovedHere();
+            /*
+                End of tes3mp addition
+            */
+
+            /*
+                Start of tes3mp addition
+
+                Make it possible to get mMovedHere in the CellStore from elsewhere in the code
+            */
+            void returnFromOtherCells();
+            /*
+                End of tes3mp addition
+            */
+
             float getWaterLevel() const;
 
             void setWaterLevel (float level);

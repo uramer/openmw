@@ -677,7 +677,17 @@ namespace MWWorld
 
                 Make it possible to check whether a cell is active
             */
-            bool isCellActive(MWWorld::CellStore* cell) override;
+            bool isCellActive(ESM::Cell cell) override;
+            /*
+                End of tes3mp addition
+            */
+
+            /*
+                Start of tes3mp addition
+
+                Make it possible to reload active cells (e.g. for CellReset)
+            */
+            void reloadCells(std::vector<ESM::Cell> * cells) override;
             /*
                 End of tes3mp addition
             */

@@ -3,6 +3,7 @@
 #include <apps/openmw-mp/Networking.hpp>
 #include <apps/openmw-mp/Player.hpp>
 #include <apps/openmw-mp/Script/ScriptFunctions.hpp>
+#include <apps/openmw-mp/CellController.hpp>
 #include <fstream>
 
 #include <apps/openmw-mp/Utils.hpp>
@@ -299,8 +300,29 @@ void WorldstateFunctions::SendCellReset(unsigned short pid, bool sendToOtherPlay
     writeWorldstate.guid = player->guid;
 
     packet->setWorldstate(&writeWorldstate);
-    
+
     packet->Send(sendToOtherPlayers);
+
+    if (sendToOtherPlayers)
+    {
+        packet->Send(false);
+    }
+
+    CellController * cellController = CellController::get();
+
+    for (ESM::Cell cell : writeWorldstate.cellsToReset)
+    {
+        if (sendToOtherPlayers)
+        {
+            TPlayers * players = Players::getPlayers();
+            for (TPlayers::iterator iter = players->begin(); iter != players->end(); iter++)
+            {
+                cellController->getCell(&cell)->removePlayer((*iter).second, true);
+            }
+        }
+        else
+            cellController->getCell(&cell)->removePlayer(Players::getPlayer(pid), true);
+    }
 }
 
 
