@@ -3,6 +3,7 @@
 #include <components/esm/aisequence.hpp>
 
 #include "../mwbase/environment.hpp"
+#include "../mwbase/windowmanager.hpp"
 #include "../mwbase/world.hpp"
 
 #include "../mwworld/class.hpp"
@@ -104,8 +105,7 @@ bool AiPursue::execute (const MWWorld::Ptr& actor, CharacterController& characte
         /*
             End of tes3mp addition
         */
-        target.getClass().activate(target,actor).get()->execute(actor); //Arrest player when reached
-
+        MWBase::Environment::get().getWindowManager()->pushGuiMode(MWGui::GM_Dialogue, actor); //Arrest player when reached
         return true;
     }
 

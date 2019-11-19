@@ -1079,7 +1079,7 @@ namespace MWMechanics
 
                         if (caster == player || playerFollowers.find(caster) != playerFollowers.end())
                         {
-                            if (caster.getClass().getNpcStats(caster).isWerewolf())
+                            if (caster.getClass().isNpc() && caster.getClass().getNpcStats(caster).isWerewolf())
                                 caster.getClass().getNpcStats(caster).addWerewolfKill();
 
                             MWBase::Environment::get().getMechanicsManager()->actorKilled(ptr, player);
@@ -2138,6 +2138,13 @@ namespace MWMechanics
             if (fx)
                 MWBase::Environment::get().getWorld()->spawnEffect("meshes\\" + fx->mModel,
                     "", ptr.getRefData().getPosition().asVec3());
+
+            // Remove the summoned creature's summoned creatures as well
+            MWMechanics::CreatureStats& stats = ptr.getClass().getCreatureStats(ptr);
+            std::map<CreatureStats::SummonKey, int>& creatureMap = stats.getSummonedCreatureMap();
+            for (const auto& creature : creatureMap)
+                cleanupSummonedCreature(stats, creature.second);
+            creatureMap.clear();
         }
         else if (creatureActorId != -1)
         {

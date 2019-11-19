@@ -24,6 +24,8 @@ namespace SceneUtil
         mShadowSettings->setReceivesShadowTraversalMask(~0u);
 
         int numberOfShadowMapsPerLight = Settings::Manager::getInt("number of shadow maps", "Shadows");
+        numberOfShadowMapsPerLight = std::max(1, std::min(numberOfShadowMapsPerLight, 8));
+
         mShadowSettings->setNumShadowMapsPerLight(numberOfShadowMapsPerLight);
         mShadowSettings->setBaseShadowTextureUnit(8 - numberOfShadowMapsPerLight);
 
@@ -66,6 +68,8 @@ namespace SceneUtil
     void ShadowManager::disableShadowsForStateSet(osg::ref_ptr<osg::StateSet> stateset)
     {
         int numberOfShadowMapsPerLight = Settings::Manager::getInt("number of shadow maps", "Shadows");
+        numberOfShadowMapsPerLight = std::max(1, std::min(numberOfShadowMapsPerLight, 8));
+
         int baseShadowTextureUnit = 8 - numberOfShadowMapsPerLight;
         
         osg::ref_ptr<osg::Image> fakeShadowMapImage = new osg::Image();
