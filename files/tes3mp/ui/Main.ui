@@ -214,10 +214,6 @@
    </attribute>
    <addaction name="actionPlay"/>
    <addaction name="separator"/>
-   <addaction name="actionAdd"/>
-   <addaction name="actionAdd_by_IP"/>
-   <addaction name="actionDelete"/>
-   <addaction name="separator"/>
    <addaction name="actionRefresh"/>
   </widget>
   <action name="actionAdd">
