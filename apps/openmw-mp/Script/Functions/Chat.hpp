@@ -5,8 +5,8 @@
 
 #define CHATAPI \
     {"SendMessage",       ChatFunctions::SendMessage},\
-    {"CleanChatForPid",   ChatFunctions::CleanChat},\
-    {"CleanChat",         ChatFunctions::CleanChatForPid}
+    {"CleanChatForPid",   ChatFunctions::CleanChatForPid},\
+    {"CleanChat",         ChatFunctions::CleanChat}
 
 class ChatFunctions
 {
