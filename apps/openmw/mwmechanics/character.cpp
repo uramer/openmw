@@ -1189,6 +1189,7 @@ bool CharacterController::updateCreatureState()
                     {
                         MechanicsHelper::resetCast(localCast);
                         localCast->type = mwmp::Cast::REGULAR;
+                        localCast->spellId = spellid;
                         localCast->pressed = true;
                         localCast->shouldSend = true;
                     }
@@ -1581,6 +1582,7 @@ bool CharacterController::updateWeaponState(CharacterState& idle)
                     {
                         MechanicsHelper::resetCast(localCast);
                         localCast->type = mwmp::Cast::REGULAR;
+                        localCast->spellId = spellid;
                         localCast->pressed = true;
                         localCast->shouldSend = true;
                     }
