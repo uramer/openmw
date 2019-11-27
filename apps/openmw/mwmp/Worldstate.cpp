@@ -380,22 +380,6 @@ void Worldstate::setWeather()
         weather.queuedWeather, weather.transitionFactor, forceWeather);
 }
 
-void Worldstate::sendKill(const std::string& refId, int number)
-{
-    killChanges.clear();
-
-    mwmp::Kill killChange;
-    killChange.refId = refId;
-    killChange.number = number;
-
-    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_WORLD_KILL_COUNT with refId %s, number %i", refId.c_str(), number);
-
-    killChanges.push_back(killChange);
-
-    getNetworking()->getWorldstatePacket(ID_WORLD_KILL_COUNT)->setWorldstate(this);
-    getNetworking()->getWorldstatePacket(ID_WORLD_KILL_COUNT)->Send();
-}
-
 void Worldstate::sendMapExplored(int cellX, int cellY, const std::vector<char>& imageData)
 {
     mapTiles.clear();
