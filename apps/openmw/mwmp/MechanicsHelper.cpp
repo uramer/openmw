@@ -273,6 +273,8 @@ void MechanicsHelper::processAttack(Attack attack, const MWWorld::Ptr& attacker)
     LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Processing attack from %s of type %i",
         attacker.getClass().getName(attacker).c_str(), attack.type);
 
+    LOG_APPEND(TimedLog::LOG_VERBOSE, "- pressed: %s", attack.pressed ? "true" : "false");
+
     if (!attack.pressed)
     {
         LOG_APPEND(TimedLog::LOG_VERBOSE, "- success: %s", attack.success ? "true" : "false");
@@ -280,8 +282,6 @@ void MechanicsHelper::processAttack(Attack attack, const MWWorld::Ptr& attacker)
         if (attack.success)
             LOG_APPEND(TimedLog::LOG_VERBOSE, "- damage: %f", attack.damage);
     }
-
-    LOG_APPEND(TimedLog::LOG_VERBOSE, "- pressed: %s", attack.pressed ? "true" : "false");
 
     MWMechanics::CreatureStats &attackerStats = attacker.getClass().getCreatureStats(attacker);
     MWWorld::Ptr victim;
@@ -422,12 +422,12 @@ void MechanicsHelper::processCast(Cast cast, const MWWorld::Ptr& caster)
     LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Processing cast from %s of type %i",
         caster.getClass().getName(caster).c_str(), cast.type);
 
+    LOG_APPEND(TimedLog::LOG_VERBOSE, "- pressed: %s", cast.pressed ? "true" : "false");
+
     if (!cast.pressed)
     {
         LOG_APPEND(TimedLog::LOG_VERBOSE, "- success: %s", cast.success ? "true" : "false");
     }
-
-    LOG_APPEND(TimedLog::LOG_VERBOSE, "- pressed: %s", cast.pressed ? "true" : "false");
 
     MWMechanics::CreatureStats &casterStats = caster.getClass().getCreatureStats(caster);
     MWWorld::Ptr victim;
@@ -452,11 +452,8 @@ void MechanicsHelper::processCast(Cast cast, const MWWorld::Ptr& caster)
     {
         casterStats.getSpells().setSelectedSpell(cast.spellId);
 
-        if (cast.instant)
-        {
+        if (cast.success)
             MWBase::Environment::get().getWorld()->castSpell(caster);
-            cast.instant = false;
-        }
 
         LOG_APPEND(TimedLog::LOG_VERBOSE, "- spellId: %s", cast.spellId.c_str());
     }
