@@ -21,9 +21,6 @@ mwmp::Cell::Cell(MWWorld::CellStore* cellStore)
     store = cellStore;
     shouldInitializeActors = false;
 
-    std::map<std::string, LocalActor *> localActors;
-    std::map<std::string, DedicatedActor *> dedicatedActors;
-
     updateTimer = 0;
 }
 
