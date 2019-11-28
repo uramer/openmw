@@ -1195,6 +1195,10 @@ bool CharacterController::updateCreatureState()
                         localCast->spellId = spellid;
                         localCast->pressed = true;
                         localCast->shouldSend = true;
+
+                        // Mark the attack as instant if there is no spellcast animation
+                        if (!mAnimation->hasAnimation("spellcast"))
+                            localCast->instant = true;
                     }
                     /*
                         End of tes3mp addition
@@ -1202,17 +1206,6 @@ bool CharacterController::updateCreatureState()
 
                     MWMechanics::CastSpell cast(mPtr, nullptr, false, mCastingManualSpell);
                     cast.playSpellCastingEffects(spellid, false);
-
-                    /*
-                        Start of tes3mp addition
-
-                        Mark the attack as instant if there is no spellcast animation
-                    */
-                    if (!mAnimation->hasAnimation("spellcast"))
-                        localCast->instant = true;
-                    /*
-                        End of tes3mp addition
-                    */
 
                     if (!mAnimation->hasAnimation("spellcast"))
                     {
