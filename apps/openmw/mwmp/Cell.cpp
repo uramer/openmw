@@ -304,15 +304,6 @@ void Cell::readAttack(ActorList& actorList)
             DedicatedActor *actor = dedicatedActors[mapIndex];
             actor->attack = baseActor.attack;
 
-            // Set the correct drawState here if we've somehow we've missed a previous
-            // AnimFlags packet
-            if (actor->drawState != MWMechanics::DrawState_::DrawState_Weapon &&
-                (actor->attack.type == mwmp::Attack::MELEE || actor->attack.type == mwmp::Attack::RANGED))
-            {
-                actor->drawState = MWMechanics::DrawState_::DrawState_Weapon;
-                actor->setAnimFlags();
-            }
-
             MechanicsHelper::processAttack(actor->attack, actor->getPtr());
         }
     }
@@ -333,8 +324,7 @@ void Cell::readCast(ActorList& actorList)
 
             // Set the correct drawState here if we've somehow we've missed a previous
             // AnimFlags packet
-            if (actor->drawState != MWMechanics::DrawState_::DrawState_Spell &&
-                (actor->attack.type == mwmp::Cast::REGULAR || actor->cast.type == mwmp::Cast::ITEM))
+            if (actor->drawState != MWMechanics::DrawState_::DrawState_Spell)
             {
                 actor->drawState = MWMechanics::DrawState_::DrawState_Spell;
                 actor->setAnimFlags();
