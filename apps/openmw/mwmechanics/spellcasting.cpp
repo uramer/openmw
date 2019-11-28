@@ -1057,8 +1057,8 @@ namespace MWMechanics
                 /*
                     Start of tes3mp change (major)
                 
-                    Make spell casting fail based on the attack success rated determined
-                    in LocalPlayer and LocalActor's updateAttackOrCast()
+                    Make spell casting fail based on the casting success rated determined
+                    in MechanicsHelper::getSpellSuccess()
                 */
                 mwmp::Cast *localCast = NULL;
                 mwmp::Cast *dedicatedCast = MechanicsHelper::getDedicatedCast(mCaster);
@@ -1069,6 +1069,8 @@ namespace MWMechanics
                 {
                     localCast = MechanicsHelper::getLocalCast(mCaster);
                     localCast->success = MechanicsHelper::getSpellSuccess(mId, mCaster);
+                    localCast->pressed = false;
+                    localCast->shouldSend = true;
                 }
 
                 // Check success
