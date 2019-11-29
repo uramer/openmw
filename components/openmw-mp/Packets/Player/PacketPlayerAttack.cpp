@@ -34,13 +34,13 @@ void PacketPlayerAttack::Packet(RakNet::BitStream *bs, bool send)
 
     if (player->attack.type == mwmp::Attack::MELEE)
     {
-        RW(player->attack.attackAnimation, send);
+        RW(player->attack.attackAnimation, send, true);
     }
     else if (player->attack.type == mwmp::Attack::RANGED)
     {
         RW(player->attack.attackStrength, send);
-        RW(player->attack.rangedWeaponId, send);
-        RW(player->attack.rangedAmmoId, send);
+        RW(player->attack.rangedWeaponId, send, true);
+        RW(player->attack.rangedAmmoId, send, true);
     }
 
     if (player->attack.isHit)
