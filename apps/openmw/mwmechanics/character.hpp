@@ -295,6 +295,16 @@ public:
 
     float getAttackStrength() const;
 
+    /*
+        Start of tes3mp addition
+
+        Make it possible to get the current attack type from elsewhere in the code
+    */
+    std::string getAttackType() const;
+    /*
+        End of tes3mp addition
+    */
+
     /// @see Animation::setActive
     void setActive(int active);
 

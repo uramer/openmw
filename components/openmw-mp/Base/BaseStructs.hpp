@@ -65,12 +65,14 @@ namespace mwmp
 
         Target target;
 
-        char type; // 0 - melee, 1 - ranged
         enum TYPE
         {
             MELEE = 0,
             RANGED
         };
+
+        char type;
+        std::string attackAnimation;
 
         std::string rangedWeaponId;
         std::string rangedAmmoId;

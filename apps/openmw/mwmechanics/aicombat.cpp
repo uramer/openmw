@@ -609,6 +609,9 @@ namespace MWMechanics
                 mAttack = true; // attack starts just now
                 characterController.setAttackingOrSpell(true);
 
+                if (!distantCombat)
+                    characterController.setAIAttackType(chooseBestAttack(weapon));
+
                 /*
                     Start of tes3mp addition
 
@@ -620,15 +623,13 @@ namespace MWMechanics
                 {
                     MechanicsHelper::resetAttack(localAttack);
                     localAttack->type = distantCombat ? mwmp::Attack::RANGED : mwmp::Attack::MELEE;
+                    localAttack->attackAnimation = characterController.getAttackType();
                     localAttack->pressed = true;
                     localAttack->shouldSend = true;
                 }
                 /*
                     End of tes3mp addition
                 */
-
-                if (!distantCombat)
-                    characterController.setAIAttackType(chooseBestAttack(weapon));
 
                 mStrength = Misc::Rng::rollClosedProbability();
 

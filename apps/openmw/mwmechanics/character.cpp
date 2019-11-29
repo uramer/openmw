@@ -1569,7 +1569,7 @@ bool CharacterController::updateWeaponState(CharacterState& idle)
                     /*
                         Start of tes3mp addition
 
-                        If this mPtr belongs to a LocalPlayer or LocalActor, get their Attack and prepare
+                        If this mPtr belongs to a LocalPlayer or LocalActor, get their Cast and prepare
                         it for sending
                     */
                     mwmp::Cast *localCast = MechanicsHelper::getLocalCast(mPtr);
@@ -1694,17 +1694,7 @@ bool CharacterController::updateWeaponState(CharacterState& idle)
                 }
                 else
                 {
-                    /*
-                        Start of tes3mp change (major)
-                        
-                        We need DedicatedPlayers and DedicatedActors to not have their attacks
-                        cancelled here, so additional conditions have been added for them
-                    */
-                    if(mPtr == getPlayer() || mwmp::PlayerList::isDedicatedPlayer(mPtr) ||
-                        mwmp::Main::get().getCellController()->isDedicatedActor(mPtr))
-                    /*
-                        End of tes3mp change (major)
-                    */
+                    if(mPtr == getPlayer())
                     {
                         if (Settings::Manager::getBool("best attack", "Game"))
                         {
@@ -1723,7 +1713,37 @@ bool CharacterController::updateWeaponState(CharacterState& idle)
                         {
                             setAttackTypeBasedOnMovement();
                         }
+
+                        /*
+                            Start of tes3mp addition
+
+                            Record the attack animation chosen so we can send it in the next PlayerAttack packet
+                        */
+                        mwmp::Attack *localAttack = MechanicsHelper::getLocalAttack(mPtr);
+
+                        if (localAttack)
+                            localAttack->attackAnimation = mAttackType;
+                        /*
+                            End of tes3mp addition
+                        */
                     }
+                    /*
+                        Start of tes3mp addition
+
+                        If this is a DedicatedPlayer or DedicatedActor, use the attack animation received
+                        in the latest Attack packet about them
+                    */
+                    else
+                    {
+                        mwmp::Attack *dedicatedAttack = MechanicsHelper::getDedicatedAttack(mPtr);
+
+                        if (dedicatedAttack)
+                            mAttackType = dedicatedAttack->attackAnimation;
+                    }
+                    /*
+                        End of tes3mp addition
+                    */
+
                     // else if (mPtr != getPlayer()) use mAttackType set by AiCombat
                     startKey = mAttackType+" start";
                     stopKey = mAttackType+" min attack";
@@ -2934,6 +2954,19 @@ float CharacterController::getAttackStrength() const
 {
     return mAttackStrength;
 }
+
+/*
+    Start of tes3mp addition
+
+    Make it possible to get the current attack type from elsewhere in the code
+*/
+std::string CharacterController::getAttackType() const
+{
+    return mAttackType;
+}
+/*
+    End of tes3mp addition
+*/
 
 void CharacterController::setActive(int active)
 {

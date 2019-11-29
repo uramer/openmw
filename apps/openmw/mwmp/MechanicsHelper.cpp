@@ -282,6 +282,11 @@ void MechanicsHelper::processAttack(Attack attack, const MWWorld::Ptr& attacker)
         if (attack.success)
             LOG_APPEND(TimedLog::LOG_VERBOSE, "- damage: %f", attack.damage);
     }
+    else
+    {
+        if (attack.type == attack.MELEE)
+            LOG_APPEND(TimedLog::LOG_VERBOSE, "- animation: %s", attack.attackAnimation.c_str());
+    }
 
     MWMechanics::CreatureStats &attackerStats = attacker.getClass().getCreatureStats(attacker);
     MWWorld::Ptr victim;

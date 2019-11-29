@@ -31,7 +31,11 @@ void PacketActorAttack::Actor(BaseActor &actor, bool send)
 
     RW(actor.attack.isHit, send);
 
-    if (actor.attack.type == mwmp::Attack::RANGED)
+    if (actor.attack.type == mwmp::Attack::MELEE)
+    {
+        RW(actor.attack.attackAnimation, send);
+    }
+    else if (actor.attack.type == mwmp::Attack::RANGED)
     {
         RW(actor.attack.attackStrength, send);
         RW(actor.attack.rangedWeaponId, send);
