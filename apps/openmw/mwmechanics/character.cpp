@@ -37,6 +37,7 @@
 #include "../mwmp/LocalPlayer.hpp"
 #include "../mwmp/LocalActor.hpp"
 #include "../mwmp/PlayerList.hpp"
+#include "../mwmp/DedicatedPlayer.hpp"
 #include "../mwmp/CellController.hpp"
 #include "../mwmp/MechanicsHelper.hpp"
 /*
@@ -792,7 +793,8 @@ void CharacterController::playRandomDeath(float startpoint)
         If this is a LocalActor or DedicatedActor whose death animation is supposed to be finished,
         set the startpoint to the animation's end
     */
-    if (mPtr.getClass().getCreatureStats(mPtr).isDeathAnimationFinished() && (mwmp::Main::get().getCellController()->isLocalActor(mPtr) || mwmp::Main::get().getCellController()->isDedicatedActor(mPtr)))
+    if (mPtr.getClass().getCreatureStats(mPtr).isDeathAnimationFinished() &&
+        (mwmp::Main::get().getCellController()->isLocalActor(mPtr) || mwmp::Main::get().getCellController()->isDedicatedActor(mPtr)))
     {
         startpoint = 1.F;
     }
@@ -807,7 +809,19 @@ void CharacterController::playRandomDeath(float startpoint)
         MWBase::Environment::get().getWorld()->useDeathCamera();
     }
 
-    if(mHitState == CharState_SwimKnockDown && mAnimation->hasAnimation("swimdeathknockdown"))
+    /*
+        Start tes3mp change (major)
+
+        If this is a DedicatedPlayer, use the deathState received from their PlayerDeath packet
+    */
+    if (mwmp::PlayerList::isDedicatedPlayer(mPtr))
+    {
+        mDeathState = static_cast<CharacterState>(mwmp::PlayerList::getPlayer(mPtr)->deathState);
+    }
+    else if(mHitState == CharState_SwimKnockDown && mAnimation->hasAnimation("swimdeathknockdown"))
+    /*
+        End of tes3mp change (major)
+    */
     {
         mDeathState = CharState_SwimDeathKnockDown;
     }
@@ -831,6 +845,19 @@ void CharacterController::playRandomDeath(float startpoint)
     {
         mDeathState = chooseRandomDeathState();
     }
+
+    /*
+        Start of tes3mp addition
+
+        Send a PlayerDeath packet with the decided-upon death animation
+    */
+    if (mPtr == getPlayer())
+    {
+        mwmp::Main::get().getLocalPlayer()->sendDeath(mDeathState);
+    }
+    /*
+        End of tes3mp addition
+    */
 
     // Do not interrupt scripted animation by death
     if (isPersistentAnimPlaying())

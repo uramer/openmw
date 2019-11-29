@@ -75,6 +75,7 @@ namespace mwmp
         void setMarkLocation();
         void setSelectedSpell();
 
+        void sendDeath(char deathState);
         void sendClass();
         void sendInventory();
         void sendItemChange(const mwmp::Item& item, unsigned int action);

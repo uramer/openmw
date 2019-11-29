@@ -12,7 +12,6 @@ namespace mwmp
         ProcessorPlayerDeath()
         {
             BPP_INIT(ID_PLAYER_DEATH)
-            avoidReading = true;
         }
 
         virtual void Do(PlayerPacket &packet, BasePlayer *player)

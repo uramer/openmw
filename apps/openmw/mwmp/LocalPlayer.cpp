@@ -256,22 +256,6 @@ void LocalPlayer::updateStatsDynamic(bool forceUpdate)
         exchangeFullInfo = false;
         getNetworking()->getPlayerPacket(ID_PLAYER_STATS_DYNAMIC)->setPlayer(this);
         getNetworking()->getPlayerPacket(ID_PLAYER_STATS_DYNAMIC)->Send();
-
-        static bool wasDead = false;
-
-        if (creatureStats.mDead && !wasDead)
-        {
-            if (MechanicsHelper::isEmptyTarget(killer))
-                killer = MechanicsHelper::getTarget(getPlayerPtr());
-
-            LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_PLAYER_DEATH about myself to server");
-            getNetworking()->getPlayerPacket(ID_PLAYER_DEATH)->setPlayer(this);
-            getNetworking()->getPlayerPacket(ID_PLAYER_DEATH)->Send();
-
-            MechanicsHelper::clearTarget(killer);
-        }
-
-        wasDead = creatureStats.mDead;
     }
 }
 
@@ -1359,6 +1343,20 @@ void LocalPlayer::setSelectedSpell()
  
     MWBase::Environment::get().getWindowManager()->setSelectedSpell(selectedSpellId,
         int(MWMechanics::getSpellSuccessChance(selectedSpellId, ptrPlayer)));
+}
+
+void LocalPlayer::sendDeath(char deathState)
+{
+    if (MechanicsHelper::isEmptyTarget(killer))
+        killer = MechanicsHelper::getTarget(getPlayerPtr());
+
+    this->deathState = deathState;
+
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_PLAYER_DEATH about myself to server\n- deathState: %d", deathState);
+    getNetworking()->getPlayerPacket(ID_PLAYER_DEATH)->setPlayer(this);
+    getNetworking()->getPlayerPacket(ID_PLAYER_DEATH)->Send();
+
+    MechanicsHelper::clearTarget(killer);
 }
 
 void LocalPlayer::sendClass()

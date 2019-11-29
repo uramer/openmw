@@ -12,6 +12,7 @@ void PacketPlayerDeath::Packet(RakNet::BitStream *bs, bool send)
 {
     PlayerPacket::Packet(bs, send);
 
+    RW(player->deathState, send);
     RW(player->killer.isPlayer, send);
 
     if (player->killer.isPlayer)
