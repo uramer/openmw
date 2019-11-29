@@ -1121,11 +1121,21 @@ void CharacterController::handleTextKey(const std::string &groupname, const std:
              // the same animation for all range types, so there are 3 "release" keys on the same time, one for each range type.
              && evt.compare(off, len, mAttackType + " release") == 0)
     {
+        /*
+            Start of tes3mp change (major)
+
+            Make the completion of the spellcast animation actually cast spells only for the
+            local player and local actors, relying on Cast packets to cause spells to be cast
+            for dedicated players and actors
+        */
         if (mPtr == getPlayer() || mwmp::Main::get().getCellController()->isLocalActor(mPtr))
         {
             MWBase::Environment::get().getWorld()->castSpell(mPtr, mCastingManualSpell);
             mCastingManualSpell = false;
         }
+        /*
+            End of tes3mp change (major)
+        */
     }
 
     else if (groupname == "shield" && evt.compare(off, len, "block hit") == 0)
