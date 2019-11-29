@@ -15,7 +15,6 @@ namespace mwmp
         ProcessorPlayerCellState()
         {
             BPP_INIT(ID_PLAYER_CELL_STATE)
-            playerController = Networking::get().getPlayerPacketController();
         }
 
         void Do(PlayerPacket &packet, Player &player) override

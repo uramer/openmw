@@ -12,7 +12,6 @@ namespace mwmp
         ProcessorPlayerCast()
         {
             BPP_INIT(ID_PLAYER_CAST)
-            playerController = Networking::get().getPlayerPacketController();
         }
 
         void Do(PlayerPacket &packet, Player &player) override
