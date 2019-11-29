@@ -34,12 +34,13 @@ RepairRecord tempRepair;
 LightRecord tempLight;
 CellRecord tempCell;
 ScriptRecord tempScript;
+BodyPartRecord tempBodyPart;
 
 BaseOverrides tempOverrides;
 
 unsigned int effectCount = 0;
 ESM::ENAMstruct tempEffect;
-ESM::PartReference tempBodyPart;
+ESM::PartReference tempBodyPartReference;
 mwmp::Item tempInventoryItem;
 
 const ESM::EffectList emptyEffectList = {};
@@ -82,6 +83,7 @@ void RecordsDynamicFunctions::ClearRecords() noexcept
     WorldstateFunctions::writeWorldstate.lightRecords.clear();
     WorldstateFunctions::writeWorldstate.cellRecords.clear();
     WorldstateFunctions::writeWorldstate.scriptRecords.clear();
+    WorldstateFunctions::writeWorldstate.bodyPartRecords.clear();
 }
 
 unsigned short RecordsDynamicFunctions::GetRecordType() noexcept
@@ -384,6 +386,8 @@ void RecordsDynamicFunctions::SetRecordId(const char* id) noexcept
         tempLight.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::SCRIPT)
         tempScript.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.data.mId = id;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set id for record type %i which lacks that property", writeRecordsType);
 }
@@ -436,6 +440,8 @@ void RecordsDynamicFunctions::SetRecordBaseId(const char* baseId) noexcept
         tempCell.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::SCRIPT)
         tempScript.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.baseId = baseId;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set baseId for record type %i which lacks that property", writeRecordsType);
 }
@@ -470,6 +476,8 @@ void RecordsDynamicFunctions::SetRecordSubtype(unsigned int subtype) noexcept
         tempWeapon.data.mData.mType = subtype;
     else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
         tempApparatus.data.mData.mType = subtype;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.data.mData.mType = subtype;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set subtype for record type %i which lacks that property", writeRecordsType);
@@ -570,6 +578,8 @@ void RecordsDynamicFunctions::SetRecordModel(const char* model) noexcept
         tempRepair.data.mModel = model;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
         tempLight.data.mModel = model;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.data.mModel = model;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set model for record type %i which lacks that property", writeRecordsType);
@@ -783,6 +793,8 @@ void RecordsDynamicFunctions::SetRecordFlags(int flags) noexcept
         tempContainer.data.mFlags = flags;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
         tempLight.data.mData.mFlags = flags;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.data.mData.mFlags = flags;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set flags for record type %i which lacks that property", writeRecordsType);
@@ -1186,6 +1198,8 @@ void RecordsDynamicFunctions::SetRecordRace(const char* race) noexcept
 
     if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
         tempNpc.data.mRace = race;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.data.mRace = race;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set race for record type %i which lacks that property", writeRecordsType);
 
@@ -1245,6 +1259,21 @@ void RecordsDynamicFunctions::SetRecordBloodType(int bloodType) noexcept
     }
 
     tempOverrides.hasBloodType = true;
+}
+
+void RecordsDynamicFunctions::SetRecordVampireState(bool vampireState) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.data.mData.mVampire = vampireState;
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set vampire state for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasVampireState = true;
 }
 
 void RecordsDynamicFunctions::SetRecordLevel(int level) noexcept
@@ -1506,17 +1535,25 @@ void RecordsDynamicFunctions::SetRecordEffectMagnitudeMin(int magnitudeMin) noex
 
 void RecordsDynamicFunctions::SetRecordBodyPartType(unsigned int partType) noexcept
 {
-    tempBodyPart.mPart = partType;
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+    {
+        tempBodyPart.data.mData.mPart = partType;
+        tempOverrides.hasBodyPartType = true;
+    }
+    else
+        tempBodyPartReference.mPart = partType;
 }
 
 void RecordsDynamicFunctions::SetRecordBodyPartIdForMale(const char* partId) noexcept
 {
-    tempBodyPart.mMale = partId;
+    tempBodyPartReference.mMale = partId;
 }
 
 void RecordsDynamicFunctions::SetRecordBodyPartIdForFemale(const char* partId) noexcept
 {
-    tempBodyPart.mFemale = partId;
+    tempBodyPartReference.mFemale = partId;
 }
 
 void RecordsDynamicFunctions::SetRecordInventoryItemId(const char* itemId) noexcept
@@ -1665,6 +1702,12 @@ void RecordsDynamicFunctions::AddRecord() noexcept
         WorldstateFunctions::writeWorldstate.scriptRecords.push_back(tempScript);
         tempScript = {};
     }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+    {
+        tempBodyPart.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.bodyPartRecords.push_back(tempBodyPart);
+        tempBodyPart = {};
+    }
 
     effectCount = 0;
     tempOverrides = {};
@@ -1707,9 +1750,9 @@ void RecordsDynamicFunctions::AddRecordBodyPart() noexcept
     unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
 
     if (writeRecordsType == mwmp::RECORD_TYPE::ARMOR)
-        tempArmor.data.mParts.mParts.push_back(tempBodyPart);
+        tempArmor.data.mParts.mParts.push_back(tempBodyPartReference);
     else if (writeRecordsType == mwmp::RECORD_TYPE::CLOTHING)
-        tempClothing.data.mParts.mParts.push_back(tempBodyPart);
+        tempClothing.data.mParts.mParts.push_back(tempBodyPartReference);
 
     tempOverrides.hasBodyParts = true;
     tempBodyPart = {};

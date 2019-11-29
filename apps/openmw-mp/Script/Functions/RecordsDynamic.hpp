@@ -86,6 +86,7 @@
     \
     {"SetRecordScale",                          RecordsDynamicFunctions::SetRecordScale},\
     {"SetRecordBloodType",                      RecordsDynamicFunctions::SetRecordBloodType},\
+    {"SetRecordVampireState",                   RecordsDynamicFunctions::SetRecordVampireState},\
     \
     {"SetRecordLevel",                          RecordsDynamicFunctions::SetRecordLevel},\
     {"SetRecordMagicka",                        RecordsDynamicFunctions::SetRecordMagicka},\
@@ -758,6 +759,15 @@ public:
     static void SetRecordBloodType(int bloodType) noexcept;
 
     /**
+    * \brief Set the vampire state of the temporary record stored on the server for the
+    * currently specified record type.
+    *
+    * \param vampireState The vampire state of the record.
+    * \return void
+    */
+    static void SetRecordVampireState(bool vampireState) noexcept;
+
+    /**
     * \brief Set the level of the temporary record stored on the server for the
     * currently specified record type.
     *
@@ -949,7 +959,9 @@ public:
     static void SetRecordEffectMagnitudeMin(int magnitudeMin) noexcept;
 
     /**
-    * \brief Set the type of the temporary body part stored on the server.
+    * \brief Set the body part type of the temporary body part stored on the server
+    * (which then needs to be added to ARMOR or CLOTHING records) or set the body part
+    * type of the current record if it's a BODYPART.
     *
     * \param partType The type of the body part.
     * \return void

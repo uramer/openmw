@@ -10,6 +10,7 @@ namespace RecordHelper
     void overrideRecord(const mwmp::ActivatorRecord& record);
     void overrideRecord(const mwmp::ApparatusRecord& record);
     void overrideRecord(const mwmp::ArmorRecord& record);
+    void overrideRecord(const mwmp::BodyPartRecord& record);
     void overrideRecord(const mwmp::BookRecord& record);
     void overrideRecord(const mwmp::CellRecord& record);
     void overrideRecord(const mwmp::ClothingRecord& record);

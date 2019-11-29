@@ -64,6 +64,8 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->cellRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::SCRIPT)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->scriptRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->bodyPartRecords);
         else
         {
             LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Processed invalid ID_RECORD_DYNAMIC packet about unimplemented recordsType %i",
@@ -128,6 +130,8 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             Utils::resetVector(worldstate->cellRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::SCRIPT)
             Utils::resetVector(worldstate->scriptRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
+            Utils::resetVector(worldstate->bodyPartRecords, worldstate->recordsCount);
     }
 
     if (worldstate->recordsType == mwmp::RECORD_TYPE::SPELL)
@@ -295,8 +299,8 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
                 RW(overrides.hasName, send);
                 RW(overrides.hasGender, send);
                 RW(overrides.hasFlags, send);
-                RW(overrides.hasModel, send);
                 RW(overrides.hasRace, send);
+                RW(overrides.hasModel, send);
                 RW(overrides.hasHair, send);
                 RW(overrides.hasHead, send);
                 RW(overrides.hasFaction, send);
@@ -810,6 +814,33 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             {
                 auto &&overrides = record.baseOverrides;
                 RW(overrides.hasScriptText, send);
+            }
+        }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
+    {
+        for (auto &&record : worldstate->bodyPartRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(recordData.mId, send, true);
+            RW(recordData.mModel, send, true);
+            RW(recordData.mRace, send, true);
+            RW(recordData.mData.mType, send);
+            RW(recordData.mData.mPart, send);
+            RW(recordData.mData.mVampire, send);
+            RW(recordData.mData.mFlags, send);
+
+            if (!record.baseId.empty())
+            {
+                auto &&overrides = record.baseOverrides;
+                RW(overrides.hasModel, send);
+                RW(overrides.hasRace, send);
+                RW(overrides.hasSubtype, send);
+                RW(overrides.hasBodyPartType, send);
+                RW(overrides.hasVampireState, send);
+                RW(overrides.hasFlags, send);
             }
         }
     }

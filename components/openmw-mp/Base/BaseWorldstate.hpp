@@ -7,6 +7,7 @@
 #include <components/esm/loadalch.hpp>
 #include <components/esm/loadappa.hpp>
 #include <components/esm/loadarmo.hpp>
+#include <components/esm/loadbody.hpp>
 #include <components/esm/loadbook.hpp>
 #include <components/esm/loadclot.hpp>
 #include <components/esm/loadcont.hpp>
@@ -54,7 +55,8 @@ namespace mwmp
         REPAIR,
         LIGHT,
         CELL,
-        SCRIPT
+        SCRIPT,
+        BODYPART
     };
 
     // When using an existing record as a base, this struct tracks which changes
@@ -118,6 +120,8 @@ namespace mwmp
 
         bool hasScale = false;
         bool hasBloodType = false;
+        bool hasBodyPartType = false;
+        bool hasVampireState = false;
 
         bool hasLevel = false;
         bool hasMagicka = false;
@@ -152,6 +156,13 @@ namespace mwmp
     struct ArmorRecord
     {
         ESM::Armor data;
+        std::string baseId;
+        BaseOverrides baseOverrides;
+    };
+
+    struct BodyPartRecord
+    {
+        ESM::BodyPart data;
         std::string baseId;
         BaseOverrides baseOverrides;
     };
@@ -360,6 +371,7 @@ namespace mwmp
         std::vector<ActivatorRecord> activatorRecords;
         std::vector<ApparatusRecord> apparatusRecords;
         std::vector<ArmorRecord> armorRecords;
+        std::vector<BodyPartRecord> bodyPartRecords;
         std::vector<BookRecord> bookRecords;
         std::vector<CellRecord> cellRecords;
         std::vector<ClothingRecord> clothingRecords;

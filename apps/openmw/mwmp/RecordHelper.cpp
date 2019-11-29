@@ -192,6 +192,55 @@ void RecordHelper::overrideRecord(const mwmp::ArmorRecord& record)
         world->updatePtrsWithRefId(recordData.mId);
 }
 
+void RecordHelper::overrideRecord(const mwmp::BodyPartRecord& record)
+{
+    const ESM::BodyPart &recordData = record.data;
+
+    if (recordData.mId.empty())
+    {
+        LOG_APPEND(TimedLog::LOG_INFO, "-- Ignoring record override with no id provided");
+        return;
+    }
+
+    MWBase::World *world = MWBase::Environment::get().getWorld();
+
+    if (record.baseId.empty())
+    {
+        world->getModifiableStore().overrideRecord(recordData);
+    }
+    else if (doesRecordIdExist<ESM::BodyPart>(record.baseId))
+    {
+        const ESM::BodyPart *baseData = world->getStore().get<ESM::BodyPart>().search(record.baseId);
+        ESM::BodyPart finalData = *baseData;
+        finalData.mId = recordData.mId;
+
+        if (record.baseOverrides.hasModel)
+            finalData.mModel = recordData.mModel;
+
+        if (record.baseOverrides.hasRace)
+            finalData.mRace = recordData.mRace;
+
+        if (record.baseOverrides.hasSubtype)
+            finalData.mData.mType = recordData.mData.mType;
+
+        if (record.baseOverrides.hasBodyPartType)
+            finalData.mData.mPart = recordData.mData.mPart;
+
+        if (record.baseOverrides.hasVampireState)
+            finalData.mData.mVampire = recordData.mData.mVampire;
+
+        if (record.baseOverrides.hasFlags)
+            finalData.mData.mFlags = recordData.mData.mFlags;
+
+        world->getModifiableStore().overrideRecord(finalData);
+    }
+    else
+    {
+        LOG_APPEND(TimedLog::LOG_INFO, "-- Ignoring record override with invalid baseId %s", record.baseId.c_str());
+        return;
+    }
+}
+
 void RecordHelper::overrideRecord(const mwmp::BookRecord& record)
 {
     const ESM::Book &recordData = record.data;
