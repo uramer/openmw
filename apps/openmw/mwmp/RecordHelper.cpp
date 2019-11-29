@@ -939,7 +939,7 @@ void RecordHelper::overrideRecord(const mwmp::NpcRecord& record)
         else
             finalData.setIsMale(baseData->isMale());
 
-        if (!record.data.mRace.empty())
+        if (record.baseOverrides.hasRace)
             finalData.mRace = recordData.mRace;
 
         if (record.baseOverrides.hasModel)

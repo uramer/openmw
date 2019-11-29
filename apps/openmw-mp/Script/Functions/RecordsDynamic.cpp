@@ -1188,6 +1188,8 @@ void RecordsDynamicFunctions::SetRecordRace(const char* race) noexcept
         tempNpc.data.mRace = race;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set race for record type %i which lacks that property", writeRecordsType);
+
+    tempOverrides.hasRace = true;
 }
 
 void RecordsDynamicFunctions::SetRecordClass(const char* charClass) noexcept

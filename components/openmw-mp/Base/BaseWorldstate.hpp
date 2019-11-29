@@ -113,6 +113,7 @@ namespace mwmp
         bool hasHair = false;
         bool hasHead = false;
         bool hasGender = false;
+        bool hasRace = false;
         bool hasFaction = false;
 
         bool hasScale = false;

@@ -296,6 +296,7 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
                 RW(overrides.hasGender, send);
                 RW(overrides.hasFlags, send);
                 RW(overrides.hasModel, send);
+                RW(overrides.hasRace, send);
                 RW(overrides.hasHair, send);
                 RW(overrides.hasHead, send);
                 RW(overrides.hasFaction, send);
