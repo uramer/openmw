@@ -2057,7 +2057,18 @@ namespace MWMechanics
                 // One case where we need this is to make sure bound items are removed upon death
                 stats.modifyMagicEffects(MWMechanics::MagicEffects());
                 stats.getActiveSpells().clear();
-                stats.getSpells().clear();
+
+                /*
+                    Start of tes3mp change (major)
+
+                    Don't clear spells for dying players and actors because it doesn't really make
+                    any sense
+                */
+                //stats.getSpells().clear();
+                /*
+                    End of tes3mp change (major)
+                */
+
                 // Make sure spell effects are removed
                 purgeSpellEffects(stats.getActorId());
 
