@@ -15,26 +15,26 @@ using namespace mwmp;
 SpellRecord tempSpell;
 PotionRecord tempPotion;
 EnchantmentRecord tempEnchantment;
-CreatureRecord tempCreature;
-NpcRecord tempNpc;
 ArmorRecord tempArmor;
 BookRecord tempBook;
 ClothingRecord tempClothing;
 MiscellaneousRecord tempMiscellaneous;
 WeaponRecord tempWeapon;
-ContainerRecord tempContainer;
-DoorRecord tempDoor;
 ActivatorRecord tempActivator;
-StaticRecord tempStatic;
-IngredientRecord tempIngredient;
 ApparatusRecord tempApparatus;
+BodyPartRecord tempBodyPart;
+CellRecord tempCell;
+ContainerRecord tempContainer;
+CreatureRecord tempCreature;
+DoorRecord tempDoor;
+IngredientRecord tempIngredient;
+LightRecord tempLight;
 LockpickRecord tempLockpick;
+NpcRecord tempNpc;
 ProbeRecord tempProbe;
 RepairRecord tempRepair;
-LightRecord tempLight;
-CellRecord tempCell;
 ScriptRecord tempScript;
-BodyPartRecord tempBodyPart;
+StaticRecord tempStatic;
 
 BaseOverrides tempOverrides;
 
@@ -64,26 +64,26 @@ void RecordsDynamicFunctions::ClearRecords() noexcept
     WorldstateFunctions::writeWorldstate.spellRecords.clear();
     WorldstateFunctions::writeWorldstate.potionRecords.clear();
     WorldstateFunctions::writeWorldstate.enchantmentRecords.clear();
-    WorldstateFunctions::writeWorldstate.creatureRecords.clear();
-    WorldstateFunctions::writeWorldstate.npcRecords.clear();
     WorldstateFunctions::writeWorldstate.armorRecords.clear();
     WorldstateFunctions::writeWorldstate.bookRecords.clear();
     WorldstateFunctions::writeWorldstate.clothingRecords.clear();
     WorldstateFunctions::writeWorldstate.miscellaneousRecords.clear();
     WorldstateFunctions::writeWorldstate.weaponRecords.clear();
-    WorldstateFunctions::writeWorldstate.containerRecords.clear();
-    WorldstateFunctions::writeWorldstate.doorRecords.clear();
     WorldstateFunctions::writeWorldstate.activatorRecords.clear();
-    WorldstateFunctions::writeWorldstate.staticRecords.clear();
-    WorldstateFunctions::writeWorldstate.ingredientRecords.clear();
     WorldstateFunctions::writeWorldstate.apparatusRecords.clear();
+    WorldstateFunctions::writeWorldstate.bodyPartRecords.clear();
+    WorldstateFunctions::writeWorldstate.cellRecords.clear();
+    WorldstateFunctions::writeWorldstate.containerRecords.clear();
+    WorldstateFunctions::writeWorldstate.creatureRecords.clear();
+    WorldstateFunctions::writeWorldstate.doorRecords.clear();
+    WorldstateFunctions::writeWorldstate.ingredientRecords.clear();
+    WorldstateFunctions::writeWorldstate.lightRecords.clear();
     WorldstateFunctions::writeWorldstate.lockpickRecords.clear();
+    WorldstateFunctions::writeWorldstate.npcRecords.clear();
     WorldstateFunctions::writeWorldstate.probeRecords.clear();
     WorldstateFunctions::writeWorldstate.repairRecords.clear();
-    WorldstateFunctions::writeWorldstate.lightRecords.clear();
-    WorldstateFunctions::writeWorldstate.cellRecords.clear();
     WorldstateFunctions::writeWorldstate.scriptRecords.clear();
-    WorldstateFunctions::writeWorldstate.bodyPartRecords.clear();
+    WorldstateFunctions::writeWorldstate.staticRecords.clear();
 }
 
 unsigned short RecordsDynamicFunctions::GetRecordType() noexcept
@@ -350,10 +350,6 @@ void RecordsDynamicFunctions::SetRecordId(const char* id) noexcept
         tempPotion.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::ENCHANTMENT)
         tempEnchantment.data.mId = id;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
-        tempCreature.data.mId = id;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
-        tempNpc.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::ARMOR)
         tempArmor.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::BOOK)
@@ -364,30 +360,34 @@ void RecordsDynamicFunctions::SetRecordId(const char* id) noexcept
         tempMiscellaneous.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.data.mId = id;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
-        tempContainer.data.mId = id;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
-        tempDoor.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
         tempActivator.data.mId = id;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
-        tempStatic.data.mId = id;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
-        tempIngredient.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
         tempApparatus.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
+        tempContainer.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
+        tempCreature.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
+        tempDoor.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
+        tempIngredient.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
         tempLockpick.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
+        tempNpc.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
         tempProbe.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::REPAIR)
         tempRepair.data.mId = id;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::SCRIPT)
         tempScript.data.mId = id;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
-        tempBodyPart.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
+        tempStatic.data.mId = id;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set id for record type %i which lacks that property", writeRecordsType);
 }
@@ -416,32 +416,32 @@ void RecordsDynamicFunctions::SetRecordBaseId(const char* baseId) noexcept
         tempMiscellaneous.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
+        tempActivator.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
+        tempApparatus.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CELL)
+        tempCell.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
         tempContainer.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
         tempDoor.baseId = baseId;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
-        tempActivator.baseId = baseId;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
-        tempStatic.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
         tempIngredient.baseId = baseId;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
-        tempApparatus.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
         tempLockpick.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
         tempProbe.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::REPAIR)
         tempRepair.baseId = baseId;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.baseId = baseId;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CELL)
-        tempCell.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::SCRIPT)
         tempScript.baseId = baseId;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
-        tempBodyPart.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
+        tempStatic.baseId = baseId;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set baseId for record type %i which lacks that property", writeRecordsType);
 }
@@ -509,26 +509,26 @@ void RecordsDynamicFunctions::SetRecordName(const char* name) noexcept
         tempMiscellaneous.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.data.mName = name;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
+        tempActivator.data.mName = name;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
+        tempApparatus.data.mName = name;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CELL)
+        tempCell.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
         tempContainer.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
         tempDoor.data.mName = name;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
-        tempActivator.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
         tempIngredient.data.mName = name;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
-        tempApparatus.data.mName = name;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
         tempLockpick.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
         tempProbe.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::REPAIR)
         tempRepair.data.mName = name;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.data.mName = name;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CELL)
-        tempCell.data.mName = name;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set name for record type %i which lacks that property", writeRecordsType);
@@ -558,28 +558,28 @@ void RecordsDynamicFunctions::SetRecordModel(const char* model) noexcept
         tempMiscellaneous.data.mModel = model;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.data.mModel = model;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
+        tempActivator.data.mModel = model;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
+        tempApparatus.data.mModel = model;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+        tempBodyPart.data.mModel = model;
     else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
         tempContainer.data.mModel = model;
     else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
         tempDoor.data.mModel = model;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
-        tempActivator.data.mModel = model;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
-        tempStatic.data.mModel = model;
     else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
         tempIngredient.data.mModel = model;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
-        tempApparatus.data.mModel = model;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.data.mModel = model;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
         tempLockpick.data.mModel = model;
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
         tempProbe.data.mModel = model;
     else if (writeRecordsType == mwmp::RECORD_TYPE::REPAIR)
         tempRepair.data.mModel = model;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.data.mModel = model;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
-        tempBodyPart.data.mModel = model;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
+        tempStatic.data.mModel = model;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set model for record type %i which lacks that property", writeRecordsType);
@@ -605,18 +605,18 @@ void RecordsDynamicFunctions::SetRecordIcon(const char* icon) noexcept
         tempMiscellaneous.data.mIcon = icon;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.data.mIcon = icon;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
-        tempIngredient.data.mIcon = icon;
     else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
         tempApparatus.data.mIcon = icon;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
+        tempIngredient.data.mIcon = icon;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.data.mIcon = icon;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
         tempLockpick.data.mIcon = icon;
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
         tempProbe.data.mIcon = icon;
     else if (writeRecordsType == mwmp::RECORD_TYPE::REPAIR)
         tempRepair.data.mIcon = icon;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.data.mIcon = icon;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set icon for record type %i which lacks that property", writeRecordsType);
@@ -632,10 +632,6 @@ void RecordsDynamicFunctions::SetRecordScript(const char* script) noexcept
 
     if (writeRecordsType == mwmp::RECORD_TYPE::POTION)
         tempPotion.data.mScript = script;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
-        tempCreature.data.mScript = script;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
-        tempNpc.data.mScript = script;
     else if (writeRecordsType == mwmp::RECORD_TYPE::ARMOR)
         tempArmor.data.mScript = script;
     else if (writeRecordsType == mwmp::RECORD_TYPE::BOOK)
@@ -646,24 +642,28 @@ void RecordsDynamicFunctions::SetRecordScript(const char* script) noexcept
         tempMiscellaneous.data.mScript = script;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.data.mScript = script;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
-        tempContainer.data.mScript = script;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
-        tempDoor.data.mScript = script;
     else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
         tempActivator.data.mScript = script;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
-        tempIngredient.data.mScript = script;
     else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
         tempApparatus.data.mScript = script;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
+        tempContainer.data.mScript = script;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
+        tempCreature.data.mScript = script;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
+        tempDoor.data.mScript = script;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
+        tempIngredient.data.mScript = script;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.data.mScript = script;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
         tempLockpick.data.mScript = script;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
+        tempNpc.data.mScript = script;
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
         tempProbe.data.mScript = script;
     else if (writeRecordsType == mwmp::RECORD_TYPE::REPAIR)
         tempRepair.data.mScript = script;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.data.mScript = script;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set script for record type %i which lacks that property", writeRecordsType);
@@ -783,18 +783,18 @@ void RecordsDynamicFunctions::SetRecordFlags(int flags) noexcept
 
     if (writeRecordsType == mwmp::RECORD_TYPE::SPELL)
         tempSpell.data.mData.mFlags = flags;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
-        tempCreature.data.mFlags = flags;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
-        tempNpc.data.mFlags = flags;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.data.mData.mFlags = flags;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
-        tempContainer.data.mFlags = flags;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.data.mData.mFlags = flags;
     else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
         tempBodyPart.data.mData.mFlags = flags;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
+        tempContainer.data.mFlags = flags;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
+        tempCreature.data.mFlags = flags;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.data.mData.mFlags = flags;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
+        tempNpc.data.mFlags = flags;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set flags for record type %i which lacks that property", writeRecordsType);
@@ -820,18 +820,18 @@ void RecordsDynamicFunctions::SetRecordValue(int value) noexcept
         tempMiscellaneous.data.mData.mValue = value;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.data.mData.mValue = value;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
-        tempIngredient.data.mData.mValue = value;
     else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
         tempApparatus.data.mData.mValue = value;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
+        tempIngredient.data.mData.mValue = value;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.data.mData.mValue = value;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
         tempLockpick.data.mData.mValue = value;
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
         tempProbe.data.mData.mValue = value;
     else if (writeRecordsType == mwmp::RECORD_TYPE::REPAIR)
         tempRepair.data.mData.mValue = value;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.data.mData.mValue = value;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set value for record type %i which lacks that property", writeRecordsType);
@@ -857,20 +857,20 @@ void RecordsDynamicFunctions::SetRecordWeight(double weight) noexcept
         tempMiscellaneous.data.mData.mWeight = weight;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
         tempWeapon.data.mData.mWeight = weight;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
+        tempApparatus.data.mData.mWeight = weight;
     else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
         tempContainer.data.mWeight = weight;
     else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
         tempIngredient.data.mData.mWeight = weight;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
-        tempApparatus.data.mData.mWeight = weight;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+        tempLight.data.mData.mWeight = weight;
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
         tempLockpick.data.mData.mWeight = weight;
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
         tempProbe.data.mData.mWeight = weight;
     else if (writeRecordsType == mwmp::RECORD_TYPE::REPAIR)
         tempRepair.data.mData.mWeight = weight;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-        tempLight.data.mData.mWeight = weight;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set weight for record type %i which lacks that property", writeRecordsType);
@@ -1196,10 +1196,10 @@ void RecordsDynamicFunctions::SetRecordRace(const char* race) noexcept
 {
     unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
 
-    if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
-        tempNpc.data.mRace = race;
-    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+    if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
         tempBodyPart.data.mRace = race;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
+        tempNpc.data.mRace = race;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set race for record type %i which lacks that property", writeRecordsType);
 
@@ -1588,18 +1588,6 @@ void RecordsDynamicFunctions::AddRecord() noexcept
         WorldstateFunctions::writeWorldstate.enchantmentRecords.push_back(tempEnchantment);
         tempEnchantment = {};
     }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
-    {
-        tempCreature.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.creatureRecords.push_back(tempCreature);
-        tempCreature = {};
-    }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
-    {
-        tempNpc.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.npcRecords.push_back(tempNpc);
-        tempNpc = {};
-    }
     else if (writeRecordsType == mwmp::RECORD_TYPE::ARMOR)
     {
         tempArmor.baseOverrides = tempOverrides;
@@ -1630,35 +1618,11 @@ void RecordsDynamicFunctions::AddRecord() noexcept
         WorldstateFunctions::writeWorldstate.weaponRecords.push_back(tempWeapon);
         tempWeapon = {};
     }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
-    {
-        tempContainer.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.containerRecords.push_back(tempContainer);
-        tempContainer = {};
-    }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
-    {
-        tempDoor.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.doorRecords.push_back(tempDoor);
-        tempDoor = {};
-    }
     else if (writeRecordsType == mwmp::RECORD_TYPE::ACTIVATOR)
     {
         tempActivator.baseOverrides = tempOverrides;
         WorldstateFunctions::writeWorldstate.activatorRecords.push_back(tempActivator);
         tempActivator = {};
-    }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
-    {
-        tempStatic.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.staticRecords.push_back(tempStatic);
-        tempStatic = {};
-    }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
-    {
-        tempIngredient.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.ingredientRecords.push_back(tempIngredient);
-        tempIngredient = {};
     }
     else if (writeRecordsType == mwmp::RECORD_TYPE::APPARATUS)
     {
@@ -1666,11 +1630,59 @@ void RecordsDynamicFunctions::AddRecord() noexcept
         WorldstateFunctions::writeWorldstate.apparatusRecords.push_back(tempApparatus);
         tempApparatus = {};
     }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+    {
+        tempBodyPart.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.bodyPartRecords.push_back(tempBodyPart);
+        tempBodyPart = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CELL)
+    {
+        tempCell.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.cellRecords.push_back(tempCell);
+        tempCell = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
+    {
+        tempContainer.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.containerRecords.push_back(tempContainer);
+        tempContainer = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
+    {
+        tempCreature.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.creatureRecords.push_back(tempCreature);
+        tempCreature = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::DOOR)
+    {
+        tempDoor.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.doorRecords.push_back(tempDoor);
+        tempDoor = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::INGREDIENT)
+    {
+        tempIngredient.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.ingredientRecords.push_back(tempIngredient);
+        tempIngredient = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
+    {
+        tempLight.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.lightRecords.push_back(tempLight);
+        tempLight = {};
+    }
     else if (writeRecordsType == mwmp::RECORD_TYPE::LOCKPICK)
     {
         tempLockpick.baseOverrides = tempOverrides;
         WorldstateFunctions::writeWorldstate.lockpickRecords.push_back(tempLockpick);
         tempLockpick = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
+    {
+        tempNpc.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.npcRecords.push_back(tempNpc);
+        tempNpc = {};
     }
     else if (writeRecordsType == mwmp::RECORD_TYPE::PROBE)
     {
@@ -1684,29 +1696,17 @@ void RecordsDynamicFunctions::AddRecord() noexcept
         WorldstateFunctions::writeWorldstate.repairRecords.push_back(tempRepair);
         tempRepair = {};
     }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
-    {
-        tempLight.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.lightRecords.push_back(tempLight);
-        tempLight = {};
-    }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CELL)
-    {
-        tempCell.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.cellRecords.push_back(tempCell);
-        tempCell = {};
-    }
     else if (writeRecordsType == mwmp::RECORD_TYPE::SCRIPT)
     {
         tempScript.baseOverrides = tempOverrides;
         WorldstateFunctions::writeWorldstate.scriptRecords.push_back(tempScript);
         tempScript = {};
     }
-    else if (writeRecordsType == mwmp::RECORD_TYPE::BODYPART)
+    else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
     {
-        tempBodyPart.baseOverrides = tempOverrides;
-        WorldstateFunctions::writeWorldstate.bodyPartRecords.push_back(tempBodyPart);
-        tempBodyPart = {};
+        tempStatic.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.staticRecords.push_back(tempStatic);
+        tempStatic = {};
     }
 
     effectCount = 0;
@@ -1762,12 +1762,12 @@ void RecordsDynamicFunctions::AddRecordInventoryItem() noexcept
 {
     unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
 
-    if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
+    if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
+        tempContainer.inventory.push_back(tempInventoryItem);
+    else if (writeRecordsType == mwmp::RECORD_TYPE::CREATURE)
         tempCreature.inventory.push_back(tempInventoryItem);
     else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
         tempNpc.inventory.push_back(tempInventoryItem);
-    else if (writeRecordsType == mwmp::RECORD_TYPE::CONTAINER)
-        tempContainer.inventory.push_back(tempInventoryItem);
 
     tempOverrides.hasInventory = true;
     tempInventoryItem = {};
