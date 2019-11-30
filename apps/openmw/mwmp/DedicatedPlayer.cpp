@@ -255,10 +255,10 @@ void DedicatedPlayer::setAnimFlags()
         ptr.getClass().getCreatureStats(ptr).getActiveSpells().purgeEffect(ESM::MagicEffect::Levitate);
     else if (isFlying && !world->isFlying(ptr))
     {
-        MWMechanics::CastSpell cast(ptr, ptr);
-        cast.mHitPosition = ptr.getRefData().getPosition().asVec3();
-        cast.mAlwaysSucceed = true;
-        cast.cast("Levitate");
+        MWMechanics::CastSpell levitationCast(ptr, ptr);
+        levitationCast.mHitPosition = ptr.getRefData().getPosition().asVec3();
+        levitationCast.mAlwaysSucceed = true;
+        levitationCast.cast("Levitate");
     }
 
     MWMechanics::CreatureStats *ptrCreatureStats = &ptr.getClass().getCreatureStats(ptr);

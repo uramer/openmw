@@ -250,8 +250,8 @@ namespace mwmp
         }
     }
 
-    void GUIChat::setDelay(float delay)
+    void GUIChat::setDelay(float newDelay)
     {
-        this->delay = delay;
+        this->delay = newDelay;
     }
 }

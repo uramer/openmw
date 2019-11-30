@@ -329,9 +329,9 @@ ESM::CustomMarker mwmp::GUIController::createMarker(const RakNet::RakNetGUID &gu
 
 void mwmp::GUIController::updatePlayersMarkers(MWGui::LocalMapBase *localMapBase)
 {
-    std::vector<MyGUI::Widget*>::iterator it = localMapBase->mPlayerMarkerWidgets.begin();
-    for (; it != localMapBase->mPlayerMarkerWidgets.end(); ++it)
-        MyGUI::Gui::getInstance().destroyWidget(*it);
+    std::vector<MyGUI::Widget*>::iterator markerWidgetIterator = localMapBase->mPlayerMarkerWidgets.begin();
+    for (; markerWidgetIterator != localMapBase->mPlayerMarkerWidgets.end(); ++markerWidgetIterator)
+        MyGUI::Gui::getInstance().destroyWidget(*markerWidgetIterator);
     localMapBase->mPlayerMarkerWidgets.clear();
 
     for (int dX = -localMapBase->mCellDistance; dX <= localMapBase->mCellDistance; ++dX)
@@ -345,9 +345,10 @@ void mwmp::GUIController::updatePlayersMarkers(MWGui::LocalMapBase *localMapBase
             cellId.mIndex.mY = localMapBase->mCurY+dY;
 
             PlayerMarkerCollection::RangeType markers = mPlayerMarkers.getMarkers(cellId);
-            for (PlayerMarkerCollection::ContainerType::const_iterator it = markers.first; it != markers.second; ++it)
+            for (PlayerMarkerCollection::ContainerType::const_iterator markerIterator = markers.first;
+                markerIterator != markers.second; ++markerIterator)
             {
-                const ESM::CustomMarker &marker = it->second;
+                const ESM::CustomMarker &marker = markerIterator->second;
 
                 MWGui::LocalMapBase::MarkerUserData markerPos (localMapBase->mLocalMapRender);
                 MyGUI::IntPoint widgetPos = localMapBase->getMarkerPosition(marker.mWorldX, marker.mWorldY, markerPos);

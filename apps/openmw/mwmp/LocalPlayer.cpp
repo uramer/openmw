@@ -1345,12 +1345,12 @@ void LocalPlayer::setSelectedSpell()
         int(MWMechanics::getSpellSuccessChance(selectedSpellId, ptrPlayer)));
 }
 
-void LocalPlayer::sendDeath(char deathState)
+void LocalPlayer::sendDeath(char newDeathState)
 {
     if (MechanicsHelper::isEmptyTarget(killer))
         killer = MechanicsHelper::getTarget(getPlayerPtr());
 
-    this->deathState = deathState;
+    deathState = newDeathState;
 
     LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_PLAYER_DEATH about myself to server\n- deathState: %d", deathState);
     getNetworking()->getPlayerPacket(ID_PLAYER_DEATH)->setPlayer(this);
@@ -1683,7 +1683,7 @@ void LocalPlayer::clearCurrentContainer()
     currentContainer.mpNum = 0;
 }
 
-void LocalPlayer::storeCellState(const ESM::Cell& cell, int stateType)
+void LocalPlayer::storeCellState(const ESM::Cell& storedCell, int stateType)
 {
     std::vector<CellState>::iterator iter;
 
@@ -1691,14 +1691,14 @@ void LocalPlayer::storeCellState(const ESM::Cell& cell, int stateType)
     {
         // If there's already a cell state recorded for this particular cell,
         // remove it
-        if (cell.getDescription() == (*iter).cell.getDescription())
+        if (storedCell.getDescription() == (*iter).cell.getDescription())
             iter = cellStateChanges.erase(iter);
         else
             ++iter;
     }
 
     CellState cellState;
-    cellState.cell = cell;
+    cellState.cell = storedCell;
     cellState.type = stateType;
 
     cellStateChanges.push_back(cellState);

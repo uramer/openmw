@@ -35,7 +35,7 @@ namespace mwmp
 
         void pressedChatMode(); //switch chat mode
         void pressedSay(); // switch chat focus (if chat mode != CHAT_DISABLED)
-        void setDelay(float delay);
+        void setDelay(float newDelay);
 
         void update(float dt);
 

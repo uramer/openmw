@@ -26,8 +26,8 @@ namespace mwmp
         void playAnimation();
         void playSound();
 
-        bool hasItem(std::string refId, int charge);
-        void equipItem(std::string refId, int charge);
+        bool hasItem(std::string itemId, int charge);
+        void equipItem(std::string itemId, int charge);
 
         MWWorld::Ptr getPtr();
         void setPtr(const MWWorld::Ptr& newPtr);
