@@ -20,16 +20,13 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
 
     if (send)
     {
+        // These can be created by players through gameplay and should be checked first
         if (worldstate->recordsType == mwmp::RECORD_TYPE::SPELL)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->spellRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::POTION)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->potionRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::ENCHANTMENT)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->enchantmentRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CREATURE)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->creatureRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::NPC)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->npcRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::ARMOR)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->armorRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::BOOK)
@@ -40,32 +37,37 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->miscellaneousRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::WEAPON)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->weaponRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CONTAINER)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->containerRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::DOOR)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->doorRecords);
+        // These can only be created by the server
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::ACTIVATOR)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->activatorRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::STATIC)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->staticRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::INGREDIENT)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->ingredientRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::APPARATUS)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->apparatusRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->bodyPartRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CELL)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->cellRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CONTAINER)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->containerRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CREATURE)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->creatureRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::DOOR)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->doorRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::INGREDIENT)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->ingredientRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::LIGHT)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->lightRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::LOCKPICK)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->lockpickRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::NPC)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->npcRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::PROBE)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->probeRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::REPAIR)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->repairRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::LIGHT)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->lightRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CELL)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->cellRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::SCRIPT)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->scriptRecords);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
-            worldstate->recordsCount = Utils::getVectorSize(worldstate->bodyPartRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::STATIC)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->staticRecords);
         else
         {
             LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Processed invalid ID_RECORD_DYNAMIC packet about unimplemented recordsType %i",
@@ -92,10 +94,6 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             Utils::resetVector(worldstate->potionRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::ENCHANTMENT)
             Utils::resetVector(worldstate->enchantmentRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CREATURE)
-            Utils::resetVector(worldstate->creatureRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::NPC)
-            Utils::resetVector(worldstate->npcRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::ARMOR)
             Utils::resetVector(worldstate->armorRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::BOOK)
@@ -106,32 +104,36 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             Utils::resetVector(worldstate->miscellaneousRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::WEAPON)
             Utils::resetVector(worldstate->weaponRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CONTAINER)
-            Utils::resetVector(worldstate->containerRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::DOOR)
-            Utils::resetVector(worldstate->doorRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::ACTIVATOR)
             Utils::resetVector(worldstate->activatorRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::STATIC)
-            Utils::resetVector(worldstate->staticRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::INGREDIENT)
-            Utils::resetVector(worldstate->ingredientRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::APPARATUS)
             Utils::resetVector(worldstate->apparatusRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
+            Utils::resetVector(worldstate->bodyPartRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CELL)
+            Utils::resetVector(worldstate->cellRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CONTAINER)
+            Utils::resetVector(worldstate->containerRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CREATURE)
+            Utils::resetVector(worldstate->creatureRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::DOOR)
+            Utils::resetVector(worldstate->doorRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::INGREDIENT)
+            Utils::resetVector(worldstate->ingredientRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::LOCKPICK)
             Utils::resetVector(worldstate->lockpickRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::LIGHT)
+            Utils::resetVector(worldstate->lightRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::NPC)
+            Utils::resetVector(worldstate->npcRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::PROBE)
             Utils::resetVector(worldstate->probeRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::REPAIR)
             Utils::resetVector(worldstate->repairRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::LIGHT)
-            Utils::resetVector(worldstate->lightRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::CELL)
-            Utils::resetVector(worldstate->cellRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::SCRIPT)
             Utils::resetVector(worldstate->scriptRecords, worldstate->recordsCount);
-        else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
-            Utils::resetVector(worldstate->bodyPartRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::STATIC)
+            Utils::resetVector(worldstate->staticRecords, worldstate->recordsCount);
     }
 
     if (worldstate->recordsType == mwmp::RECORD_TYPE::SPELL)
@@ -212,109 +214,6 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
                 RW(overrides.hasCharge, send);
                 RW(overrides.hasAutoCalc, send);
                 RW(overrides.hasEffects, send);
-            }
-        }
-    }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::CREATURE)
-    {
-        for (auto &&record : worldstate->creatureRecords)
-        {
-            auto &recordData = record.data;
-
-            RW(record.baseId, send, true);
-            RW(record.inventoryBaseId, send, true);
-            RW(recordData.mId, send, true);
-            RW(recordData.mName, send, true);
-            RW(recordData.mModel, send, true);
-            RW(recordData.mScale, send);
-            RW(recordData.mBloodType, send);
-            RW(recordData.mData.mType, send);
-            RW(recordData.mData.mLevel, send);
-            RW(recordData.mData.mHealth, send);
-            RW(recordData.mData.mMana, send);
-            RW(recordData.mData.mFatigue, send);
-            RW(recordData.mAiData.mFight, send);
-            RW(recordData.mAiData.mFlee, send);
-            RW(recordData.mAiData.mAlarm, send);
-            RW(recordData.mAiData.mServices, send);
-            RW(recordData.mFlags, send);
-            RW(recordData.mScript, send, true);
-            ProcessInventoryList(record.inventory, recordData.mInventory, send);
-
-            if (!record.baseId.empty())
-            {
-                auto &&overrides = record.baseOverrides;
-                RW(overrides.hasName, send);
-                RW(overrides.hasModel, send);
-                RW(overrides.hasScale, send);
-                RW(overrides.hasBloodType, send);
-                RW(overrides.hasSubtype, send);
-                RW(overrides.hasLevel, send);
-                RW(overrides.hasHealth, send);
-                RW(overrides.hasMagicka, send);
-                RW(overrides.hasFatigue, send);
-                RW(overrides.hasAiFight, send);
-                RW(overrides.hasAiFlee, send);
-                RW(overrides.hasAiAlarm, send);
-                RW(overrides.hasAiServices, send);
-                RW(overrides.hasFlags, send);
-                RW(overrides.hasScript, send);
-                RW(overrides.hasInventory, send);
-            }
-        }
-    }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::NPC)
-    {
-        for (auto &&record : worldstate->npcRecords)
-        {
-            auto &recordData = record.data;
-
-            RW(record.baseId, send, true);
-            RW(record.inventoryBaseId, send, true);
-            RW(recordData.mId, send, true);
-            RW(recordData.mName, send, true);
-            RW(recordData.mFlags, send);
-            RW(recordData.mRace, send, true);
-            RW(recordData.mModel, send, true);
-            RW(recordData.mHair, send, true);
-            RW(recordData.mHead, send, true);
-            RW(recordData.mClass, send, true);
-            RW(recordData.mFaction, send, true);
-            RW(recordData.mScript, send, true);
-            RW(recordData.mNpdt.mLevel, send);
-            RW(recordData.mNpdt.mHealth, send);
-            RW(recordData.mNpdt.mMana, send);
-            RW(recordData.mNpdt.mFatigue, send);
-            RW(recordData.mAiData.mFight, send);
-            RW(recordData.mAiData.mFlee, send);
-            RW(recordData.mAiData.mAlarm, send);
-            RW(recordData.mAiData.mServices, send);
-
-            RW(recordData.mNpdtType, send);
-            ProcessInventoryList(record.inventory, recordData.mInventory, send);
-
-            if (!record.baseId.empty())
-            {
-                auto &&overrides = record.baseOverrides;
-                RW(overrides.hasName, send);
-                RW(overrides.hasGender, send);
-                RW(overrides.hasFlags, send);
-                RW(overrides.hasRace, send);
-                RW(overrides.hasModel, send);
-                RW(overrides.hasHair, send);
-                RW(overrides.hasHead, send);
-                RW(overrides.hasFaction, send);
-                RW(overrides.hasScript, send);
-                RW(overrides.hasLevel, send);
-                RW(overrides.hasHealth, send);
-                RW(overrides.hasMagicka, send);
-                RW(overrides.hasFatigue, send);
-                RW(overrides.hasAiFight, send);
-                RW(overrides.hasAiFlee, send);
-                RW(overrides.hasAiAlarm, send);
-                RW(overrides.hasAiServices, send);
-                RW(overrides.hasAutoCalc, send);
-                RW(overrides.hasInventory, send);
             }
         }
     }
@@ -508,58 +407,6 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             }
         }
     }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::CONTAINER)
-    {
-        for (auto &&record : worldstate->containerRecords)
-        {
-            auto &recordData = record.data;
-
-            RW(record.baseId, send, true);
-            RW(recordData.mId, send, true);
-            RW(recordData.mName, send, true);
-            RW(recordData.mModel, send, true);
-            RW(recordData.mWeight, send);
-            RW(recordData.mFlags, send);
-            RW(recordData.mScript, send, true);
-            ProcessInventoryList(record.inventory, recordData.mInventory, send);
-
-            if (!record.baseId.empty())
-            {
-                auto &&overrides = record.baseOverrides;
-                RW(overrides.hasName, send);
-                RW(overrides.hasModel, send);
-                RW(overrides.hasWeight, send);
-                RW(overrides.hasFlags, send);
-                RW(overrides.hasScript, send);
-                RW(overrides.hasInventory, send);
-            }
-        }
-    }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::DOOR)
-    {
-        for (auto &&record : worldstate->doorRecords)
-        {
-            auto &recordData = record.data;
-
-            RW(record.baseId, send, true);
-            RW(recordData.mId, send, true);
-            RW(recordData.mName, send, true);
-            RW(recordData.mModel, send, true);
-            RW(recordData.mOpenSound, send, true);
-            RW(recordData.mCloseSound, send, true);
-            RW(recordData.mScript, send, true);
-
-            if (!record.baseId.empty())
-            {
-                auto &&overrides = record.baseOverrides;
-                RW(overrides.hasName, send);
-                RW(overrides.hasModel, send);
-                RW(overrides.hasOpenSound, send);
-                RW(overrides.hasCloseSound, send);
-                RW(overrides.hasScript, send);
-            }
-        }
-    }
     else if (worldstate->recordsType == mwmp::RECORD_TYPE::ACTIVATOR)
     {
         for (auto &&record : worldstate->activatorRecords)
@@ -577,54 +424,6 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
                 auto &&overrides = record.baseOverrides;
                 RW(overrides.hasName, send);
                 RW(overrides.hasModel, send);
-                RW(overrides.hasScript, send);
-            }
-        }
-    }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::STATIC)
-    {
-        for (auto &&record : worldstate->staticRecords)
-        {
-            auto &recordData = record.data;
-
-            RW(record.baseId, send, true);
-            RW(recordData.mId, send, true);
-            RW(recordData.mModel, send, true);
-
-            if (!record.baseId.empty())
-            {
-                auto &&overrides = record.baseOverrides;
-                RW(overrides.hasModel, send);
-            }
-        }
-    }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::INGREDIENT)
-    {
-        for (auto &&record : worldstate->ingredientRecords)
-        {
-            auto &recordData = record.data;
-
-            RW(record.baseId, send, true);
-            RW(recordData.mId, send, true);
-            RW(recordData.mName, send, true);
-            RW(recordData.mModel, send, true);
-            RW(recordData.mIcon, send, true);
-            RW(recordData.mData.mWeight, send);
-            RW(recordData.mData.mValue, send);
-            RW(recordData.mData.mEffectID, send);
-            RW(recordData.mData.mAttributes, send);
-            RW(recordData.mData.mSkills, send);
-            RW(recordData.mScript, send, true);
-
-            if (!record.baseId.empty())
-            {
-                auto &&overrides = record.baseOverrides;
-                RW(overrides.hasName, send);
-                RW(overrides.hasModel, send);
-                RW(overrides.hasIcon, send);
-                RW(overrides.hasWeight, send);
-                RW(overrides.hasValue, send);
-                RW(overrides.hasEffects, send);
                 RW(overrides.hasScript, send);
             }
         }
@@ -660,6 +459,211 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             }
         }
     }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
+    {
+        for (auto &&record : worldstate->bodyPartRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(recordData.mId, send, true);
+            RW(recordData.mModel, send, true);
+            RW(recordData.mRace, send, true);
+            RW(recordData.mData.mType, send);
+            RW(recordData.mData.mPart, send);
+            RW(recordData.mData.mVampire, send);
+            RW(recordData.mData.mFlags, send);
+
+            if (!record.baseId.empty())
+            {
+                auto &&overrides = record.baseOverrides;
+                RW(overrides.hasModel, send);
+                RW(overrides.hasRace, send);
+                RW(overrides.hasSubtype, send);
+                RW(overrides.hasBodyPartType, send);
+                RW(overrides.hasVampireState, send);
+                RW(overrides.hasFlags, send);
+            }
+        }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::CELL)
+    {
+        for (auto &&record : worldstate->cellRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(recordData.mName, send, true);
+        }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::CONTAINER)
+    {
+        for (auto &&record : worldstate->containerRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(recordData.mId, send, true);
+            RW(recordData.mName, send, true);
+            RW(recordData.mModel, send, true);
+            RW(recordData.mWeight, send);
+            RW(recordData.mFlags, send);
+            RW(recordData.mScript, send, true);
+            ProcessInventoryList(record.inventory, recordData.mInventory, send);
+
+            if (!record.baseId.empty())
+            {
+                auto &&overrides = record.baseOverrides;
+                RW(overrides.hasName, send);
+                RW(overrides.hasModel, send);
+                RW(overrides.hasWeight, send);
+                RW(overrides.hasFlags, send);
+                RW(overrides.hasScript, send);
+                RW(overrides.hasInventory, send);
+            }
+        }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::CREATURE)
+    {
+        for (auto &&record : worldstate->creatureRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(record.inventoryBaseId, send, true);
+            RW(recordData.mId, send, true);
+            RW(recordData.mName, send, true);
+            RW(recordData.mModel, send, true);
+            RW(recordData.mScale, send);
+            RW(recordData.mBloodType, send);
+            RW(recordData.mData.mType, send);
+            RW(recordData.mData.mLevel, send);
+            RW(recordData.mData.mHealth, send);
+            RW(recordData.mData.mMana, send);
+            RW(recordData.mData.mFatigue, send);
+            RW(recordData.mAiData.mFight, send);
+            RW(recordData.mAiData.mFlee, send);
+            RW(recordData.mAiData.mAlarm, send);
+            RW(recordData.mAiData.mServices, send);
+            RW(recordData.mFlags, send);
+            RW(recordData.mScript, send, true);
+            ProcessInventoryList(record.inventory, recordData.mInventory, send);
+
+            if (!record.baseId.empty())
+            {
+                auto &&overrides = record.baseOverrides;
+                RW(overrides.hasName, send);
+                RW(overrides.hasModel, send);
+                RW(overrides.hasScale, send);
+                RW(overrides.hasBloodType, send);
+                RW(overrides.hasSubtype, send);
+                RW(overrides.hasLevel, send);
+                RW(overrides.hasHealth, send);
+                RW(overrides.hasMagicka, send);
+                RW(overrides.hasFatigue, send);
+                RW(overrides.hasAiFight, send);
+                RW(overrides.hasAiFlee, send);
+                RW(overrides.hasAiAlarm, send);
+                RW(overrides.hasAiServices, send);
+                RW(overrides.hasFlags, send);
+                RW(overrides.hasScript, send);
+                RW(overrides.hasInventory, send);
+            }
+        }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::DOOR)
+    {
+        for (auto &&record : worldstate->doorRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(recordData.mId, send, true);
+            RW(recordData.mName, send, true);
+            RW(recordData.mModel, send, true);
+            RW(recordData.mOpenSound, send, true);
+            RW(recordData.mCloseSound, send, true);
+            RW(recordData.mScript, send, true);
+
+            if (!record.baseId.empty())
+            {
+                auto &&overrides = record.baseOverrides;
+                RW(overrides.hasName, send);
+                RW(overrides.hasModel, send);
+                RW(overrides.hasOpenSound, send);
+                RW(overrides.hasCloseSound, send);
+                RW(overrides.hasScript, send);
+            }
+        }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::INGREDIENT)
+    {
+        for (auto &&record : worldstate->ingredientRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(recordData.mId, send, true);
+            RW(recordData.mName, send, true);
+            RW(recordData.mModel, send, true);
+            RW(recordData.mIcon, send, true);
+            RW(recordData.mData.mWeight, send);
+            RW(recordData.mData.mValue, send);
+            RW(recordData.mData.mEffectID, send);
+            RW(recordData.mData.mAttributes, send);
+            RW(recordData.mData.mSkills, send);
+            RW(recordData.mScript, send, true);
+
+            if (!record.baseId.empty())
+            {
+                auto &&overrides = record.baseOverrides;
+                RW(overrides.hasName, send);
+                RW(overrides.hasModel, send);
+                RW(overrides.hasIcon, send);
+                RW(overrides.hasWeight, send);
+                RW(overrides.hasValue, send);
+                RW(overrides.hasEffects, send);
+                RW(overrides.hasScript, send);
+            }
+        }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::LIGHT)
+    {
+        for (auto &&record : worldstate->lightRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(recordData.mId, send, true);
+            RW(recordData.mName, send, true);
+            RW(recordData.mModel, send, true);
+            RW(recordData.mIcon, send, true);
+            RW(recordData.mSound, send, true);
+            RW(recordData.mData.mWeight, send, true);
+            RW(recordData.mData.mValue, send, true);
+            RW(recordData.mData.mTime, send, true);
+            RW(recordData.mData.mRadius, send, true);
+            RW(recordData.mData.mColor, send, true);
+            RW(recordData.mData.mFlags, send, true);
+            RW(recordData.mScript, send, true);
+
+            if (!record.baseId.empty())
+            {
+                auto &&overrides = record.baseOverrides;
+                RW(overrides.hasName, send);
+                RW(overrides.hasModel, send);
+                RW(overrides.hasIcon, send);
+                RW(overrides.hasSound, send);
+                RW(overrides.hasWeight, send);
+                RW(overrides.hasValue, send);
+                RW(overrides.hasTime, send);
+                RW(overrides.hasRadius, send);
+                RW(overrides.hasColor, send);
+                RW(overrides.hasFlags, send);
+                RW(overrides.hasScript, send);
+            }
+        }
+    }
     else if (worldstate->recordsType == mwmp::RECORD_TYPE::LOCKPICK)
     {
         for (auto &&record : worldstate->lockpickRecords)
@@ -688,6 +692,61 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
                 RW(overrides.hasQuality, send);
                 RW(overrides.hasUses, send);
                 RW(overrides.hasScript, send);
+            }
+        }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::NPC)
+    {
+        for (auto &&record : worldstate->npcRecords)
+        {
+            auto &recordData = record.data;
+
+            RW(record.baseId, send, true);
+            RW(record.inventoryBaseId, send, true);
+            RW(recordData.mId, send, true);
+            RW(recordData.mName, send, true);
+            RW(recordData.mFlags, send);
+            RW(recordData.mRace, send, true);
+            RW(recordData.mModel, send, true);
+            RW(recordData.mHair, send, true);
+            RW(recordData.mHead, send, true);
+            RW(recordData.mClass, send, true);
+            RW(recordData.mFaction, send, true);
+            RW(recordData.mScript, send, true);
+            RW(recordData.mNpdt.mLevel, send);
+            RW(recordData.mNpdt.mHealth, send);
+            RW(recordData.mNpdt.mMana, send);
+            RW(recordData.mNpdt.mFatigue, send);
+            RW(recordData.mAiData.mFight, send);
+            RW(recordData.mAiData.mFlee, send);
+            RW(recordData.mAiData.mAlarm, send);
+            RW(recordData.mAiData.mServices, send);
+
+            RW(recordData.mNpdtType, send);
+            ProcessInventoryList(record.inventory, recordData.mInventory, send);
+
+            if (!record.baseId.empty())
+            {
+                auto &&overrides = record.baseOverrides;
+                RW(overrides.hasName, send);
+                RW(overrides.hasGender, send);
+                RW(overrides.hasFlags, send);
+                RW(overrides.hasRace, send);
+                RW(overrides.hasModel, send);
+                RW(overrides.hasHair, send);
+                RW(overrides.hasHead, send);
+                RW(overrides.hasFaction, send);
+                RW(overrides.hasScript, send);
+                RW(overrides.hasLevel, send);
+                RW(overrides.hasHealth, send);
+                RW(overrides.hasMagicka, send);
+                RW(overrides.hasFatigue, send);
+                RW(overrides.hasAiFight, send);
+                RW(overrides.hasAiFlee, send);
+                RW(overrides.hasAiAlarm, send);
+                RW(overrides.hasAiServices, send);
+                RW(overrides.hasAutoCalc, send);
+                RW(overrides.hasInventory, send);
             }
         }
     }
@@ -753,53 +812,6 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             }
         }
     }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::LIGHT)
-    {
-        for (auto &&record : worldstate->lightRecords)
-        {
-            auto &recordData = record.data;
-
-            RW(record.baseId, send, true);
-            RW(recordData.mId, send, true);
-            RW(recordData.mName, send, true);
-            RW(recordData.mModel, send, true);
-            RW(recordData.mIcon, send, true);
-            RW(recordData.mSound, send, true);
-            RW(recordData.mData.mWeight, send, true);
-            RW(recordData.mData.mValue, send, true);
-            RW(recordData.mData.mTime, send, true);
-            RW(recordData.mData.mRadius, send, true);
-            RW(recordData.mData.mColor, send, true);
-            RW(recordData.mData.mFlags, send, true);
-            RW(recordData.mScript, send, true);
-
-            if (!record.baseId.empty())
-            {
-                auto &&overrides = record.baseOverrides;
-                RW(overrides.hasName, send);
-                RW(overrides.hasModel, send);
-                RW(overrides.hasIcon, send);
-                RW(overrides.hasSound, send);
-                RW(overrides.hasWeight, send);
-                RW(overrides.hasValue, send);
-                RW(overrides.hasTime, send);
-                RW(overrides.hasRadius, send);
-                RW(overrides.hasColor, send);
-                RW(overrides.hasFlags, send);
-                RW(overrides.hasScript, send);
-            }
-        }
-    }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::CELL)
-    {
-        for (auto &&record : worldstate->cellRecords)
-        {
-            auto &recordData = record.data;
-
-            RW(record.baseId, send, true);
-            RW(recordData.mName, send, true);
-        }
-    }
     else if (worldstate->recordsType == mwmp::RECORD_TYPE::SCRIPT)
     {
         for (auto &&record : worldstate->scriptRecords)
@@ -817,30 +829,20 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *bs, bool send)
             }
         }
     }
-    else if (worldstate->recordsType == mwmp::RECORD_TYPE::BODYPART)
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::STATIC)
     {
-        for (auto &&record : worldstate->bodyPartRecords)
+        for (auto &&record : worldstate->staticRecords)
         {
             auto &recordData = record.data;
 
             RW(record.baseId, send, true);
             RW(recordData.mId, send, true);
             RW(recordData.mModel, send, true);
-            RW(recordData.mRace, send, true);
-            RW(recordData.mData.mType, send);
-            RW(recordData.mData.mPart, send);
-            RW(recordData.mData.mVampire, send);
-            RW(recordData.mData.mFlags, send);
 
             if (!record.baseId.empty())
             {
                 auto &&overrides = record.baseOverrides;
                 RW(overrides.hasModel, send);
-                RW(overrides.hasRace, send);
-                RW(overrides.hasSubtype, send);
-                RW(overrides.hasBodyPartType, send);
-                RW(overrides.hasVampireState, send);
-                RW(overrides.hasFlags, send);
             }
         }
     }
