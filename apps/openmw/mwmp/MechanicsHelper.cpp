@@ -3,6 +3,7 @@
 #include <components/misc/rng.hpp>
 
 #include "../mwbase/environment.hpp"
+#include "../mwbase/mechanicsmanager.hpp"
 #include "../mwbase/world.hpp"
 
 #include "../mwmechanics/creaturestats.hpp"
@@ -288,7 +289,8 @@ void MechanicsHelper::processAttack(Attack attack, const MWWorld::Ptr& attacker)
             LOG_APPEND(TimedLog::LOG_VERBOSE, "- animation: %s", attack.attackAnimation.c_str());
     }
 
-    MWMechanics::CreatureStats &attackerStats = attacker.getClass().getCreatureStats(attacker);
+    MWBase::Environment::get().getMechanicsManager()->setAttackingOrSpell(attacker, attack.pressed);
+
     MWWorld::Ptr victim;
 
     if (attack.target.isPlayer)
@@ -434,7 +436,9 @@ void MechanicsHelper::processCast(Cast cast, const MWWorld::Ptr& caster)
         LOG_APPEND(TimedLog::LOG_VERBOSE, "- success: %s", cast.success ? "true" : "false");
     }
 
+    MWBase::Environment::get().getMechanicsManager()->setAttackingOrSpell(caster, cast.pressed);
     MWMechanics::CreatureStats &casterStats = caster.getClass().getCreatureStats(caster);
+
     MWWorld::Ptr victim;
 
     if (cast.target.isPlayer)

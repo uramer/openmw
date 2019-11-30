@@ -213,6 +213,16 @@ namespace MWMechanics
             /// Is \a ptr casting spell or using weapon now?
             virtual bool isAttackingOrSpell(const MWWorld::Ptr &ptr) const override;
 
+            /*
+                Start of tes3mp addition
+
+                Make it possible to set the attackingOrSpell state from elsewhere in the code
+            */
+            virtual void setAttackingOrSpell(const MWWorld::Ptr &ptr, bool state) const override;
+            /*
+                End of tes3mp addition
+            */
+
             virtual void castSpell(const MWWorld::Ptr& ptr, const std::string spellId, bool manualSpell=false) override;
 
             void processChangedSettings(const Settings::CategorySettingVector& settings) override;

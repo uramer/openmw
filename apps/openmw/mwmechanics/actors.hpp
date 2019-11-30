@@ -204,6 +204,16 @@ namespace MWMechanics
             bool isReadyToBlock(const MWWorld::Ptr& ptr) const;
             bool isAttackingOrSpell(const MWWorld::Ptr& ptr) const;
 
+            /*
+                Start of tes3mp addition
+
+                Make it possible to set the attackingOrSpell state from elsewhere in the code
+            */
+            void setAttackingOrSpell(const MWWorld::Ptr& ptr, bool state) const;
+            /*
+                End of tes3mp addition
+            */
+
     private:
         void updateVisibility (const MWWorld::Ptr& ptr, CharacterController* ctrl);
 

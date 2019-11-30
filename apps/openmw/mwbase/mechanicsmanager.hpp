@@ -239,6 +239,16 @@ namespace MWBase
             virtual bool isReadyToBlock (const MWWorld::Ptr& ptr) const = 0;
             virtual bool isAttackingOrSpell(const MWWorld::Ptr &ptr) const = 0;
 
+            /*
+                Start of tes3mp addition
+
+                Make it possible to set the attackingOrSpell state from elsewhere in the code
+            */
+            virtual void setAttackingOrSpell(const MWWorld::Ptr &ptr, bool state) const = 0;
+            /*
+                End of tes3mp addition
+            */
+
             virtual void castSpell(const MWWorld::Ptr& ptr, const std::string spellId, bool manualSpell) = 0;
 
             virtual void processChangedSettings (const std::set< std::pair<std::string, std::string> >& settings) = 0;

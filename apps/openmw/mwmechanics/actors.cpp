@@ -1757,33 +1757,6 @@ namespace MWMechanics
                 */
 
                 /*
-                    Start of tes3mp addition
-
-                    If this actor is a DedicatedPlayer or DedicatedActor, update their mAttackingOrSpell
-                */
-                mwmp::Attack *dedicatedAttack = MechanicsHelper::getDedicatedAttack(iter->first);
-
-                if (dedicatedAttack)
-                {
-                    bool attackingOrSpellState = false;
-
-                    if (dedicatedAttack->pressed)
-                        attackingOrSpellState = true;
-                    else
-                    {
-                        mwmp::Cast *dedicatedCast = MechanicsHelper::getDedicatedCast(iter->first);
-
-                        if (dedicatedCast->pressed)
-                            attackingOrSpellState = true;
-                    }
-
-                    iter->second->getCharacterController()->setAttackingOrSpell(attackingOrSpellState);
-                }
-                /*
-                    End of tes3mp addition
-                */
-
-                /*
                     Start of tes3mp change (major)
 
                     Allow this code to use the same logic for DedicatedPlayers as for LocalPlayers
@@ -2616,6 +2589,24 @@ namespace MWMechanics
 
         return ctrl->isAttackingOrSpell();
     }
+
+    /*
+        Start of tes3mp addition
+
+        Make it possible to set the attackingOrSpell state from elsewhere in the code
+    */
+    void Actors::setAttackingOrSpell(const MWWorld::Ptr& ptr, bool state) const
+    {
+        PtrActorMap::const_iterator it = mActors.find(ptr);
+        if (it == mActors.end())
+            return;
+        CharacterController* ctrl = it->second->getCharacterController();
+
+        ctrl->setAttackingOrSpell(state);
+    }
+    /*
+        End of tes3mp addition
+    */
 
     void Actors::fastForwardAi()
     {
