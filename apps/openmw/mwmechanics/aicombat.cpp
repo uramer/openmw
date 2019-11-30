@@ -11,6 +11,8 @@
 */
 #include <components/openmw-mp/TimedLog.hpp>
 #include "../mwmp/Main.hpp"
+#include "../mwmp/Networking.hpp"
+#include "../mwmp/ActorList.hpp"
 #include "../mwmp/MechanicsHelper.hpp"
 #include "../mwgui/windowmanagerimp.hpp"
 /*
@@ -625,7 +627,12 @@ namespace MWMechanics
                     localAttack->type = distantCombat ? mwmp::Attack::RANGED : mwmp::Attack::MELEE;
                     localAttack->attackAnimation = characterController.getAttackType();
                     localAttack->pressed = true;
-                    localAttack->shouldSend = true;
+
+                    mwmp::ActorList *actorList = mwmp::Main::get().getNetworking()->getActorList();
+                    actorList->reset();
+                    actorList->cell = *actor.getCell()->getCell();
+                    actorList->addAttackActor(actor, *localAttack);
+                    actorList->sendAttackActors();
                 }
                 /*
                     End of tes3mp addition

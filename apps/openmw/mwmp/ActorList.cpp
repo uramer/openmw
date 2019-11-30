@@ -119,6 +119,15 @@ void ActorList::addAttackActor(BaseActor baseActor)
     attackActors.push_back(baseActor);
 }
 
+void ActorList::addAttackActor(const MWWorld::Ptr& actorPtr, const mwmp::Attack &attack)
+{
+    mwmp::BaseActor baseActor;
+    baseActor.refNum = actorPtr.getCellRef().getRefNum().mIndex;
+    baseActor.mpNum = actorPtr.getCellRef().getMpNum();
+    baseActor.attack = attack;
+    attackActors.push_back(baseActor);
+}
+
 void ActorList::addCastActor(BaseActor baseActor)
 {
     castActors.push_back(baseActor);
