@@ -83,10 +83,11 @@
     {"SetObjectState",                        ObjectFunctions::SetObjectState},\
     {"SetObjectLockLevel",                    ObjectFunctions::SetObjectLockLevel},\
     {"SetObjectDisarmState",                  ObjectFunctions::SetObjectDisarmState},\
-    {"SetObjectSummonDuration",               ObjectFunctions::SetObjectSummonDuration},\
-    {"SetObjectSummonState",                  ObjectFunctions::SetObjectSummonState},\
     {"SetObjectPosition",                     ObjectFunctions::SetObjectPosition},\
     {"SetObjectRotation",                     ObjectFunctions::SetObjectRotation},\
+    \
+    {"SetObjectSummonState",                  ObjectFunctions::SetObjectSummonState},\
+    {"SetObjectSummonDuration",               ObjectFunctions::SetObjectSummonDuration},\
     \
     {"SetObjectActivatingPid",                ObjectFunctions::SetObjectActivatingPid},\
     \
@@ -742,31 +743,12 @@ public:
     static void SetObjectLockLevel(int lockLevel) noexcept;
 
     /**
-    * \brief Set the summon duration of the temporary object stored on the server.
-    *
-    * \param summonDuration The summon duration.
-    * \return void
-    */
-    static void SetObjectSummonDuration(float summonDuration) noexcept;
-
-    /**
     * \brief Set the disarm state of the temporary object stored on the server.
     *
     * \param disarmState The disarmState.
     * \return void
     */
     static void SetObjectDisarmState(bool disarmState) noexcept;
-
-    /**
-    * \brief Set the summon state of the temporary object stored on the server.
-    *
-    * This only affects living actors and determines whether they are summons of another
-    * living actor.
-    *
-    * \param summonState The summon state.
-    * \return void
-    */
-    static void SetObjectSummonState(bool summonState) noexcept;
 
     /**
     * \brief Set the position of the temporary object stored on the server.
@@ -787,6 +769,25 @@ public:
     * \return void
     */
     static void SetObjectRotation(double x, double y, double z) noexcept;
+
+    /**
+    * \brief Set the summon state of the temporary object stored on the server.
+    *
+    * This only affects living actors and determines whether they are summons of another
+    * living actor.
+    *
+    * \param summonState The summon state.
+    * \return void
+    */
+    static void SetObjectSummonState(bool summonState) noexcept;
+
+    /**
+    * \brief Set the summon duration of the temporary object stored on the server.
+    *
+    * \param summonDuration The summon duration.
+    * \return void
+    */
+    static void SetObjectSummonDuration(float summonDuration) noexcept;
 
     /**
     * \brief Set the player ID of the player activating the temporary object stored on the

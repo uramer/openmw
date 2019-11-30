@@ -380,19 +380,9 @@ void ObjectFunctions::SetObjectLockLevel(int lockLevel) noexcept
     tempObject.lockLevel = lockLevel;
 }
 
-void ObjectFunctions::SetObjectSummonDuration(float summonDuration) noexcept
-{
-    tempObject.summonDuration = summonDuration;
-}
-
 void ObjectFunctions::SetObjectDisarmState(bool disarmState) noexcept
 {
     tempObject.isDisarmed = disarmState;
-}
-
-void ObjectFunctions::SetObjectSummonState(bool summonState) noexcept
-{
-    tempObject.isSummon = summonState;
 }
 
 void ObjectFunctions::SetObjectPosition(double x, double y, double z) noexcept
@@ -407,6 +397,16 @@ void ObjectFunctions::SetObjectRotation(double x, double y, double z) noexcept
     tempObject.position.rot[0] = x;
     tempObject.position.rot[1] = y;
     tempObject.position.rot[2] = z;
+}
+
+void ObjectFunctions::SetObjectSummonState(bool summonState) noexcept
+{
+    tempObject.isSummon = summonState;
+}
+
+void ObjectFunctions::SetObjectSummonDuration(float summonDuration) noexcept
+{
+    tempObject.summonDuration = summonDuration;
 }
 
 void ObjectFunctions::SetObjectActivatingPid(unsigned short pid) noexcept
