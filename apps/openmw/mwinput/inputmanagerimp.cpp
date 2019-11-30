@@ -376,6 +376,17 @@ namespace MWInput
 
                 else
                 {
+                    /*
+                        Start of tes3mp addition
+
+                        Prevent players from starting attacks while in the persuasion submenu in dialogue
+                    */
+                    if (MWBase::Environment::get().getWindowManager()->containsMode(MWGui::GM_Dialogue))
+                        return;
+                    /*
+                        End of tes3mp addition
+                    */
+
                     MWMechanics::DrawState_ state = MWBase::Environment::get().getWorld()->getPlayer().getDrawState();
                     mPlayer->setAttackingOrSpell(currentValue != 0 && state != MWMechanics::DrawState_Nothing);
                 }
