@@ -52,8 +52,6 @@ DedicatedPlayer::DedicatedPlayer(RakNet::RakNetGUID guid) : BasePlayer(guid)
     // the ground
     creatureStats.mDynamic[2].mBase = 1000;
 
-    movementFlags = 0;
-    hasTcl = false;
     attack.instant = false;
 
     cell.blank();

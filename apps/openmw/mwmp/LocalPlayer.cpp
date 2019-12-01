@@ -53,13 +53,6 @@ LocalPlayer::LocalPlayer()
     charGenState.endStage = 1;
     charGenState.isFinished = false;
 
-    difficulty = 0;
-    physicsFramerate = 60.0;
-    consoleAllowed = false;
-    bedRestAllowed = true;
-    wildernessRestAllowed = true;
-    waitAllowed = true;
-
     ignorePosPacket = false;
     ignoreJailTeleportation = false;
     ignoreJailSkillIncreases = false;
@@ -80,10 +73,6 @@ LocalPlayer::LocalPlayer()
 
     jailProgressText = "";
     jailEndText = "";
-
-    scale = 1;
-    isWerewolf = false;
-    hasTcl = false;
 
     isReceivingInventory = false;
     isReceivingQuickKeys = false;

@@ -218,21 +218,21 @@ namespace mwmp
         ESM::ActiveSpells activeSpells;
         CurrentContainer currentContainer;
 
-        int difficulty;
+        int difficulty = 0;
         int enforcedLogLevel;
-        float physicsFramerate;
-        bool consoleAllowed;
-        bool bedRestAllowed;
-        bool wildernessRestAllowed;
-        bool waitAllowed;
+        float physicsFramerate = 60.0;
+        bool consoleAllowed = false;
+        bool bedRestAllowed = true;
+        bool wildernessRestAllowed = true;
+        bool waitAllowed = true;
 
         bool ignorePosPacket;
 
-        unsigned int movementFlags;
+        unsigned int movementFlags = 0;
         char movementAnim;
         char drawState;
-        bool isFlying;
-        bool hasTcl;
+        bool isFlying = false;
+        bool hasTcl = false;
 
         ESM::Position position;
         ESM::Position direction;
@@ -255,9 +255,9 @@ namespace mwmp
         Animation animation;
         char deathState;
 
-        bool resetStats;
-        float scale;
-        bool isWerewolf;
+        bool resetStats = false;
+        float scale = 1;
+        bool isWerewolf = false;
 
         bool displayCreatureName;
         std::string creatureRefId;
