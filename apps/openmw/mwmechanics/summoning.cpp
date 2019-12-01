@@ -148,11 +148,22 @@ namespace MWMechanics
             ++it;
         }
 
+        /*
+            Start of tes3mp change (major)
+
+            Don't use a clientside creature graveyard in multiplayer and expect the server
+            to handle summon deletions instead
+        */
+        /*
         std::vector<int> graveyard = creatureStats.getSummonedCreatureGraveyard();
         creatureStats.getSummonedCreatureGraveyard().clear();
 
         for (const int creature : graveyard)
             MWBase::Environment::get().getMechanicsManager()->cleanupSummonedCreature(mActor, creature);
+        */
+        /*
+            End of tes3mp change (major)
+        */
 
         if (!cleanup)
             return;

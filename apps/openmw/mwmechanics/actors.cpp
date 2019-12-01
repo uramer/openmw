@@ -2109,6 +2109,13 @@ namespace MWMechanics
                 cleanupSummonedCreature(stats, creature.second);
             creatureMap.clear();
         }
+        /*
+            Start of tes3mp change (major)
+
+            Don't use a clientside creature graveyard in multiplayer and expect the server
+            to handle summon deletions instead
+        */
+        /*
         else if (creatureActorId != -1)
         {
             // We didn't find the creature. It's probably in an inactive cell.
@@ -2116,6 +2123,10 @@ namespace MWMechanics
             std::vector<int>& graveyard = casterStats.getSummonedCreatureGraveyard();
             graveyard.push_back(creatureActorId);
         }
+        */
+        /*
+            End of tes3mp change (major)
+        */
 
         purgeSpellEffects(creatureActorId);
     }
