@@ -189,6 +189,16 @@ double ObjectFunctions::GetObjectSummonDuration(unsigned int index) noexcept
     return readObjectList->baseObjects.at(index).summonDuration;
 }
 
+double ObjectFunctions::GetObjectSummonEffectId(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).summonEffectId;
+}
+
+const char *ObjectFunctions::GetObjectSummonSpellId(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).summonSpellId.c_str();
+}
+
 bool ObjectFunctions::DoesObjectHavePlayerSummoner(unsigned int index) noexcept
 {
     return readObjectList->baseObjects.at(index).master.isPlayer;
@@ -402,6 +412,16 @@ void ObjectFunctions::SetObjectRotation(double x, double y, double z) noexcept
 void ObjectFunctions::SetObjectSummonState(bool summonState) noexcept
 {
     tempObject.isSummon = summonState;
+}
+
+void ObjectFunctions::SetObjectSummonEffectId(int summonEffectId) noexcept
+{
+    tempObject.summonEffectId = summonEffectId;
+}
+
+void ObjectFunctions::SetObjectSummonSpellId(const char* summonSpellId) noexcept
+{
+    tempObject.summonSpellId = summonSpellId;
 }
 
 void ObjectFunctions::SetObjectSummonDuration(double summonDuration) noexcept

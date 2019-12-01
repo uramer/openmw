@@ -38,6 +38,8 @@
     {"GetObjectActivatingName",               ObjectFunctions::GetObjectActivatingName},\
     \
     {"GetObjectSummonState",                  ObjectFunctions::GetObjectSummonState},\
+    {"GetObjectSummonEffectId",               ObjectFunctions::GetObjectSummonEffectId},\
+    {"GetObjectSummonSpellId",                ObjectFunctions::GetObjectSummonSpellId},\
     {"GetObjectSummonDuration",               ObjectFunctions::GetObjectSummonDuration},\
     {"DoesObjectHavePlayerSummoner",          ObjectFunctions::DoesObjectHavePlayerSummoner},\
     {"GetObjectSummonerPid",                  ObjectFunctions::GetObjectSummonerPid},\
@@ -87,6 +89,8 @@
     {"SetObjectRotation",                     ObjectFunctions::SetObjectRotation},\
     \
     {"SetObjectSummonState",                  ObjectFunctions::SetObjectSummonState},\
+    {"SetObjectSummonEffectId",               ObjectFunctions::SetObjectSummonEffectId},\
+    {"SetObjectSummonSpellId",                ObjectFunctions::SetObjectSummonSpellId},\
     {"SetObjectSummonDuration",               ObjectFunctions::SetObjectSummonDuration},\
     {"SetObjectSummonerPid",                  ObjectFunctions::SetObjectSummonerPid},\
     {"SetObjectSummonerRefNum",               ObjectFunctions::SetObjectSummonerRefNum},\
@@ -407,6 +411,22 @@ public:
     * \return The summon state.
     */
     static bool GetObjectSummonState(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the summon effect ID of the object at a certain index in the read object list.
+    *
+    * \param index The index of the object.
+    * \return The summon effect ID.
+    */
+    static double GetObjectSummonEffectId(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the summon spell ID of the object at a certain index in the read object list.
+    *
+    * \param index The index of the object.
+    * \return The summon spell ID.
+    */
+    static const char *GetObjectSummonSpellId(unsigned int index) noexcept;
 
     /**
     * \brief Get the summon duration of the object at a certain index in the read object list.
@@ -783,6 +803,22 @@ public:
     * \return void
     */
     static void SetObjectSummonState(bool summonState) noexcept;
+
+    /**
+    * \brief Set the summon effect ID of the temporary object stored on the server.
+    *
+    * \param summonEffectId The summon effect ID.
+    * \return void
+    */
+    static void SetObjectSummonEffectId(int summonEffectId) noexcept;
+
+    /**
+    * \brief Set the summon spell ID of the temporary object stored on the server.
+    *
+    * \param summonSpellId The summon spell ID.
+    * \return void
+    */
+    static void SetObjectSummonSpellId(const char* summonSpellId) noexcept;
 
     /**
     * \brief Set the summon duration of the temporary object stored on the server.
