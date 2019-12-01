@@ -404,7 +404,7 @@ void ObjectFunctions::SetObjectSummonState(bool summonState) noexcept
     tempObject.isSummon = summonState;
 }
 
-void ObjectFunctions::SetObjectSummonDuration(float summonDuration) noexcept
+void ObjectFunctions::SetObjectSummonDuration(double summonDuration) noexcept
 {
     tempObject.summonDuration = summonDuration;
 }

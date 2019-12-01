@@ -790,7 +790,7 @@ public:
     * \param summonDuration The summon duration.
     * \return void
     */
-    static void SetObjectSummonDuration(float summonDuration) noexcept;
+    static void SetObjectSummonDuration(double summonDuration) noexcept;
 
     /**
     * \brief Set the player ID of the summoner of the temporary object stored on the server.
