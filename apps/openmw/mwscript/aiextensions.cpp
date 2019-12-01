@@ -448,9 +448,11 @@ namespace MWScript
                     std::string actorID = runtime.getStringLiteral (runtime[0].mInteger);
                     runtime.pop();
 
-                    MWWorld::Ptr actor = MWBase::Environment::get().getWorld()->getPtr(actorID, true);
+                    MWWorld::Ptr actor = MWBase::Environment::get().getWorld()->searchPtr(actorID, true, false);
 
-                    Interpreter::Type_Integer value = MWBase::Environment::get().getMechanicsManager()->isActorDetected(actor, observer);
+                    Interpreter::Type_Integer value = 0;
+                    if (!actor.isEmpty())
+                        value = MWBase::Environment::get().getMechanicsManager()->isActorDetected(actor, observer);
 
                     runtime.push (value);
                 }
@@ -470,9 +472,9 @@ namespace MWScript
                     runtime.pop();
 
 
-                    MWWorld::Ptr dest = MWBase::Environment::get().getWorld()->getPtr(actorID,true);
+                    MWWorld::Ptr dest = MWBase::Environment::get().getWorld()->searchPtr(actorID, true, false);
                     bool value = false;
-                    if(dest != MWWorld::Ptr() && source.getClass().isActor() && dest.getClass().isActor())
+                    if (!dest.isEmpty() && source.getClass().isActor() && dest.getClass().isActor())
                     {
                         value = MWBase::Environment::get().getWorld()->getLOS(source,dest);
                     }
@@ -513,7 +515,7 @@ namespace MWScript
                     std::string targetID = runtime.getStringLiteral (runtime[0].mInteger);
                     runtime.pop();
 
-                    MWWorld::Ptr target = MWBase::Environment::get().getWorld()->getPtr(targetID, true);
+                    MWWorld::Ptr target = MWBase::Environment::get().getWorld()->searchPtr(targetID, true, false);
 
                     /*
                         Start of tes3mp addition
@@ -521,12 +523,13 @@ namespace MWScript
                         Track whether this actor is already in combat with its target, to ensure we don't
                         send repetitive packets to the server
                     */
-                    bool alreadyInCombatWithTarget = actor.getClass().getCreatureStats(actor).getAiSequence().isInCombat(target);
+                    bool alreadyInCombatWithTarget = !target.isEmpty() ? actor.getClass().getCreatureStats(actor).getAiSequence().isInCombat(target) : false;
                     /*
                         End of tes3mp addition
                     */
 
-                    MWBase::Environment::get().getMechanicsManager()->startCombat(actor, target);
+                    if (!target.isEmpty())
+                        MWBase::Environment::get().getMechanicsManager()->startCombat(actor, target);
 
                     /*
                         Start of tes3mp addition
@@ -535,7 +538,7 @@ namespace MWScript
                         cell authority or not; the server can decide if it wants to comply with them by
                         forwarding them to the cell authority
                     */
-                    if (target && !alreadyInCombatWithTarget)
+                    if (!target.isEmpty() && !alreadyInCombatWithTarget)
                     {
                         mwmp::ActorList *actorList = mwmp::Main::get().getNetworking()->getActorList();
                         actorList->reset();

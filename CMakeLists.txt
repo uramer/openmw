@@ -332,6 +332,8 @@ IF(BOOST_STATIC)
     set(Boost_USE_STATIC_LIBS   ON)
 endif()
 
+set(Boost_NO_BOOST_CMAKE ON)
+
 find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 
 include_directories("."

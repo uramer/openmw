@@ -496,16 +496,6 @@ namespace MWScript
                     {
                         // Apply looping particles immediately for constant effects
                         MWBase::Environment::get().getWorld()->applyLoopingParticles(ptr);
-
-                        // The spell may have an instant effect which must be handled immediately.
-                        for (const auto& effect : creatureStats.getSpells().getMagicEffects())
-                        {
-                            if (effect.second.getMagnitude() <= 0)
-                               continue;
-                            MWMechanics::CastSpell cast(ptr, ptr);
-                            if (cast.applyInstantEffect(ptr, ptr, effect.first, effect.second.getMagnitude()))
-                                creatureStats.getSpells().purgeEffect(effect.first.mId);
-                        }
                     }
                 }
         };
@@ -533,6 +523,16 @@ namespace MWScript
 
                     if (spells.hasSpell(id))
                     {
+                        // The spell may have an instant effect which must be handled before the spell's removal.
+                        for (const auto& effect : creatureStats.getSpells().getMagicEffects())
+                        {
+                            if (effect.second.getMagnitude() <= 0)
+                                continue;
+                            MWMechanics::CastSpell cast(ptr, ptr);
+                            if (cast.applyInstantEffect(ptr, ptr, effect.first, effect.second.getMagnitude()))
+                                creatureStats.getSpells().purgeEffect(effect.first.mId);
+                        }
+
                         ptr.getClass().getCreatureStats(ptr).getSpells().remove(id);
 
                         if (ptr == MWMechanics::getPlayer())

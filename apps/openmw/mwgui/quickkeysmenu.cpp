@@ -631,7 +631,8 @@ namespace MWGui
 
         ESM::QuickKeys keys;
 
-        for (int i=0; i<10; ++i)
+        // NB: The quick key with index 9 always has Hand-to-Hand type and must not be saved
+        for (int i=0; i<9; ++i)
         {
             ItemWidget* button = mKey[i].button;
 
@@ -680,7 +681,8 @@ namespace MWGui
         int i=0;
         for (ESM::QuickKeys::QuickKey& quickKey : keys.mKeys)
         {
-            if (i >= 10)
+            // NB: The quick key with index 9 always has Hand-to-Hand type and must not be loaded
+            if (i >= 9)
                 return;
 
             mSelected = &mKey[i];
