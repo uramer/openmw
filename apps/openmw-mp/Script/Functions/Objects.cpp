@@ -409,13 +409,34 @@ void ObjectFunctions::SetObjectSummonDuration(float summonDuration) noexcept
     tempObject.summonDuration = summonDuration;
 }
 
+void ObjectFunctions::SetObjectSummonerPid(unsigned short pid) noexcept
+{
+    Player *player;
+    GET_PLAYER(pid, player, );
+
+    tempObject.master.isPlayer = true;
+    tempObject.master.guid = player->guid;
+}
+
+void ObjectFunctions::SetObjectSummonerRefNum(int refNum) noexcept
+{
+    tempObject.master.isPlayer = false;
+    tempObject.master.refNum = refNum;
+}
+
+void ObjectFunctions::SetObjectSummonerMpNum(int mpNum) noexcept
+{
+    tempObject.master.isPlayer = false;
+    tempObject.master.mpNum = mpNum;
+}
+
 void ObjectFunctions::SetObjectActivatingPid(unsigned short pid) noexcept
 {
     Player *player;
     GET_PLAYER(pid, player, );
 
-    tempObject.activatingActor.guid = player->guid;
     tempObject.activatingActor.isPlayer = true;
+    tempObject.activatingActor.guid = player->guid;
 }
 
 void ObjectFunctions::SetObjectDoorState(int doorState) noexcept

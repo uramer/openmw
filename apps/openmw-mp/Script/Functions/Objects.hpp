@@ -88,6 +88,9 @@
     \
     {"SetObjectSummonState",                  ObjectFunctions::SetObjectSummonState},\
     {"SetObjectSummonDuration",               ObjectFunctions::SetObjectSummonDuration},\
+    {"SetObjectSummonerPid",                  ObjectFunctions::SetObjectSummonerPid},\
+    {"SetObjectSummonerRefNum",               ObjectFunctions::SetObjectSummonerRefNum},\
+    {"SetObjectSummonerMpNum",                ObjectFunctions::SetObjectSummonerMpNum},\
     \
     {"SetObjectActivatingPid",                ObjectFunctions::SetObjectActivatingPid},\
     \
@@ -788,6 +791,30 @@ public:
     * \return void
     */
     static void SetObjectSummonDuration(float summonDuration) noexcept;
+
+    /**
+    * \brief Set the player ID of the summoner of the temporary object stored on the server.
+    *
+    * \param pid The player ID of the summoner.
+    * \return void
+    */
+    static void SetObjectSummonerPid(unsigned short pid) noexcept;
+
+    /**
+    * \brief Set the refNum of the actor summoner of the temporary object stored on the server.
+    *
+    * \param refNum The refNum of the summoner.
+    * \return void
+    */
+    static void SetObjectSummonerRefNum(int refNum) noexcept;
+
+    /**
+    * \brief Set the mpNum of the actor summoner of the temporary object stored on the server.
+    *
+    * \param mpNum The mpNum of the summoner.
+    * \return void
+    */
+    static void SetObjectSummonerMpNum(int mpNum) noexcept;
 
     /**
     * \brief Set the player ID of the player activating the temporary object stored on the
