@@ -65,6 +65,8 @@ namespace mwmp
         Target activatingActor;
 
         bool isSummon;
+        int summonEffectId;
+        std::string summonSpellId;
         float summonDuration;
         Target master;
 

@@ -13,12 +13,15 @@ void PacketObjectSpawn::Object(BaseObject &baseObject, bool send)
 {
     ObjectPacket::Object(baseObject, send);
     RW(baseObject.position, send);
-    RW(baseObject.summonDuration, send);
 
     RW(baseObject.isSummon, send);
 
     if (baseObject.isSummon)
     {
+        RW(baseObject.summonEffectId, send);
+        RW(baseObject.summonSpellId, send, true);
+        RW(baseObject.summonDuration, send);
+
         RW(baseObject.master.isPlayer, send);
 
         if (baseObject.master.isPlayer)

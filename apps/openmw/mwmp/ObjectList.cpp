@@ -449,8 +449,22 @@ void ObjectList::spawnObjects(MWWorld::CellStore* cellStore)
                     }
 
                     int creatureActorId = newPtr.getClass().getCreatureStats(newPtr).getActorId();
-
                     MWMechanics::CreatureStats& masterCreatureStats = masterPtr.getClass().getCreatureStats(masterPtr);
+
+                    std::vector<ESM::ActiveEffect> activeEffects;
+                    ESM::ActiveEffect activeEffect;
+                    activeEffect.mDuration = baseObject.summonDuration;
+                    activeEffect.mEffectId = baseObject.summonEffectId;
+                    activeEffects.push_back(activeEffect);
+
+                    LOG_APPEND(TimedLog::LOG_INFO, "- adding spell from ObjectList with id %s and effect %i",
+                        baseObject.summonSpellId.c_str(), baseObject.summonEffectId);
+
+                    masterCreatureStats.getActiveSpells().addSpell(baseObject.summonSpellId, false, activeEffects, "", masterCreatureStats.getActorId());
+
+                    LOG_APPEND(TimedLog::LOG_INFO, "- setting summoned creature actor ID for %i-%i to %i",
+                        newPtr.getCellRef().getRefNum(), newPtr.getCellRef().getMpNum(), creatureActorId);
+
                     masterCreatureStats.setSummonedCreatureActorId(baseObject.refId, creatureActorId);
                 }
             }
@@ -989,7 +1003,7 @@ void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr)
     addObject(baseObject);
 }
 
-void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr, const MWWorld::Ptr& master, float duration)
+void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr, const MWWorld::Ptr& master, std::string spellId, int effectId, float duration)
 {
     cell = *ptr.getCell()->getCell();
 
@@ -998,6 +1012,8 @@ void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr, const MWWorld::Ptr& mas
     baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
     baseObject.mpNum = 0;
     baseObject.isSummon = true;
+    baseObject.summonSpellId = spellId;
+    baseObject.summonEffectId = effectId;
     baseObject.summonDuration = duration;
     baseObject.master = MechanicsHelper::getTarget(master);
 

@@ -111,8 +111,10 @@ namespace MWMechanics
                             objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
 
                             MWMechanics::CreatureStats *actorCreatureStats = &mActor.getClass().getCreatureStats(mActor);
-                            float duration = actorCreatureStats->getActiveSpells().getEffectDuration(it->first, it->second);
-                            objectList->addObjectSpawn(placed, mActor, duration);
+                            int effectId = it->first;
+                            std::string spellId = it->second;
+                            float duration = actorCreatureStats->getActiveSpells().getEffectDuration(effectId, it->second);
+                            objectList->addObjectSpawn(placed, mActor, spellId, effectId, duration);
                             objectList->sendObjectSpawn();
                         }
 
