@@ -22,6 +22,7 @@
 #include "../mwgui/windowmanagerimp.hpp"
 
 #include "../mwmechanics/aifollow.hpp"
+#include "../mwmechanics/creaturestats.hpp"
 #include "../mwmechanics/spellcasting.hpp"
 #include "../mwmechanics/summoning.hpp"
 
@@ -458,15 +459,24 @@ void ObjectList::spawnObjects(MWWorld::CellStore* cellStore)
                     activeEffect.mMagnitude = 1;
                     activeEffects.push_back(activeEffect);
 
-                    LOG_APPEND(TimedLog::LOG_INFO, "- adding spell from ObjectList with id %s and effect %i",
-                        baseObject.summonSpellId.c_str(), baseObject.summonEffectId);
+                    LOG_APPEND(TimedLog::LOG_INFO, "-- adding active spell to master with id %s, effect %i, duration %f",
+                        baseObject.summonSpellId.c_str(), baseObject.summonEffectId, baseObject.summonDuration);
 
                     masterCreatureStats.getActiveSpells().addSpell(baseObject.summonSpellId, false, activeEffects, "", masterCreatureStats.getActorId());
 
-                    LOG_APPEND(TimedLog::LOG_INFO, "- setting summoned creature actor ID for %i-%i to %i",
+                    LOG_APPEND(TimedLog::LOG_INFO, "-- setting summoned creatureActorId for %i-%i to %i",
                         newPtr.getCellRef().getRefNum(), newPtr.getCellRef().getMpNum(), creatureActorId);
 
-                    masterCreatureStats.setSummonedCreatureActorId(baseObject.refId, creatureActorId);
+                    // Check if this creature is present in the summoner's summoned creature map
+                    std::map<std::pair<int, std::string>, int>& creatureMap = masterCreatureStats.getSummonedCreatureMap();
+                    bool foundSummonedCreature = creatureMap.find(std::make_pair(baseObject.summonEffectId, baseObject.summonSpellId)) != creatureMap.end();
+
+                    // If it is, update its creatureActorId
+                    if (foundSummonedCreature)
+                        masterCreatureStats.setSummonedCreatureActorId(baseObject.refId, creatureActorId);
+                    // If not, add it to the summoned creature map
+                    else
+                        creatureMap.insert(std::make_pair(std::make_pair(baseObject.summonEffectId, baseObject.summonSpellId), creatureActorId));
                 }
             }
         }
