@@ -453,8 +453,9 @@ void ObjectList::spawnObjects(MWWorld::CellStore* cellStore)
 
                     std::vector<ESM::ActiveEffect> activeEffects;
                     ESM::ActiveEffect activeEffect;
-                    activeEffect.mDuration = baseObject.summonDuration;
                     activeEffect.mEffectId = baseObject.summonEffectId;
+                    activeEffect.mDuration = baseObject.summonDuration;
+                    activeEffect.mMagnitude = 1;
                     activeEffects.push_back(activeEffect);
 
                     LOG_APPEND(TimedLog::LOG_INFO, "- adding spell from ObjectList with id %s and effect %i",
