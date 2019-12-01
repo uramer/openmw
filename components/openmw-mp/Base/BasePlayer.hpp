@@ -229,7 +229,6 @@ namespace mwmp
         bool ignorePosPacket;
 
         unsigned int movementFlags = 0;
-        char movementAnim;
         char drawState;
         bool isFlying = false;
         bool hasTcl = false;
