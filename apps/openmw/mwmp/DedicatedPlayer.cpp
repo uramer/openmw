@@ -53,6 +53,7 @@ DedicatedPlayer::DedicatedPlayer(RakNet::RakNetGUID guid) : BasePlayer(guid)
     creatureStats.mDynamic[2].mBase = 1000;
 
     movementFlags = 0;
+    hasTcl = false;
     attack.instant = false;
 
     cell.blank();
@@ -251,14 +252,18 @@ void DedicatedPlayer::setAnimFlags()
 
     // Until we figure out a better workaround for disabling player gravity,
     // simply cast Levitate over and over on a player that's supposed to be flying
-    if (!isFlying)
+    if (!isFlying && !hasTcl && !isLevitationPurged)
+    {
         ptr.getClass().getCreatureStats(ptr).getActiveSpells().purgeEffect(ESM::MagicEffect::Levitate);
-    else if (isFlying && !world->isFlying(ptr))
+        isLevitationPurged = true;
+    }
+    else if ((isFlying || hasTcl) && !world->isFlying(ptr))
     {
         MWMechanics::CastSpell levitationCast(ptr, ptr);
         levitationCast.mHitPosition = ptr.getRefData().getPosition().asVec3();
         levitationCast.mAlwaysSucceed = true;
         levitationCast.cast("Levitate");
+        isLevitationPurged = false;
     }
 
     MWMechanics::CreatureStats *ptrCreatureStats = &ptr.getClass().getCreatureStats(ptr);

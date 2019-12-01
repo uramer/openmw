@@ -13,4 +13,5 @@ void mwmp::PacketPlayerAnimFlags::Packet(RakNet::BitStream *bs, bool send)
     RW(player->movementFlags, send);
     RW(player->drawState, send);
     RW(player->isFlying, send);
+    RW(player->hasTcl, send);
 }

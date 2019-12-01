@@ -76,6 +76,7 @@ namespace mwmp
         std::string creatureRecordId;
 
         bool hasFinishedInitialTeleportation;
+        bool isLevitationPurged;
     };
 }
 #endif //OPENMW_DEDICATEDPLAYER_HPP

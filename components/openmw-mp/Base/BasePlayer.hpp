@@ -232,6 +232,7 @@ namespace mwmp
         char movementAnim;
         char drawState;
         bool isFlying;
+        bool hasTcl;
 
         ESM::Position position;
         ESM::Position direction;

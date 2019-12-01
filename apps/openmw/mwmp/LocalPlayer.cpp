@@ -83,6 +83,7 @@ LocalPlayer::LocalPlayer()
 
     scale = 1;
     isWerewolf = false;
+    hasTcl = false;
 
     isReceivingInventory = false;
     isReceivingQuickKeys = false;
@@ -621,10 +622,11 @@ void LocalPlayer::updateAnimFlags(bool forceUpdate)
     isFlying = world->isFlying(ptrPlayer);
     bool isJumping = !world->isOnGround(ptrPlayer) && !isFlying;
 
-    // We need to send a new packet at the end of jumping and flying too,
+    // We need to send a new packet at the end of jumping, flying and TCL-ing too,
     // so keep track of what we were doing last frame
     static bool wasJumping = false;
     static bool wasFlying = false;
+    static bool hadTcl = false;
 
     drawState = ptrPlayer.getClass().getNpcStats(ptrPlayer).getDrawState();
     static char lastDrawState = ptrPlayer.getClass().getNpcStats(ptrPlayer).getDrawState();
@@ -632,7 +634,7 @@ void LocalPlayer::updateAnimFlags(bool forceUpdate)
     if (wasRunning != isRunning ||
         wasSneaking != isSneaking || wasForceJumping != isForceJumping ||
         wasForceMoveJumping != isForceMoveJumping || lastDrawState != drawState ||
-        wasJumping || isJumping || wasFlying != isFlying ||
+        wasJumping || isJumping || wasFlying != isFlying || hadTcl != hasTcl ||
         forceUpdate)
     {
         wasSneaking = isSneaking;
@@ -641,8 +643,9 @@ void LocalPlayer::updateAnimFlags(bool forceUpdate)
         wasForceMoveJumping = isForceMoveJumping;
         lastDrawState = drawState;
         
-        wasFlying = isFlying;
         wasJumping = isJumping;
+        wasFlying = isFlying;
+        hadTcl = hasTcl;
 
         movementFlags = 0;
 
