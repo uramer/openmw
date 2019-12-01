@@ -519,7 +519,8 @@ namespace MWScript
 
                         Send an ID_PLAYER_SPELLBOOK packet every time a player loses a spell here
                     */
-                    MWMechanics::Spells &spells = ptr.getClass().getCreatureStats(ptr).getSpells();
+                    MWMechanics::CreatureStats& creatureStats = ptr.getClass().getCreatureStats(ptr);
+                    MWMechanics::Spells &spells = creatureStats.getSpells();
 
                     if (spells.hasSpell(id))
                     {
@@ -533,7 +534,7 @@ namespace MWScript
                                 creatureStats.getSpells().purgeEffect(effect.first.mId);
                         }
 
-                        ptr.getClass().getCreatureStats(ptr).getSpells().remove(id);
+                        creatureStats.getSpells().remove (id);
 
                         if (ptr == MWMechanics::getPlayer())
                         {
