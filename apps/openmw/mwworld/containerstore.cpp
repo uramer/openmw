@@ -380,11 +380,10 @@ MWWorld::ContainerStoreIterator MWWorld::ContainerStore::add (const Ptr& itemPtr
     /*
         Start of tes3mp change (major)
 
-        Disable the listener here because it keeps causing crashes; this should only be
-        a temporary solution
+        Only fire inventory events for actors in loaded cells to avoid crashes
     */
-    //if (mListener && !actorPtr.getClass().hasInventoryStore(actorPtr))
-    //    mListener->itemAdded(item, count);
+    if (mListener && !actorPtr.getClass().hasInventoryStore(actorPtr) && MWBase::Environment::get().getWorld()->isCellActive(*actorPtr.getCell()->getCell()))
+        mListener->itemAdded(item, count);
     /*
         End of tes3mp change (major)
     */
@@ -569,11 +568,10 @@ int MWWorld::ContainerStore::remove(const Ptr& item, int count, const Ptr& actor
     /*
         Start of tes3mp change (major)
 
-        Disable the listener here because it keeps causing crashes; this should only be
-        a temporary solution
+        Only fire inventory events for actors in loaded cells to avoid crashes
     */
-    //if (mListener && !actor.getClass().hasInventoryStore(actor))
-    //    mListener->itemRemoved(item, count - toRemove);
+    if (mListener && !actor.getClass().hasInventoryStore(actor) && MWBase::Environment::get().getWorld()->isCellActive(*actor.getCell()->getCell()))
+        mListener->itemRemoved(item, count - toRemove);
     /*
         End of tes3mp change (major)
     */

@@ -156,8 +156,16 @@ MWWorld::ContainerStoreIterator MWWorld::InventoryStore::add(const Ptr& itemPtr,
             autoEquip(actorPtr);
     }
 
-    if (mListener)
+    /*
+        Start of tes3mp change (major)
+
+        Only fire inventory events for actors in loaded cells to avoid crashes
+    */
+    if (mListener && MWBase::Environment::get().getWorld()->isCellActive(*actorPtr.getCell()->getCell()))
         mListener->itemAdded(*retVal, count);
+    /*
+        End of tes3mp change (major)
+    */
 
     return retVal;
 }
@@ -810,8 +818,16 @@ int MWWorld::InventoryStore::remove(const Ptr& item, int count, const Ptr& actor
         mSelectedEnchantItem = end();
     }
 
-    if (mListener)
+    /*
+        Start of tes3mp change (major)
+
+        Only fire inventory events for actors in loaded cells to avoid crashes
+    */
+    if (mListener && MWBase::Environment::get().getWorld()->isCellActive(*actor.getCell()->getCell()))
         mListener->itemRemoved(item, retCount);
+    /*
+        End of tes3mp change (major)
+    */
 
     return retCount;
 }
@@ -911,8 +927,16 @@ void MWWorld::InventoryStore::fireEquipmentChangedEvent(const Ptr& actor)
 {
     if (!mUpdatesEnabled)
         return;
-    if (mInventoryListener)
+    /*
+        Start of tes3mp change (major)
+
+        Only fire inventory events for actors in loaded cells to avoid crashes
+    */
+    if (mInventoryListener && MWBase::Environment::get().getWorld()->isCellActive(*actor.getCell()->getCell()))
         mInventoryListener->equipmentChanged();
+    /*
+        End of tes3mp change (major)
+    */
 
     // if player, update inventory window
     /*
