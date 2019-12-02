@@ -2082,20 +2082,21 @@ namespace MWMechanics
         MWWorld::Ptr ptr = MWBase::Environment::get().getWorld()->searchPtrViaActorId(creatureActorId);
         if (!ptr.isEmpty())
         {
-            MWBase::Environment::get().getWorld()->deleteObject(ptr);
-
             /*
-                Start of tes3mp addition
+                Start of tes3mp change (major)
 
                 Send an ID_OBJECT_DELETE packet every time a summoned creature despawns
             */
-            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
-            objectList->reset();
-            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
-            objectList->addObjectDelete(ptr);
-            objectList->sendObjectDelete();
+            if (mwmp::Main::get().getCellController()->hasLocalAuthority(*ptr.getCell()->getCell()))
+            {
+                mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+                objectList->reset();
+                objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+                objectList->addObjectDelete(ptr);
+                objectList->sendObjectDelete();
+            }
             /*
-                End of tes3mp addition
+                End of tes3mp change (major)
             */
 
             const ESM::Static* fx = MWBase::Environment::get().getWorld()->getStore().get<ESM::Static>()
@@ -2111,13 +2112,6 @@ namespace MWMechanics
                 cleanupSummonedCreature(stats, creature.second);
             creatureMap.clear();
         }
-        /*
-            Start of tes3mp change (major)
-
-            Don't use a clientside creature graveyard in multiplayer and expect the server
-            to handle summon deletions instead
-        */
-        /*
         else if (creatureActorId != -1)
         {
             // We didn't find the creature. It's probably in an inactive cell.
@@ -2125,10 +2119,6 @@ namespace MWMechanics
             std::vector<int>& graveyard = casterStats.getSummonedCreatureGraveyard();
             graveyard.push_back(creatureActorId);
         }
-        */
-        /*
-            End of tes3mp change (major)
-        */
 
         purgeSpellEffects(creatureActorId);
     }
