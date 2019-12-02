@@ -14,10 +14,12 @@
     Include additional headers for multiplayer purposes
 */
 #include <components/openmw-mp/TimedLog.hpp>
+#include <components/openmw-mp/Utils.hpp>
 #include "../mwmp/Main.hpp"
 #include "../mwmp/Networking.hpp"
 #include "../mwmp/LocalPlayer.hpp"
 #include "../mwmp/PlayerList.hpp"
+#include "../mwmp/DedicatedPlayer.hpp"
 #include "../mwmp/CellController.hpp"
 #include "../mwmp/MechanicsHelper.hpp"
 #include "../mwmp/ObjectList.hpp"
@@ -2367,6 +2369,23 @@ namespace MWMechanics
             const CreatureStats &stats = iteratedActor.getClass().getCreatureStats(iteratedActor);
             if (stats.isDead())
                 continue;
+
+            /*
+                Start of tes3mp addition
+
+                If we're checking a player and the iteratedActor is another player belonging to this one's teamMembers,
+                include the iteratedActor in the actors siding with the player
+            */
+            if (actor == getPlayer() && mwmp::PlayerList::isDedicatedPlayer(iteratedActor))
+            {
+                if (Utils::vectorContains(mwmp::Main::get().getLocalPlayer()->teamMembers, mwmp::PlayerList::getPlayer(iteratedActor)->guid))
+                {
+                    list.push_back(iteratedActor);
+                }
+            }
+            /*
+                End of tes3mp addition
+            */
 
             // An actor counts as siding with this actor if Follow or Escort is the current AI package, or there are only Combat and Wander packages before the Follow/Escort package
             // Actors that are targeted by this actor's Follow or Escort packages also side with them

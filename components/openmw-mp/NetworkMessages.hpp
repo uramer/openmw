@@ -109,6 +109,7 @@ enum GameMessages
 
     ID_PLAYER_ITEM_USE,
     ID_PLAYER_CAST,
+    ID_PLAYER_TEAM,
     ID_PLACEHOLDER
 };
 

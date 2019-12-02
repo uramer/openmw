@@ -4,7 +4,9 @@
 #include "../Types.hpp"
 
 #define MECHANICSAPI \
-    {"GetMiscellaneousChangeType", MechanicsFunctions::GetMiscellaneousChangeType},\
+    {"ClearTeamMembersForPlayer",   MechanicsFunctions::ClearTeamMembersForPlayer},\
+    \
+    {"GetMiscellaneousChangeType",  MechanicsFunctions::GetMiscellaneousChangeType},\
     \
     {"GetMarkCell",                 MechanicsFunctions::GetMarkCell},\
     {"GetMarkPosX",                 MechanicsFunctions::GetMarkPosX},\
@@ -29,8 +31,11 @@
     {"SetMarkRot",                  MechanicsFunctions::SetMarkRot},\
     {"SetSelectedSpellId",          MechanicsFunctions::SetSelectedSpellId},\
     \
+    {"AddTeamMemberForPlayer",      MechanicsFunctions::AddTeamMemberForPlayer},\
+    \
     {"SendMarkLocation",            MechanicsFunctions::SendMarkLocation},\
     {"SendSelectedSpell",           MechanicsFunctions::SendSelectedSpell},\
+    {"SendTeam",                    MechanicsFunctions::SendTeam},\
     \
     {"Jail",                        MechanicsFunctions::Jail},\
     {"Resurrect",                   MechanicsFunctions::Resurrect},\
@@ -41,6 +46,15 @@
 class MechanicsFunctions
 {
 public:
+
+    /**
+    * \brief Clear the list of players who will be regarded as being on this player's
+    *        team.
+    *
+    * \param pid The player ID.
+    * \return void
+    */
+    static void ClearTeamMembersForPlayer(unsigned short pid) noexcept;
 
     /**
     * \brief Get the type of a PlayerMiscellaneous packet.
@@ -226,6 +240,15 @@ public:
     static void SetSelectedSpellId(unsigned short pid, const char *spellId) noexcept;
 
     /**
+    * \brief Add a team member to a player's list of team members.
+    *
+    * \param pid The player ID.
+    * \param teamMemberPid The team member's player ID.
+    * \return void
+    */
+    static void AddTeamMemberForPlayer(unsigned short pid, unsigned short teamMemberPid) noexcept;
+
+    /**
     * \brief Send a PlayerMiscellaneous packet with a Mark location to a player.
     *
     * \param pid The player ID.
@@ -240,6 +263,16 @@ public:
     * \return void
     */
     static void SendSelectedSpell(unsigned short pid);
+
+    /**
+    * \brief Send a PlayerTeam packet with a list of team member IDs to a player.
+    *
+    * \param pid The player ID.
+    * \param sendToOtherPlayers Whether this packet should be sent to players other than the
+    *                           player attached to the packet (false by default).
+    * \return void
+    */
+    static void SendTeam(unsigned short pid, bool sendToOtherPlayers);
 
     /**
     * \brief Send a PlayerJail packet about a player.

@@ -11,6 +11,14 @@ using namespace std;
 
 static std::string tempCellDescription;
 
+void MechanicsFunctions::ClearTeamMembersForPlayer(unsigned short pid) noexcept
+{
+    Player *player;
+    GET_PLAYER(pid, player, );
+
+    player->teamMembers.clear();
+}
+
 unsigned char MechanicsFunctions::GetMiscellaneousChangeType(unsigned short pid) noexcept
 {
     Player *player;
@@ -181,6 +189,17 @@ void MechanicsFunctions::SetSelectedSpellId(unsigned short pid, const char *spel
     player->selectedSpellId = spellId;
 }
 
+void MechanicsFunctions::AddTeamMemberForPlayer(unsigned short pid, unsigned short teamMemberPid) noexcept
+{
+    Player *player;
+    GET_PLAYER(pid, player, );
+
+    Player *teamMember;
+    GET_PLAYER(teamMemberPid, teamMember, );
+
+    player->teamMembers.push_back(teamMember->guid);
+}
+
 void MechanicsFunctions::SendMarkLocation(unsigned short pid)
 {
     Player *player;
@@ -205,6 +224,19 @@ void MechanicsFunctions::SendSelectedSpell(unsigned short pid)
     packet->setPlayer(player);
     
     packet->Send(false);
+}
+
+void MechanicsFunctions::SendTeam(unsigned short pid, bool sendToOtherPlayers)
+{
+    Player *player;
+    GET_PLAYER(pid, player, );
+
+    mwmp::PlayerPacket *packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_PLAYER_TEAM);
+    packet->setPlayer(player);
+
+    packet->Send(false);
+    if (sendToOtherPlayers)
+        packet->Send(true);
 }
 
 void MechanicsFunctions::Jail(unsigned short pid, int jailDays, bool ignoreJailTeleportation, bool ignoreJailSkillIncreases,

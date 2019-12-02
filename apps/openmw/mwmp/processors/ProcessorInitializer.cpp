@@ -30,7 +30,6 @@
 #include "player/ProcessorPlayerItemUse.hpp"
 #include "player/ProcessorPlayerJail.hpp"
 #include "player/ProcessorPlayerJournal.hpp"
-#include "player/ProcessorPlayerPlaceholder.hpp"
 #include "player/ProcessorPlayerLevel.hpp"
 #include "player/ProcessorPlayerMiscellaneous.hpp"
 #include "player/ProcessorPlayerMomentum.hpp"
@@ -44,6 +43,7 @@
 #include "player/ProcessorPlayerSpeech.hpp"
 #include "player/ProcessorPlayerSpellbook.hpp"
 #include "player/ProcessorPlayerStatsDynamic.hpp"
+#include "player/ProcessorPlayerTeam.hpp"
 #include "player/ProcessorPlayerTopic.hpp"
 
 #include "ObjectProcessor.hpp"
@@ -133,7 +133,6 @@ void ProcessorInitializer()
     PlayerProcessor::AddProcessor(new ProcessorPlayerItemUse());
     PlayerProcessor::AddProcessor(new ProcessorPlayerJail());
     PlayerProcessor::AddProcessor(new ProcessorPlayerJournal());
-    PlayerProcessor::AddProcessor(new ProcessorPlayerPlaceholder());
     PlayerProcessor::AddProcessor(new ProcessorPlayerLevel());
     PlayerProcessor::AddProcessor(new ProcessorPlayerMiscellaneous());
     PlayerProcessor::AddProcessor(new ProcessorPlayerMomentum());
@@ -147,6 +146,7 @@ void ProcessorInitializer()
     PlayerProcessor::AddProcessor(new ProcessorPlayerSpeech());
     PlayerProcessor::AddProcessor(new ProcessorPlayerSpellbook());
     PlayerProcessor::AddProcessor(new ProcessorPlayerStatsDynamic());
+    PlayerProcessor::AddProcessor(new ProcessorPlayerTeam());
     PlayerProcessor::AddProcessor(new ProcessorPlayerTopic());
 
     ObjectProcessor::AddProcessor(new ProcessorConsoleCommand());

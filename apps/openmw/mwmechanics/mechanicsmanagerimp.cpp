@@ -12,6 +12,7 @@
 
     Include additional headers for multiplayer purposes
 */
+#include <components/openmw-mp/TimedLog.hpp>
 #include "../mwmp/Main.hpp"
 #include "../mwmp/LocalPlayer.hpp"
 #include "../mwmp/PlayerList.hpp"
@@ -1577,15 +1578,49 @@ namespace MWMechanics
             return false;
 
         MWMechanics::CreatureStats& statsTarget = target.getClass().getCreatureStats(target);
-        if (attacker == player)
+        /*
+            Start of tes3mp change (major)
+
+            Allow collateral damage from dedicated players as well
+        */
+        if (attacker == player || mwmp::PlayerList::isDedicatedPlayer(attacker))
+        /*
+            End of tes3mp change (major)
+        */
         {
             std::set<MWWorld::Ptr> followersAttacker;
             getActorsSidingWith(attacker, followersAttacker);
-            if (followersAttacker.find(target) != followersAttacker.end())
+
+            /*
+                Start of tes3mp change (major)
+
+                Check not only whether the target is on the same side as the attacker,
+                but also whether the attacker is on the same side as the target,
+                thus allowing for NPC companions of one player to forgive another player
+                when those players are allied
+            */
+            std::set<MWWorld::Ptr> followersTarget;
+            getActorsSidingWith(target, followersTarget);
+
+            if (followersAttacker.find(target) != followersAttacker.end() || followersTarget.find(attacker) != followersTarget.end())
+            /*
+                End of tes3mp change (major)
+            */
             {
                 statsTarget.friendlyHit();
 
-                if (statsTarget.getFriendlyHits() < 4)
+                /*
+                    Start of tes3mp change (major)
+
+                    Due to a greater propensity for collateral damage in multiplayer,
+                    allow more friendly hits
+
+                    TODO: Allow the server to change the count of the friendly hits
+                */
+                if (statsTarget.getFriendlyHits() < 8)
+                /*
+                    End of tes3mp change (major)
+                */
                 {
                     MWBase::Environment::get().getDialogueManager()->say(target, "hit");
                     return false;

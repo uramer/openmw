@@ -198,7 +198,7 @@ add_component_dir (openmw-mp/Packets/Player
         PacketPlayerShapeshift PacketPlayerSkill PacketPlayerSpeech PacketPlayerSpellbook PacketPlayerStatsDynamic
         PacketPlayerTopic
 
-        PacketPlayerPlaceholder
+        PacketPlayerTeam
         )
 
 add_component_dir (openmw-mp/Packets/Object

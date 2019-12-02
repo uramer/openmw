@@ -216,6 +216,7 @@ namespace mwmp
         std::vector<CellState> cellStateChanges;
 
         ESM::ActiveSpells activeSpells;
+        std::vector<RakNet::RakNetGUID> teamMembers;
         CurrentContainer currentContainer;
 
         int difficulty = 0;
