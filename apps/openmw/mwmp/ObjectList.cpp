@@ -477,6 +477,8 @@ void ObjectList::spawnObjects(MWWorld::CellStore* cellStore)
                     // If not, add it to the summoned creature map
                     else
                         creatureMap.insert(std::make_pair(std::make_pair(baseObject.summonEffectId, baseObject.summonSpellId), creatureActorId));
+
+                    creatureStats.setFriendlyHits(0);
                 }
             }
         }

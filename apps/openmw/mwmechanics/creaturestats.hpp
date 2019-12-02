@@ -212,6 +212,16 @@ namespace MWMechanics
         int getFriendlyHits() const;
         ///< Number of friendly hits received.
 
+        /*
+            Start of tes3mp addition
+
+            Make it possible to set the number of friendly hits from elsewhere
+        */
+        void setFriendlyHits(int hits);
+        /*
+            End of tes3mp addition
+        */
+
         void friendlyHit();
         ///< Increase number of friendly hits by one.
 

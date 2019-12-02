@@ -357,6 +357,19 @@ namespace MWMechanics
         return mFriendlyHits;
     }
 
+    /*
+        Start of tes3mp addition
+
+        Make it possible to set the number of friendly hits from elsewhere
+    */
+    void CreatureStats::setFriendlyHits(int hits)
+    {
+        mFriendlyHits = hits;
+    }
+    /*
+        End of tes3mp addition
+    */
+
     void CreatureStats::friendlyHit()
     {
         ++mFriendlyHits;
