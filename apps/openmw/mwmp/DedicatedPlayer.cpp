@@ -98,7 +98,7 @@ void DedicatedPlayer::update(float dt)
     }
 
     if (ptrCreatureStats->isDead())
-        ptrCreatureStats->resurrect();
+        MWBase::Environment::get().getMechanicsManager()->resurrect(ptr);
 
     ptrCreatureStats->setAttacked(false);
 

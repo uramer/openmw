@@ -152,7 +152,7 @@ void DedicatedActor::setStatsDynamic()
 
     // Resurrect this Actor if it's not supposed to be dead according to its authority
     if (creatureStats.mDynamic[0].mCurrent > 0)
-        ptrCreatureStats->resurrect();
+        MWBase::Environment::get().getMechanicsManager()->resurrect(ptr);
 
     for (int i = 0; i < 3; ++i)
     {
