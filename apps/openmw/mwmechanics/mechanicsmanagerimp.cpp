@@ -1577,6 +1577,18 @@ namespace MWMechanics
         if (target == player || !attacker.getClass().isActor())
             return false;
 
+        /*
+            Start of tes3mp change (major)
+
+            Don't set DedicatedPlayers as being in combat with the attacker, to prevent
+            AI actors from deciding to reciprocate by also starting combat
+        */
+        if (mwmp::PlayerList::isDedicatedPlayer(target))
+            return false;
+        /*
+            End of tes3mp change (major)
+        */
+
         MWMechanics::CreatureStats& statsTarget = target.getClass().getCreatureStats(target);
         /*
             Start of tes3mp change (major)

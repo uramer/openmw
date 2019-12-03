@@ -38,7 +38,7 @@ namespace MechanicsHelper
     // Note: This is not supposed to also check if playerWithTeam is on playerChecked's
     //       team, because it should technically be possible to be allied to someone
     //       who isn't mutually allied to you
-    bool isTeamMember(const MWWorld::Ptr& playedChecked, const MWWorld::Ptr& playerWithTeam);
+    bool isTeamMember(const MWWorld::Ptr& playerChecked, const MWWorld::Ptr& playerWithTeam);
 
     bool getSpellSuccess(std::string spellId, const MWWorld::Ptr& caster);
 

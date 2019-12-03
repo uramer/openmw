@@ -433,20 +433,25 @@ namespace MWClass
 
                 Instead of only checking whether an attacker is the LocalPlayer, also
                 check if they are a DedicatedPlayer
+
+                Additionally, if the two players are on each other's team, don't track
+                their hits
             */
 
             // First handle the attacked actor
             if ((stats.getHitAttemptActorId() == -1)
                 && (statsAttacker.getAiSequence().isInCombat(ptr)
                     || attacker == MWMechanics::getPlayer()
-                    || mwmp::PlayerList::isDedicatedPlayer(attacker)))
+                    || mwmp::PlayerList::isDedicatedPlayer(attacker))
+                && !MechanicsHelper::isTeamMember(attacker, ptr))
                 stats.setHitAttemptActorId(statsAttacker.getActorId());
 
             // Next handle the attacking actor
             if ((statsAttacker.getHitAttemptActorId() == -1)
                 && (statsAttacker.getAiSequence().isInCombat(ptr)
                     || attacker == MWMechanics::getPlayer()
-                    || mwmp::PlayerList::isDedicatedPlayer(attacker)))
+                    || mwmp::PlayerList::isDedicatedPlayer(attacker))
+                && !MechanicsHelper::isTeamMember(ptr, attacker))
                 statsAttacker.setHitAttemptActorId(stats.getActorId());
 
             /*

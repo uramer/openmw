@@ -2363,12 +2363,28 @@ namespace MWMechanics
             /*
                 Start of tes3mp addition
 
-                If we're checking a player and the iteratedActor is another player belonging to this one's teamMembers,
+                If we're checking the LocalPlayer and the iteratedActor is a DedicatedPlayer belonging to this one's teamMembers,
                 include the iteratedActor in the actors siding with the player
+
+                Alternatively, if we're checking a DedicatedPlayer and the iteratedActor is a LocalPlayer or DedicatedPlayer
+                belonging to their team members, include the iteratedActor in the actors siding with them
             */
             if (actor == getPlayer() && mwmp::PlayerList::isDedicatedPlayer(iteratedActor))
             {
                 if (Utils::vectorContains(mwmp::Main::get().getLocalPlayer()->teamMembers, mwmp::PlayerList::getPlayer(iteratedActor)->guid))
+                {
+                    list.push_back(iteratedActor);
+                }
+            }
+            else if (mwmp::PlayerList::isDedicatedPlayer(actor))
+            {
+                if (iteratedActor == getPlayer() &&
+                    Utils::vectorContains(mwmp::PlayerList::getPlayer(actor)->teamMembers, mwmp::Main::get().getLocalPlayer()->guid))
+                {
+                    list.push_back(iteratedActor);
+                }
+                else if (mwmp::PlayerList::isDedicatedPlayer(iteratedActor) &&
+                    Utils::vectorContains(mwmp::PlayerList::getPlayer(actor)->teamMembers, mwmp::PlayerList::getPlayer(iteratedActor)->guid))
                 {
                     list.push_back(iteratedActor);
                 }
