@@ -1300,9 +1300,14 @@ namespace MWInput
             Start of tes3mp addition
 
             Ignore attempts to rest if the player has not logged in on the server yet
+
+            Set LocalPlayer's isUsingBed to be able to distinguish bed use from regular rest
+            menu use
         */
         if (!mwmp::Main::get().getLocalPlayer()->isLoggedIn())
             return;
+
+        mwmp::Main::get().getLocalPlayer()->isUsingBed = false;
         /*
             End of tes3mp addition
         */

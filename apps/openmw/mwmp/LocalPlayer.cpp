@@ -74,6 +74,7 @@ LocalPlayer::LocalPlayer()
     jailProgressText = "";
     jailEndText = "";
 
+    isUsingBed = false;
     isReceivingInventory = false;
     isReceivingQuickKeys = false;
     isPlayingAnimation = false;

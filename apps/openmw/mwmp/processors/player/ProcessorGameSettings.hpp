@@ -24,6 +24,9 @@ namespace mwmp
             if (isLocal())
             {
                 LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Received ID_GAME_SETTINGS");
+                LOG_APPEND(TimedLog::LOG_INFO, "- player %s rest in beds, %s rest in the wilderness, %s wait",
+                    player->bedRestAllowed ? "can" : "cannot", player->wildernessRestAllowed ? "can" : "cannot",
+                    player->waitAllowed ? "can" : "cannot");
 
                 if (MWBase::Environment::get().getWindowManager()->isGuiMode())
                 {

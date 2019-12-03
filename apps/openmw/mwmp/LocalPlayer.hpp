@@ -18,6 +18,7 @@ namespace mwmp
         time_t deathTime;
         bool receivedCharacter;
 
+        bool isUsingBed;
         bool isReceivingInventory;
         bool isReceivingQuickKeys;
         bool isPlayingAnimation;

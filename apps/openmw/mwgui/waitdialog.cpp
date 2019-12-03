@@ -161,7 +161,8 @@ namespace MWGui
             MWBase::Environment::get().getWindowManager()->messageBox("You are not allowed to rest in the wilderness.");
             MWBase::Environment::get().getWindowManager()->popGuiMode();
         }
-        else if (canRest == MWBase::World::Rest_OnlyWaiting && !mwmp::Main::get().getLocalPlayer()->waitAllowed)
+        else if (canRest == MWBase::World::Rest_OnlyWaiting && !mwmp::Main::get().getLocalPlayer()->waitAllowed &&
+            !mwmp::Main::get().getLocalPlayer()->isUsingBed)
         {
             MWBase::Environment::get().getWindowManager()->messageBox("You are not allowed to wait.");
             MWBase::Environment::get().getWindowManager()->popGuiMode();

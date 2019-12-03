@@ -76,7 +76,10 @@ namespace MWScript
                     if (!mwmp::Main::get().getLocalPlayer()->bedRestAllowed)
                         MWBase::Environment::get().getWindowManager()->messageBox("You are not allowed to rest in beds.");
                     else
+                    {
+                        mwmp::Main::get().getLocalPlayer()->isUsingBed = true;
                         MWBase::Environment::get().getWindowManager()->pushGuiMode(MWGui::GM_Rest, bed);
+                    }
                 }
                 /*
                     End of tes3mp change (minor)
