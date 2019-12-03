@@ -1,4 +1,5 @@
 #include <components/openmw-mp/TimedLog.hpp>
+#include <components/openmw-mp/Utils.hpp>
 
 #include <components/misc/rng.hpp>
 
@@ -267,6 +268,35 @@ void MechanicsHelper::resetCast(Cast* cast)
 bool MechanicsHelper::getSpellSuccess(std::string spellId, const MWWorld::Ptr& caster)
 {
     return Misc::Rng::roll0to99() < MWMechanics::getSpellSuccessChance(spellId, caster, nullptr, true, false);
+}
+
+bool MechanicsHelper::isTeamMember(const MWWorld::Ptr& playerChecked, const MWWorld::Ptr& playerWithTeam)
+{
+    bool isTeamMember = false;
+    bool playerCheckedIsLocal = playerChecked == MWMechanics::getPlayer();
+    bool playerCheckedIsDedicated = !playerCheckedIsLocal ? mwmp::PlayerList::isDedicatedPlayer(playerChecked) : false;
+    bool playerWithTeamIsLocal = !playerCheckedIsLocal ? playerWithTeam == MWMechanics::getPlayer() : false;
+    bool playerWithTeamIsDedicated = !playerWithTeamIsLocal ? mwmp::PlayerList::isDedicatedPlayer(playerWithTeam) : false;
+
+    if (playerCheckedIsLocal || playerCheckedIsDedicated)
+    {
+        if (playerWithTeamIsLocal || playerWithTeamIsDedicated)
+        {
+            RakNet::RakNetGUID playerCheckedGuid;
+
+            if (playerCheckedIsLocal)
+                playerCheckedGuid = mwmp::Main::get().getLocalPlayer()->guid;
+            else
+                playerCheckedGuid = PlayerList::getPlayer(playerChecked)->guid;
+
+            if (playerWithTeamIsLocal)
+                isTeamMember = Utils::vectorContains(mwmp::Main::get().getLocalPlayer()->teamMembers, playerCheckedGuid);
+            else
+                isTeamMember = Utils::vectorContains(PlayerList::getPlayer(playerWithTeam)->teamMembers, playerCheckedGuid);
+        }
+    }
+
+    return isTeamMember;
 }
 
 void MechanicsHelper::processAttack(Attack attack, const MWWorld::Ptr& attacker)
