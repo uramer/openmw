@@ -16,6 +16,7 @@
 #include <components/openmw-mp/TimedLog.hpp>
 #include "../mwmp/Main.hpp"
 #include "../mwmp/Networking.hpp"
+#include "../mwmp/LocalPlayer.hpp"
 #include "../mwmp/PlayerList.hpp"
 #include "../mwmp/DedicatedPlayer.hpp"
 #include "../mwmp/LocalActor.hpp"
@@ -2859,11 +2860,14 @@ namespace MWWorld
 
             Send an ID_DOOR_STATE packet every time a door is activated
         */
-        mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
-        objectList->reset();
-        objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
-        objectList->addDoorState(door, state);
-        objectList->sendDoorState();
+        if (mwmp::Main::get().getLocalPlayer()->isLoggedIn())
+        {
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+            objectList->addDoorState(door, state);
+            objectList->sendDoorState();
+        }
         /*
             End of tes3mp addition
         */
@@ -2879,11 +2883,14 @@ namespace MWWorld
 
             Send an ID_DOOR_STATE packet every time a door is activated
         */
-        mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
-        objectList->reset();
-        objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
-        objectList->addDoorState(door, state);
-        objectList->sendDoorState();
+        if (mwmp::Main::get().getLocalPlayer()->isLoggedIn())
+        {
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+            objectList->addDoorState(door, state);
+            objectList->sendDoorState();
+        }
         /*
             End of tes3mp addition
         */
