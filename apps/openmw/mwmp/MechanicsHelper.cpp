@@ -98,7 +98,7 @@ bool MechanicsHelper::isUsingRangedWeapon(const MWWorld::Ptr& ptr)
 
 Attack *MechanicsHelper::getLocalAttack(const MWWorld::Ptr& ptr)
 {
-    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
+    if (ptr == MWMechanics::getPlayer())
         return &mwmp::Main::get().getLocalPlayer()->attack;
     else if (mwmp::Main::get().getCellController()->isLocalActor(ptr))
         return &mwmp::Main::get().getCellController()->getLocalActor(ptr)->attack;
@@ -118,7 +118,7 @@ Attack *MechanicsHelper::getDedicatedAttack(const MWWorld::Ptr& ptr)
 
 Cast *MechanicsHelper::getLocalCast(const MWWorld::Ptr& ptr)
 {
-    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
+    if (ptr == MWMechanics::getPlayer())
         return &mwmp::Main::get().getLocalPlayer()->cast;
     else if (mwmp::Main::get().getCellController()->isLocalActor(ptr))
         return &mwmp::Main::get().getCellController()->getLocalActor(ptr)->cast;
@@ -139,7 +139,7 @@ Cast *MechanicsHelper::getDedicatedCast(const MWWorld::Ptr& ptr)
 MWWorld::Ptr MechanicsHelper::getPlayerPtr(const Target& target)
 {
     if (target.guid == mwmp::Main::get().getLocalPlayer()->guid)
-        return MWBase::Environment::get().getWorld()->getPlayerPtr();
+        return MWMechanics::getPlayer();
     else if (PlayerList::getPlayer(target.guid) != nullptr)
         return PlayerList::getPlayer(target.guid)->getPtr();
 
@@ -170,7 +170,7 @@ mwmp::Target MechanicsHelper::getTarget(const MWWorld::Ptr& ptr)
 
     if (ptr != nullptr)
     {
-        if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
+        if (ptr == MWMechanics::getPlayer())
         {
             target.isPlayer = true;
             target.guid = mwmp::Main::get().getLocalPlayer()->guid;
@@ -218,7 +218,7 @@ bool MechanicsHelper::isEmptyTarget(const mwmp::Target& target)
 
 void MechanicsHelper::assignAttackTarget(Attack* attack, const MWWorld::Ptr& target)
 {
-    if (target == MWBase::Environment::get().getWorld()->getPlayerPtr())
+    if (target == MWMechanics::getPlayer())
     {
         attack->target.isPlayer = true;
         attack->target.guid = mwmp::Main::get().getLocalPlayer()->guid;
@@ -296,7 +296,7 @@ void MechanicsHelper::processAttack(Attack attack, const MWWorld::Ptr& attacker)
     if (attack.target.isPlayer)
     {
         if (attack.target.guid == mwmp::Main::get().getLocalPlayer()->guid)
-            victim = MWBase::Environment::get().getWorld()->getPlayerPtr();
+            victim = MWMechanics::getPlayer();
         else if (PlayerList::getPlayer(attack.target.guid) != nullptr)
             victim = PlayerList::getPlayer(attack.target.guid)->getPtr();
     }
@@ -444,7 +444,7 @@ void MechanicsHelper::processCast(Cast cast, const MWWorld::Ptr& caster)
     if (cast.target.isPlayer)
     {
         if (cast.target.guid == mwmp::Main::get().getLocalPlayer()->guid)
-            victim = MWBase::Environment::get().getWorld()->getPlayerPtr();
+            victim = MWMechanics::getPlayer();
         else if (PlayerList::getPlayer(cast.target.guid) != nullptr)
             victim = PlayerList::getPlayer(cast.target.guid)->getPtr();
     }
