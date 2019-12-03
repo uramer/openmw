@@ -222,6 +222,8 @@ int main(int argc, char *argv[])
     stringstream sstr;
     sstr << TES3MP_VERSION;
     sstr << TES3MP_PROTO_VERSION;
+    // Remove carriage returns added to version file on Windows
+    version.mCommitHash.erase(std::remove(version.mCommitHash.begin(), version.mCommitHash.end(), '\r'), version.mCommitHash.end());
     sstr << version.mCommitHash;
 
     peer->SetIncomingPassword(sstr.str().c_str(), (int) sstr.str().size());

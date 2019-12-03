@@ -279,7 +279,10 @@ void Networking::connect(const std::string &ip, unsigned short port, std::vector
     stringstream sstr;
     sstr << TES3MP_VERSION;
     sstr << TES3MP_PROTO_VERSION;
-    sstr << Version::getOpenmwVersion(Main::getResDir()).mCommitHash;
+    std::string commitHashString = Version::getOpenmwVersion(Main::getResDir()).mCommitHash;
+    // Remove carriage returns added to version file on Windows
+    commitHashString.erase(std::remove(commitHashString.begin(), commitHashString.end(), '\r'), commitHashString.end());
+    sstr << commitHashString;
 
     if (peer->Connect(master.ToString(false), master.GetPort(), sstr.str().c_str(), (int) sstr.str().size(), 0, 0, 3, 500, 0) != RakNet::CONNECTION_ATTEMPT_STARTED)
         errmsg = "Connection attempt failed.\n";
