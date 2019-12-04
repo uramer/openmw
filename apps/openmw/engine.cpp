@@ -345,9 +345,11 @@ OMW::Engine::~Engine()
     /*
         Start of tes3mp addition
 
-        Free up memory allocated by multiplayer's GUIController
+        Free up memory allocated by multiplayer's GUIController, but make sure
+        mwmp::Main has actually been initialized
     */
-    mwmp::Main::get().getGUIController()->cleanUp();
+    if (mwmp::Main::isInitialized())
+        mwmp::Main::get().getGUIController()->cleanUp();
     /*
         End of tes3mp addition
     */

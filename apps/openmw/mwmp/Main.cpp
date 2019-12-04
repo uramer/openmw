@@ -163,6 +163,11 @@ void Main::postInit()
     MWBase::Environment::get().getMechanicsManager()->toggleAI();
 }
 
+bool Main::isInitialized()
+{
+    return pMain != nullptr;
+}
+
 void Main::destroy()
 {
     assert(pMain);

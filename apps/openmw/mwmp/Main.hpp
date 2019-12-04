@@ -23,6 +23,7 @@ namespace mwmp
         static void configure(const boost::program_options::variables_map &variables);
         static bool init(std::vector<std::string> &content, Files::Collections &collections);
         static void postInit();
+        static bool isInitialized();
         static void destroy();
         static const Main &get();
         static void frame(float dt);
