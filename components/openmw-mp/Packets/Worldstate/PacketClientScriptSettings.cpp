@@ -28,7 +28,7 @@ void PacketClientScriptSettings::Packet(RakNet::BitStream *newBitstream, bool se
 
     for (auto &&clientScriptId : worldstate->synchronizedClientScriptIds)
     {
-        RW(clientScriptId, send);
+        RW(clientScriptId, send, true);
     }
 
     uint32_t clientGlobalsCount;
@@ -46,6 +46,6 @@ void PacketClientScriptSettings::Packet(RakNet::BitStream *newBitstream, bool se
 
     for (auto &&clientGlobalId : worldstate->synchronizedClientGlobalIds)
     {
-        RW(clientGlobalId, send);
+        RW(clientGlobalId, send, true);
     }
 }

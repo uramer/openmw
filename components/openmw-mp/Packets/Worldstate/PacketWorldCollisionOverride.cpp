@@ -33,6 +33,6 @@ void PacketWorldCollisionOverride::Packet(RakNet::BitStream *newBitstream, bool 
 
     for (auto &&enforcedCollisionRefId : worldstate->enforcedCollisionRefIds)
     {
-        RW(enforcedCollisionRefId, send);
+        RW(enforcedCollisionRefId, send, true);
     }
 }
