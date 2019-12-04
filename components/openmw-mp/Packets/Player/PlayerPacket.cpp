@@ -19,9 +19,9 @@ PlayerPacket::~PlayerPacket()
 
 }
 
-void PlayerPacket::setPlayer(BasePlayer *player)
+void PlayerPacket::setPlayer(BasePlayer *newPlayer)
 {
-    this->player = player;
+    player = newPlayer;
     guid = player->guid;
 }
 

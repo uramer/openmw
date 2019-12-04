@@ -19,15 +19,15 @@ ActorPacket::~ActorPacket()
 
 }
 
-void ActorPacket::setActorList(BaseActorList *actorList)
+void ActorPacket::setActorList(BaseActorList *newActorList)
 {
-    this->actorList = actorList;
+    actorList = newActorList;
     guid = actorList->guid;
 }
 
-void ActorPacket::Packet(RakNet::BitStream *bs, bool send)
+void ActorPacket::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    if (!PacketHeader(bs, send))
+    if (!PacketHeader(newBitstream, send))
         return;
 
     BaseActor actor;
@@ -47,9 +47,9 @@ void ActorPacket::Packet(RakNet::BitStream *bs, bool send)
     }
 }
 
-bool ActorPacket::PacketHeader(RakNet::BitStream *bs, bool send)
+bool ActorPacket::PacketHeader(RakNet::BitStream *newBitstream, bool send)
 {
-    BasePacket::Packet(bs, send);
+    BasePacket::Packet(newBitstream, send);
 
     RW(actorList->cell.mData, send, true);
     RW(actorList->cell.mName, send, true);

@@ -9,9 +9,9 @@ PacketPlayerBook::PacketPlayerBook(RakNet::RakPeerInterface *peer) : PlayerPacke
     packetID = ID_PLAYER_BOOK;
 }
 
-void PacketPlayerBook::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerBook::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     uint32_t count;
 

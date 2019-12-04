@@ -9,9 +9,9 @@ PacketPlayerSpellbook::PacketPlayerSpellbook(RakNet::RakPeerInterface *peer) : P
     packetID = ID_PLAYER_SPELLBOOK;
 }
 
-void PacketPlayerSpellbook::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerSpellbook::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     RW(player->spellbookChanges.action, send);
 

@@ -6,9 +6,9 @@ mwmp::PacketPlayerSpeech::PacketPlayerSpeech(RakNet::RakPeerInterface *peer) : P
     packetID = ID_PLAYER_SPEECH;
 }
 
-void mwmp::PacketPlayerSpeech::Packet(RakNet::BitStream *bs, bool send)
+void mwmp::PacketPlayerSpeech::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     RW(player->sound, send);
 }

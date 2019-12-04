@@ -13,7 +13,7 @@ namespace mwmp
     public:
         explicit PacketMasterQuery(RakNet::RakPeerInterface *peer);
 
-        void Packet(RakNet::BitStream *bs, bool send) override;
+        void Packet(RakNet::BitStream *newBitstream, bool send) override;
 
         void SetServers(std::map<RakNet::SystemAddress, QueryData> *serverMap);
     private:

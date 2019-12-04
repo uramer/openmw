@@ -9,9 +9,9 @@ mwmp::PacketPlayerCellState::PacketPlayerCellState(RakNet::RakPeerInterface *pee
     reliability = RELIABLE_ORDERED;
 }
 
-void mwmp::PacketPlayerCellState::Packet(RakNet::BitStream *bs, bool send)
+void mwmp::PacketPlayerCellState::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     uint32_t count;
 

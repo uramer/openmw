@@ -14,9 +14,9 @@ BasePacket::BasePacket(RakNet::RakPeerInterface *peer)
     this->peer = peer;
 }
 
-void BasePacket::Packet(RakNet::BitStream *bs, bool send)
+void BasePacket::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    this->bs = bs;
+    bs = newBitstream;
     packetValid = true;
 
     if (send)
@@ -44,12 +44,12 @@ void BasePacket::SetStreams(RakNet::BitStream *inStream, RakNet::BitStream *outS
         bsSend = outStream;
 }
 
-uint32_t BasePacket::RequestData(RakNet::RakNetGUID guid)
+uint32_t BasePacket::RequestData(RakNet::RakNetGUID targetGuid)
 {
     bsSend->ResetWritePointer();
     bsSend->Write(packetID);
-    bsSend->Write(guid);
-    return peer->Send(bsSend, HIGH_PRIORITY, RELIABLE_ORDERED, orderChannel, guid, false);
+    bsSend->Write(targetGuid);
+    return peer->Send(bsSend, HIGH_PRIORITY, RELIABLE_ORDERED, orderChannel, targetGuid, false);
 }
 
 uint32_t BasePacket::Send(RakNet::AddressOrGUID destination)
@@ -71,9 +71,9 @@ void BasePacket::Read()
     Packet(bsRead, false);
 }
 
-void BasePacket::setGUID(RakNet::RakNetGUID guid)
+void BasePacket::setGUID(RakNet::RakNetGUID newGuid)
 {
-    this->guid = guid;
+    guid = newGuid;
 }
 
 RakNet::RakNetGUID BasePacket::getGUID()

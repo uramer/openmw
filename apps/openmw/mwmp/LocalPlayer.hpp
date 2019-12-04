@@ -95,7 +95,7 @@ namespace mwmp
         void sendWerewolfState(bool isWerewolf);
         void sendMarkLocation(const ESM::Cell& newMarkCell, const ESM::Position& newMarkPosition);
         void sendSelectedSpell(const std::string& newSelectedSpellId);
-        void sendItemUse(const MWWorld::Ptr& itemPtr, bool usingItemMagic = false, char itemUseDrawState = 0);
+        void sendItemUse(const MWWorld::Ptr& itemPtr, bool usingItemMagic = false, char currentDrawState = 0);
         void sendCellStates();
 
         void clearCellStates();

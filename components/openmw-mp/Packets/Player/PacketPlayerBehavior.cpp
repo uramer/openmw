@@ -8,9 +8,9 @@ PacketPlayerBehavior::PacketPlayerBehavior(RakNet::RakPeerInterface *peer) : Pla
     packetID = ID_PLAYER_BEHAVIOR;
 }
 
-void PacketPlayerBehavior::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerBehavior::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     // Placeholder
 }

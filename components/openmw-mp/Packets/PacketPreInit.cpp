@@ -7,9 +7,9 @@ mwmp::PacketPreInit::PacketPreInit(RakNet::RakPeerInterface *peer) : BasePacket(
     packetID = ID_GAME_PREINIT;
 }
 
-void mwmp::PacketPreInit::Packet(RakNet::BitStream *bs, bool send)
+void mwmp::PacketPreInit::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    BasePacket::Packet(bs, send);
+    BasePacket::Packet(newBitstream, send);
 
     const RakNet::BitSize_t packetSize = bs->GetNumberOfBytesUsed();
     uint32_t expectedPacketSize = BasePacket::headerSize() + sizeof(uint32_t);
@@ -88,7 +88,7 @@ void mwmp::PacketPreInit::Packet(RakNet::BitStream *bs, bool send)
     }
 }
 
-void mwmp::PacketPreInit::setChecksums(mwmp::PacketPreInit::PluginContainer *checksums)
+void mwmp::PacketPreInit::setChecksums(mwmp::PacketPreInit::PluginContainer *newChecksums)
 {
-    this->checksums = checksums;
+    checksums = newChecksums;
 }

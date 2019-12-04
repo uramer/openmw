@@ -16,9 +16,9 @@ PacketMasterQuery::PacketMasterQuery(RakNet::RakPeerInterface *peer) : BasePacke
     reliability = RELIABLE_ORDERED_WITH_ACK_RECEIPT;
 }
 
-void PacketMasterQuery::Packet(RakNet::BitStream *bs, bool send)
+void PacketMasterQuery::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    this->bs = bs;
+    bs = newBitstream;
     if (send)
         bs->Write(packetID);
 

@@ -10,7 +10,7 @@ namespace mwmp
     public:
         PacketPlayerSpeech(RakNet::RakPeerInterface *peer);
 
-        virtual void Packet(RakNet::BitStream *bs, bool send);
+        virtual void Packet(RakNet::BitStream *newBitstream, bool send);
     };
 }
 

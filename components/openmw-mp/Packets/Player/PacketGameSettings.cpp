@@ -9,9 +9,9 @@ PacketGameSettings::PacketGameSettings(RakNet::RakPeerInterface *peer) : PlayerP
     orderChannel = CHANNEL_SYSTEM;
 }
 
-void PacketGameSettings::Packet(RakNet::BitStream *bs, bool send)
+void PacketGameSettings::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     RW(player->difficulty, send);
     RW(player->consoleAllowed, send);

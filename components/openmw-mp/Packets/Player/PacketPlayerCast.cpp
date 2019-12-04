@@ -10,9 +10,9 @@ PacketPlayerCast::PacketPlayerCast(RakNet::RakPeerInterface *peer) : PlayerPacke
     packetID = ID_PLAYER_CAST;
 }
 
-void PacketPlayerCast::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerCast::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     RW(player->cast.target.isPlayer, send);
 

@@ -19,11 +19,11 @@ namespace mwmp
 
         ~ActorPacket();
 
-        void setActorList(BaseActorList *actorList);
+        void setActorList(BaseActorList *newActorList);
 
-        virtual void Packet(RakNet::BitStream *bs, bool send);
+        virtual void Packet(RakNet::BitStream *newBitstream, bool send);
     protected:
-        bool PacketHeader(RakNet::BitStream *bs, bool send);
+        bool PacketHeader(RakNet::BitStream *newBitstream, bool send);
         virtual void Actor(BaseActor &actor, bool send);
         BaseActorList *actorList;
         static const int maxActors = 3000;

@@ -9,9 +9,9 @@ PacketWorldTime::PacketWorldTime(RakNet::RakPeerInterface *peer) : WorldstatePac
     orderChannel = CHANNEL_WORLDSTATE;
 }
 
-void PacketWorldTime::Packet(RakNet::BitStream *bs, bool send)
+void PacketWorldTime::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    WorldstatePacket::Packet(bs, send);
+    WorldstatePacket::Packet(newBitstream, send);
 
     RW(worldstate->time.hour, send);
     RW(worldstate->time.day, send);

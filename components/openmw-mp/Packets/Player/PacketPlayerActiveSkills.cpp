@@ -8,9 +8,9 @@ PacketPlayerActiveSkills::PacketPlayerActiveSkills(RakNet::RakPeerInterface *pee
     packetID = ID_PLAYER_ACTIVESKILLS;
 }
 
-void PacketPlayerActiveSkills::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerActiveSkills::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     uint32_t spells = 0;
 

@@ -18,7 +18,7 @@ namespace mwmp
 
         ~SystemPacket();
 
-        void setSystem(BaseSystem *system);
+        void setSystem(BaseSystem *newSystem);
         BaseSystem *getSystem();
 
     protected:

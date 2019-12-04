@@ -8,9 +8,9 @@ PacketPlayerShapeshift::PacketPlayerShapeshift(RakNet::RakPeerInterface *peer) :
     packetID = ID_PLAYER_SHAPESHIFT;
 }
 
-void PacketPlayerShapeshift::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerShapeshift::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     RW(player->scale, send);
     RW(player->isWerewolf, send);

@@ -8,9 +8,9 @@ PacketPlayerLevel::PacketPlayerLevel(RakNet::RakPeerInterface *peer) : PlayerPac
     packetID = ID_PLAYER_LEVEL;
 }
 
-void PacketPlayerLevel::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerLevel::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     RW(player->creatureStats.mLevel, send);
 

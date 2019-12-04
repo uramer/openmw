@@ -19,9 +19,9 @@ WorldstatePacket::~WorldstatePacket()
 
 }
 
-void WorldstatePacket::setWorldstate(BaseWorldstate *worldstate)
+void WorldstatePacket::setWorldstate(BaseWorldstate *newWorldstate)
 {
-    this->worldstate = worldstate;
+    worldstate = newWorldstate;
     guid = worldstate->guid;
 }
 

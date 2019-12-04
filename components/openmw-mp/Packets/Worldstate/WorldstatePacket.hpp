@@ -18,7 +18,7 @@ namespace mwmp
 
         ~WorldstatePacket();
 
-        void setWorldstate(BaseWorldstate *worldstate);
+        void setWorldstate(BaseWorldstate *newWorldstate);
         BaseWorldstate *getWorldstate();
 
     protected:

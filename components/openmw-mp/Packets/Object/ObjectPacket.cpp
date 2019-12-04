@@ -20,15 +20,15 @@ ObjectPacket::~ObjectPacket()
 
 }
 
-void ObjectPacket::setObjectList(BaseObjectList *objectList)
+void ObjectPacket::setObjectList(BaseObjectList *newObjectList)
 {
-    this->objectList = objectList;
+    objectList = newObjectList;
     guid = objectList->guid;
 }
 
-void ObjectPacket::Packet(RakNet::BitStream *bs, bool send)
+void ObjectPacket::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    if (!PacketHeader(bs, send))
+    if (!PacketHeader(newBitstream, send))
         return;
 
     BaseObject baseObject;
@@ -44,9 +44,9 @@ void ObjectPacket::Packet(RakNet::BitStream *bs, bool send)
     }
 }
 
-bool ObjectPacket::PacketHeader(RakNet::BitStream *bs, bool send)
+bool ObjectPacket::PacketHeader(RakNet::BitStream *newBitstream, bool send)
 {
-    BasePacket::Packet(bs, send);
+    BasePacket::Packet(newBitstream, send);
 
     RW(objectList->packetOrigin, send);
 

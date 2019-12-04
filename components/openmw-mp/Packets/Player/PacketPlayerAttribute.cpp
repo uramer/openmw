@@ -9,9 +9,9 @@ PacketPlayerAttribute::PacketPlayerAttribute(RakNet::RakPeerInterface *peer) : P
     packetID = ID_PLAYER_ATTRIBUTE;
 }
 
-void PacketPlayerAttribute::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerAttribute::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     RW(player->exchangeFullInfo, send);
 

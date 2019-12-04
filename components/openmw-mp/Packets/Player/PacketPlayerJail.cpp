@@ -9,9 +9,9 @@ PacketPlayerJail::PacketPlayerJail(RakNet::RakPeerInterface *peer) : PlayerPacke
     packetID = ID_PLAYER_JAIL;
 }
 
-void PacketPlayerJail::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerJail::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     RW(player->jailDays, send);
     RW(player->ignoreJailTeleportation, send);

@@ -9,9 +9,9 @@ PacketObjectActivate::PacketObjectActivate(RakNet::RakPeerInterface *peer) : Obj
     hasCellData = true;
 }
 
-void PacketObjectActivate::Packet(RakNet::BitStream *bs, bool send)
+void PacketObjectActivate::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    if (!PacketHeader(bs, send))
+    if (!PacketHeader(newBitstream, send))
         return;
 
     BaseObject baseObject;

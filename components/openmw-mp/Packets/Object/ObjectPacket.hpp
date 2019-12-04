@@ -19,13 +19,13 @@ namespace mwmp
 
         ~ObjectPacket();
 
-        void setObjectList(BaseObjectList *objectList);
+        void setObjectList(BaseObjectList *newObjectList);
 
-        virtual void Packet(RakNet::BitStream *bs, bool send);
+        virtual void Packet(RakNet::BitStream *newBitstream, bool send);
 
     protected:
         virtual void Object(BaseObject &baseObject, bool send);
-        bool PacketHeader(RakNet::BitStream *bs, bool send);
+        bool PacketHeader(RakNet::BitStream *newBitstream, bool send);
         BaseObjectList *objectList;
         static const int maxObjects = 3000;
         bool hasCellData;

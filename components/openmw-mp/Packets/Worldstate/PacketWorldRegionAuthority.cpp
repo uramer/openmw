@@ -8,9 +8,9 @@ mwmp::PacketWorldRegionAuthority::PacketWorldRegionAuthority(RakNet::RakPeerInte
     reliability = RELIABLE_ORDERED;
 }
 
-void mwmp::PacketWorldRegionAuthority::Packet(RakNet::BitStream *bs, bool send)
+void mwmp::PacketWorldRegionAuthority::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    WorldstatePacket::Packet(bs, send);
+    WorldstatePacket::Packet(newBitstream, send);
 
     RW(worldstate->authorityRegion, send, true);
 }

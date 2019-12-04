@@ -9,9 +9,9 @@ PacketSystemHandshake::PacketSystemHandshake(RakNet::RakPeerInterface *peer) : S
     orderChannel = CHANNEL_SYSTEM;
 }
 
-void PacketSystemHandshake::Packet(RakNet::BitStream *bs, bool send)
+void PacketSystemHandshake::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    SystemPacket::Packet(bs, send);
+    SystemPacket::Packet(newBitstream, send);
 
     if (!RW(system->playerName, send, true, maxNameLength) ||
         !RW(system->serverPassword, send, true, maxPasswordLength))

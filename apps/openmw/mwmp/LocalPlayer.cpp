@@ -1642,7 +1642,7 @@ void LocalPlayer::sendSelectedSpell(const std::string& newSelectedSpellId)
     getNetworking()->getPlayerPacket(ID_PLAYER_MISCELLANEOUS)->Send();
 }
 
-void LocalPlayer::sendItemUse(const MWWorld::Ptr& itemPtr, bool itemMagicState, char drawState)
+void LocalPlayer::sendItemUse(const MWWorld::Ptr& itemPtr, bool itemMagicState, char currentDrawState)
 {
     usedItem.refId = itemPtr.getCellRef().getRefId();
     usedItem.count = itemPtr.getRefData().getCount();
@@ -1651,7 +1651,7 @@ void LocalPlayer::sendItemUse(const MWWorld::Ptr& itemPtr, bool itemMagicState, 
     usedItem.soul = itemPtr.getCellRef().getSoul();
 
     usingItemMagic = itemMagicState;
-    itemUseDrawState = drawState;
+    itemUseDrawState = currentDrawState;
 
     getNetworking()->getPlayerPacket(ID_PLAYER_ITEM_USE)->setPlayer(this);
     getNetworking()->getPlayerPacket(ID_PLAYER_ITEM_USE)->Send();

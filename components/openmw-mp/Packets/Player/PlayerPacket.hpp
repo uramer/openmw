@@ -18,7 +18,7 @@ namespace mwmp
 
         ~PlayerPacket();
 
-        void setPlayer(BasePlayer *player);
+        void setPlayer(BasePlayer *newPlayer);
         BasePlayer *getPlayer();
 
     protected:

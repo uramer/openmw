@@ -19,9 +19,9 @@ SystemPacket::~SystemPacket()
 
 }
 
-void SystemPacket::setSystem(BaseSystem *system)
+void SystemPacket::setSystem(BaseSystem *newSystem)
 {
-    this->system = system;
+    system = newSystem;
     guid = system->guid;
 }
 

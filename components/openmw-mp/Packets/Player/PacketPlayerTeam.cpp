@@ -6,9 +6,9 @@ mwmp::PacketPlayerTeam::PacketPlayerTeam(RakNet::RakPeerInterface *peer) : Playe
     packetID = ID_PLAYER_TEAM;
 }
 
-void mwmp::PacketPlayerTeam::Packet(RakNet::BitStream *bs, bool send)
+void mwmp::PacketPlayerTeam::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     uint32_t count;
 

@@ -9,9 +9,9 @@ PacketClientScriptSettings::PacketClientScriptSettings(RakNet::RakPeerInterface 
     orderChannel = CHANNEL_WORLDSTATE;
 }
 
-void PacketClientScriptSettings::Packet(RakNet::BitStream *bs, bool send)
+void PacketClientScriptSettings::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    WorldstatePacket::Packet(bs, send);
+    WorldstatePacket::Packet(newBitstream, send);
 
     uint32_t clientScriptsCount;
 

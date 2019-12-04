@@ -9,9 +9,9 @@ PacketConsoleCommand::PacketConsoleCommand(RakNet::RakPeerInterface *peer) : Obj
     hasCellData = true;
 }
 
-void PacketConsoleCommand::Packet(RakNet::BitStream *bs, bool send)
+void PacketConsoleCommand::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    if (!PacketHeader(bs, send))
+    if (!PacketHeader(newBitstream, send))
         return;
 
     RW(objectList->consoleCommand, send);

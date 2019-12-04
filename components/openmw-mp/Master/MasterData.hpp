@@ -58,10 +58,10 @@ struct QueryData
     void SetVersion(const char *version) { rules["version"].str = version; }
 
     int GetPlayers() const { return rules.at("players").val; }
-    void SetPlayers(int players) { rules["players"].val = players; }
+    void SetPlayers(int value) { rules["players"].val = value; }
 
     int GetMaxPlayers() const { return rules.at("maxPlayers").val; }
-    void SetMaxPlayers(int players) { rules["maxPlayers"].val = players; }
+    void SetMaxPlayers(int value) { rules["maxPlayers"].val = value; }
 
     const char *GetGameMode() const { return rules.at("gamemode").str.c_str(); }
     void SetGameMode(const char *str) { rules["gamemode"].str = str; }

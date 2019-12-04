@@ -9,9 +9,9 @@ PacketWorldCollisionOverride::PacketWorldCollisionOverride(RakNet::RakPeerInterf
     orderChannel = CHANNEL_WORLDSTATE;
 }
 
-void PacketWorldCollisionOverride::Packet(RakNet::BitStream *bs, bool send)
+void PacketWorldCollisionOverride::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    WorldstatePacket::Packet(bs, send);
+    WorldstatePacket::Packet(newBitstream, send);
 
     RW(worldstate->hasPlayerCollision, send);
     RW(worldstate->hasActorCollision, send);

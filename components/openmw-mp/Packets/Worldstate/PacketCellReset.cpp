@@ -9,9 +9,9 @@ PacketCellReset::PacketCellReset(RakNet::RakPeerInterface *peer) : WorldstatePac
     orderChannel = CHANNEL_SYSTEM;
 }
 
-void PacketCellReset::Packet(RakNet::BitStream *bs, bool send)
+void PacketCellReset::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    WorldstatePacket::Packet(bs, send);
+    WorldstatePacket::Packet(newBitstream, send);
 
     // Placeholder
 }

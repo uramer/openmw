@@ -9,9 +9,9 @@ PacketWorldKillCount::PacketWorldKillCount(RakNet::RakPeerInterface *peer) : Wor
     orderChannel = CHANNEL_SYSTEM;
 }
 
-void PacketWorldKillCount::Packet(RakNet::BitStream *bs, bool send)
+void PacketWorldKillCount::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    WorldstatePacket::Packet(bs, send);
+    WorldstatePacket::Packet(newBitstream, send);
 
     uint32_t killChangesCount;
 

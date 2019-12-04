@@ -9,9 +9,9 @@ PacketPlayerQuickKeys::PacketPlayerQuickKeys(RakNet::RakPeerInterface *peer) : P
     packetID = ID_PLAYER_QUICKKEYS;
 }
 
-void PacketPlayerQuickKeys::Packet(RakNet::BitStream *bs, bool send)
+void PacketPlayerQuickKeys::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    PlayerPacket::Packet(bs, send);
+    PlayerPacket::Packet(newBitstream, send);
 
     uint32_t count;
 

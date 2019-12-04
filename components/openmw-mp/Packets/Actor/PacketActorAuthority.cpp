@@ -8,9 +8,9 @@ PacketActorAuthority::PacketActorAuthority(RakNet::RakPeerInterface *peer) : Act
     packetID = ID_ACTOR_AUTHORITY;
 }
 
-void PacketActorAuthority::Packet(RakNet::BitStream *bs, bool send)
+void PacketActorAuthority::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    BasePacket::Packet(bs, send);
+    BasePacket::Packet(newBitstream, send);
 
     RW(actorList->cell.mData, send, true);
     RW(actorList->cell.mName, send, true);
