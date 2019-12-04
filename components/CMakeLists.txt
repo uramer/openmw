@@ -217,7 +217,8 @@ add_component_dir (openmw-mp/Packets/Worldstate
         WorldstatePacket
 
         PacketCellCreate PacketCellReset PacketClientScriptSettings PacketRecordDynamic PacketWorldCollisionOverride
-        PacketWorldKillCount PacketWorldMap PacketWorldRegionAuthority PacketWorldTime PacketWorldWeather
+        PacketWorldDestinationOverride PacketWorldKillCount PacketWorldMap PacketWorldRegionAuthority PacketWorldTime
+        PacketWorldWeather
         )
 
 add_component_dir (fallback

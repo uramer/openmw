@@ -1,6 +1,7 @@
 #ifndef OPENMW_BASEWORLDSTATE_HPP
 #define OPENMW_BASEWORLDSTATE_HPP
 
+#include <map>
 #include <vector>
 
 #include <components/esm/loadacti.hpp>
@@ -359,6 +360,7 @@ namespace mwmp
 
         std::vector<Kill> killChanges;
         std::vector<std::string> enforcedCollisionRefIds;
+        std::map<std::string, std::string> destinationOverrides;
 
         std::vector<MapTile> mapTiles;
 

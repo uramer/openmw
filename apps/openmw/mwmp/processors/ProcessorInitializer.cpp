@@ -95,6 +95,7 @@
 #include "worldstate/ProcessorClientScriptSettings.hpp"
 #include "worldstate/ProcessorRecordDynamic.hpp"
 #include "worldstate/ProcessorWorldCollisionOverride.hpp"
+#include "worldstate/ProcessorWorldDestinationOverride.hpp"
 #include "worldstate/ProcessorWorldKillCount.hpp"
 #include "worldstate/ProcessorWorldMap.hpp"
 #include "worldstate/ProcessorWorldRegionAuthority.hpp"
@@ -191,11 +192,12 @@ void ProcessorInitializer()
     ActorProcessor::AddProcessor(new ProcessorActorStatsDynamic());
     ActorProcessor::AddProcessor(new ProcessorActorTest());
 
-    WorldstateProcessor::AddProcessor(new ProcessorWorldKillCount());
     WorldstateProcessor::AddProcessor(new ProcessorCellReset());
     WorldstateProcessor::AddProcessor(new ProcessorClientScriptSettings());
     WorldstateProcessor::AddProcessor(new ProcessorRecordDynamic());
     WorldstateProcessor::AddProcessor(new ProcessorWorldCollisionOverride());
+    WorldstateProcessor::AddProcessor(new ProcessorWorldDestinationOverride());
+    WorldstateProcessor::AddProcessor(new ProcessorWorldKillCount());
     WorldstateProcessor::AddProcessor(new ProcessorWorldMap());
     WorldstateProcessor::AddProcessor(new ProcessorWorldRegionAuthority());
     WorldstateProcessor::AddProcessor(new ProcessorWorldTime());

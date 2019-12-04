@@ -52,10 +52,12 @@
     {"AddSynchronizedClientScriptId",     WorldstateFunctions::AddSynchronizedClientScriptId},\
     {"AddSynchronizedClientGlobalId",     WorldstateFunctions::AddSynchronizedClientGlobalId},\
     {"AddEnforcedCollisionRefId",         WorldstateFunctions::AddEnforcedCollisionRefId},\
+    {"AddDestinationOverride",            WorldstateFunctions::AddDestinationOverride},\
     \
     {"ClearSynchronizedClientScriptIds",  WorldstateFunctions::ClearSynchronizedClientScriptIds},\
     {"ClearSynchronizedClientGlobalIds",  WorldstateFunctions::ClearSynchronizedClientGlobalIds},\
     {"ClearEnforcedCollisionRefIds",      WorldstateFunctions::ClearEnforcedCollisionRefIds},\
+    {"ClearDestinationOverrides",         WorldstateFunctions::ClearDestinationOverrides},\
     \
     {"SaveMapTileImageFile",              WorldstateFunctions::SaveMapTileImageFile},\
     {"LoadMapTileImageFile",              WorldstateFunctions::LoadMapTileImageFile},\
@@ -66,6 +68,7 @@
     {"SendWorldTime",                     WorldstateFunctions::SendWorldTime},\
     {"SendWorldWeather",                  WorldstateFunctions::SendWorldWeather},\
     {"SendWorldCollisionOverride",        WorldstateFunctions::SendWorldCollisionOverride},\
+    {"SendWorldDestinationOverride",      WorldstateFunctions::SendWorldDestinationOverride},\
     {"SendWorldRegionAuthority",          WorldstateFunctions::SendWorldRegionAuthority},\
     \
     {"ReadLastWorldstate",                WorldstateFunctions::ReadLastWorldstate},\
@@ -375,6 +378,16 @@ public:
     static void AddEnforcedCollisionRefId(const char* refId) noexcept;
 
     /**
+    * \brief Add a destination override containing the cell description for the old cell
+    *        and the new cell.
+    *
+    * \param oldCellDescription The old cell description.
+    * \param newCellDescription The new cell description.
+    * \return void
+    */
+    static void AddDestinationOverride(const char* oldCellDescription, const char* newCellDescription) noexcept;
+
+    /**
     * \brief Clear the list of script IDs whose variable changes should be sent to the
     *        the server by clients.
     *
@@ -397,6 +410,13 @@ public:
     * \return void
     */
     static void ClearEnforcedCollisionRefIds() noexcept;
+
+    /**
+    * \brief Clear the list of destination overrides.
+    *
+    * \return void
+    */
+    static void ClearDestinationOverrides() noexcept;
 
     /**
     * \brief Save the .png image data of the map tile at a certain index in the read worldstate's
@@ -504,6 +524,19 @@ public:
     * \return void
     */
     static void SendWorldCollisionOverride(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept;
+
+    /**
+    * \brief Send a WorldDestinationOverride packet with the current destination overrides in
+    *        the write-only worldstate.
+    *
+    * \param pid The player ID attached to the packet.
+    * \param sendToOtherPlayers Whether this packet should be sent to players other than the
+    *                           player attached to the packet (false by default).
+    * \param skipAttachedPlayer Whether the packet should skip being sent to the player attached
+    *                           to the packet (false by default).
+    * \return void
+    */
+    static void SendWorldDestinationOverride(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept;
 
 
     // All methods below are deprecated versions of methods from above

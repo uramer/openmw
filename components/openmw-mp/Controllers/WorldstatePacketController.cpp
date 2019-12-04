@@ -2,6 +2,7 @@
 #include "../Packets/Worldstate/PacketClientScriptSettings.hpp"
 #include "../Packets/Worldstate/PacketRecordDynamic.hpp"
 #include "../Packets/Worldstate/PacketWorldCollisionOverride.hpp"
+#include "../Packets/Worldstate/PacketWorldDestinationOverride.hpp"
 #include "../Packets/Worldstate/PacketWorldKillCount.hpp"
 #include "../Packets/Worldstate/PacketWorldMap.hpp"
 #include "../Packets/Worldstate/PacketWorldRegionAuthority.hpp"
@@ -24,6 +25,7 @@ mwmp::WorldstatePacketController::WorldstatePacketController(RakNet::RakPeerInte
     AddPacket<PacketClientScriptSettings>(&packets, peer);
     AddPacket<PacketRecordDynamic>(&packets, peer);
     AddPacket<PacketWorldCollisionOverride>(&packets, peer);
+    AddPacket<PacketWorldDestinationOverride>(&packets, peer);
     AddPacket<PacketWorldKillCount>(&packets, peer);
     AddPacket<PacketWorldMap>(&packets, peer);
     AddPacket<PacketWorldRegionAuthority>(&packets, peer);

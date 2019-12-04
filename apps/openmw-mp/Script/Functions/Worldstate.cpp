@@ -197,6 +197,11 @@ void WorldstateFunctions::AddEnforcedCollisionRefId(const char *refId) noexcept
     writeWorldstate.enforcedCollisionRefIds.push_back(refId);
 }
 
+void WorldstateFunctions::AddDestinationOverride(const char *oldCellDescription, const char *newCellDescription) noexcept
+{
+    writeWorldstate.destinationOverrides[oldCellDescription] = newCellDescription;
+}
+
 void WorldstateFunctions::ClearSynchronizedClientScriptIds() noexcept
 {
     writeWorldstate.synchronizedClientScriptIds.clear();
@@ -210,6 +215,11 @@ void WorldstateFunctions::ClearSynchronizedClientGlobalIds() noexcept
 void WorldstateFunctions::ClearEnforcedCollisionRefIds() noexcept
 {
     writeWorldstate.enforcedCollisionRefIds.clear();
+}
+
+void WorldstateFunctions::ClearDestinationOverrides() noexcept
+{
+    writeWorldstate.destinationOverrides.clear();
 }
 
 void WorldstateFunctions::SaveMapTileImageFile(unsigned int index, const char *filePath) noexcept
@@ -334,6 +344,22 @@ void WorldstateFunctions::SendWorldCollisionOverride(unsigned short pid, bool se
     writeWorldstate.guid = player->guid;
 
     mwmp::WorldstatePacket *packet = mwmp::Networking::get().getWorldstatePacketController()->GetPacket(ID_WORLD_COLLISION_OVERRIDE);
+    packet->setWorldstate(&writeWorldstate);
+
+    if (!skipAttachedPlayer)
+        packet->Send(false);
+    if (sendToOtherPlayers)
+        packet->Send(true);
+}
+
+void WorldstateFunctions::SendWorldDestinationOverride(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept
+{
+    Player *player;
+    GET_PLAYER(pid, player, );
+
+    writeWorldstate.guid = player->guid;
+
+    mwmp::WorldstatePacket *packet = mwmp::Networking::get().getWorldstatePacketController()->GetPacket(ID_WORLD_DESTINATION_OVERRIDE);
     packet->setWorldstate(&writeWorldstate);
 
     if (!skipAttachedPlayer)

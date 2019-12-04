@@ -138,8 +138,8 @@ add_openmw_dir (mwmp/processors/object BaseObjectProcessor
     )
 
 add_openmw_dir (mwmp/processors/worldstate ProcessorCellReset ProcessorClientScriptSettings ProcessorRecordDynamic
-    ProcessorWorldCollisionOverride ProcessorWorldKillCount ProcessorWorldMap ProcessorWorldRegionAuthority ProcessorWorldTime
-    ProcessorWorldWeather
+    ProcessorWorldCollisionOverride ProcessorWorldDestinationOverride ProcessorWorldKillCount ProcessorWorldMap
+    ProcessorWorldRegionAuthority ProcessorWorldTime ProcessorWorldWeather
     )
 
 # Main executable

@@ -257,7 +257,22 @@ namespace MWClass
                 }
                 else
                 {
-                    std::shared_ptr<MWWorld::Action> action(new MWWorld::ActionTeleport (ptr.getCellRef().getDestCell(), ptr.getCellRef().getDoorDest(), true));
+                    /*
+                        Start of tes3mp change (major)
+
+                        If there is a destination override in the mwmp::Worldstate for this door's original
+                        destination, use it
+                    */
+                    std::string destinationCell = ptr.getCellRef().getDestCell();
+
+                    if (mwmp::Main::get().getNetworking()->getWorldstate()->destinationOverrides.count(destinationCell) != 0)
+                        destinationCell = mwmp::Main::get().getNetworking()->getWorldstate()->destinationOverrides[destinationCell];
+
+                    std::shared_ptr<MWWorld::Action> action(new MWWorld::ActionTeleport(destinationCell, ptr.getCellRef().getDoorDest(), true));
+                    /*
+                        End of tes3mp change (major)
+                    */
+
                     action->setSound(openSound);
                     return action;
                 }
@@ -374,6 +389,18 @@ namespace MWClass
         {
             // door leads to an interior, use interior name as tooltip
             dest = door.mRef.getDestCell();
+
+            /*
+                Start of tes3mp change (major)
+
+                If there is a destination override in the mwmp::Worldstate for this door's original
+                destination, use it
+            */
+            if (mwmp::Main::get().getNetworking()->getWorldstate()->destinationOverrides.count(dest) != 0)
+                dest = mwmp::Main::get().getNetworking()->getWorldstate()->destinationOverrides[dest];
+            /*
+                End of tes3mp change (major)
+            */
         }
         else
         {
