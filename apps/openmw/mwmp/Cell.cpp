@@ -462,6 +462,9 @@ void Cell::initializeLocalActors()
             // If this Ptr is lacking a unique index, ignore it
             if (ptr.getCellRef().getRefNum().mIndex == 0 && ptr.getCellRef().getMpNum() == 0) continue;
 
+            // If this Ptr is disabled or deleted, ignore it
+            if (!ptr.getRefData().isEnabled() || ptr.getRefData().isDeleted()) continue;
+
             std::string mapIndex = Main::get().getCellController()->generateMapIndex(ptr);
 
             // Only initialize this actor if it isn't already initialized

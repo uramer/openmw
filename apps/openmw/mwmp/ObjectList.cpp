@@ -620,7 +620,16 @@ void ObjectList::setObjectStates(MWWorld::CellStore* cellStore)
                 ptrFound.getCellRef().getRefNum(), ptrFound.getCellRef().getMpNum());
 
             if (baseObject.objectState)
+            {
                 MWBase::Environment::get().getWorld()->enable(ptrFound);
+
+                // Is this an actor in a cell where we're the authority? If so, initialize it as
+                // a LocalActor
+                if (ptrFound.getClass().isActor() && mwmp::Main::get().getCellController()->hasLocalAuthority(*cellStore->getCell()))
+                {
+                    mwmp::Main::get().getCellController()->getCell(*cellStore->getCell())->initializeLocalActor(ptrFound);
+                }
+            }
             else
                 MWBase::Environment::get().getWorld()->disable(ptrFound);
         }
