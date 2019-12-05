@@ -37,6 +37,8 @@ namespace mwmp
         SimpleCreatureStats creatureStats;
 
         Animation animation;
+        char deathState;
+        bool isInstantDeath = false;
         Attack attack;
         Cast cast;
 

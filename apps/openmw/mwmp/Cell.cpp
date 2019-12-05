@@ -203,14 +203,37 @@ void Cell::readStatsDynamic(ActorList& actorList)
                 // That way, if this actor is about to become a LocalActor, initial data about it
                 // received from the server still gets set
                 actor->setStatsDynamic();
+            }
+        }
+    }
+}
 
-                // Actors loaded as dead from the server need special handling to skip their death animations
-                // and disable their collision
-                if (actor->creatureStats.mDynamic[0].mCurrent < 1)
-                {
-                    actor->getPtr().getClass().getCreatureStats(actor->getPtr()).setDeathAnimationFinished(true);
-                    MWBase::Environment::get().getWorld()->enableActorCollision(actor->getPtr(), false);
-                }
+void Cell::readDeath(ActorList& actorList)
+{
+    initializeDedicatedActors(actorList);
+
+    if (dedicatedActors.empty()) return;
+
+    for (const auto &baseActor : actorList.baseActors)
+    {
+        std::string mapIndex = Main::get().getCellController()->generateMapIndex(baseActor);
+
+        if (dedicatedActors.count(mapIndex) > 0)
+        {
+            DedicatedActor *actor = dedicatedActors[mapIndex];
+            actor->creatureStats.mDead = true;
+            actor->creatureStats.mDynamic[0].mCurrent = 0;
+
+            Main::get().getCellController()->setQueuedDeathState(actor->getPtr(), baseActor.deathState);
+
+            LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "In Cell::readDeath, deathState is %i and isInstantDeath is %s",
+                baseActor.deathState,
+                baseActor.isInstantDeath ? "true" : "false");
+
+            if (baseActor.isInstantDeath)
+            {
+                actor->getPtr().getClass().getCreatureStats(actor->getPtr()).setDeathAnimationFinished(true);
+                MWBase::Environment::get().getWorld()->enableActorCollision(actor->getPtr(), false);
             }
         }
     }
@@ -418,11 +441,6 @@ void Cell::initializeLocalActor(const MWWorld::Ptr& ptr)
     LocalActor *actor = new LocalActor();
     actor->cell = *store->getCell();
     actor->setPtr(ptr);
-
-    // Note that this actor was already dead when we were given control over it,
-    // to avoid sending an ActorDeath packet
-    if (ptr.getClass().getCreatureStats(ptr).isDead())
-        actor->wasDead = true;
 
     localActors[mapIndex] = actor;
 

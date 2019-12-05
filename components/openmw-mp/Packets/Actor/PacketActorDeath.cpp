@@ -13,6 +13,8 @@ void PacketActorDeath::Actor(BaseActor &actor, bool send)
 {
     RW(actor.refId, send);
 
+    RW(actor.deathState, send);
+    RW(actor.isInstantDeath, send);
     RW(actor.killer.isPlayer, send);
 
     if (actor.killer.isPlayer)

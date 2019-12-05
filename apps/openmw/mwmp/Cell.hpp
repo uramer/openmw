@@ -22,6 +22,7 @@ namespace mwmp
         void readAnimFlags(ActorList& actorList);
         void readAnimPlay(ActorList& actorList);
         void readStatsDynamic(ActorList& actorList);
+        void readDeath(ActorList& actorList);
         void readEquipment(ActorList& actorList);
         void readSpeech(ActorList& actorList);
         void readAi(ActorList& actorList);

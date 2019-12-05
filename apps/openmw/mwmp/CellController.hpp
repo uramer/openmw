@@ -25,12 +25,18 @@ namespace mwmp
         void readAnimFlags(mwmp::ActorList& actorList);
         void readAnimPlay(mwmp::ActorList& actorList);
         void readStatsDynamic(mwmp::ActorList& actorList);
+        void readDeath(mwmp::ActorList& actorList);
         void readEquipment(mwmp::ActorList& actorList);
         void readSpeech(mwmp::ActorList& actorList);
         void readAi(mwmp::ActorList& actorList);
         void readAttack(mwmp::ActorList& actorList);
         void readCast(mwmp::ActorList& actorList);
         void readCellChange(mwmp::ActorList& actorList);
+
+        bool hasQueuedDeathState(MWWorld::Ptr ptr);
+        unsigned int getQueuedDeathState(MWWorld::Ptr ptr);
+        void clearQueuedDeathState(MWWorld::Ptr ptr);
+        void setQueuedDeathState(MWWorld::Ptr ptr, unsigned int deathState);
 
         void setLocalActorRecord(std::string actorIndex, std::string cellIndex);
         void removeLocalActorRecord(std::string actorIndex);
@@ -68,6 +74,7 @@ namespace mwmp
         static std::map<std::string, mwmp::Cell *> cellsInitialized;
         static std::map<std::string, std::string> localActorsToCells;
         static std::map<std::string, std::string> dedicatedActorsToCells;
+        static std::map<std::string, unsigned int> queuedDeathStates;
     };
 }
 

@@ -17,7 +17,7 @@ namespace mwmp
 
         virtual void Do(ActorPacket &packet, ActorList &actorList)
         {
-            //Main::get().getCellController()->readDeath(actorList);
+            Main::get().getCellController()->readDeath(actorList);
         }
     };
 }

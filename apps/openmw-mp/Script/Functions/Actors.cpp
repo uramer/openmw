@@ -212,6 +212,11 @@ const char *ActorFunctions::GetActorKillerName(unsigned int index) noexcept
     return readActorList->baseActors.at(index).killer.name.c_str();
 }
 
+unsigned int ActorFunctions::GetActorDeathState(unsigned int index) noexcept
+{
+    return readActorList->baseActors.at(index).deathState;
+}
+
 bool ActorFunctions::DoesActorHavePosition(unsigned int index) noexcept
 {
     return readActorList->baseActors.at(index).hasPositionData;
@@ -314,6 +319,16 @@ void ActorFunctions::SetActorFatigueModified(double value) noexcept
 void ActorFunctions::SetActorSound(const char* sound) noexcept
 {
     tempActor.sound = sound;
+}
+
+void ActorFunctions::SetActorDeathState(unsigned int deathState) noexcept
+{
+    tempActor.deathState = deathState;
+}
+
+void ActorFunctions::SetActorDeathInstant(bool isInstant) noexcept
+{
+    tempActor.isInstantDeath = isInstant;
 }
 
 void ActorFunctions::SetActorAIAction(unsigned int action) noexcept
@@ -467,6 +482,25 @@ void ActorFunctions::SendActorEquipment(bool sendToOtherVisitors, bool skipAttac
 void ActorFunctions::SendActorSpeech(bool sendToOtherVisitors, bool skipAttachedPlayer) noexcept
 {
     mwmp::ActorPacket *actorPacket = mwmp::Networking::get().getActorPacketController()->GetPacket(ID_ACTOR_SPEECH);
+    actorPacket->setActorList(&writeActorList);
+
+    if (!skipAttachedPlayer)
+        actorPacket->Send(writeActorList.guid);
+
+    if (sendToOtherVisitors)
+    {
+        Cell *serverCell = CellController::get()->getCell(&writeActorList.cell);
+
+        if (serverCell != nullptr)
+        {
+            serverCell->sendToLoaded(actorPacket, &writeActorList);
+        }
+    }
+}
+
+void ActorFunctions::SendActorDeath(bool sendToOtherVisitors, bool skipAttachedPlayer) noexcept
+{
+    mwmp::ActorPacket *actorPacket = mwmp::Networking::get().getActorPacketController()->GetPacket(ID_ACTOR_DEATH);
     actorPacket->setActorList(&writeActorList);
 
     if (!skipAttachedPlayer)

@@ -46,6 +46,7 @@
     {"GetActorKillerRefNum",                   ActorFunctions::GetActorKillerRefNum},\
     {"GetActorKillerMpNum",                    ActorFunctions::GetActorKillerMpNum},\
     {"GetActorKillerName",                     ActorFunctions::GetActorKillerName},\
+    {"GetActorDeathState",                     ActorFunctions::GetActorDeathState},\
     \
     {"DoesActorHavePosition",                  ActorFunctions::DoesActorHavePosition},\
     {"DoesActorHaveStatsDynamic",              ActorFunctions::DoesActorHaveStatsDynamic},\
@@ -71,6 +72,8 @@
     {"SetActorFatigueCurrent",                 ActorFunctions::SetActorFatigueCurrent},\
     {"SetActorFatigueModified",                ActorFunctions::SetActorFatigueModified},\
     \
+    {"SetActorDeathState",                     ActorFunctions::SetActorDeathState},\
+    {"SetActorDeathInstant",                   ActorFunctions::SetActorDeathInstant},\
     {"SetActorSound",                          ActorFunctions::SetActorSound},\
     \
     {"SetActorAIAction",                       ActorFunctions::SetActorAIAction},\
@@ -92,6 +95,7 @@
     {"SendActorStatsDynamic",                  ActorFunctions::SendActorStatsDynamic},\
     {"SendActorEquipment",                     ActorFunctions::SendActorEquipment},\
     {"SendActorSpeech",                        ActorFunctions::SendActorSpeech},\
+    {"SendActorDeath",                         ActorFunctions::SendActorDeath},\
     {"SendActorAI",                            ActorFunctions::SendActorAI},\
     {"SendActorCellChange",                    ActorFunctions::SendActorCellChange},\
     \
@@ -403,6 +407,14 @@ public:
     static const char *GetActorKillerName(unsigned int index) noexcept;
 
     /**
+    * \brief Get the deathState of the actor at a certain index in the read actor list.
+    *
+    * \param index The index of the actor.
+    * \return The deathState.
+    */
+    static unsigned int GetActorDeathState(unsigned int index) noexcept;
+
+    /**
     * \brief Check whether there is any positional data for the actor at a certain index in
     * the read actor list.
     *
@@ -582,6 +594,23 @@ public:
     static void SetActorSound(const char* sound) noexcept;
 
     /**
+    * \brief Set the deathState of the temporary actor stored on the server.
+    *
+    * \param deathState The deathState.
+    * \return void
+    */
+    static void SetActorDeathState(unsigned int deathState) noexcept;
+
+    /**
+    * \brief Set whether the death of the temporary actor stored on the server should
+    *        be instant or not.
+    *
+    * \param isInstant Whether the death should be instant.
+    * \return void
+    */
+    static void SetActorDeathInstant(bool isInstant) noexcept;
+
+    /**
     * \brief Set the AI action of the temporary actor stored on the server.
     *
     * \param action The new action.
@@ -741,6 +770,17 @@ public:
     * \return void
     */
     static void SendActorSpeech(bool sendToOtherVisitors, bool skipAttachedPlayer) noexcept;
+
+    /**
+    * \brief Send an ActorDeath packet.
+    *
+    * \param sendToOtherVisitors Whether this packet should be sent to cell visitors other
+    *                            than the player attached to the packet (false by default).
+    * \param skipAttachedPlayer Whether the packet should skip being sent to the player attached
+    *                           to the packet (false by default).
+    * \return void
+    */
+    static void SendActorDeath(bool sendToOtherVisitors, bool skipAttachedPlayer) noexcept;
 
     /**
     * \brief Send an ActorAI packet.

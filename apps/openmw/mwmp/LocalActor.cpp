@@ -31,7 +31,6 @@ LocalActor::LocalActor()
     wasForceJumping = false;
     wasForceMoveJumping = false;
     wasFlying = false;
-    wasDead = false;
 
     attack.type = Attack::MELEE;
     attack.shouldSend = false;
@@ -194,21 +193,6 @@ void LocalActor::updateStatsDynamic(bool forceUpdate)
         creatureStats.mDead = ptrCreatureStats->isDead();
 
         mwmp::Main::get().getNetworking()->getActorList()->addStatsDynamicActor(*this);
-
-        if (creatureStats.mDead && !wasDead)
-        {
-            if (MechanicsHelper::isEmptyTarget(killer))
-                killer = MechanicsHelper::getTarget(ptr);
-
-            LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_ACTOR_DEATH about %s %i-%i in cell %s to server",
-                refId.c_str(), refNum, mpNum, cell.getDescription().c_str());
-
-            mwmp::Main::get().getNetworking()->getActorList()->addDeathActor(*this);
-
-            MechanicsHelper::clearTarget(killer);
-        }
-
-        wasDead = creatureStats.mDead;
     }
 }
 
@@ -268,6 +252,25 @@ void LocalActor::updateAttackOrCast()
         mwmp::Main::get().getNetworking()->getActorList()->addCastActor(*this);
         cast.shouldSend = false;
     }
+}
+
+void LocalActor::sendDeath(char newDeathState)
+{
+    deathState = newDeathState;
+
+    if (MechanicsHelper::isEmptyTarget(killer))
+        killer = MechanicsHelper::getTarget(ptr);
+
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_ACTOR_DEATH about %s %i-%i in cell %s to server\n- deathState: %d",
+        refId.c_str(), refNum, mpNum, cell.getDescription().c_str(), deathState);
+
+    ActorList actorList;
+    actorList.cell = cell;
+    actorList.addActor(*this);
+    Main::get().getNetworking()->getActorPacket(ID_ACTOR_DEATH)->setActorList(&actorList);
+    Main::get().getNetworking()->getActorPacket(ID_ACTOR_DEATH)->Send();
+
+    MechanicsHelper::clearTarget(killer);
 }
 
 MWWorld::Ptr LocalActor::getPtr()

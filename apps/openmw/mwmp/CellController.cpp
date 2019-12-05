@@ -17,6 +17,7 @@ using namespace mwmp;
 std::map<std::string, mwmp::Cell *> CellController::cellsInitialized;
 std::map<std::string, std::string> CellController::localActorsToCells;
 std::map<std::string, std::string> CellController::dedicatedActorsToCells;
+std::map<std::string, unsigned int> CellController::queuedDeathStates;
 
 mwmp::CellController::CellController()
 {
@@ -134,6 +135,17 @@ void CellController::readStatsDynamic(ActorList& actorList)
         cellsInitialized[mapIndex]->readStatsDynamic(actorList);
 }
 
+void CellController::readDeath(ActorList& actorList)
+{
+    std::string mapIndex = actorList.cell.getDescription();
+
+    initializeCell(actorList.cell);
+
+    // If this now exists, send it the data
+    if (cellsInitialized.count(mapIndex) > 0)
+        cellsInitialized[mapIndex]->readDeath(actorList);
+}
+
 void CellController::readEquipment(ActorList& actorList)
 {
     std::string mapIndex = actorList.cell.getDescription();
@@ -198,6 +210,34 @@ void CellController::readCellChange(ActorList& actorList)
     // If this now exists, send it the data
     if (cellsInitialized.count(mapIndex) > 0)
         cellsInitialized[mapIndex]->readCellChange(actorList);
+}
+
+bool CellController::hasQueuedDeathState(MWWorld::Ptr ptr)
+{
+    std::string actorIndex = generateMapIndex(ptr);
+
+    return queuedDeathStates.count(actorIndex) > 0;
+}
+
+unsigned int CellController::getQueuedDeathState(MWWorld::Ptr ptr)
+{
+    std::string actorIndex = generateMapIndex(ptr);
+
+    return queuedDeathStates[actorIndex];
+}
+
+void CellController::clearQueuedDeathState(MWWorld::Ptr ptr)
+{
+    std::string actorIndex = generateMapIndex(ptr);
+
+    queuedDeathStates.erase(actorIndex);
+}
+
+void CellController::setQueuedDeathState(MWWorld::Ptr ptr, unsigned int deathState)
+{
+    std::string actorIndex = generateMapIndex(ptr);
+
+    queuedDeathStates[actorIndex] = deathState;
 }
 
 void CellController::setLocalActorRecord(std::string actorIndex, std::string cellIndex)

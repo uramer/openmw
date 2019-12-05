@@ -25,11 +25,12 @@ namespace mwmp
         void updateEquipment(bool forceUpdate);
         void updateAttackOrCast();
 
+        void sendDeath(char newDeathState);
+
         MWWorld::Ptr getPtr();
         void setPtr(const MWWorld::Ptr& newPtr);
 
         bool hasSentData;
-        bool wasDead;
 
     private:
         MWWorld::Ptr ptr;

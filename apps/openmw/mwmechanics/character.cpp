@@ -813,10 +813,17 @@ void CharacterController::playRandomDeath(float startpoint)
         Start tes3mp change (major)
 
         If this is a DedicatedPlayer, use the deathState received from their PlayerDeath packet
+
+        If this is a DedicatedActor, use the deathState from their ActorDeath packet
     */
     if (mwmp::PlayerList::isDedicatedPlayer(mPtr))
     {
         mDeathState = static_cast<CharacterState>(mwmp::PlayerList::getPlayer(mPtr)->deathState);
+    }
+    else if (mwmp::Main::get().getCellController()->hasQueuedDeathState(mPtr))
+    {
+        mDeathState = static_cast<CharacterState>(mwmp::Main::get().getCellController()->getQueuedDeathState(mPtr));
+        mwmp::Main::get().getCellController()->clearQueuedDeathState(mPtr);
     }
     else if(mHitState == CharState_SwimKnockDown && mAnimation->hasAnimation("swimdeathknockdown"))
     /*
@@ -849,11 +856,18 @@ void CharacterController::playRandomDeath(float startpoint)
     /*
         Start of tes3mp addition
 
-        Send a PlayerDeath packet with the decided-upon death animation
+        If this is the local player, send a PlayerDeath packet with the decided-upon
+        death animation
+
+        If this is a local actor, send an ActorDeath packet with the animation
     */
     if (mPtr == getPlayer())
     {
         mwmp::Main::get().getLocalPlayer()->sendDeath(mDeathState);
+    }
+    else if (!mPtr.getClass().getCreatureStats(mPtr).isDeathAnimationFinished() && mwmp::Main::get().getCellController()->isLocalActor(mPtr))
+    {
+        mwmp::Main::get().getCellController()->getLocalActor(mPtr)->sendDeath(mDeathState);
     }
     /*
         End of tes3mp addition
