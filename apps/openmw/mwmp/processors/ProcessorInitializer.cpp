@@ -8,6 +8,7 @@
 #include "player/ProcessorGUIMessageBox.hpp"
 #include "player/ProcessorUserDisconnected.hpp"
 #include "player/ProcessorGameSettings.hpp"
+#include "player/ProcessorPlayerAlly.hpp"
 #include "player/ProcessorPlayerAnimFlags.hpp"
 #include "player/ProcessorPlayerAnimPlay.hpp"
 #include "player/ProcessorPlayerAttack.hpp"
@@ -43,7 +44,6 @@
 #include "player/ProcessorPlayerSpeech.hpp"
 #include "player/ProcessorPlayerSpellbook.hpp"
 #include "player/ProcessorPlayerStatsDynamic.hpp"
-#include "player/ProcessorPlayerTeam.hpp"
 #include "player/ProcessorPlayerTopic.hpp"
 
 #include "ObjectProcessor.hpp"
@@ -112,6 +112,7 @@ void ProcessorInitializer()
     PlayerProcessor::AddProcessor(new ProcessorGUIMessageBox());
     PlayerProcessor::AddProcessor(new ProcessorUserDisconnected());
     PlayerProcessor::AddProcessor(new ProcessorGameSettings());
+    PlayerProcessor::AddProcessor(new ProcessorPlayerAlly());
     PlayerProcessor::AddProcessor(new ProcessorPlayerAnimFlags());
     PlayerProcessor::AddProcessor(new ProcessorPlayerAnimPlay());
     PlayerProcessor::AddProcessor(new ProcessorPlayerAttack());
@@ -147,7 +148,6 @@ void ProcessorInitializer()
     PlayerProcessor::AddProcessor(new ProcessorPlayerSpeech());
     PlayerProcessor::AddProcessor(new ProcessorPlayerSpellbook());
     PlayerProcessor::AddProcessor(new ProcessorPlayerStatsDynamic());
-    PlayerProcessor::AddProcessor(new ProcessorPlayerTeam());
     PlayerProcessor::AddProcessor(new ProcessorPlayerTopic());
 
     ObjectProcessor::AddProcessor(new ProcessorConsoleCommand());

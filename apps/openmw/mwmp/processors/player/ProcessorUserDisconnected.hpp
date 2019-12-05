@@ -26,13 +26,13 @@ namespace mwmp
             {
                 mwmp::LocalPlayer *localPlayer = mwmp::Main::get().getLocalPlayer();
 
-                for (std::vector<RakNet::RakNetGUID>::iterator iter = localPlayer->teamMembers.begin(); iter != localPlayer->teamMembers.end(); )
+                for (std::vector<RakNet::RakNetGUID>::iterator iter = localPlayer->alliedPlayers.begin(); iter != localPlayer->alliedPlayers.end(); )
                 {
                     if (*iter == guid)
                     {
                         DedicatedPlayer *dedicatedPlayer = PlayerList::getPlayer(guid);
-                        LOG_APPEND(TimedLog::LOG_INFO, "- Deleting %s from our team members", dedicatedPlayer->npc.mName.c_str());
-                        iter = localPlayer->teamMembers.erase(iter);
+                        LOG_APPEND(TimedLog::LOG_INFO, "- Deleting %s from our allied players", dedicatedPlayer->npc.mName.c_str());
+                        iter = localPlayer->alliedPlayers.erase(iter);
                     }
                     else
                         ++iter;

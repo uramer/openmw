@@ -11,12 +11,12 @@ using namespace std;
 
 static std::string tempCellDescription;
 
-void MechanicsFunctions::ClearTeamMembersForPlayer(unsigned short pid) noexcept
+void MechanicsFunctions::ClearAlliedPlayersForPlayer(unsigned short pid) noexcept
 {
     Player *player;
     GET_PLAYER(pid, player, );
 
-    player->teamMembers.clear();
+    player->alliedPlayers.clear();
 }
 
 unsigned char MechanicsFunctions::GetMiscellaneousChangeType(unsigned short pid) noexcept
@@ -189,15 +189,15 @@ void MechanicsFunctions::SetSelectedSpellId(unsigned short pid, const char *spel
     player->selectedSpellId = spellId;
 }
 
-void MechanicsFunctions::AddTeamMemberForPlayer(unsigned short pid, unsigned short teamMemberPid) noexcept
+void MechanicsFunctions::AddAlliedPlayerForPlayer(unsigned short pid, unsigned short alliedPlayerPid) noexcept
 {
     Player *player;
     GET_PLAYER(pid, player, );
 
-    Player *teamMember;
-    GET_PLAYER(teamMemberPid, teamMember, );
+    Player *alliedPlayer;
+    GET_PLAYER(alliedPlayerPid, alliedPlayer, );
 
-    player->teamMembers.push_back(teamMember->guid);
+    player->alliedPlayers.push_back(alliedPlayer->guid);
 }
 
 void MechanicsFunctions::SendMarkLocation(unsigned short pid)
@@ -226,12 +226,12 @@ void MechanicsFunctions::SendSelectedSpell(unsigned short pid)
     packet->Send(false);
 }
 
-void MechanicsFunctions::SendTeam(unsigned short pid, bool sendToOtherPlayers)
+void MechanicsFunctions::SendAlliedPlayers(unsigned short pid, bool sendToOtherPlayers)
 {
     Player *player;
     GET_PLAYER(pid, player, );
 
-    mwmp::PlayerPacket *packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_PLAYER_TEAM);
+    mwmp::PlayerPacket *packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_PLAYER_ALLY);
     packet->setPlayer(player);
 
     packet->Send(false);

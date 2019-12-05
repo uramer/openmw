@@ -4,7 +4,7 @@
 #include "../Types.hpp"
 
 #define MECHANICSAPI \
-    {"ClearTeamMembersForPlayer",   MechanicsFunctions::ClearTeamMembersForPlayer},\
+    {"ClearAlliedPlayersForPlayer", MechanicsFunctions::ClearAlliedPlayersForPlayer},\
     \
     {"GetMiscellaneousChangeType",  MechanicsFunctions::GetMiscellaneousChangeType},\
     \
@@ -31,11 +31,11 @@
     {"SetMarkRot",                  MechanicsFunctions::SetMarkRot},\
     {"SetSelectedSpellId",          MechanicsFunctions::SetSelectedSpellId},\
     \
-    {"AddTeamMemberForPlayer",      MechanicsFunctions::AddTeamMemberForPlayer},\
+    {"AddAlliedPlayerForPlayer",    MechanicsFunctions::AddAlliedPlayerForPlayer},\
     \
     {"SendMarkLocation",            MechanicsFunctions::SendMarkLocation},\
     {"SendSelectedSpell",           MechanicsFunctions::SendSelectedSpell},\
-    {"SendTeam",                    MechanicsFunctions::SendTeam},\
+    {"SendAlliedPlayers",           MechanicsFunctions::SendAlliedPlayers},\
     \
     {"Jail",                        MechanicsFunctions::Jail},\
     {"Resurrect",                   MechanicsFunctions::Resurrect},\
@@ -48,13 +48,12 @@ class MechanicsFunctions
 public:
 
     /**
-    * \brief Clear the list of players who will be regarded as being on this player's
-    *        team.
+    * \brief Clear the list of players who will be regarded as being player's allies.
     *
     * \param pid The player ID.
     * \return void
     */
-    static void ClearTeamMembersForPlayer(unsigned short pid) noexcept;
+    static void ClearAlliedPlayersForPlayer(unsigned short pid) noexcept;
 
     /**
     * \brief Get the type of a PlayerMiscellaneous packet.
@@ -240,13 +239,13 @@ public:
     static void SetSelectedSpellId(unsigned short pid, const char *spellId) noexcept;
 
     /**
-    * \brief Add a team member to a player's list of team members.
+    * \brief Add an ally to a player's list of allied players.
     *
     * \param pid The player ID.
-    * \param teamMemberPid The team member's player ID.
+    * \param alliedPlayerPid The ally's player ID.
     * \return void
     */
-    static void AddTeamMemberForPlayer(unsigned short pid, unsigned short teamMemberPid) noexcept;
+    static void AddAlliedPlayerForPlayer(unsigned short pid, unsigned short alliedPlayerPid) noexcept;
 
     /**
     * \brief Send a PlayerMiscellaneous packet with a Mark location to a player.
@@ -265,14 +264,14 @@ public:
     static void SendSelectedSpell(unsigned short pid);
 
     /**
-    * \brief Send a PlayerTeam packet with a list of team member IDs to a player.
+    * \brief Send a PlayerAlly packet with a list of team member IDs to a player.
     *
     * \param pid The player ID.
     * \param sendToOtherPlayers Whether this packet should be sent to players other than the
     *                           player attached to the packet (false by default).
     * \return void
     */
-    static void SendTeam(unsigned short pid, bool sendToOtherPlayers);
+    static void SendAlliedPlayers(unsigned short pid, bool sendToOtherPlayers);
 
     /**
     * \brief Send a PlayerJail packet about a player.

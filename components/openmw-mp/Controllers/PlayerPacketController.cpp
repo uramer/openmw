@@ -5,6 +5,7 @@
 #include "../Packets/Player/PacketLoaded.hpp"
 #include "../Packets/Player/PacketGameSettings.hpp"
 #include "../Packets/Player/PacketPlayerActiveSkills.hpp"
+#include "../Packets/Player/PacketPlayerAlly.hpp"
 #include "../Packets/Player/PacketPlayerAnimFlags.hpp"
 #include "../Packets/Player/PacketPlayerAnimPlay.hpp"
 #include "../Packets/Player/PacketPlayerAttack.hpp"
@@ -25,7 +26,6 @@
 #include "../Packets/Player/PacketPlayerItemUse.hpp"
 #include "../Packets/Player/PacketPlayerJail.hpp"
 #include "../Packets/Player/PacketPlayerJournal.hpp"
-#include "../Packets/Player/PacketPlayerTeam.hpp"
 #include "../Packets/Player/PacketPlayerLevel.hpp"
 #include "../Packets/Player/PacketPlayerMiscellaneous.hpp"
 #include "../Packets/Player/PacketPlayerMomentum.hpp"
@@ -60,6 +60,7 @@ mwmp::PlayerPacketController::PlayerPacketController(RakNet::RakPeerInterface *p
     AddPacket<PacketGameSettings>(&packets, peer);
     AddPacket<PacketPlayerActiveSkills>(&packets, peer);
 
+    AddPacket<PacketPlayerAlly>(&packets, peer);
     AddPacket<PacketPlayerAnimFlags>(&packets, peer);
     AddPacket<PacketPlayerAnimPlay>(&packets, peer);
     AddPacket<PacketPlayerAttack>(&packets, peer);
@@ -81,7 +82,6 @@ mwmp::PlayerPacketController::PlayerPacketController(RakNet::RakPeerInterface *p
     AddPacket<PacketPlayerItemUse>(&packets, peer);
     AddPacket<PacketPlayerJail>(&packets, peer);
     AddPacket<PacketPlayerJournal>(&packets, peer);
-    AddPacket<PacketPlayerTeam>(&packets, peer);
     AddPacket<PacketPlayerLevel>(&packets, peer);
     AddPacket<PacketPlayerMiscellaneous>(&packets, peer);
     AddPacket<PacketPlayerMomentum>(&packets, peer);

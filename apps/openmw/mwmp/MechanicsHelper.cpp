@@ -290,9 +290,9 @@ bool MechanicsHelper::isTeamMember(const MWWorld::Ptr& playerChecked, const MWWo
                 playerCheckedGuid = PlayerList::getPlayer(playerChecked)->guid;
 
             if (playerWithTeamIsLocal)
-                isTeamMember = Utils::vectorContains(mwmp::Main::get().getLocalPlayer()->teamMembers, playerCheckedGuid);
+                isTeamMember = Utils::vectorContains(mwmp::Main::get().getLocalPlayer()->alliedPlayers, playerCheckedGuid);
             else
-                isTeamMember = Utils::vectorContains(PlayerList::getPlayer(playerWithTeam)->teamMembers, playerCheckedGuid);
+                isTeamMember = Utils::vectorContains(PlayerList::getPlayer(playerWithTeam)->alliedPlayers, playerCheckedGuid);
         }
     }
 
