@@ -201,10 +201,15 @@ void LocalActor::updateEquipment(bool forceUpdate, bool sendImmediately)
     if (!ptr.getClass().hasInventoryStore(ptr))
         return;
 
+    MWWorld::InventoryStore &invStore = ptr.getClass().getInventoryStore(ptr);
+    
+    // If we've never sent any data, autoEquip the actor just in case its inventory
+    // slots have been cleared by a previous Container packet
+    if (!hasSentData)
+        invStore.autoEquip(ptr);
+
     if (forceUpdate)
         equipmentChanged = true;
-
-    MWWorld::InventoryStore &invStore = ptr.getClass().getInventoryStore(ptr);
 
     for (int slot = 0; slot < MWWorld::InventoryStore::Slots; slot++)
     {
