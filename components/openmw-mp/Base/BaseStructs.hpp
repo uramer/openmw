@@ -133,6 +133,7 @@ namespace mwmp
     {
         ESM::StatState<float> mDynamic[3];
         bool mDead;
+        bool mDeathAnimationFinished;
     };
 }
 
