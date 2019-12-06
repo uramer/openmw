@@ -2793,6 +2793,17 @@ CharacterController::KillResult CharacterController::kill()
         return Result_DeathAnimPlaying;
     if (!cStats.isDeathAnimationFinished())
     {
+        /*
+            Start of tes3mp addition
+        */
+        if (mwmp::Main::get().getCellController()->isLocalActor(mPtr))
+        {
+            mwmp::Main::get().getCellController()->getLocalActor(mPtr)->creatureStats.mDeathAnimationFinished = true;
+        }
+        /*
+            End of tes3mp addition
+        */
+
         cStats.setDeathAnimationFinished(true);
         return Result_DeathAnimJustFinished;
     }

@@ -47,6 +47,7 @@ LocalActor::LocalActor()
     killer.name = "";
 
     creatureStats.mDead = false;
+    creatureStats.mDeathAnimationFinished = false;
 }
 
 LocalActor::~LocalActor()
@@ -59,7 +60,7 @@ void LocalActor::update(bool forceUpdate)
     updateStatsDynamic(forceUpdate);
     updateEquipment(forceUpdate, false);
 
-    if (forceUpdate || !creatureStats.mDead)
+    if (forceUpdate || !creatureStats.mDeathAnimationFinished)
     {
         updatePosition(forceUpdate);
         updateAnimFlags(forceUpdate);
@@ -87,8 +88,19 @@ void LocalActor::updateCell()
 
 void LocalActor::updatePosition(bool forceUpdate)
 {
-    bool posIsChanging = (direction.pos[0] != 0 || direction.pos[1] != 0 || direction.pos[2] != 0 ||
-        direction.rot[0] != 0 || direction.rot[1] != 0 || direction.rot[2] != 0);
+    bool posIsChanging = false;
+
+    if (creatureStats.mDead)
+    {
+        ESM::Position ptrPosition = ptr.getRefData().getPosition();
+        posIsChanging = position.pos[0] != ptrPosition.pos[0] || position.pos[1] != ptrPosition.pos[1] ||
+            position.pos[2] != ptrPosition.pos[2];
+    }
+    else
+    {
+        posIsChanging = direction.pos[0] != 0 || direction.pos[1] != 0 || direction.pos[2] != 0 ||
+            direction.rot[0] != 0 || direction.rot[1] != 0 || direction.rot[2] != 0;
+    }
 
     if (forceUpdate || posIsChanging || posWasChanged)
     {
@@ -191,6 +203,7 @@ void LocalActor::updateStatsDynamic(bool forceUpdate)
         fatigue.writeState(creatureStats.mDynamic[2]);
 
         creatureStats.mDead = ptrCreatureStats->isDead();
+        creatureStats.mDeathAnimationFinished = ptrCreatureStats->isDeathAnimationFinished();
 
         mwmp::Main::get().getNetworking()->getActorList()->addStatsDynamicActor(*this);
     }
