@@ -249,6 +249,7 @@ void ObjectList::editContainers(MWWorld::CellStore* cellStore)
             {
                 MWWorld::InventoryStore& invStore = ptrFound.getClass().getInventoryStore(ptrFound);
                 invStore.autoEquip(ptrFound);
+                mwmp::Main::get().getCellController()->getLocalActor(ptrFound)->updateEquipment(true, true);
             }
 
             // If this container was open for us, update its view

@@ -57,7 +57,7 @@ LocalActor::~LocalActor()
 void LocalActor::update(bool forceUpdate)
 {
     updateStatsDynamic(forceUpdate);
-    updateEquipment(forceUpdate);
+    updateEquipment(forceUpdate, false);
 
     if (forceUpdate || !creatureStats.mDead)
     {
@@ -196,7 +196,7 @@ void LocalActor::updateStatsDynamic(bool forceUpdate)
     }
 }
 
-void LocalActor::updateEquipment(bool forceUpdate)
+void LocalActor::updateEquipment(bool forceUpdate, bool sendImmediately)
 {
     if (!ptr.getClass().hasInventoryStore(ptr))
         return;
@@ -205,6 +205,7 @@ void LocalActor::updateEquipment(bool forceUpdate)
         equipmentChanged = true;
 
     MWWorld::InventoryStore &invStore = ptr.getClass().getInventoryStore(ptr);
+
     for (int slot = 0; slot < MWWorld::InventoryStore::Slots; slot++)
     {
         auto &item = equipmentItems[slot];
@@ -235,7 +236,11 @@ void LocalActor::updateEquipment(bool forceUpdate)
 
     if (equipmentChanged)
     {
-        mwmp::Main::get().getNetworking()->getActorList()->addEquipmentActor(*this);
+        if (sendImmediately)
+            sendEquipment();
+        else
+            mwmp::Main::get().getNetworking()->getActorList()->addEquipmentActor(*this);
+
         equipmentChanged = false;
     }
 }
@@ -252,6 +257,15 @@ void LocalActor::updateAttackOrCast()
         mwmp::Main::get().getNetworking()->getActorList()->addCastActor(*this);
         cast.shouldSend = false;
     }
+}
+
+void LocalActor::sendEquipment()
+{
+    ActorList actorList;
+    actorList.cell = cell;
+    actorList.addActor(*this);
+    Main::get().getNetworking()->getActorPacket(ID_ACTOR_EQUIPMENT)->setActorList(&actorList);
+    Main::get().getNetworking()->getActorPacket(ID_ACTOR_EQUIPMENT)->Send();
 }
 
 void LocalActor::sendDeath(char newDeathState)

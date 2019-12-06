@@ -22,9 +22,10 @@ namespace mwmp
         void updateAnimPlay();
         void updateSpeech();
         void updateStatsDynamic(bool forceUpdate);
-        void updateEquipment(bool forceUpdate);
+        void updateEquipment(bool forceUpdate, bool sendImmediately = false);
         void updateAttackOrCast();
 
+        void sendEquipment();
         void sendDeath(char newDeathState);
 
         MWWorld::Ptr getPtr();
