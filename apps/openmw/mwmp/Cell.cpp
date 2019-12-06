@@ -226,9 +226,9 @@ void Cell::readDeath(ActorList& actorList)
 
             Main::get().getCellController()->setQueuedDeathState(actor->getPtr(), baseActor.deathState);
 
-            LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "In Cell::readDeath, deathState is %i and isInstantDeath is %s",
-                baseActor.deathState,
-                baseActor.isInstantDeath ? "true" : "false");
+            LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Received ID_ACTOR_DEATH about %s %i-%i in cell %s\n- deathState: %d\n-isInstantDeath: %s",
+                actor->refId.c_str(), actor->refNum, actor->mpNum, getDescription().c_str(),
+                baseActor.deathState, baseActor.isInstantDeath ? "true" : "false");
 
             if (baseActor.isInstantDeath)
             {
