@@ -2010,7 +2010,17 @@ namespace MWMechanics
                 // Play dying words
                 // Note: It's not known whether the soundgen tags scream, roar, and moan are reliable
                 // for NPCs since some of the npc death animation files are missing them.
-                MWBase::Environment::get().getDialogueManager()->say(iter->first, "hit");
+                /*
+                    Start of tes3mp change (major)
+
+                    Don't play dying words for NPCs who have already been marked as having
+                    finished their death animations from elsewhere in the code
+                */
+                if (!stats.isDeathAnimationFinished())
+                    MWBase::Environment::get().getDialogueManager()->say(iter->first, "hit");
+                /*
+                    End of tes3mp change (major)
+                */
 
                 // Apply soultrap
                 if (iter->first.getTypeName() == typeid(ESM::Creature).name())
