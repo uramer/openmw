@@ -81,7 +81,7 @@ void Cell::updateLocal(bool forceUpdate)
         {
             // Forcibly update this local actor if its data has never been sent before;
             // otherwise, use the current forceUpdate value
-            if (actor->getPtr().getRefData().isEnabled())
+            if (actor->getPtr().getRefData().isEnabled() && !actor->getPtr().getRefData().isDeleted())
                 actor->update(actor->hasSentData ? forceUpdate : true);
 
             ++it;
