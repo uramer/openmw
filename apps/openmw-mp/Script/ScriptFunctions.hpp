@@ -185,6 +185,7 @@ public:
             {"OnCellLoad",               Callback<unsigned short, const char*>()},
             {"OnCellUnload",             Callback<unsigned short, const char*>()},
             {"OnCellDeletion",           Callback<const char*>()},
+            {"OnConsoleCommand",         Callback<unsigned short, const char*>()},
             {"OnContainer",              Callback<unsigned short, const char*>()},
             {"OnDoorState",              Callback<unsigned short, const char*>()},
             {"OnObjectActivate",         Callback<unsigned short, const char*>()},

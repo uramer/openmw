@@ -64,6 +64,11 @@ unsigned char ObjectFunctions::GetObjectListAction() noexcept
     return readObjectList->action;
 }
 
+const char *ObjectFunctions::GetObjectListConsoleCommand() noexcept
+{
+    return readObjectList->consoleCommand.c_str();
+}
+
 unsigned char ObjectFunctions::GetObjectListContainerSubAction() noexcept
 {
     return readObjectList->containerSubAction;

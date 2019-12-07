@@ -54,6 +54,7 @@
 #include "actor/ProcessorActorPosition.hpp"
 #include "actor/ProcessorActorSpeech.hpp"
 #include "ObjectProcessor.hpp"
+#include "object/ProcessorConsoleCommand.hpp"
 #include "object/ProcessorContainer.hpp"
 #include "object/ProcessorDoorState.hpp"
 #include "object/ProcessorMusicPlay.hpp"
@@ -135,6 +136,7 @@ void ProcessorInitializer()
     ActorProcessor::AddProcessor(new ProcessorActorStatsDynamic());
     ActorProcessor::AddProcessor(new ProcessorActorTest());
 
+    ObjectProcessor::AddProcessor(new ProcessorConsoleCommand());
     ObjectProcessor::AddProcessor(new ProcessorContainer());
     ObjectProcessor::AddProcessor(new ProcessorDoorState());
     ObjectProcessor::AddProcessor(new ProcessorMusicPlay());

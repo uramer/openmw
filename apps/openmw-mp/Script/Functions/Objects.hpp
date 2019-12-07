@@ -13,6 +13,7 @@
     {"GetObjectListOrigin",                   ObjectFunctions::GetObjectListOrigin},\
     {"GetObjectListClientScript",             ObjectFunctions::GetObjectListClientScript},\
     {"GetObjectListAction",                   ObjectFunctions::GetObjectListAction},\
+    {"GetObjectListConsoleCommand",           ObjectFunctions::GetObjectListConsoleCommand},\
     {"GetObjectListContainerSubAction",       ObjectFunctions::GetObjectListContainerSubAction},\
     \
     {"IsObjectPlayer",                        ObjectFunctions::IsObjectPlayer},\
@@ -217,6 +218,13 @@ public:
     * \return The action type (0 for SET, 1 for ADD, 2 for REMOVE, 3 for REQUEST).
     */
     static unsigned char GetObjectListAction() noexcept;
+
+    /**
+    * \brief Get the console command used in the read object list.
+    *
+    * \return The console command.
+    */
+    static const char *GetObjectListConsoleCommand() noexcept;
 
     /**
     * \brief Get the container subaction type used in the read object list.
