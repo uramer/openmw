@@ -14,7 +14,7 @@ void PacketConsoleCommand::Packet(RakNet::BitStream *newBitstream, bool send)
     if (!PacketHeader(newBitstream, send))
         return;
 
-    RW(objectList->consoleCommand, send);
+    RW(objectList->consoleCommand, send, true);
 
     BaseObject baseObject;
     for (unsigned int i = 0; i < objectList->baseObjectCount; i++)

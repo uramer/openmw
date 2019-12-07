@@ -79,7 +79,7 @@ bool ObjectPacket::PacketHeader(RakNet::BitStream *newBitstream, bool send)
 
 void ObjectPacket::Object(BaseObject &baseObject, bool send)
 {
-    RW(baseObject.refId, send);
+    RW(baseObject.refId, send, true);
     RW(baseObject.refNum, send);
     RW(baseObject.mpNum, send);
 }
