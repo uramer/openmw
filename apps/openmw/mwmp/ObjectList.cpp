@@ -1147,6 +1147,33 @@ void ObjectList::addVideoPlay(std::string filename, bool allowSkipping)
     addObject(baseObject);
 }
 
+void ObjectList::addConsoleCommandObject(const MWWorld::Ptr& ptr)
+{
+    cell = *ptr.getCell()->getCell();
+
+    mwmp::BaseObject baseObject;
+
+    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
+    {
+        baseObject.isPlayer = true;
+        baseObject.guid = mwmp::Main::get().getNetworking()->getLocalPlayer()->guid;
+    }
+    else if (mwmp::PlayerList::isDedicatedPlayer(ptr))
+    {
+        baseObject.isPlayer = true;
+        baseObject.guid = mwmp::PlayerList::getPlayer(ptr)->guid;
+    }
+    else
+    {
+        baseObject.isPlayer = false;
+        baseObject.refId = ptr.getCellRef().getRefId();
+        baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
+        baseObject.mpNum = ptr.getCellRef().getMpNum();
+    }
+
+    addObject(baseObject);
+}
+
 void ObjectList::addScriptLocalShort(const MWWorld::Ptr& ptr, int index, int shortVal)
 {
     cell = *ptr.getCell()->getCell();
@@ -1337,4 +1364,12 @@ void ObjectList::sendContainer()
 
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CONTAINER)->setObjectList(this);
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CONTAINER)->Send();
+}
+
+void ObjectList::sendConsoleCommand()
+{
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Sending ID_CONSOLE_COMMAND");
+
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_CONSOLE_COMMAND)->setObjectList(this);
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_CONSOLE_COMMAND)->Send();
 }

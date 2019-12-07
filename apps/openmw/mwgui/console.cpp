@@ -7,6 +7,20 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
+/*
+    Start of tes3mp addition
+
+    Include additional headers for multiplayer purposes
+*/
+#include <components/openmw-mp/TimedLog.hpp>
+#include "../mwmp/Main.hpp"
+#include "../mwmp/Networking.hpp"
+#include "../mwmp/LocalPlayer.hpp"
+#include "../mwmp/ObjectList.hpp"
+/*
+    End of tes3mp addition
+*/
+
 #include <components/compiler/exception.hpp>
 #include <components/compiler/extensions0.hpp>
 
@@ -195,11 +209,28 @@ namespace MWGui
                 /*
                     Start of tes3mp addition
 
+                    Send an ID_CONSOLE_COMMAND packet to the server with the
+                    command and target used
+
                     Mark this InterpreterContext as having a CONSOLE context,
                     so that packets sent by the Interpreter can have their
                     origin determined by serverside scripts
                 */
                 interpreterContext.setContextType(Interpreter::Context::CONSOLE);
+
+                mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+                objectList->reset();
+                objectList->packetOrigin = mwmp::CLIENT_CONSOLE;
+                objectList->consoleCommand = command;
+                
+                if (mPtr.isEmpty())
+                    objectList->cell = mwmp::Main::get().getLocalPlayer()->cell;
+                else
+                {
+                    objectList->addConsoleCommandObject(mPtr);
+                }
+
+                objectList->sendConsoleCommand();
                 /*
                     End of tes3mp addition
                 */
