@@ -38,6 +38,13 @@
     {"GetObjectActivatingMpNum",              ObjectFunctions::GetObjectActivatingMpNum},\
     {"GetObjectActivatingName",               ObjectFunctions::GetObjectActivatingName},\
     \
+    {"DoesObjectHavePlayerHitting",           ObjectFunctions::DoesObjectHavePlayerHitting},\
+    {"GetObjectHittingPid",                   ObjectFunctions::GetObjectHittingPid},\
+    {"GetObjectHittingRefId",                 ObjectFunctions::GetObjectHittingRefId},\
+    {"GetObjectHittingRefNum",                ObjectFunctions::GetObjectHittingRefNum},\
+    {"GetObjectHittingMpNum",                 ObjectFunctions::GetObjectHittingMpNum},\
+    {"GetObjectHittingName",                  ObjectFunctions::GetObjectHittingName},\
+    \
     {"GetObjectSummonState",                  ObjectFunctions::GetObjectSummonState},\
     {"GetObjectSummonEffectId",               ObjectFunctions::GetObjectSummonEffectId},\
     {"GetObjectSummonSpellId",                ObjectFunctions::GetObjectSummonSpellId},\
@@ -409,6 +416,60 @@ public:
     * \return The name of the activating actor.
     */
     static const char *GetObjectActivatingName(unsigned int index) noexcept;
+
+    /**
+    * \brief Check whether the object at a certain index in the read object list has been
+    * hit by a player.
+    *
+    * \param index The index of the object.
+    * \return Whether the object has been hit by a player.
+    */
+    static bool DoesObjectHavePlayerHitting(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the player ID of the player hitting the object at a certain index in the
+    * read object list.
+    *
+    * \param index The index of the object.
+    * \return The player ID of the hitting player.
+    */
+    static int GetObjectHittingPid(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the refId of the actor hitting the object at a certain index in the read
+    * object list.
+    *
+    * \param index The index of the object.
+    * \return The refId of the hitting actor.
+    */
+    static const char *GetObjectHittingRefId(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the refNum of the actor hitting the object at a certain index in the read
+    * object list.
+    *
+    * \param index The index of the object.
+    * \return The refNum of the hitting actor.
+    */
+    static unsigned int GetObjectHittingRefNum(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the mpNum of the actor hitting the object at a certain index in the read
+    * object list.
+    *
+    * \param index The index of the object.
+    * \return The mpNum of the hitting actor.
+    */
+    static unsigned int GetObjectHittingMpNum(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the name of the actor hitting the object at a certain index in the read
+    * object list.
+    *
+    * \param index The index of the object.
+    * \return The name of the hitting actor.
+    */
+    static const char *GetObjectHittingName(unsigned int index) noexcept;
 
     /**
     * \brief Check whether the object at a certain index in the read object list is a

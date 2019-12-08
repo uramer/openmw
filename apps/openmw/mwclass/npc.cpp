@@ -18,8 +18,10 @@
 */
 #include <components/openmw-mp/TimedLog.hpp>
 #include "../mwmp/Main.hpp"
+#include "../mwmp/Networking.hpp"
 #include "../mwmp/LocalPlayer.hpp"
 #include "../mwmp/PlayerList.hpp"
+#include "../mwmp/ObjectList.hpp"
 #include "../mwmp/CellController.hpp"
 #include "../mwmp/MechanicsHelper.hpp"
 /*
@@ -612,8 +614,23 @@ namespace MWClass
             return;
 
         const MWWorld::Class &othercls = victim.getClass();
-        if(!othercls.isActor()) // Can't hit non-actors
-            return;
+        /*
+            Start of tes3mp change (major)
+
+            Send an ID_OBJECT_HIT packet when hitting non-actors instead of
+            just returning
+        */
+        if(!othercls.isActor())
+        {
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+            objectList->addObjectHit(victim, ptr);
+            objectList->sendObjectHit();
+        }
+        /*
+            End of tes3mp change (major)
+        */
         MWMechanics::CreatureStats &otherstats = othercls.getCreatureStats(victim);
         if(otherstats.isDead()) // Can't hit dead actors
             return;

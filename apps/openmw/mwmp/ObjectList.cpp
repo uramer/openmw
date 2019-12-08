@@ -967,6 +967,35 @@ void ObjectList::addObjectActivate(const MWWorld::Ptr& ptr, const MWWorld::Ptr& 
     addObject(baseObject);
 }
 
+void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hittingActor)
+{
+    cell = *ptr.getCell()->getCell();
+
+    mwmp::BaseObject baseObject;
+
+    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
+    {
+        baseObject.isPlayer = true;
+        baseObject.guid = mwmp::Main::get().getLocalPlayer()->guid;
+    }
+    else if (mwmp::PlayerList::isDedicatedPlayer(ptr))
+    {
+        baseObject.isPlayer = true;
+        baseObject.guid = mwmp::PlayerList::getPlayer(ptr)->guid;
+    }
+    else
+    {
+        baseObject.isPlayer = false;
+        baseObject.refId = ptr.getCellRef().getRefId();
+        baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
+        baseObject.mpNum = ptr.getCellRef().getMpNum();
+    }
+
+    baseObject.hittingActor = MechanicsHelper::getTarget(hittingActor);
+
+    addObject(baseObject);
+}
+
 void ObjectList::addObjectPlace(const MWWorld::Ptr& ptr, bool droppedByPlayer)
 {
     if (ptr.getCellRef().getRefId().find("$dynamic") != string::npos)
@@ -1221,6 +1250,12 @@ void ObjectList::sendObjectActivate()
 {
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_ACTIVATE)->setObjectList(this);
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_ACTIVATE)->Send();
+}
+
+void ObjectList::sendObjectHit()
+{
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_HIT)->setObjectList(this);
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_HIT)->Send();
 }
 
 void ObjectList::sendObjectPlace()

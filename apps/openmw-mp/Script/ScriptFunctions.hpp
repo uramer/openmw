@@ -189,6 +189,7 @@ public:
             {"OnContainer",              Callback<unsigned short, const char*>()},
             {"OnDoorState",              Callback<unsigned short, const char*>()},
             {"OnObjectActivate",         Callback<unsigned short, const char*>()},
+            {"OnObjectHit",              Callback<unsigned short, const char*>()},
             {"OnObjectPlace",            Callback<unsigned short, const char*>()},
             {"OnObjectState",            Callback<unsigned short, const char*>()},
             {"OnObjectSpawn",            Callback<unsigned short, const char*>()},

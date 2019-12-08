@@ -9,8 +9,40 @@ PacketObjectHit::PacketObjectHit(RakNet::RakPeerInterface *peer) : ObjectPacket(
     hasCellData = true;
 }
 
-void PacketObjectHit::Object(BaseObject &baseObject, bool send)
+void PacketObjectHit::Packet(RakNet::BitStream *newBitstream, bool send)
 {
-    ObjectPacket::Object(baseObject, send);
-    // Placeholder
+    if (!PacketHeader(newBitstream, send))
+        return;
+
+    BaseObject baseObject;
+    for (unsigned int i = 0; i < objectList->baseObjectCount; i++)
+    {
+        if (send)
+            baseObject = objectList->baseObjects.at(i);
+
+        RW(baseObject.isPlayer, send);
+
+        if (baseObject.isPlayer)
+            RW(baseObject.guid, send);
+        else
+            Object(baseObject, send);
+
+        RW(baseObject.hittingActor.isPlayer, send);
+
+        if (baseObject.hittingActor.isPlayer)
+        {
+            RW(baseObject.hittingActor.guid, send);
+        }
+        else
+        {
+            RW(baseObject.hittingActor.refId, send, true);
+            RW(baseObject.hittingActor.refNum, send);
+            RW(baseObject.hittingActor.mpNum, send);
+
+            RW(baseObject.hittingActor.name, send);
+        }
+
+        if (!send)
+            objectList->baseObjects.push_back(baseObject);
+    }
 }

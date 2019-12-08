@@ -184,6 +184,41 @@ const char *ObjectFunctions::GetObjectActivatingName(unsigned int index) noexcep
     return readObjectList->baseObjects.at(index).activatingActor.name.c_str();
 }
 
+bool ObjectFunctions::DoesObjectHavePlayerHitting(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hittingActor.isPlayer;
+}
+
+int ObjectFunctions::GetObjectHittingPid(unsigned int index) noexcept
+{
+    Player *player = Players::getPlayer(readObjectList->baseObjects.at(index).hittingActor.guid);
+
+    if (player != nullptr)
+        return player->getId();
+
+    return -1;
+}
+
+const char *ObjectFunctions::GetObjectHittingRefId(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hittingActor.refId.c_str();
+}
+
+unsigned int ObjectFunctions::GetObjectHittingRefNum(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hittingActor.refNum;
+}
+
+unsigned int ObjectFunctions::GetObjectHittingMpNum(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hittingActor.mpNum;
+}
+
+const char *ObjectFunctions::GetObjectHittingName(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hittingActor.name.c_str();
+}
+
 bool ObjectFunctions::GetObjectSummonState(unsigned int index) noexcept
 {
     return readObjectList->baseObjects.at(index).isSummon;

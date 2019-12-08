@@ -63,6 +63,7 @@ namespace mwmp
         bool droppedByPlayer;
 
         Target activatingActor;
+        Target hittingActor;
 
         bool isSummon;
         int summonEffectId;
