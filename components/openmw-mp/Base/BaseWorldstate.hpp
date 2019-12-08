@@ -35,29 +35,29 @@ namespace mwmp
 {
     enum RECORD_TYPE
     {
+        ACTIVATOR,
+        APPARATUS,
         ARMOR,
+        BODYPART,
         BOOK,
+        CELL,
         CLOTHING,
+        CONTAINER,
         CREATURE,
+        DOOR,
         ENCHANTMENT,
+        INGREDIENT,
+        LIGHT,
+        LOCKPICK,
         MISCELLANEOUS,
         NPC,
         POTION,
-        SPELL,
-        WEAPON,
-        CONTAINER,
-        DOOR,
-        ACTIVATOR,
-        STATIC,
-        INGREDIENT,
-        APPARATUS,
-        LOCKPICK,
         PROBE,
         REPAIR,
-        LIGHT,
-        CELL,
         SCRIPT,
-        BODYPART
+        SPELL,
+        STATIC,
+        WEAPON
     };
 
     // When using an existing record as a base, this struct tracks which changes
