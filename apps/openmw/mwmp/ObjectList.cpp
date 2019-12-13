@@ -898,6 +898,31 @@ void ObjectList::playVideo()
     }
 }
 
+mwmp::BaseObject ObjectList::getObjectFromPtr(const MWWorld::Ptr& ptr)
+{
+    mwmp::BaseObject baseObject;
+
+    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
+    {
+        baseObject.isPlayer = true;
+        baseObject.guid = mwmp::Main::get().getLocalPlayer()->guid;
+    }
+    else if (mwmp::PlayerList::isDedicatedPlayer(ptr))
+    {
+        baseObject.isPlayer = true;
+        baseObject.guid = mwmp::PlayerList::getPlayer(ptr)->guid;
+    }
+    else
+    {
+        baseObject.isPlayer = false;
+        baseObject.refId = ptr.getCellRef().getRefId();
+        baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
+        baseObject.mpNum = ptr.getCellRef().getMpNum();
+    }
+
+    return baseObject;
+}
+
 void ObjectList::addAllContainers(MWWorld::CellStore* cellStore)
 {
     for (auto &ref : cellStore->getContainers()->mList)
@@ -942,26 +967,7 @@ void ObjectList::addObjectActivate(const MWWorld::Ptr& ptr, const MWWorld::Ptr& 
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-
-    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
-    {
-        baseObject.isPlayer = true;
-        baseObject.guid = mwmp::Main::get().getLocalPlayer()->guid;
-    }
-    else if (mwmp::PlayerList::isDedicatedPlayer(ptr))
-    {
-        baseObject.isPlayer = true;
-        baseObject.guid = mwmp::PlayerList::getPlayer(ptr)->guid;
-    }
-    else
-    {
-        baseObject.isPlayer = false;
-        baseObject.refId = ptr.getCellRef().getRefId();
-        baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-        baseObject.mpNum = ptr.getCellRef().getMpNum();
-    }
-
+    mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
     baseObject.activatingActor = MechanicsHelper::getTarget(activatingActor);
 
     addObject(baseObject);
@@ -971,26 +977,7 @@ void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hitti
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-
-    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
-    {
-        baseObject.isPlayer = true;
-        baseObject.guid = mwmp::Main::get().getLocalPlayer()->guid;
-    }
-    else if (mwmp::PlayerList::isDedicatedPlayer(ptr))
-    {
-        baseObject.isPlayer = true;
-        baseObject.guid = mwmp::PlayerList::getPlayer(ptr)->guid;
-    }
-    else
-    {
-        baseObject.isPlayer = false;
-        baseObject.refId = ptr.getCellRef().getRefId();
-        baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-        baseObject.mpNum = ptr.getCellRef().getMpNum();
-    }
-
+    mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
     baseObject.hittingActor = MechanicsHelper::getTarget(hittingActor);
 
     addObject(baseObject);

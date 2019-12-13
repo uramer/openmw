@@ -47,6 +47,8 @@ namespace mwmp
         void playMusic();
         void playVideo();
 
+        mwmp::BaseObject getObjectFromPtr(const MWWorld::Ptr& ptr);
+
         void addAllContainers(MWWorld::CellStore* cellStore);
         void addRequestedContainers(MWWorld::CellStore* cellStore, const std::vector<BaseObject>& requestObjects);
 
