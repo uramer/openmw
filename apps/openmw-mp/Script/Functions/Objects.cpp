@@ -184,6 +184,11 @@ const char *ObjectFunctions::GetObjectActivatingName(unsigned int index) noexcep
     return readObjectList->baseObjects.at(index).activatingActor.name.c_str();
 }
 
+bool ObjectFunctions::GetObjectHitSuccess(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hitAttack.success;
+}
+
 bool ObjectFunctions::DoesObjectHavePlayerHitting(unsigned int index) noexcept
 {
     return readObjectList->baseObjects.at(index).hittingActor.isPlayer;

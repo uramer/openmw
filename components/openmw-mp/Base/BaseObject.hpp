@@ -64,6 +64,7 @@ namespace mwmp
 
         Target activatingActor;
         Target hittingActor;
+        Attack hitAttack;
 
         bool isSummon;
         int summonEffectId;

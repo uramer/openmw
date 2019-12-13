@@ -979,6 +979,18 @@ void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hitti
 
     mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
     baseObject.hittingActor = MechanicsHelper::getTarget(hittingActor);
+    baseObject.hitAttack.success = false;
+
+    addObject(baseObject);
+}
+
+void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hittingActor, const Attack hitAttack)
+{
+    cell = *ptr.getCell()->getCell();
+
+    mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
+    baseObject.hittingActor = MechanicsHelper::getTarget(hittingActor);
+    baseObject.hitAttack = hitAttack;
 
     addObject(baseObject);
 }

@@ -54,6 +54,7 @@ namespace mwmp
 
         void addObjectActivate(const MWWorld::Ptr& ptr, const MWWorld::Ptr& activatingActor);
         void addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hittingActor);
+        void addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hittingActor, const Attack hitAttack);
         void addObjectPlace(const MWWorld::Ptr& ptr, bool droppedByPlayer = false);
         void addObjectSpawn(const MWWorld::Ptr& ptr);
         void addObjectSpawn(const MWWorld::Ptr& ptr, const MWWorld::Ptr& master, std::string spellId, int effectId, float duration);

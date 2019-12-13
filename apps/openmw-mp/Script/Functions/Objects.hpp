@@ -38,6 +38,7 @@
     {"GetObjectActivatingMpNum",              ObjectFunctions::GetObjectActivatingMpNum},\
     {"GetObjectActivatingName",               ObjectFunctions::GetObjectActivatingName},\
     \
+    {"GetObjectHitSuccess",                   ObjectFunctions::GetObjectHitSuccess},\
     {"DoesObjectHavePlayerHitting",           ObjectFunctions::DoesObjectHavePlayerHitting},\
     {"GetObjectHittingPid",                   ObjectFunctions::GetObjectHittingPid},\
     {"GetObjectHittingRefId",                 ObjectFunctions::GetObjectHittingRefId},\
@@ -416,6 +417,15 @@ public:
     * \return The name of the activating actor.
     */
     static const char *GetObjectActivatingName(unsigned int index) noexcept;
+
+    /**
+    * \brief Check whether the object at a certain index in the read object list has been
+    *        hit successfully.
+    *
+    * \param index The index of the object.
+    * \return The success state.
+    */
+    static bool GetObjectHitSuccess(unsigned int index) noexcept;
 
     /**
     * \brief Check whether the object at a certain index in the read object list has been

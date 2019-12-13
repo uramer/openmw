@@ -13,8 +13,10 @@
 */
 #include <components/openmw-mp/TimedLog.hpp>
 #include "../mwmp/Main.hpp"
+#include "../mwmp/Networking.hpp"
 #include "../mwmp/LocalPlayer.hpp"
 #include "../mwmp/PlayerList.hpp"
+#include "../mwmp/ObjectList.hpp"
 #include "../mwmp/CellController.hpp"
 #include "../mwmp/MechanicsHelper.hpp"
 /*
@@ -291,8 +293,23 @@ namespace MWClass
 
         MWWorld::Ptr victim = result.first;
 
+        /*
+            Start of tes3mp change (major)
+
+            Send an ID_OBJECT_HIT packet when hitting non-actors instead of
+            just returning
+        */
         if (!victim.getClass().isActor())
-            return; // Can't hit non-actors
+        {
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+            objectList->addObjectHit(victim, ptr);
+            objectList->sendObjectHit();
+        }
+        /*
+            End of tes3mp change (major)
+        */
 
         osg::Vec3f hitPosition (result.second);
 
@@ -324,12 +341,20 @@ namespace MWClass
 
                 If this was a failed attack by the LocalPlayer or LocalActor, send a
                 packet about it
+
+                Send an ID_OBJECT_HIT about it as well
             */
             if (localAttack)
             {
                 localAttack->pressed = false;
                 localAttack->success = false;
                 localAttack->shouldSend = true;
+
+                mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+                objectList->reset();
+                objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+                objectList->addObjectHit(victim, ptr, *localAttack);
+                objectList->sendObjectHit();
             }
             /*
                 End of tes3mp addition
@@ -553,8 +578,10 @@ namespace MWClass
         /*
             Start of tes3mp addition
 
-            If the attacker was the LocalPlayer or LocalActor, record their target and send a
-            packet with it
+            If the attacker was the LocalPlayer or LocalActor, record their target and send an
+            attack packet about it
+
+            Send an ID_OBJECT_HIT about it as well
 
             If the victim was a LocalActor who died, record their attacker as the killer
         */
@@ -569,6 +596,12 @@ namespace MWClass
             MechanicsHelper::assignAttackTarget(localAttack, ptr);
 
             localAttack->shouldSend = true;
+
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+            objectList->addObjectHit(ptr, attacker, *localAttack);
+            objectList->sendObjectHit();
         }
 
         if (mwmp::Main::get().getCellController()->isLocalActor(ptr))
