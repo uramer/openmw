@@ -77,19 +77,6 @@ namespace MWMechanics
 
         if (MWBase::Environment::get().getWorld()->getMaxActivationDistance() >= targetDir.length())
         {
-            // Note: we intentionally do not cancel package after activation here for backward compatibility with original engine.
-
-            /*
-                Start of tes3mp change (major)
-
-                Disable unilateral activation on this client and expect the server's reply to our
-                packet to do it instead
-            */
-            //MWBase::Environment::get().getWorld()->activate(target, actor);
-            /*
-                End of tes3mp change (major)
-            */
-
             /*
                 Start of tes3mp addition
 
@@ -102,6 +89,21 @@ namespace MWMechanics
             objectList->sendObjectActivate();
             /*
                 End of tes3mp addition
+            */
+
+            /*
+                Start of tes3mp change (major)
+
+                Disable unilateral activation on this client and expect the server's reply to our
+                packet to do it instead
+
+                Cancel the package to avoid an infinite activation loop, deviating from the behavior
+                established in OpenMW in commit 48aba76ce904738d428e79f1ee24ce170f2a8309
+            */
+            //MWBase::Environment::get().getWorld()->activate(target, actor);
+            return true;
+            /*
+                End of tes3mp change (major)
             */
         }
         return false;
