@@ -189,6 +189,21 @@ bool ObjectFunctions::GetObjectHitSuccess(unsigned int index) noexcept
     return readObjectList->baseObjects.at(index).hitAttack.success;
 }
 
+double ObjectFunctions::GetObjectHitDamage(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hitAttack.damage;
+}
+
+bool ObjectFunctions::GetObjectHitBlock(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hitAttack.block;
+}
+
+bool ObjectFunctions::GetObjectHitKnockdown(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).hitAttack.knockdown;
+}
+
 bool ObjectFunctions::DoesObjectHavePlayerHitting(unsigned int index) noexcept
 {
     return readObjectList->baseObjects.at(index).hittingActor.isPlayer;

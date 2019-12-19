@@ -39,6 +39,9 @@
     {"GetObjectActivatingName",               ObjectFunctions::GetObjectActivatingName},\
     \
     {"GetObjectHitSuccess",                   ObjectFunctions::GetObjectHitSuccess},\
+    {"GetObjectHitDamage",                    ObjectFunctions::GetObjectHitDamage},\
+    {"GetObjectHitBlock",                     ObjectFunctions::GetObjectHitBlock},\
+    {"GetObjectHitKnockdown",                 ObjectFunctions::GetObjectHitKnockdown},\
     {"DoesObjectHavePlayerHitting",           ObjectFunctions::DoesObjectHavePlayerHitting},\
     {"GetObjectHittingPid",                   ObjectFunctions::GetObjectHittingPid},\
     {"GetObjectHittingRefId",                 ObjectFunctions::GetObjectHittingRefId},\
@@ -426,6 +429,33 @@ public:
     * \return The success state.
     */
     static bool GetObjectHitSuccess(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the damage caused to the object at a certain index in the read object list
+    *        in a hit.
+    *
+    * \param index The index of the object.
+    * \return The damage.
+    */
+    static double GetObjectHitDamage(unsigned int index) noexcept;
+
+    /**
+    * \brief Check whether the object at a certain index in the read object list has
+    *        blocked the hit on it.
+    *
+    * \param index The index of the object.
+    * \return The block state.
+    */
+    static bool GetObjectHitBlock(unsigned int index) noexcept;
+
+    /**
+    * \brief Check whether the object at a certain index in the read object list has been
+    *        knocked down.
+    *
+    * \param index The index of the object.
+    * \return The knockdown state.
+    */
+    static bool GetObjectHitKnockdown(unsigned int index) noexcept;
 
     /**
     * \brief Check whether the object at a certain index in the read object list has been

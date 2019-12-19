@@ -44,6 +44,13 @@ void PacketObjectHit::Packet(RakNet::BitStream *newBitstream, bool send)
 
         RW(baseObject.hitAttack.success, send);
 
+        if (baseObject.hitAttack.success)
+        {
+            RW(baseObject.hitAttack.damage, send);
+            RW(baseObject.hitAttack.block, send);
+            RW(baseObject.hitAttack.knockdown, send);
+        }
+
         if (!send)
             objectList->baseObjects.push_back(baseObject);
     }
