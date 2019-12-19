@@ -79,8 +79,8 @@ namespace mwmp
 
         ESM::Position hitPosition;
 
-        float damage;
-        float attackStrength;
+        float damage = 0;
+        float attackStrength = 0;
 
         bool isHit = false;
         bool success = false;
