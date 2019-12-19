@@ -82,17 +82,17 @@ namespace mwmp
         float damage;
         float attackStrength;
 
-        bool isHit;
-        bool success;
-        bool block;
+        bool isHit = false;
+        bool success = false;
+        bool block = false;
         
-        bool pressed;
-        bool instant;
-        bool knockdown;
-        bool applyWeaponEnchantment;
-        bool applyAmmoEnchantment;
+        bool pressed = false;
+        bool instant = false;
+        bool knockdown = false;
+        bool applyWeaponEnchantment = false;
+        bool applyAmmoEnchantment = false;
 
-        bool shouldSend;
+        bool shouldSend = false;
     };
 
     class Cast
