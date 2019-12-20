@@ -21,6 +21,7 @@
     Bug #3812: Wrong multiline tooltips width when word-wrapping is enabled
     Bug #3894: Hostile spell effects not detected/present on first frame of OnPCHitMe
     Bug #3977: Non-ASCII characters in object ID's are not supported
+    Bug #4009: Launcher does not show data files on the first run after installing
     Bug #4077: Enchanted items are not recharged if they are not in the player's inventory
     Bug #4202: Open .omwaddon files without needing toopen openmw-cs first
     Bug #4240: Ash storm origin coordinates and hand shielding animation behavior are incorrect
@@ -62,6 +63,7 @@
     Bug #4787: Sneaking makes 1st person walking/bobbing animation super-slow
     Bug #4797: Player sneaking and running stances are not accounted for when in air
     Bug #4800: Standing collisions are not updated immediately when an object is teleported without a cell change
+    Bug #4802: You can rest before taking falling damage from landing from a jump
     Bug #4803: Stray special characters before begin statement break script compilation
     Bug #4804: Particle system with the "Has Sizes = false" causes an exception
     Bug #4805: NPC movement speed calculations do not take race Weight into account
@@ -179,6 +181,10 @@
     Bug #5213: SameFaction script function is broken
     Bug #5218: Crash when disabling ToggleBorders
     Bug #5220: GetLOS crashes when actor isn't loaded
+    Bug #5222: Empty cell name subrecords are not saved
+    Bug #5223: Bow replacement during attack animation removes attached arrow
+    Bug #5226: Reputation should be capped
+    Bug #5229: Crash if mesh controller node has no data node
     Feature #1774: Handle AvoidNode
     Feature #2229: Improve pathfinding AI
     Feature #3025: Analogue gamepad movement controls
@@ -229,6 +235,7 @@
     Feature #5147: Show spell magicka cost in spell buying window
     Feature #5170: Editor: Land shape editing, land selection
     Feature #5193: Weapon sheathing
+    Feature #5224: Handle NiKeyframeController for NiTriShape
     Task #4686: Upgrade media decoder to a more current FFmpeg API
     Task #4695: Optimize Distant Terrain memory consumption
     Task #4789: Optimize cell transitions

@@ -215,12 +215,11 @@ namespace
     struct InsertVisitor
     {
         MWWorld::CellStore& mCell;
-        bool mRescale;
         Loading::Listener& mLoadingListener;
 
         std::vector<MWWorld::Ptr> mToInsert;
 
-        InsertVisitor (MWWorld::CellStore& cell, bool rescale, Loading::Listener& loadingListener);
+        InsertVisitor (MWWorld::CellStore& cell, Loading::Listener& loadingListener);
 
         bool operator() (const MWWorld::Ptr& ptr);
 
@@ -228,8 +227,8 @@ namespace
         void insert(AddObject&& addObject);
     };
 
-    InsertVisitor::InsertVisitor (MWWorld::CellStore& cell, bool rescale, Loading::Listener& loadingListener)
-    : mCell (cell), mRescale (rescale), mLoadingListener (loadingListener)
+    InsertVisitor::InsertVisitor (MWWorld::CellStore& cell, Loading::Listener& loadingListener)
+    : mCell (cell), mLoadingListener (loadingListener)
     {}
 
     bool InsertVisitor::operator() (const MWWorld::Ptr& ptr)
@@ -245,14 +244,6 @@ namespace
     {
         for (MWWorld::Ptr& ptr : mToInsert)
         {
-            if (mRescale)
-            {
-                if (ptr.getCellRef().getScale()<0.5)
-                    ptr.getCellRef().setScale(0.5);
-                else if (ptr.getCellRef().getScale()>2)
-                    ptr.getCellRef().setScale(2);
-            }
-
             if (!ptr.getRefData().isDeleted() && ptr.getRefData().isEnabled())
             {
                 try
@@ -459,19 +450,7 @@ namespace MWWorld
                 cell->respawn();
 
             // ... then references. This is important for adjustPosition to work correctly.
-            /// \todo rescale depending on the state of a new GMST
-
-            /*
-                Start of tes3mp change (major)
-
-                Instead of always rescaling objects as in the original code, never rescale them,
-                so they can maintain their server-set scales when their cells are reloaded
-            */
-            insertCell(*cell, false, loadingListener);
-            /*
-                End of tes3mp change (major)
-            */
-            
+            insertCell (*cell, loadingListener);
 
             mRendering.addCell(cell);
             MWBase::Environment::get().getWindowManager()->addCell(cell);
@@ -852,9 +831,9 @@ namespace MWWorld
         mCellChanged = false;
     }
 
-    void Scene::insertCell (CellStore &cell, bool rescale, Loading::Listener* loadingListener)
+    void Scene::insertCell (CellStore &cell, Loading::Listener* loadingListener)
     {
-        InsertVisitor insertVisitor (cell, rescale, *loadingListener);
+        InsertVisitor insertVisitor (cell, *loadingListener);
         cell.forEach (insertVisitor);
         insertVisitor.insert([&] (const MWWorld::Ptr& ptr) { addObject(ptr, *mPhysics, mRendering); });
         insertVisitor.insert([&] (const MWWorld::Ptr& ptr) { addObject(ptr, *mPhysics, mNavigator); });
