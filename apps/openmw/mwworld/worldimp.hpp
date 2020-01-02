@@ -232,6 +232,9 @@ namespace MWWorld
 
             CellStore *getCell (const ESM::CellId& id) override;
 
+            void testExteriorCells() override;
+            void testInteriorCells() override;
+
             //switch to POV before showing player's death animation
             void useDeathCamera() override;
 

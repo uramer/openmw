@@ -617,6 +617,16 @@ namespace MWWorld
             return getInterior (id.mWorldspace);
     }
 
+    void World::testExteriorCells()
+    {
+        mWorldScene->testExteriorCells();
+    }
+
+    void World::testInteriorCells()
+    {
+        mWorldScene->testInteriorCells();
+    }
+
     void World::useDeathCamera()
     {
         if(mRendering->getCamera()->isVanityOrPreviewModeEnabled() )
