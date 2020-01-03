@@ -116,18 +116,18 @@ public:
     static void ClearMapChanges() noexcept;
 
     /**
-    * \brief Get the number of indexes in the read worldstate's map changes.
-    *
-    * \return The number of indexes.
-    */
-    static unsigned int GetMapChangesSize() noexcept;
-
-    /**
     * \brief Get the number of indexes in the read worldstate's kill changes.
     *
     * \return The number of indexes.
     */
     static unsigned int GetKillChangesSize() noexcept;
+
+    /**
+    * \brief Get the number of indexes in the read worldstate's map changes.
+    *
+    * \return The number of indexes.
+    */
+    static unsigned int GetMapChangesSize() noexcept;
 
     /**
     * \brief Get the refId at a certain index in the read worldstate's kill count changes.
