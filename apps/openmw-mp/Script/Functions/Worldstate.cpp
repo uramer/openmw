@@ -33,6 +33,11 @@ void WorldstateFunctions::ClearMapChanges() noexcept
     writeWorldstate.mapTiles.clear();
 }
 
+void WorldstateFunctions::ClearClientGlobals() noexcept
+{
+    writeWorldstate.clientGlobals.clear();
+}
+
 unsigned int WorldstateFunctions::GetKillChangesSize() noexcept
 {
     return readWorldstate->killChanges.size();
@@ -41,6 +46,11 @@ unsigned int WorldstateFunctions::GetKillChangesSize() noexcept
 unsigned int WorldstateFunctions::GetMapChangesSize() noexcept
 {
     return readWorldstate->mapTiles.size();
+}
+
+unsigned int WorldstateFunctions::GetClientGlobalsSize() noexcept
+{
+    return readWorldstate->clientGlobals.size();
 }
 
 const char *WorldstateFunctions::GetKillRefId(unsigned int index) noexcept
@@ -86,6 +96,26 @@ int WorldstateFunctions::GetMapTileCellX(unsigned int index) noexcept
 int WorldstateFunctions::GetMapTileCellY(unsigned int index) noexcept
 {
     return readWorldstate->mapTiles.at(index).y;
+}
+
+const char *WorldstateFunctions::GetClientGlobalId(unsigned int index) noexcept
+{
+    return readWorldstate->clientGlobals.at(index).id.c_str();
+}
+
+unsigned short WorldstateFunctions::GetClientGlobalVariableType(unsigned int index) noexcept
+{
+    return readWorldstate->clientGlobals.at(index).variableType;
+}
+
+int WorldstateFunctions::GetClientGlobalIntValue(unsigned int index) noexcept
+{
+    return readWorldstate->clientGlobals.at(index).intValue;
+}
+
+double WorldstateFunctions::GetClientGlobalFloatValue(unsigned int index) noexcept
+{
+    return readWorldstate->clientGlobals.at(index).floatValue;
 }
 
 void WorldstateFunctions::SetAuthorityRegion(const char* authorityRegion) noexcept
@@ -182,6 +212,26 @@ void WorldstateFunctions::AddKill(const char* refId, int number) noexcept
     writeWorldstate.killChanges.push_back(kill);
 }
 
+void WorldstateFunctions::AddClientGlobalInteger(const char* id, int intValue) noexcept
+{
+    mwmp::ClientVariable clientVariable;
+    clientVariable.id = id;
+    clientVariable.variableType = mwmp::VARIABLE_TYPE::INTEGER;
+    clientVariable.intValue = intValue;
+
+    writeWorldstate.clientGlobals.push_back(clientVariable);
+}
+
+void WorldstateFunctions::AddClientGlobalFloat(const char* id, double floatValue) noexcept
+{
+    mwmp::ClientVariable clientVariable;
+    clientVariable.id = id;
+    clientVariable.variableType = mwmp::VARIABLE_TYPE::FLOAT;
+    clientVariable.floatValue = floatValue;
+
+    writeWorldstate.clientGlobals.push_back(clientVariable);
+}
+
 void WorldstateFunctions::AddSynchronizedClientScriptId(const char *scriptId) noexcept
 {
     writeWorldstate.synchronizedClientScriptIds.push_back(scriptId);
@@ -255,6 +305,22 @@ void WorldstateFunctions::LoadMapTileImageFile(int cellX, int cellY, const char*
     }
 }
 
+void WorldstateFunctions::SendClientScriptGlobal(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept
+{
+    Player *player;
+    GET_PLAYER(pid, player, );
+
+    writeWorldstate.guid = player->guid;
+
+    mwmp::WorldstatePacket *packet = mwmp::Networking::get().getWorldstatePacketController()->GetPacket(ID_CLIENT_SCRIPT_GLOBAL);
+    packet->setWorldstate(&writeWorldstate);
+
+    if (!skipAttachedPlayer)
+        packet->Send(false);
+    if (sendToOtherPlayers)
+        packet->Send(true);
+}
+
 void WorldstateFunctions::SendClientScriptSettings(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept
 {
     Player *player;
@@ -270,7 +336,6 @@ void WorldstateFunctions::SendClientScriptSettings(unsigned short pid, bool send
     if (sendToOtherPlayers)
         packet->Send(true);
 }
-
 
 void WorldstateFunctions::SendWorldKillCount(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept
 {

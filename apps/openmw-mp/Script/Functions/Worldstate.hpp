@@ -11,9 +11,11 @@
     \
     {"ClearKillChanges",                  WorldstateFunctions::ClearKillChanges},\
     {"ClearMapChanges",                   WorldstateFunctions::ClearMapChanges},\
+    {"ClearClientGlobals",                WorldstateFunctions::ClearClientGlobals},\
     \
     {"GetKillChangesSize",                WorldstateFunctions::GetKillChangesSize},\
     {"GetMapChangesSize",                 WorldstateFunctions::GetMapChangesSize},\
+    {"GetClientGlobalsSize",              WorldstateFunctions::GetClientGlobalsSize},\
     \
     {"GetKillRefId",                      WorldstateFunctions::GetKillRefId},\
     {"GetKillNumber",                     WorldstateFunctions::GetKillNumber},\
@@ -26,6 +28,11 @@
     \
     {"GetMapTileCellX",                   WorldstateFunctions::GetMapTileCellX},\
     {"GetMapTileCellY",                   WorldstateFunctions::GetMapTileCellY},\
+    \
+    {"GetClientGlobalId",                 WorldstateFunctions::GetClientGlobalId},\
+    {"GetClientGlobalVariableType",       WorldstateFunctions::GetClientGlobalVariableType},\
+    {"GetClientGlobalIntValue",           WorldstateFunctions::GetClientGlobalIntValue},\
+    {"GetClientGlobalFloatValue",         WorldstateFunctions::GetClientGlobalFloatValue},\
     \
     {"SetAuthorityRegion",                WorldstateFunctions::SetAuthorityRegion},\
     \
@@ -49,6 +56,8 @@
     {"UseActorCollisionForPlacedObjects", WorldstateFunctions::UseActorCollisionForPlacedObjects},\
     \
     {"AddKill",                           WorldstateFunctions::AddKill},\
+    {"AddClientGlobalInteger",            WorldstateFunctions::AddClientGlobalInteger},\
+    {"AddClientGlobalFloat",              WorldstateFunctions::AddClientGlobalFloat},\
     {"AddSynchronizedClientScriptId",     WorldstateFunctions::AddSynchronizedClientScriptId},\
     {"AddSynchronizedClientGlobalId",     WorldstateFunctions::AddSynchronizedClientGlobalId},\
     {"AddEnforcedCollisionRefId",         WorldstateFunctions::AddEnforcedCollisionRefId},\
@@ -62,6 +71,7 @@
     {"SaveMapTileImageFile",              WorldstateFunctions::SaveMapTileImageFile},\
     {"LoadMapTileImageFile",              WorldstateFunctions::LoadMapTileImageFile},\
     \
+    {"SendClientScriptGlobal",            WorldstateFunctions::SendClientScriptGlobal},\
     {"SendClientScriptSettings",          WorldstateFunctions::SendClientScriptSettings},\
     {"SendWorldKillCount",                WorldstateFunctions::SendWorldKillCount},\
     {"SendWorldMap",                      WorldstateFunctions::SendWorldMap},\
@@ -116,6 +126,15 @@ public:
     static void ClearMapChanges() noexcept;
 
     /**
+    * \brief Clear the client globals for the write-only worldstate.
+    *
+    * This is used to initialize the sending of new ClientScriptGlobal packets.
+    *
+    * \return void
+    */
+    static void ClearClientGlobals() noexcept;
+
+    /**
     * \brief Get the number of indexes in the read worldstate's kill changes.
     *
     * \return The number of indexes.
@@ -128,6 +147,13 @@ public:
     * \return The number of indexes.
     */
     static unsigned int GetMapChangesSize() noexcept;
+
+    /**
+    * \brief Get the number of indexes in the read worldstate's client globals.
+    *
+    * \return The number of indexes.
+    */
+    static unsigned int GetClientGlobalsSize() noexcept;
 
     /**
     * \brief Get the refId at a certain index in the read worldstate's kill count changes.
@@ -197,6 +223,42 @@ public:
     * \return The Y coordinate of the cell.
     */
     static int GetMapTileCellY(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the id of the global variable at a certain index in the read worldstate's
+    *        client globals.
+    *
+    * \param index The index of the client global.
+    * \return The id.
+    */
+    static const char *GetClientGlobalId(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the type of the global variable at a certain index in the read worldstate's
+    *        client globals.
+    *
+    * \param index The index of the client global.
+    * \return The variable type (0 for INTEGER, 1 for FLOAT).
+    */
+    static unsigned short GetClientGlobalVariableType(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the integer value of the global variable at a certain index in the read
+    *        worldstate's client globals.
+    *
+    * \param index The index of the client global.
+    * \return The integer value.
+    */
+    static int GetClientGlobalIntValue(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the float value of the global variable at a certain index in the read
+    *        worldstate's client globals.
+    *
+    * \param index The index of the client global.
+    * \return The float value.
+    */
+    static double GetClientGlobalFloatValue(unsigned int index) noexcept;
 
     /**
     * \brief Set the region affected by the next WorldRegionAuthority packet sent.
@@ -351,6 +413,24 @@ public:
     static void AddKill(const char* refId, int number) noexcept;
 
     /**
+    * \brief Add a new client global integer to the client globals.
+    *
+    * \param id The id of the client global.
+    * \param intValue The integer value of the client global.
+    * \return void
+    */
+    static void AddClientGlobalInteger(const char* id, int intValue) noexcept;
+
+    /**
+    * \brief Add a new client global float to the client globals.
+    *
+    * \param id The id of the client global.
+    * \param floatValue The float value of the client global.
+    * \return void
+    */
+    static void AddClientGlobalFloat(const char* id, double floatValue) noexcept;
+
+    /**
     * \brief Add an ID to the list of script IDs whose variable changes should be sent to the
     *        the server by clients.
     *
@@ -438,6 +518,19 @@ public:
     * \return void
     */
     static void LoadMapTileImageFile(int cellX, int cellY, const char* filePath) noexcept;
+
+    /**
+    * \brief Send a ClientScriptGlobal packet with the current client script globals in
+    *        the write-only worldstate.
+    *
+    * \param pid The player ID attached to the packet.
+    * \param sendToOtherPlayers Whether this packet should be sent to players other than the
+    *                           player attached to the packet (false by default).
+    * \param skipAttachedPlayer Whether the packet should skip being sent to the player attached
+    *                           to the packet (false by default).
+    * \return void
+    */
+    static void SendClientScriptGlobal(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept;
 
     /**
     * \brief Send a ClientScriptSettings packet with the current client script settings in

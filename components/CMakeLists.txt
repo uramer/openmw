@@ -208,15 +208,14 @@ add_component_dir (openmw-mp/Packets/Object
         PacketObjectCollision PacketObjectDelete PacketObjectHit PacketObjectLock PacketObjectMove PacketObjectPlace
         PacketObjectRotate PacketObjectScale PacketObjectSpawn PacketObjectState PacketObjectTrap PacketMusicPlay
         PacketVideoPlay PacketScriptLocalShort PacketScriptLocalFloat PacketScriptMemberShort PacketScriptMemberFloat
-        PacketScriptGlobalShort PacketScriptGlobalFloat
         )
 
 add_component_dir (openmw-mp/Packets/Worldstate
         WorldstatePacket
 
-        PacketCellCreate PacketCellReset PacketClientScriptSettings PacketRecordDynamic PacketWorldCollisionOverride
-        PacketWorldDestinationOverride PacketWorldKillCount PacketWorldMap PacketWorldRegionAuthority PacketWorldTime
-        PacketWorldWeather
+        PacketCellCreate PacketCellReset PacketClientScriptGlobal PacketClientScriptSettings PacketRecordDynamic
+        PacketWorldCollisionOverride PacketWorldDestinationOverride PacketWorldKillCount PacketWorldMap
+        PacketWorldRegionAuthority PacketWorldTime PacketWorldWeather
         )
 
 add_component_dir (fallback

@@ -24,8 +24,6 @@
 #include "../Packets/Object/PacketScriptLocalFloat.hpp"
 #include "../Packets/Object/PacketScriptMemberShort.hpp"
 #include "../Packets/Object/PacketScriptMemberFloat.hpp"
-#include "../Packets/Object/PacketScriptGlobalShort.hpp"
-#include "../Packets/Object/PacketScriptGlobalFloat.hpp"
 
 #include "ObjectPacketController.hpp"
 
@@ -65,8 +63,6 @@ mwmp::ObjectPacketController::ObjectPacketController(RakNet::RakPeerInterface *p
     AddPacket<PacketScriptLocalFloat>(&packets, peer);
     AddPacket<PacketScriptMemberShort>(&packets, peer);
     AddPacket<PacketScriptMemberFloat>(&packets, peer);
-    AddPacket<PacketScriptGlobalShort>(&packets, peer);
-    AddPacket<PacketScriptGlobalFloat>(&packets, peer);
 }
 
 

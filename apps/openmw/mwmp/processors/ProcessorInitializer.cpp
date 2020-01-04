@@ -70,8 +70,6 @@
 #include "object/ProcessorScriptLocalFloat.hpp"
 #include "object/ProcessorScriptMemberShort.hpp"
 #include "object/ProcessorScriptMemberFloat.hpp"
-#include "object/ProcessorScriptGlobalShort.hpp"
-#include "object/ProcessorScriptGlobalFloat.hpp"
 #include "object/ProcessorVideoPlay.hpp"
 
 #include "ActorProcessor.hpp"
@@ -92,6 +90,7 @@
 
 #include "WorldstateProcessor.hpp"
 #include "worldstate/ProcessorCellReset.hpp"
+#include "worldstate/ProcessorClientScriptGlobal.hpp"
 #include "worldstate/ProcessorClientScriptSettings.hpp"
 #include "worldstate/ProcessorRecordDynamic.hpp"
 #include "worldstate/ProcessorWorldCollisionOverride.hpp"
@@ -173,8 +172,6 @@ void ProcessorInitializer()
     ObjectProcessor::AddProcessor(new ProcessorScriptLocalFloat());
     ObjectProcessor::AddProcessor(new ProcessorScriptMemberShort());
     ObjectProcessor::AddProcessor(new ProcessorScriptMemberFloat());
-    ObjectProcessor::AddProcessor(new ProcessorScriptGlobalShort());
-    ObjectProcessor::AddProcessor(new ProcessorScriptGlobalFloat());
     ObjectProcessor::AddProcessor(new ProcessorVideoPlay());
 
     ActorProcessor::AddProcessor(new ProcessorActorAI());
@@ -193,6 +190,7 @@ void ProcessorInitializer()
     ActorProcessor::AddProcessor(new ProcessorActorTest());
 
     WorldstateProcessor::AddProcessor(new ProcessorCellReset());
+    WorldstateProcessor::AddProcessor(new ProcessorClientScriptGlobal());
     WorldstateProcessor::AddProcessor(new ProcessorClientScriptSettings());
     WorldstateProcessor::AddProcessor(new ProcessorRecordDynamic());
     WorldstateProcessor::AddProcessor(new ProcessorWorldCollisionOverride());

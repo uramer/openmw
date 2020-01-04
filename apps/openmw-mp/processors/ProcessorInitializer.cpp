@@ -74,10 +74,9 @@
 #include "object/ProcessorScriptLocalFloat.hpp"
 #include "object/ProcessorScriptMemberShort.hpp"
 #include "object/ProcessorScriptMemberFloat.hpp"
-#include "object/ProcessorScriptGlobalShort.hpp"
-#include "object/ProcessorScriptGlobalFloat.hpp"
 #include "object/ProcessorVideoPlay.hpp"
 #include "WorldstateProcessor.hpp"
+#include "worldstate/ProcessorClientScriptGlobal.hpp"
 #include "worldstate/ProcessorRecordDynamic.hpp"
 #include "worldstate/ProcessorWorldKillCount.hpp"
 #include "worldstate/ProcessorWorldMap.hpp"
@@ -157,10 +156,9 @@ void ProcessorInitializer()
     ObjectProcessor::AddProcessor(new ProcessorScriptLocalFloat());
     ObjectProcessor::AddProcessor(new ProcessorScriptMemberShort());
     ObjectProcessor::AddProcessor(new ProcessorScriptMemberFloat());
-    ObjectProcessor::AddProcessor(new ProcessorScriptGlobalShort());
-    ObjectProcessor::AddProcessor(new ProcessorScriptGlobalFloat());
     ObjectProcessor::AddProcessor(new ProcessorVideoPlay());
 
+    WorldstateProcessor::AddProcessor(new ProcessorClientScriptGlobal());
     WorldstateProcessor::AddProcessor(new ProcessorRecordDynamic());
     WorldstateProcessor::AddProcessor(new ProcessorWorldKillCount());
     WorldstateProcessor::AddProcessor(new ProcessorWorldMap());

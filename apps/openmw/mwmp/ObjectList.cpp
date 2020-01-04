@@ -867,16 +867,6 @@ void ObjectList::setMemberShorts()
     }
 }
 
-void ObjectList::setGlobalShorts()
-{
-    for (const auto &baseObject : baseObjects)
-    {
-        LOG_APPEND(TimedLog::LOG_VERBOSE, "- varName: %s, shortVal: %i", baseObject.varName.c_str(), baseObject.shortVal);
-
-        MWBase::Environment::get().getWorld()->setGlobalInt(baseObject.varName, baseObject.shortVal);
-    }
-}
-
 void ObjectList::playMusic()
 {
     for (const auto &baseObject : baseObjects)
@@ -1237,14 +1227,6 @@ void ObjectList::addScriptMemberShort(std::string refId, int index, int shortVal
     addObject(baseObject);
 }
 
-void ObjectList::addScriptGlobalShort(std::string varName, int shortVal)
-{
-    mwmp::BaseObject baseObject;
-    baseObject.varName = varName;
-    baseObject.shortVal = shortVal;
-    addObject(baseObject);
-}
-
 void ObjectList::sendObjectActivate()
 {
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_ACTIVATE)->setObjectList(this);
@@ -1379,17 +1361,6 @@ void ObjectList::sendScriptMemberShort()
 
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_SCRIPT_MEMBER_SHORT)->setObjectList(this);
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_SCRIPT_MEMBER_SHORT)->Send();
-}
-
-void ObjectList::sendScriptGlobalShort()
-{
-    LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Sending ID_SCRIPT_GLOBAL_SHORT");
-
-    for (const auto &baseObject : baseObjects)
-        LOG_APPEND(TimedLog::LOG_VERBOSE, "- varName: %s, shortVal: %i", baseObject.varName.c_str(), baseObject.shortVal);
-
-    mwmp::Main::get().getNetworking()->getObjectPacket(ID_SCRIPT_GLOBAL_SHORT)->setObjectList(this);
-    mwmp::Main::get().getNetworking()->getObjectPacket(ID_SCRIPT_GLOBAL_SHORT)->Send();
 }
 
 void ObjectList::sendContainer()

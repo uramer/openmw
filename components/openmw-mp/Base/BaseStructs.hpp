@@ -20,6 +20,22 @@ namespace mwmp
         SERVER_SCRIPT = 5
     };
 
+    enum VARIABLE_TYPE
+    {
+        INTEGER,
+        FLOAT
+    };
+
+    struct ClientVariable
+    {
+        std::string id;
+
+        char variableType;
+
+        int intValue;
+        float floatValue;
+    };
+
     struct Time
     {
         float hour;

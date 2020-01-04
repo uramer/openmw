@@ -337,6 +337,33 @@ void Worldstate::markExploredMapTile(int cellX, int cellY)
     exploredMapTiles.push_back(exploredTile);
 }
 
+void Worldstate::setClientGlobals()
+{
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Received ID_CLIENT_SCRIPT_GLOBAL with the following global values:");
+    std::string debugMessage = "";
+
+    for (const auto &clientGlobal : clientGlobals)
+    {
+        if (TimedLog::GetLevel() <= TimedLog::LOG_INFO)
+        {
+            if (!debugMessage.empty())
+                debugMessage += ", ";
+
+            std::string valueAsString = clientGlobal.variableType == mwmp::VARIABLE_TYPE::INTEGER ?
+                std::to_string(clientGlobal.intValue) : std::to_string(clientGlobal.floatValue);
+
+            debugMessage += clientGlobal.id + ": " + valueAsString;
+        }
+
+        if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::INTEGER)
+            MWBase::Environment::get().getWorld()->setGlobalInt(clientGlobal.id, clientGlobal.intValue);
+        else if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::FLOAT)
+            MWBase::Environment::get().getWorld()->setGlobalInt(clientGlobal.id, clientGlobal.floatValue);
+    }
+
+    LOG_APPEND(TimedLog::LOG_INFO, "- %s", debugMessage.c_str());
+}
+
 void Worldstate::setKills()
 {
     LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Received ID_WORLD_KILL_COUNT with the following kill counts:");
@@ -390,6 +417,40 @@ void Worldstate::setWeather()
 
     world->setRegionWeather(weather.region.c_str(), weather.currentWeather, weather.nextWeather,
         weather.queuedWeather, weather.transitionFactor, forceWeather);
+}
+
+void Worldstate::sendClientGlobal(std::string varName, int value)
+{
+    clientGlobals.clear();
+
+    mwmp::ClientVariable clientVariable;
+    clientVariable.id = varName;
+    clientVariable.variableType = mwmp::VARIABLE_TYPE::INTEGER;
+    clientVariable.intValue = value;
+
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_CLIENT_SCRIPT_GLOBAL with name %s, type integer, value %i", varName.c_str(), value);
+
+    clientGlobals.push_back(clientVariable);
+
+    getNetworking()->getWorldstatePacket(ID_CLIENT_SCRIPT_GLOBAL)->setWorldstate(this);
+    getNetworking()->getWorldstatePacket(ID_CLIENT_SCRIPT_GLOBAL)->Send();
+}
+
+void Worldstate::sendClientGlobal(std::string varName, float value)
+{
+    clientGlobals.clear();
+
+    mwmp::ClientVariable clientVariable;
+    clientVariable.id = varName;
+    clientVariable.variableType = mwmp::VARIABLE_TYPE::FLOAT;
+    clientVariable.floatValue = value;
+
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_CLIENT_SCRIPT_GLOBAL with name %s, type float, value %f", varName.c_str(), value);
+
+    clientGlobals.push_back(clientVariable);
+
+    getNetworking()->getWorldstatePacket(ID_CLIENT_SCRIPT_GLOBAL)->setWorldstate(this);
+    getNetworking()->getWorldstatePacket(ID_CLIENT_SCRIPT_GLOBAL)->Send();
 }
 
 void Worldstate::sendMapExplored(int cellX, int cellY, const std::vector<char>& imageData)

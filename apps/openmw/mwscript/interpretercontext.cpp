@@ -333,17 +333,13 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_SCRIPT_GLOBAL_SHORT packet when a global short changes its value as long as
+            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global short changes its value as long as
             it is being set in a script that has been approved for packet sending or the global itself
             has been set to always be synchronized
         */
         if (sendPackets || mwmp::Main::isValidPacketGlobal(name))
         {
-            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
-            objectList->reset();
-            objectList->packetOrigin = ScriptController::getPacketOriginFromContextType(getContextType());
-            objectList->addScriptGlobalShort(name, value);
-            objectList->sendScriptGlobalShort();
+            mwmp::Main::get().getNetworking()->getWorldstate()->sendClientGlobal(name, value);
         }
         /*
             End of tes3mp addition
@@ -354,11 +350,61 @@ namespace MWScript
 
     void InterpreterContext::setGlobalLong (const std::string& name, int value)
     {
+        /*
+            Start of tes3mp addition
+
+            Avoid setting a global to a value it already is, preventing packet spam
+        */
+        if (getGlobalLong(name) == value) return;
+        /*
+            End of tes3mp addition
+        */
+
+        /*
+            Start of tes3mp addition
+
+            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global short changes its value as long as
+            it is being set in a script that has been approved for packet sending or the global itself
+            has been set to always be synchronized
+        */
+        if (sendPackets || mwmp::Main::isValidPacketGlobal(name))
+        {
+            mwmp::Main::get().getNetworking()->getWorldstate()->sendClientGlobal(name, value);
+        }
+        /*
+            End of tes3mp addition
+        */
+
         MWBase::Environment::get().getWorld()->setGlobalInt (name, value);
     }
 
     void InterpreterContext::setGlobalFloat (const std::string& name, float value)
     {
+        /*
+            Start of tes3mp addition
+
+            Avoid setting a global to a value it already is, preventing packet spam
+        */
+        if (getGlobalFloat(name) == value) return;
+        /*
+            End of tes3mp addition
+        */
+
+        /*
+            Start of tes3mp addition
+
+            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global short changes its value as long as
+            it is being set in a script that has been approved for packet sending or the global itself
+            has been set to always be synchronized
+        */
+        if (sendPackets || mwmp::Main::isValidPacketGlobal(name))
+        {
+            mwmp::Main::get().getNetworking()->getWorldstate()->sendClientGlobal(name, value);
+        }
+        /*
+            End of tes3mp addition
+        */
+
         MWBase::Environment::get().getWorld()->setGlobalFloat (name, value);
     }
 

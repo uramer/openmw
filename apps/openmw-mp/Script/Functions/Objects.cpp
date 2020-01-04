@@ -745,13 +745,15 @@ void ObjectFunctions::SendVideoPlay(bool sendToOtherPlayers, bool skipAttachedPl
 
 void ObjectFunctions::SendScriptGlobalShort(bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept
 {
-    mwmp::ObjectPacket *packet = mwmp::Networking::get().getObjectPacketController()->GetPacket(ID_SCRIPT_GLOBAL_SHORT);
+    /*
+    mwmp::ObjectPacket *packet = mwmp::Networking::get().getObjectPacketController()->GetPacket(ID_CLIENT_SCRIPT_GLOBAL);
     packet->setObjectList(&writeObjectList);
 
     if (!skipAttachedPlayer)
         packet->Send(false);
     if (sendToOtherPlayers)
         packet->Send(true);
+    */
 }
 
 void ObjectFunctions::SendConsoleCommand(bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept

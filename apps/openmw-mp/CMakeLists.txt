@@ -123,15 +123,15 @@ set(PROCESSORS_OBJECT
         processors/object/ProcessorObjectState.hpp processors/object/ProcessorObjectTrap.hpp
         processors/object/ProcessorScriptLocalShort.hpp processors/object/ProcessorScriptLocalFloat.hpp
         processors/object/ProcessorScriptMemberShort.hpp processors/object/ProcessorScriptMemberFloat.hpp
-        processors/object/ProcessorScriptGlobalShort.hpp processors/object/ProcessorScriptGlobalFloat.hpp
         processors/object/ProcessorVideoPlay.hpp
         )
 
 source_group(tes3mp-server\\processors\\object FILES ${PROCESSORS_OBJECT})
 
 set(PROCESSORS_WORLDSTATE
-        processors/worldstate/ProcessorRecordDynamic.hpp processors/worldstate/ProcessorWorldKillCount.hpp
-        processors/worldstate/ProcessorWorldMap.hpp processors/worldstate/ProcessorWorldWeather.hpp
+        processors/worldstate/ProcessorClientScriptGlobal.hpp processors/worldstate/ProcessorRecordDynamic.hpp
+        processors/worldstate/ProcessorWorldKillCount.hpp processors/worldstate/ProcessorWorldMap.hpp
+        processors/worldstate/ProcessorWorldWeather.hpp
         )
 
 source_group(tes3mp-server\\processors\\worldstate FILES ${PROCESSORS_WORLDSTATE})

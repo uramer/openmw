@@ -42,7 +42,6 @@ namespace mwmp
         void setLocalShorts(MWWorld::CellStore* cellStore);
         void setLocalFloats(MWWorld::CellStore* cellStore);
         void setMemberShorts();
-        void setGlobalShorts();
 
         void playMusic();
         void playVideo();
@@ -72,7 +71,6 @@ namespace mwmp
         void addScriptLocalShort(const MWWorld::Ptr& ptr, int index, int shortVal);
         void addScriptLocalFloat(const MWWorld::Ptr& ptr, int index, float floatVal);
         void addScriptMemberShort(std::string refId, int index, int shortVal);
-        void addScriptGlobalShort(std::string varName, int shortVal);
 
         void sendObjectActivate();
         void sendObjectHit();
@@ -90,7 +88,6 @@ namespace mwmp
         void sendScriptLocalShort();
         void sendScriptLocalFloat();
         void sendScriptMemberShort();
-        void sendScriptGlobalShort();
         void sendContainer();
         void sendConsoleCommand();
 

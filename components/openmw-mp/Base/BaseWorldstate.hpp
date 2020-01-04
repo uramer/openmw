@@ -351,6 +351,8 @@ namespace mwmp
         std::vector<std::string> synchronizedClientScriptIds;
         std::vector<std::string> synchronizedClientGlobalIds;
 
+        std::vector<ClientVariable> clientGlobals;
+
         bool hasPlayerCollision;
         bool hasActorCollision;
         bool hasPlacedObjectCollision;

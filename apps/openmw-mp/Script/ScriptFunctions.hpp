@@ -210,7 +210,7 @@ public:
             {"OnWorldKillCount",         Callback<unsigned short>()},
             {"OnWorldMap",               Callback<unsigned short>()},
             {"OnWorldWeather",           Callback<unsigned short>()},
-            {"OnScriptGlobalShort",      Callback<unsigned short>()},
+            {"OnClientScriptGlobal",     Callback<unsigned short>()},
             {"OnMpNumIncrement",         Callback<int>()},
             {"OnRequestDataFileList",    Callback<>()}
     };

@@ -133,13 +133,12 @@ add_openmw_dir (mwmp/processors/object BaseObjectProcessor
     ProcessorObjectActivate ProcessorObjectAnimPlay ProcessorObjectAttach  ProcessorObjectCollision ProcessorObjectDelete
     ProcessorObjectHit ProcessorObjectLock ProcessorObjectMove ProcessorObjectPlace ProcessorObjectRotate
     ProcessorObjectScale ProcessorObjectSpawn ProcessorObjectState ProcessorObjectTrap ProcessorScriptLocalShort
-    ProcessorScriptLocalFloat ProcessorScriptMemberShort ProcessorScriptMemberFloat ProcessorScriptGlobalShort
-    ProcessorScriptGlobalFloat
+    ProcessorScriptLocalFloat ProcessorScriptMemberShort ProcessorScriptMemberFloat
     )
 
-add_openmw_dir (mwmp/processors/worldstate ProcessorCellReset ProcessorClientScriptSettings ProcessorRecordDynamic
-    ProcessorWorldCollisionOverride ProcessorWorldDestinationOverride ProcessorWorldKillCount ProcessorWorldMap
-    ProcessorWorldRegionAuthority ProcessorWorldTime ProcessorWorldWeather
+add_openmw_dir (mwmp/processors/worldstate ProcessorCellReset ProcessorClientScriptGlobal ProcessorClientScriptSettings
+    ProcessorRecordDynamic ProcessorWorldCollisionOverride ProcessorWorldDestinationOverride ProcessorWorldKillCount
+    ProcessorWorldMap ProcessorWorldRegionAuthority ProcessorWorldTime ProcessorWorldWeather
     )
 
 # Main executable
