@@ -91,11 +91,10 @@ add_component_dir (misc
     gcd constants utf8stream stringops resourcehelpers rng messageformatparser weakcache
     )
 
-if (BUILD_OPENMW OR BUILD_OPENCS)
-    add_component_dir(debug
-            debugging debuglog
-            )
-endif ()
+add_component_dir(debug
+        debugging debuglog
+        )
+
 
 IF(NOT WIN32 AND NOT APPLE)
     add_definitions(-DGLOBAL_DATA_PATH="${GLOBAL_DATA_PATH}")
