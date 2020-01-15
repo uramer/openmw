@@ -1697,6 +1697,8 @@ namespace MWInput
             return "Zoom In";
         else if (action == A_ZoomOut)
             return "Zoom Out";
+        else if (action == A_ToggleHUD)
+            return "Toggle HUD";
 
         descriptions[A_Use] = "sUse";
         descriptions[A_Activate] = "sActivate";
@@ -1875,6 +1877,7 @@ namespace MWInput
         ret.push_back(A_Console);
         ret.push_back(A_QuickSave);
         ret.push_back(A_QuickLoad);
+        ret.push_back(A_ToggleHUD);
         ret.push_back(A_Screenshot);
         ret.push_back(A_QuickKeysMenu);
         ret.push_back(A_QuickKey1);
@@ -1908,6 +1911,7 @@ namespace MWInput
         ret.push_back(A_Rest);
         ret.push_back(A_QuickSave);
         ret.push_back(A_QuickLoad);
+        ret.push_back(A_ToggleHUD);
         ret.push_back(A_Screenshot);
         ret.push_back(A_QuickKeysMenu);
         ret.push_back(A_QuickKey1);
@@ -1948,7 +1952,7 @@ namespace MWInput
         }
 
         // Disallow binding reserved keys
-        if (key == SDL_SCANCODE_F3 || key == SDL_SCANCODE_F4 || key == SDL_SCANCODE_F10 || key == SDL_SCANCODE_F11)
+        if (key == SDL_SCANCODE_F3 || key == SDL_SCANCODE_F4 || key == SDL_SCANCODE_F10)
             return;
 
         #ifndef __APPLE__

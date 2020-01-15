@@ -161,8 +161,9 @@ void getRestorationPerHourOfSleep (const MWWorld::Ptr& ptr, float& health, float
 
 namespace MWMechanics
 {
-    static const int GREETING_SHOULD_START = 4; //how many updates should pass before NPC can greet player
-    static const int GREETING_SHOULD_END = 10;
+    static const int GREETING_SHOULD_START = 4; // how many updates should pass before NPC can greet player
+    static const int GREETING_SHOULD_END = 20;  // how many updates should pass before NPC stops turning to player
+    static const int GREETING_COOLDOWN = 40;    // how many updates should pass before NPC can continue movement
     static const float DECELERATE_DISTANCE = 512.f;
 
     class GetStuntedMagickaDuration : public MWMechanics::EffectSourceVisitor
@@ -552,9 +553,10 @@ namespace MWMechanics
         {
             greetingTimer++;
 
-            turnActorToFacePlayer(actor, dir);
+            if (greetingTimer <= GREETING_SHOULD_END || MWBase::Environment::get().getSoundManager()->sayActive(actor))
+                turnActorToFacePlayer(actor, dir);
 
-            if (greetingTimer >= GREETING_SHOULD_END)
+            if (greetingTimer >= GREETING_COOLDOWN)
             {
                 greetingState = Greet_Done;
                 greetingTimer = 0;
@@ -1867,6 +1869,11 @@ namespace MWMechanics
                             }
                         }
                     }
+                    else if ((isLocalActor || aiActive) && iter->first != player && isConscious(iter->first))
+                    {
+                        CreatureStats &stats = iter->first.getClass().getCreatureStats(iter->first);
+                        stats.getAiSequence().execute(iter->first, *ctrl, duration, /*outOfRange*/true);
+                    }
                     /*
                         End of tes3mp change (major)
                     */
@@ -1897,7 +1904,15 @@ namespace MWMechanics
             {
                 const float dist = (playerPos - iter->first.getRefData().getPosition().asVec3()).length();
                 bool isPlayer = iter->first == player;
-                bool inRange = isPlayer || dist <= mActorsProcessingRange;
+                CreatureStats &stats = iter->first.getClass().getCreatureStats(iter->first);
+                // Actors with active AI should be able to move.
+                bool alwaysActive = false;
+                if (!isPlayer && isConscious(iter->first) && !stats.isParalyzed())
+                {
+                    MWMechanics::AiSequence& seq = stats.getAiSequence();
+                    alwaysActive = !seq.isEmpty() && seq.getActivePackage()->alwaysActive();
+                }
+                bool inRange = isPlayer || dist <= mActorsProcessingRange || alwaysActive;
                 int activeFlag = 1; // Can be changed back to '2' to keep updating bounding boxes off screen (more accurate, but slower)
                 if (isPlayer)
                     activeFlag = 2;

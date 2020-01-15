@@ -23,6 +23,7 @@
 #include <components/esm/loadbsgn.hpp>
 
 #include "../mwworld/esmstore.hpp"
+#include "../mwworld/inventorystore.hpp"
 
 #include "../mwbase/environment.hpp"
 #include "../mwbase/world.hpp"
@@ -31,6 +32,7 @@
 
 #include "../mwmechanics/movement.hpp"
 #include "../mwmechanics/npcstats.hpp"
+#include "../mwmechanics/spellcasting.hpp"
 
 #include "class.hpp"
 #include "ptr.hpp"
@@ -526,5 +528,15 @@ namespace MWWorld
     void Player::erasePreviousItem(const std::string& boundItemId)
     {
         mPreviousItems.erase(boundItemId);
+    }
+
+    void Player::setSelectedSpell(const std::string& spellId)
+    {
+        Ptr player = getPlayer();
+        InventoryStore& store = player.getClass().getInventoryStore(player);
+        store.setSelectedEnchantItem(store.end());
+        int castChance = int(MWMechanics::getSpellSuccessChance(spellId, player));
+        MWBase::Environment::get().getWindowManager()->setSelectedSpell(spellId, castChance);
+        MWBase::Environment::get().getWindowManager()->updateSpellWindow();
     }
 }
