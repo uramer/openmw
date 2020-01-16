@@ -1365,7 +1365,42 @@ void ObjectList::sendScriptMemberShort()
 
 void ObjectList::sendContainer()
 {
-    LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Sending ID_CONTAINER");
+    std::string debugMessage = "Sending ID_CONTAINER with action ";
+    
+    if (action == mwmp::BaseObjectList::SET)
+        debugMessage += "SET";
+    else if (action == mwmp::BaseObjectList::ADD)
+        debugMessage += "ADD";
+    else if (action == mwmp::BaseObjectList::REMOVE)
+        debugMessage += "REMOVE";
+
+    debugMessage += " and subaction ";
+
+    if (containerSubAction == mwmp::BaseObjectList::NONE)
+        debugMessage += "NONE";
+    else if (containerSubAction == mwmp::BaseObjectList::DRAG)
+        debugMessage += "DRAG";
+    else if (containerSubAction == mwmp::BaseObjectList::DROP)
+        debugMessage += "DROP";
+    else if (containerSubAction == mwmp::BaseObjectList::TAKE_ALL)
+        debugMessage += "TAKE_ALL";
+    else if (containerSubAction == mwmp::BaseObjectList::REPLY_TO_REQUEST)
+        debugMessage += "REPLY_TO_REQUEST";
+
+    debugMessage += "\n- cell " + cell.getDescription();
+
+    for (const auto &baseObject : baseObjects)
+    {
+        debugMessage += "\n- container " + baseObject.refId + " " + std::to_string(baseObject.refNum) + "-" + std::to_string(baseObject.mpNum);
+
+        for (const auto &containerItem : baseObject.containerItems)
+        {
+            debugMessage += "\n-- item " + containerItem.refId + ", count " + std::to_string(containerItem.count) +
+                ", actionCount " + std::to_string(containerItem.actionCount);
+        }
+    }
+
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "%s", debugMessage.c_str());
 
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CONTAINER)->setObjectList(this);
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CONTAINER)->Send();

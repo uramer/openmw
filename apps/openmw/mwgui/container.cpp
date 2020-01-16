@@ -128,10 +128,6 @@ namespace MWGui
         objectList->addContainerItem(baseObject, itemPtr, count);
         objectList->addObject(baseObject);
         objectList->sendContainer();
-
-        LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_CONTAINER about\n- Ptr cellRef: %s, %i\n- cell: %s\n- item: %s, %i",
-            baseObject.refId.c_str(), baseObject.refNum, objectList->cell.getDescription().c_str(),
-            itemPtr.getCellRef().getRefId().c_str(), itemPtr.getRefData().getCount());
         /*
             End of tes3mp addition
         */
@@ -186,10 +182,6 @@ namespace MWGui
             baseObject.containerItems.push_back(containerItem);
             objectList->addObject(baseObject);
             objectList->sendContainer();
-
-            LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_CONTAINER about\n- Ptr cellRef: %s %i-%i\n- cell: %s\n- item: %s %i, %i",
-                baseObject.refId.c_str(), baseObject.refNum, baseObject.mpNum, objectList->cell.getDescription().c_str(),
-                containerItem.refId.c_str(), containerItem.count, containerItem.charge);
         }
         /*
             End of tes3mp addition
@@ -327,10 +319,6 @@ namespace MWGui
         objectList->containerSubAction = mwmp::BaseObjectList::TAKE_ALL;
         objectList->addEntireContainer(mPtr);
         objectList->sendContainer();
-
-        LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_CONTAINER about\n- Ptr cellRef: %s, %i-%i\n- cell: %s",
-            mPtr.getCellRef().getRefId().c_str(), mPtr.getCellRef().getRefNum().mIndex, mPtr.getCellRef().getMpNum(),
-            objectList->cell.getDescription().c_str());
         /*
             End of tes3mp addition
         */

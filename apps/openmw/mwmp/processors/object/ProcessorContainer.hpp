@@ -17,7 +17,31 @@ namespace mwmp
         {
             BaseObjectProcessor::Do(packet, objectList);
 
-            LOG_APPEND(TimedLog::LOG_VERBOSE, "- action: %i, containerSubAction: %i", objectList.action, objectList.containerSubAction);
+            std::string debugMessage = "- action ";
+            unsigned char action = objectList.action;
+            unsigned char containerSubAction = objectList.containerSubAction;
+
+            if (action == mwmp::BaseObjectList::SET)
+                debugMessage += "SET";
+            else if (action == mwmp::BaseObjectList::ADD)
+                debugMessage += "ADD";
+            else if (action == mwmp::BaseObjectList::REMOVE)
+                debugMessage += "REMOVE";
+
+            debugMessage += " and subaction ";
+
+            if (containerSubAction == mwmp::BaseObjectList::NONE)
+                debugMessage += "NONE";
+            else if (containerSubAction == mwmp::BaseObjectList::DRAG)
+                debugMessage += "DRAG";
+            else if (containerSubAction == mwmp::BaseObjectList::DROP)
+                debugMessage += "DROP";
+            else if (containerSubAction == mwmp::BaseObjectList::TAKE_ALL)
+                debugMessage += "TAKE_ALL";
+            else if (containerSubAction == mwmp::BaseObjectList::REPLY_TO_REQUEST)
+                debugMessage += "REPLY_TO_REQUEST";
+
+            LOG_APPEND(TimedLog::LOG_VERBOSE, "%s", debugMessage.c_str());
 
             // If we've received a request for information, comply with it
             if (objectList.action == mwmp::BaseObjectList::REQUEST)
