@@ -139,7 +139,7 @@ void ObjectList::editContainers(MWWorld::CellStore* cellStore)
     {
         baseObject = baseObjects.at(i);
 
-        LOG_APPEND(TimedLog::LOG_VERBOSE, "- container cellRef: %s %i-%i", baseObject.refId.c_str(), baseObject.refNum, baseObject.mpNum);
+        LOG_APPEND(TimedLog::LOG_VERBOSE, "- container %s %i-%i", baseObject.refId.c_str(), baseObject.refNum, baseObject.mpNum);
 
         MWWorld::Ptr ptrFound = cellStore->searchExact(baseObject.refNum, baseObject.mpNum);
 
@@ -169,7 +169,6 @@ void ObjectList::editContainers(MWWorld::CellStore* cellStore)
             if (action == BaseObjectList::SET)
                 containerStore.clear();
 
-            // bool isLocalDrop = isLocalEvent && containerSubAction == BaseObjectList::DROP;
             bool isLocalDrag = isLocalEvent && containerSubAction == BaseObjectList::DRAG;
             bool isLocalTakeAll = isLocalEvent && containerSubAction == BaseObjectList::TAKE_ALL;
             std::string takeAllSound = "";
@@ -178,7 +177,7 @@ void ObjectList::editContainers(MWWorld::CellStore* cellStore)
 
             for (const auto &containerItem : baseObject.containerItems)
             {
-                //LOG_APPEND(TimedLog::LOG_VERBOSE, "-- containerItem cellRef: %s, count: %i, actionCount: %i",
+                //LOG_APPEND(TimedLog::LOG_VERBOSE, "-- containerItem %s, count: %i, actionCount: %i",
                 //    containerItem.refId.c_str(), containerItem.count, containerItem.actionCount);
 
                 if (containerItem.refId.find("$dynamic") != string::npos)
@@ -230,7 +229,7 @@ void ObjectList::editContainers(MWWorld::CellStore* cellStore)
                                         invStore.unequipItemQuantity(itemPtr, ptrFound, containerItem.count);
                                 }
 
-                                bool isResolved = false;
+                                bool isDragResolved = false;
 
                                 if (isLocalDrag && isCurrentContainer)
                                 {
@@ -238,11 +237,11 @@ void ObjectList::editContainers(MWWorld::CellStore* cellStore)
 
                                     if (!containerWindow->isOnDragAndDrop())
                                     {
-                                        isResolved = containerWindow->dragItemByPtr(itemPtr, containerItem.actionCount);
+                                        isDragResolved = containerWindow->dragItemByPtr(itemPtr, containerItem.actionCount);
                                     }
                                 }
 
-                                if (!isResolved)
+                                if (!isLocalDrag || !isDragResolved)
                                 {
                                     containerStore.remove(itemPtr, containerItem.actionCount, ownerPtr);
 
