@@ -109,7 +109,8 @@ namespace mwmp
             DRAG = 1,
             DROP = 2,
             TAKE_ALL = 3,
-            REPLY_TO_REQUEST = 4
+            REPLY_TO_REQUEST = 4,
+            RESTOCK = 5
         };
 
         RakNet::RakNetGUID guid;
