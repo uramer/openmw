@@ -1373,8 +1373,6 @@ void ObjectList::sendContainer()
 
 void ObjectList::sendConsoleCommand()
 {
-    LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Sending ID_CONSOLE_COMMAND");
-
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CONSOLE_COMMAND)->setObjectList(this);
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CONSOLE_COMMAND)->Send();
 }
