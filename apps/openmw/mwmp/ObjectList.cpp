@@ -78,17 +78,34 @@ BaseObject ObjectList::getBaseObject(const MWWorld::Ptr& ptr)
     return baseObject;
 }
 
-void ObjectList::addContainerItem(mwmp::BaseObject& baseObject, const MWWorld::Ptr& itemPtr, int actionCount)
+void ObjectList::addContainerItem(mwmp::BaseObject& baseObject, const MWWorld::Ptr& itemPtr, int itemCount, int actionCount)
 {
     mwmp::ContainerItem containerItem;
     containerItem.refId = itemPtr.getCellRef().getRefId();
-    containerItem.count = itemPtr.getRefData().getCount();
+    containerItem.count = itemCount;
     containerItem.charge = itemPtr.getCellRef().getCharge();
     containerItem.enchantmentCharge = itemPtr.getCellRef().getEnchantmentCharge();
     containerItem.soul = itemPtr.getCellRef().getSoul();
     containerItem.actionCount = actionCount;
 
-    LOG_APPEND(TimedLog::LOG_VERBOSE, "--- Adding container item %s", containerItem.refId.c_str());
+    LOG_APPEND(TimedLog::LOG_VERBOSE, "--- Adding container item %s to packet with count %i and actionCount %i",
+        containerItem.refId.c_str(), itemCount, actionCount);
+
+    baseObject.containerItems.push_back(containerItem);
+}
+
+void ObjectList::addContainerItem(mwmp::BaseObject& baseObject, const std::string itemId, int itemCount, int actionCount)
+{
+    mwmp::ContainerItem containerItem;
+    containerItem.refId = itemId;
+    containerItem.count = itemCount;
+    containerItem.charge = -1;
+    containerItem.enchantmentCharge = -1;
+    containerItem.soul = "";
+    containerItem.actionCount = actionCount;
+
+    LOG_APPEND(TimedLog::LOG_VERBOSE, "--- Adding container item %s to packet with count %i and actionCount %i",
+        containerItem.refId.c_str(), itemCount, actionCount);
 
     baseObject.containerItems.push_back(containerItem);
 }
@@ -104,7 +121,7 @@ void ObjectList::addEntireContainer(const MWWorld::Ptr& ptr)
 
     for (const auto itemPtr : containerStore)
     {
-        addContainerItem(baseObject, itemPtr, itemPtr.getRefData().getCount());
+        addContainerItem(baseObject, itemPtr, itemPtr.getRefData().getCount(), itemPtr.getRefData().getCount());
     }
 
     addObject(baseObject);

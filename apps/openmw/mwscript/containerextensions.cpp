@@ -143,16 +143,8 @@ namespace MWScript
                         objectList->cell = *ptr.getCell()->getCell();
                         objectList->action = mwmp::BaseObjectList::ADD;
                         objectList->containerSubAction = mwmp::BaseObjectList::NONE;
-
                         mwmp::BaseObject baseObject = objectList->getBaseObject(ptr);
-                        mwmp::ContainerItem containerItem;
-                        containerItem.refId = item;
-                        containerItem.count = count;
-                        containerItem.charge = -1;
-                        containerItem.enchantmentCharge = -1;
-                        containerItem.soul = "";
-
-                        baseObject.containerItems.push_back(containerItem);
+                        objectList->addContainerItem(baseObject, item, count, 0);
                         objectList->addObject(baseObject);
                         objectList->sendContainer();
                     }
@@ -280,15 +272,7 @@ namespace MWScript
                         objectList->containerSubAction = mwmp::BaseObjectList::NONE;
 
                         mwmp::BaseObject baseObject = objectList->getBaseObject(ptr);
-                        mwmp::ContainerItem containerItem;
-                        containerItem.refId = item;
-                        containerItem.count = 0;
-                        containerItem.actionCount = count;
-                        containerItem.charge = -1;
-                        containerItem.enchantmentCharge = -1;
-                        containerItem.soul = "";
-
-                        baseObject.containerItems.push_back(containerItem);
+                        objectList->addContainerItem(baseObject, item, 0, count);
                         objectList->addObject(baseObject);
                         objectList->sendContainer();
                     }

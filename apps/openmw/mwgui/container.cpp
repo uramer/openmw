@@ -125,7 +125,7 @@ namespace MWGui
 
         mwmp::BaseObject baseObject = objectList->getBaseObject(mPtr);
         MWWorld::Ptr itemPtr = mModel->getItem(mSelectedItem).mBase;
-        objectList->addContainerItem(baseObject, itemPtr, count);
+        objectList->addContainerItem(baseObject, itemPtr, itemPtr.getRefData().getCount(), count);
         objectList->addObject(baseObject);
         objectList->sendContainer();
         /*
@@ -169,17 +169,7 @@ namespace MWGui
 
             mwmp::BaseObject baseObject = objectList->getBaseObject(mPtr);
             MWWorld::Ptr itemPtr = mDragAndDrop->mItem.mBase;
-            mwmp::ContainerItem containerItem;
-            containerItem.refId = itemPtr.getCellRef().getRefId();
-
-            // Make sure we get the drag and drop count, not the count of the original item
-            containerItem.count = mDragAndDrop->mDraggedCount;
-
-            containerItem.charge = itemPtr.getCellRef().getCharge();
-            containerItem.enchantmentCharge = itemPtr.getCellRef().getEnchantmentCharge();
-            containerItem.soul = itemPtr.getCellRef().getSoul();
-
-            baseObject.containerItems.push_back(containerItem);
+            objectList->addContainerItem(baseObject, itemPtr, mDragAndDrop->mDraggedCount, 0);
             objectList->addObject(baseObject);
             objectList->sendContainer();
         }
