@@ -229,6 +229,7 @@ add_component_dir(settings)
 
 if (BUILD_OPENMW OR BUILD_OPENCS)
     add_component_dir(detournavigator
+            debug
             makenavmesh
             findsmoothpath
             recastmeshbuilder
@@ -242,6 +243,7 @@ if (BUILD_OPENMW OR BUILD_OPENCS)
             tilecachedrecastmeshmanager
             recastmeshobject
             navmeshtilescache
+            settings
             )
 endif()
 
