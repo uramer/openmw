@@ -123,7 +123,24 @@ void ContainerItemModel::removeItem (const ItemStack& item, size_t count)
         {
             int refCount = source.getRefData().getCount();
             if (refCount - toRemove <= 0)
+            {
+                /*
+                    Start of tes3mp addition
+
+                    Send an ID_OBJECT_DELETE packet every time an item is removed from the world
+                    because it has been purchased from its owner
+                */
+                mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+                objectList->reset();
+                objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+                objectList->addObjectDelete(source);
+                objectList->sendObjectDelete();
+                /*
+                    End of tes3mp addition
+                */
+
                 MWBase::Environment::get().getWorld()->deleteObject(source);
+            }
             else
                 source.getRefData().setCount(std::max(0, refCount - toRemove));
             toRemove -= refCount;
