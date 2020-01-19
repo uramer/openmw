@@ -2,6 +2,21 @@
 
 #include <algorithm>
 
+#include <components/openmw-mp/TimedLog.hpp>
+
+/*
+    Start of tes3mp addition
+
+    Include additional headers for multiplayer purposes
+*/
+#include "../mwmp/Main.hpp"
+#include "../mwmp/Networking.hpp"
+#include "../mwmp/LocalPlayer.hpp"
+#include "../mwmp/ObjectList.hpp"
+/*
+    End of tes3mp addition
+*/
+
 #include "../mwmechanics/creaturestats.hpp"
 #include "../mwmechanics/actorutil.hpp"
 
