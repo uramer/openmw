@@ -1081,17 +1081,6 @@ void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr, const MWWorld::Ptr& mas
     addObject(baseObject);
 }
 
-void ObjectList::addObjectDelete(const MWWorld::Ptr& ptr)
-{
-    cell = *ptr.getCell()->getCell();
-
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
-    addObject(baseObject);
-}
-
 void ObjectList::addObjectLock(const MWWorld::Ptr& ptr, int lockLevel)
 {
     cell = *ptr.getCell()->getCell();

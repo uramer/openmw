@@ -2119,7 +2119,7 @@ namespace MWMechanics
                 mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
                 objectList->reset();
                 objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
-                objectList->addObjectDelete(ptr);
+                objectList->addObject(objectList->getObjectFromPtr(ptr));
                 objectList->sendObjectDelete();
             }
             /*

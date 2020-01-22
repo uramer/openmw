@@ -209,7 +209,7 @@ void ContainerItemModel::removeItem (const ItemStack& item, size_t count)
                 mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
                 objectList->reset();
                 objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
-                objectList->addObjectDelete(source);
+                objectList->addObject(objectList->getObjectFromPtr(source));
                 objectList->sendObjectDelete();
                 /*
                     End of tes3mp addition
