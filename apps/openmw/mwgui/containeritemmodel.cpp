@@ -123,7 +123,7 @@ MWWorld::Ptr ContainerItemModel::copyItem (const ItemStack& item, size_t count, 
     objectList->containerSubAction = mwmp::BaseObjectList::NONE;
     mwmp::BaseObject baseObject = objectList->getBaseObjectFromPtr(source);
     objectList->addContainerItem(baseObject, item.mBase, count, 0);
-    objectList->addObject(baseObject);
+    objectList->addBaseObject(baseObject);
     objectList->sendContainer();
     /*
         End of tes3mp addition
@@ -175,7 +175,7 @@ void ContainerItemModel::removeItem (const ItemStack& item, size_t count)
                     objectList->containerSubAction = mwmp::BaseObjectList::NONE;
                     mwmp::BaseObject baseObject = objectList->getBaseObjectFromPtr(source);
                     objectList->addContainerItem(baseObject, *it, it->getRefData().getCount(), toRemove);
-                    objectList->addObject(baseObject);
+                    objectList->addBaseObject(baseObject);
                     objectList->sendContainer();
                     
                     toRemove -= it->getRefData().getCount();

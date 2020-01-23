@@ -17,7 +17,7 @@ namespace mwmp
 
         void reset();
 
-        void addObject(BaseObject baseObject);
+        void addBaseObject(BaseObject baseObject);
         mwmp::BaseObject getBaseObjectFromPtr(const MWWorld::Ptr& ptr);
         void addContainerItem(mwmp::BaseObject& baseObject, const MWWorld::Ptr& itemPtr, int itemCount, int actionCount);
         void addContainerItem(mwmp::BaseObject& baseObject, const std::string itemId, int itemCount, int actionCount);

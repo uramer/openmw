@@ -64,7 +64,7 @@ void ObjectList::reset()
     containerSubAction = 0;
 }
 
-void ObjectList::addObject(BaseObject baseObject)
+void ObjectList::addBaseObject(BaseObject baseObject)
 {
     baseObjects.push_back(baseObject);
 }
@@ -140,7 +140,7 @@ void ObjectList::addEntireContainer(const MWWorld::Ptr& ptr)
         addContainerItem(baseObject, itemPtr, itemPtr.getRefData().getCount(), itemPtr.getRefData().getCount());
     }
 
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::editContainers(MWWorld::CellStore* cellStore)
@@ -992,7 +992,7 @@ void ObjectList::addObjectGeneric(const MWWorld::Ptr& ptr)
     cell = *ptr.getCell()->getCell();
 
     mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectActivate(const MWWorld::Ptr& ptr, const MWWorld::Ptr& activatingActor)
@@ -1002,7 +1002,7 @@ void ObjectList::addObjectActivate(const MWWorld::Ptr& ptr, const MWWorld::Ptr& 
     mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.activatingActor = MechanicsHelper::getTarget(activatingActor);
 
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hittingActor)
@@ -1013,7 +1013,7 @@ void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hitti
     baseObject.hittingActor = MechanicsHelper::getTarget(hittingActor);
     baseObject.hitAttack.success = false;
 
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hittingActor, const Attack hitAttack)
@@ -1024,7 +1024,7 @@ void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hitti
     baseObject.hittingActor = MechanicsHelper::getTarget(hittingActor);
     baseObject.hitAttack = hitAttack;
 
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectPlace(const MWWorld::Ptr& ptr, bool droppedByPlayer)
@@ -1058,7 +1058,7 @@ void ObjectList::addObjectPlace(const MWWorld::Ptr& ptr, bool droppedByPlayer)
     // Get the real count of gold in a stack
     baseObject.goldValue = ptr.getCellRef().getGoldValue();
 
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr)
@@ -1083,7 +1083,7 @@ void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr)
     // we actually see on this client
     baseObject.position = ptr.getRefData().getPosition();
 
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr, const MWWorld::Ptr& master, std::string spellId, int effectId, float duration)
@@ -1104,7 +1104,7 @@ void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr, const MWWorld::Ptr& mas
     // we actually see on this client
     baseObject.position = ptr.getRefData().getPosition();
 
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectLock(const MWWorld::Ptr& ptr, int lockLevel)
@@ -1116,7 +1116,7 @@ void ObjectList::addObjectLock(const MWWorld::Ptr& ptr, int lockLevel)
     baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
     baseObject.mpNum = ptr.getCellRef().getMpNum();
     baseObject.lockLevel = lockLevel;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectTrap(const MWWorld::Ptr& ptr, const ESM::Position& pos, bool isDisarmed)
@@ -1129,7 +1129,7 @@ void ObjectList::addObjectTrap(const MWWorld::Ptr& ptr, const ESM::Position& pos
     baseObject.mpNum = ptr.getCellRef().getMpNum();
     baseObject.isDisarmed = isDisarmed;
     baseObject.position = pos;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectScale(const MWWorld::Ptr& ptr, float scale)
@@ -1141,7 +1141,7 @@ void ObjectList::addObjectScale(const MWWorld::Ptr& ptr, float scale)
     baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
     baseObject.mpNum = ptr.getCellRef().getMpNum();
     baseObject.scale = scale;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectState(const MWWorld::Ptr& ptr, bool objectState)
@@ -1153,7 +1153,7 @@ void ObjectList::addObjectState(const MWWorld::Ptr& ptr, bool objectState)
     baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
     baseObject.mpNum = ptr.getCellRef().getMpNum();
     baseObject.objectState = objectState;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addObjectAnimPlay(const MWWorld::Ptr& ptr, std::string group, int mode)
@@ -1166,7 +1166,7 @@ void ObjectList::addObjectAnimPlay(const MWWorld::Ptr& ptr, std::string group, i
     baseObject.mpNum = ptr.getCellRef().getMpNum();
     baseObject.animGroup = group;
     baseObject.animMode = mode;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addDoorState(const MWWorld::Ptr& ptr, MWWorld::DoorState state)
@@ -1178,14 +1178,14 @@ void ObjectList::addDoorState(const MWWorld::Ptr& ptr, MWWorld::DoorState state)
     baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
     baseObject.mpNum = ptr.getCellRef().getMpNum();
     baseObject.doorState = static_cast<int>(state);
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addMusicPlay(std::string filename)
 {
     mwmp::BaseObject baseObject;
     baseObject.musicFilename = filename;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addVideoPlay(std::string filename, bool allowSkipping)
@@ -1193,7 +1193,7 @@ void ObjectList::addVideoPlay(std::string filename, bool allowSkipping)
     mwmp::BaseObject baseObject;
     baseObject.videoFilename = filename;
     baseObject.allowSkipping = allowSkipping;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addConsoleCommandObject(const MWWorld::Ptr& ptr)
@@ -1220,7 +1220,7 @@ void ObjectList::addConsoleCommandObject(const MWWorld::Ptr& ptr)
         baseObject.mpNum = ptr.getCellRef().getMpNum();
     }
 
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addScriptLocalShort(const MWWorld::Ptr& ptr, int index, int shortVal)
@@ -1233,7 +1233,7 @@ void ObjectList::addScriptLocalShort(const MWWorld::Ptr& ptr, int index, int sho
     baseObject.mpNum = ptr.getCellRef().getMpNum();
     baseObject.index = index;
     baseObject.shortVal = shortVal;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addScriptLocalFloat(const MWWorld::Ptr& ptr, int index, float floatVal)
@@ -1246,7 +1246,7 @@ void ObjectList::addScriptLocalFloat(const MWWorld::Ptr& ptr, int index, float f
     baseObject.mpNum = ptr.getCellRef().getMpNum();
     baseObject.index = index;
     baseObject.floatVal = floatVal;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::addScriptMemberShort(std::string refId, int index, int shortVal)
@@ -1255,7 +1255,7 @@ void ObjectList::addScriptMemberShort(std::string refId, int index, int shortVal
     baseObject.refId = refId;
     baseObject.index = index;
     baseObject.shortVal = shortVal;
-    addObject(baseObject);
+    addBaseObject(baseObject);
 }
 
 void ObjectList::sendObjectActivate()

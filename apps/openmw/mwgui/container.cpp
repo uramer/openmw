@@ -126,7 +126,7 @@ namespace MWGui
         mwmp::BaseObject baseObject = objectList->getBaseObjectFromPtr(mPtr);
         MWWorld::Ptr itemPtr = mModel->getItem(mSelectedItem).mBase;
         objectList->addContainerItem(baseObject, itemPtr, itemPtr.getRefData().getCount(), count);
-        objectList->addObject(baseObject);
+        objectList->addBaseObject(baseObject);
         objectList->sendContainer();
         /*
             End of tes3mp addition
@@ -170,7 +170,7 @@ namespace MWGui
             mwmp::BaseObject baseObject = objectList->getBaseObjectFromPtr(mPtr);
             MWWorld::Ptr itemPtr = mDragAndDrop->mItem.mBase;
             objectList->addContainerItem(baseObject, itemPtr, mDragAndDrop->mDraggedCount, 0);
-            objectList->addObject(baseObject);
+            objectList->addBaseObject(baseObject);
             objectList->sendContainer();
         }
         /*
