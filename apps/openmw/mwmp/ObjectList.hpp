@@ -18,7 +18,7 @@ namespace mwmp
         void reset();
 
         void addObject(BaseObject baseObject);
-        BaseObject getBaseObject(const MWWorld::Ptr& ptr);
+        mwmp::BaseObject getBaseObjectFromPtr(const MWWorld::Ptr& ptr);
         void addContainerItem(mwmp::BaseObject& baseObject, const MWWorld::Ptr& itemPtr, int itemCount, int actionCount);
         void addContainerItem(mwmp::BaseObject& baseObject, const std::string itemId, int itemCount, int actionCount);
         void addEntireContainer(const MWWorld::Ptr& ptr);
@@ -47,8 +47,6 @@ namespace mwmp
 
         void playMusic();
         void playVideo();
-
-        mwmp::BaseObject getObjectFromPtr(const MWWorld::Ptr& ptr);
 
         void addAllContainers(MWWorld::CellStore* cellStore);
         void addRequestedContainers(MWWorld::CellStore* cellStore, const std::vector<BaseObject>& requestObjects);

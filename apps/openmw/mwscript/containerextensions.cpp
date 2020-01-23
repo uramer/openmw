@@ -143,7 +143,7 @@ namespace MWScript
                         objectList->cell = *ptr.getCell()->getCell();
                         objectList->action = mwmp::BaseObjectList::ADD;
                         objectList->containerSubAction = mwmp::BaseObjectList::NONE;
-                        mwmp::BaseObject baseObject = objectList->getBaseObject(ptr);
+                        mwmp::BaseObject baseObject = objectList->getBaseObjectFromPtr(ptr);
                         objectList->addContainerItem(baseObject, item, count, 0);
                         objectList->addObject(baseObject);
                         objectList->sendContainer();
@@ -271,7 +271,7 @@ namespace MWScript
                         objectList->action = mwmp::BaseObjectList::REMOVE;
                         objectList->containerSubAction = mwmp::BaseObjectList::NONE;
 
-                        mwmp::BaseObject baseObject = objectList->getBaseObject(ptr);
+                        mwmp::BaseObject baseObject = objectList->getBaseObjectFromPtr(ptr);
                         objectList->addContainerItem(baseObject, item, 0, count);
                         objectList->addObject(baseObject);
                         objectList->sendContainer();

@@ -123,7 +123,7 @@ namespace MWGui
         objectList->action = mwmp::BaseObjectList::REMOVE;
         objectList->containerSubAction = mwmp::BaseObjectList::DRAG;
 
-        mwmp::BaseObject baseObject = objectList->getBaseObject(mPtr);
+        mwmp::BaseObject baseObject = objectList->getBaseObjectFromPtr(mPtr);
         MWWorld::Ptr itemPtr = mModel->getItem(mSelectedItem).mBase;
         objectList->addContainerItem(baseObject, itemPtr, itemPtr.getRefData().getCount(), count);
         objectList->addObject(baseObject);
@@ -167,7 +167,7 @@ namespace MWGui
             objectList->action = mwmp::BaseObjectList::ADD;
             objectList->containerSubAction = mwmp::BaseObjectList::DROP;
 
-            mwmp::BaseObject baseObject = objectList->getBaseObject(mPtr);
+            mwmp::BaseObject baseObject = objectList->getBaseObjectFromPtr(mPtr);
             MWWorld::Ptr itemPtr = mDragAndDrop->mItem.mBase;
             objectList->addContainerItem(baseObject, itemPtr, mDragAndDrop->mDraggedCount, 0);
             objectList->addObject(baseObject);

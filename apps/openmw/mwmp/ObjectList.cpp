@@ -69,12 +69,28 @@ void ObjectList::addObject(BaseObject baseObject)
     baseObjects.push_back(baseObject);
 }
 
-BaseObject ObjectList::getBaseObject(const MWWorld::Ptr& ptr)
+mwmp::BaseObject ObjectList::getBaseObjectFromPtr(const MWWorld::Ptr& ptr)
 {
     mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+
+    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
+    {
+        baseObject.isPlayer = true;
+        baseObject.guid = mwmp::Main::get().getLocalPlayer()->guid;
+    }
+    else if (mwmp::PlayerList::isDedicatedPlayer(ptr))
+    {
+        baseObject.isPlayer = true;
+        baseObject.guid = mwmp::PlayerList::getPlayer(ptr)->guid;
+    }
+    else
+    {
+        baseObject.isPlayer = false;
+        baseObject.refId = ptr.getCellRef().getRefId();
+        baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
+        baseObject.mpNum = ptr.getCellRef().getMpNum();
+    }
+
     return baseObject;
 }
 
@@ -117,7 +133,7 @@ void ObjectList::addEntireContainer(const MWWorld::Ptr& ptr)
 
     MWWorld::ContainerStore& containerStore = ptr.getClass().getContainerStore(ptr);
 
-    mwmp::BaseObject baseObject = getBaseObject(ptr);
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
 
     for (const auto itemPtr : containerStore)
     {
@@ -692,7 +708,7 @@ void ObjectList::restockObjects(MWWorld::CellStore* cellStore)
             cell = *ptrFound.getCell()->getCell();
             action = mwmp::BaseObjectList::SET;
             containerSubAction = mwmp::BaseObjectList::RESTOCK_RESULT;
-            mwmp::BaseObject baseObject = getBaseObject(ptrFound);
+            mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptrFound);
             addEntireContainer(ptrFound);
             sendContainer();
         }
@@ -931,31 +947,6 @@ void ObjectList::playVideo()
     }
 }
 
-mwmp::BaseObject ObjectList::getObjectFromPtr(const MWWorld::Ptr& ptr)
-{
-    mwmp::BaseObject baseObject;
-
-    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
-    {
-        baseObject.isPlayer = true;
-        baseObject.guid = mwmp::Main::get().getLocalPlayer()->guid;
-    }
-    else if (mwmp::PlayerList::isDedicatedPlayer(ptr))
-    {
-        baseObject.isPlayer = true;
-        baseObject.guid = mwmp::PlayerList::getPlayer(ptr)->guid;
-    }
-    else
-    {
-        baseObject.isPlayer = false;
-        baseObject.refId = ptr.getCellRef().getRefId();
-        baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-        baseObject.mpNum = ptr.getCellRef().getMpNum();
-    }
-
-    return baseObject;
-}
-
 void ObjectList::addAllContainers(MWWorld::CellStore* cellStore)
 {
     for (auto &ref : cellStore->getContainers()->mList)
@@ -1000,7 +991,7 @@ void ObjectList::addObjectGeneric(const MWWorld::Ptr& ptr)
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     addObject(baseObject);
 }
 
@@ -1008,7 +999,7 @@ void ObjectList::addObjectActivate(const MWWorld::Ptr& ptr, const MWWorld::Ptr& 
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.activatingActor = MechanicsHelper::getTarget(activatingActor);
 
     addObject(baseObject);
@@ -1018,7 +1009,7 @@ void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hitti
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.hittingActor = MechanicsHelper::getTarget(hittingActor);
     baseObject.hitAttack.success = false;
 
@@ -1029,7 +1020,7 @@ void ObjectList::addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hitti
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.hittingActor = MechanicsHelper::getTarget(hittingActor);
     baseObject.hitAttack = hitAttack;
 
