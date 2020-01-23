@@ -61,6 +61,7 @@
 #include "object/ProcessorObjectLock.hpp"
 #include "object/ProcessorObjectMove.hpp"
 #include "object/ProcessorObjectPlace.hpp"
+#include "object/ProcessorObjectRestock.hpp"
 #include "object/ProcessorObjectRotate.hpp"
 #include "object/ProcessorObjectScale.hpp"
 #include "object/ProcessorObjectSpawn.hpp"
@@ -163,6 +164,7 @@ void ProcessorInitializer()
     ObjectProcessor::AddProcessor(new ProcessorObjectLock());
     ObjectProcessor::AddProcessor(new ProcessorObjectMove());
     ObjectProcessor::AddProcessor(new ProcessorObjectPlace());
+    ObjectProcessor::AddProcessor(new ProcessorObjectRestock());
     ObjectProcessor::AddProcessor(new ProcessorObjectRotate());
     ObjectProcessor::AddProcessor(new ProcessorObjectScale());
     ObjectProcessor::AddProcessor(new ProcessorObjectSpawn());

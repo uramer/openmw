@@ -7,6 +7,7 @@
 #include "../Packets/Object/PacketObjectLock.hpp"
 #include "../Packets/Object/PacketObjectMove.hpp"
 #include "../Packets/Object/PacketObjectPlace.hpp"
+#include "../Packets/Object/PacketObjectRestock.hpp"
 #include "../Packets/Object/PacketObjectRotate.hpp"
 #include "../Packets/Object/PacketObjectScale.hpp"
 #include "../Packets/Object/PacketObjectSpawn.hpp"
@@ -46,6 +47,7 @@ mwmp::ObjectPacketController::ObjectPacketController(RakNet::RakPeerInterface *p
     AddPacket<PacketObjectLock>(&packets, peer);
     AddPacket<PacketObjectMove>(&packets, peer);
     AddPacket<PacketObjectPlace>(&packets, peer);
+    AddPacket<PacketObjectRestock>(&packets, peer);
     AddPacket<PacketObjectRotate>(&packets, peer);
     AddPacket<PacketObjectScale>(&packets, peer);
     AddPacket<PacketObjectSpawn>(&packets, peer);

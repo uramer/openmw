@@ -672,6 +672,33 @@ void ObjectList::moveObjects(MWWorld::CellStore* cellStore)
     }
 }
 
+void ObjectList::restockObjects(MWWorld::CellStore* cellStore)
+{
+    for (const auto &baseObject : baseObjects)
+    {
+        LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s %i-%i", baseObject.refId.c_str(), baseObject.refNum, baseObject.mpNum);
+
+        MWWorld::Ptr ptrFound = cellStore->searchExact(baseObject.refNum, baseObject.mpNum);
+
+        if (ptrFound)
+        {
+            LOG_APPEND(TimedLog::LOG_VERBOSE, "-- Found %s %i-%i", ptrFound.getCellRef().getRefId().c_str(),
+                               ptrFound.getCellRef().getRefNum(), ptrFound.getCellRef().getMpNum());
+
+            ptrFound.getClass().restock(ptrFound);
+
+            reset();
+            packetOrigin = mwmp::PACKET_ORIGIN::CLIENT_GAMEPLAY;
+            cell = *ptrFound.getCell()->getCell();
+            action = mwmp::BaseObjectList::SET;
+            containerSubAction = mwmp::BaseObjectList::RESTOCK_RESULT;
+            mwmp::BaseObject baseObject = getBaseObject(ptrFound);
+            addEntireContainer(ptrFound);
+            sendContainer();
+        }
+    }
+}
+
 void ObjectList::rotateObjects(MWWorld::CellStore* cellStore)
 {
     for (const auto &baseObject : baseObjects)
@@ -1290,6 +1317,12 @@ void ObjectList::sendObjectLock()
 {
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_LOCK)->setObjectList(this);
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_LOCK)->Send();
+}
+
+void ObjectList::sendObjectRestock()
+{
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_RESTOCK)->setObjectList(this);
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_RESTOCK)->Send();
 }
 
 void ObjectList::sendObjectTrap()

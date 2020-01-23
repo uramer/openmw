@@ -34,6 +34,7 @@ namespace mwmp
         void scaleObjects(MWWorld::CellStore* cellStore);
         void setObjectStates(MWWorld::CellStore* cellStore);
         void moveObjects(MWWorld::CellStore* cellStore);
+        void restockObjects(MWWorld::CellStore* cellStore);
         void rotateObjects(MWWorld::CellStore* cellStore);
         void animateObjects(MWWorld::CellStore* cellStore);
         void activateDoors(MWWorld::CellStore* cellStore);
@@ -79,6 +80,7 @@ namespace mwmp
         void sendObjectSpawn();
         void sendObjectDelete();
         void sendObjectLock();
+        void sendObjectRestock();
         void sendObjectTrap();
         void sendObjectScale();
         void sendObjectState();

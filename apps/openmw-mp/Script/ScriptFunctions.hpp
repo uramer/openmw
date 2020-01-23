@@ -195,6 +195,7 @@ public:
             {"OnObjectSpawn",            Callback<unsigned short, const char*>()},
             {"OnObjectDelete",           Callback<unsigned short, const char*>()},
             {"OnObjectLock",             Callback<unsigned short, const char*>()},
+            {"OnObjectRestock",          Callback<unsigned short, const char*>()},
             {"OnObjectScale",            Callback<unsigned short, const char*>()},
             {"OnObjectTrap",             Callback<unsigned short, const char*>()},
             {"OnVideoPlay",              Callback<unsigned short, const char*>()},
