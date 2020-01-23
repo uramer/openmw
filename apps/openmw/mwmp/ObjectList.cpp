@@ -969,6 +969,14 @@ void ObjectList::addRequestedContainers(MWWorld::CellStore* cellStore, const std
     }
 }
 
+void ObjectList::addObjectGeneric(const MWWorld::Ptr& ptr)
+{
+    cell = *ptr.getCell()->getCell();
+
+    mwmp::BaseObject baseObject = getObjectFromPtr(ptr);
+    addObject(baseObject);
+}
+
 void ObjectList::addObjectActivate(const MWWorld::Ptr& ptr, const MWWorld::Ptr& activatingActor)
 {
     cell = *ptr.getCell()->getCell();

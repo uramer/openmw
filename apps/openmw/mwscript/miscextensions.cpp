@@ -828,7 +828,7 @@ namespace MWScript
                             mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
                             objectList->reset();
                             objectList->packetOrigin = ScriptController::getPacketOriginFromContextType(runtime.getContext().getContextType());
-                            objectList->addObject(objectList->getObjectFromPtr(ptr));
+                            objectList->addObjectGeneric(ptr);
                             objectList->sendObjectDelete();
                         }
                         /*

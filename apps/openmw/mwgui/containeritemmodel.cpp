@@ -2,8 +2,6 @@
 
 #include <algorithm>
 
-#include <components/openmw-mp/TimedLog.hpp>
-
 /*
     Start of tes3mp addition
 
@@ -209,7 +207,7 @@ void ContainerItemModel::removeItem (const ItemStack& item, size_t count)
                 mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
                 objectList->reset();
                 objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
-                objectList->addObject(objectList->getObjectFromPtr(source));
+                objectList->addObjectGeneric(source);
                 objectList->sendObjectDelete();
                 /*
                     End of tes3mp addition

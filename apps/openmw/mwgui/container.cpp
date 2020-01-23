@@ -415,7 +415,7 @@ namespace MWGui
                 mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
                 objectList->reset();
                 objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
-                objectList->addObject(objectList->getObjectFromPtr(mPtr));
+                objectList->addObjectGeneric(mPtr);
                 objectList->sendObjectDelete();
                 /*
                     End of tes3mp change (major)

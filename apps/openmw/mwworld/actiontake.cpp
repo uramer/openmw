@@ -52,7 +52,7 @@ namespace MWWorld
         mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
         objectList->reset();
         objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
-        objectList->addObject(objectList->getObjectFromPtr(getTarget()));
+        objectList->addObjectGeneric(getTarget());
         objectList->sendObjectDelete();
         /*
             End of tes3mp addition

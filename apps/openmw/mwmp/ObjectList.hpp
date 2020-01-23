@@ -52,6 +52,7 @@ namespace mwmp
         void addAllContainers(MWWorld::CellStore* cellStore);
         void addRequestedContainers(MWWorld::CellStore* cellStore, const std::vector<BaseObject>& requestObjects);
 
+        void addObjectGeneric(const MWWorld::Ptr& ptr);
         void addObjectActivate(const MWWorld::Ptr& ptr, const MWWorld::Ptr& activatingActor);
         void addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hittingActor);
         void addObjectHit(const MWWorld::Ptr& ptr, const MWWorld::Ptr& hittingActor, const Attack hitAttack);
