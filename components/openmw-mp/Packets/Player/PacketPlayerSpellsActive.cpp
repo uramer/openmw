@@ -1,14 +1,14 @@
-#include "PacketPlayerActiveSkills.hpp"
+#include "PacketPlayerSpellsActive.hpp"
 #include <components/openmw-mp/NetworkMessages.hpp>
 
 using namespace mwmp;
 
-PacketPlayerActiveSkills::PacketPlayerActiveSkills(RakNet::RakPeerInterface *peer) : PlayerPacket(peer)
+PacketPlayerSpellsActive::PacketPlayerSpellsActive(RakNet::RakPeerInterface *peer) : PlayerPacket(peer)
 {
-    packetID = ID_PLAYER_ACTIVESKILLS;
+    packetID = ID_PLAYER_SPELLS_ACTIVE;
 }
 
-void PacketPlayerActiveSkills::Packet(RakNet::BitStream *newBitstream, bool send)
+void PacketPlayerSpellsActive::Packet(RakNet::BitStream *newBitstream, bool send)
 {
     PlayerPacket::Packet(newBitstream, send);
 

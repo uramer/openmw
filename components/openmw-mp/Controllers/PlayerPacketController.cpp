@@ -4,7 +4,7 @@
 #include "../Packets/Player/PacketGUIBoxes.hpp"
 #include "../Packets/Player/PacketLoaded.hpp"
 #include "../Packets/Player/PacketGameSettings.hpp"
-#include "../Packets/Player/PacketPlayerActiveSkills.hpp"
+#include "../Packets/Player/PacketPlayerSpellsActive.hpp"
 #include "../Packets/Player/PacketPlayerAlly.hpp"
 #include "../Packets/Player/PacketPlayerAnimFlags.hpp"
 #include "../Packets/Player/PacketPlayerAnimPlay.hpp"
@@ -58,7 +58,7 @@ mwmp::PlayerPacketController::PlayerPacketController(RakNet::RakPeerInterface *p
     AddPacket<PacketGUIBoxes>(&packets, peer);
     AddPacket<PacketLoaded>(&packets, peer);
     AddPacket<PacketGameSettings>(&packets, peer);
-    AddPacket<PacketPlayerActiveSkills>(&packets, peer);
+    AddPacket<PacketPlayerSpellsActive>(&packets, peer);
 
     AddPacket<PacketPlayerAlly>(&packets, peer);
     AddPacket<PacketPlayerAnimFlags>(&packets, peer);
