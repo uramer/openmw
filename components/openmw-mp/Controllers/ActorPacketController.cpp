@@ -10,8 +10,9 @@
 #include "../Packets/Actor/PacketActorDeath.hpp"
 #include "../Packets/Actor/PacketActorEquipment.hpp"
 #include "../Packets/Actor/PacketActorPosition.hpp"
-#include "../Packets/Actor/PacketActorStatsDynamic.hpp"
 #include "../Packets/Actor/PacketActorSpeech.hpp"
+#include "../Packets/Actor/PacketActorSpellsActive.hpp"
+#include "../Packets/Actor/PacketActorStatsDynamic.hpp"
 
 
 #include "ActorPacketController.hpp"
@@ -39,6 +40,7 @@ mwmp::ActorPacketController::ActorPacketController(RakNet::RakPeerInterface *pee
     AddPacket<PacketActorEquipment>(&packets, peer);
     AddPacket<PacketActorPosition>(&packets, peer);
     AddPacket<PacketActorSpeech>(&packets, peer);
+    AddPacket<PacketActorSpellsActive>(&packets, peer);
     AddPacket<PacketActorStatsDynamic>(&packets, peer);
 }
 

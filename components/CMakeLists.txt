@@ -175,7 +175,7 @@ add_component_dir (openmw-mp/Packets/Actor
 
         PacketActorList PacketActorAuthority PacketActorTest PacketActorAI PacketActorAnimFlags PacketActorAnimPlay
         PacketActorAttack PacketActorCast PacketActorCellChange PacketActorDeath PacketActorEquipment PacketActorPosition
-        PacketActorSpeech PacketActorStatsDynamic
+        PacketActorSpeech PacketActorSpellsActive PacketActorStatsDynamic
         )
 
 add_component_dir (openmw-mp/Packets/System
