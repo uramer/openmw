@@ -1,7 +1,6 @@
 #include "../Packets/Object/PacketObjectActivate.hpp"
 #include "../Packets/Object/PacketObjectAnimPlay.hpp"
 #include "../Packets/Object/PacketObjectAttach.hpp"
-#include "../Packets/Object/PacketObjectCollision.hpp"
 #include "../Packets/Object/PacketObjectDelete.hpp"
 #include "../Packets/Object/PacketObjectHit.hpp"
 #include "../Packets/Object/PacketObjectLock.hpp"
@@ -10,6 +9,7 @@
 #include "../Packets/Object/PacketObjectRestock.hpp"
 #include "../Packets/Object/PacketObjectRotate.hpp"
 #include "../Packets/Object/PacketObjectScale.hpp"
+#include "../Packets/Object/PacketObjectSound.hpp"
 #include "../Packets/Object/PacketObjectSpawn.hpp"
 #include "../Packets/Object/PacketObjectState.hpp"
 #include "../Packets/Object/PacketObjectTrap.hpp"
@@ -41,7 +41,6 @@ mwmp::ObjectPacketController::ObjectPacketController(RakNet::RakPeerInterface *p
     AddPacket<PacketObjectActivate>(&packets, peer);
     AddPacket<PacketObjectAnimPlay>(&packets, peer);
     AddPacket<PacketObjectAttach>(&packets, peer);
-    AddPacket<PacketObjectCollision>(&packets, peer);
     AddPacket<PacketObjectDelete>(&packets, peer);
     AddPacket<PacketObjectHit>(&packets, peer);
     AddPacket<PacketObjectLock>(&packets, peer);
@@ -50,6 +49,7 @@ mwmp::ObjectPacketController::ObjectPacketController(RakNet::RakPeerInterface *p
     AddPacket<PacketObjectRestock>(&packets, peer);
     AddPacket<PacketObjectRotate>(&packets, peer);
     AddPacket<PacketObjectScale>(&packets, peer);
+    AddPacket<PacketObjectSound>(&packets, peer);
     AddPacket<PacketObjectSpawn>(&packets, peer);
     AddPacket<PacketObjectState>(&packets, peer);
     AddPacket<PacketObjectTrap>(&packets, peer);

@@ -55,7 +55,6 @@
 #include "object/ProcessorObjectActivate.hpp"
 #include "object/ProcessorObjectAnimPlay.hpp"
 #include "object/ProcessorObjectAttach.hpp"
-#include "object/ProcessorObjectCollision.hpp"
 #include "object/ProcessorObjectDelete.hpp"
 #include "object/ProcessorObjectHit.hpp"
 #include "object/ProcessorObjectLock.hpp"
@@ -64,6 +63,7 @@
 #include "object/ProcessorObjectRestock.hpp"
 #include "object/ProcessorObjectRotate.hpp"
 #include "object/ProcessorObjectScale.hpp"
+#include "object/ProcessorObjectSound.hpp"
 #include "object/ProcessorObjectSpawn.hpp"
 #include "object/ProcessorObjectState.hpp"
 #include "object/ProcessorObjectTrap.hpp"
@@ -158,7 +158,6 @@ void ProcessorInitializer()
     ObjectProcessor::AddProcessor(new ProcessorObjectActivate());
     ObjectProcessor::AddProcessor(new ProcessorObjectAnimPlay());
     ObjectProcessor::AddProcessor(new ProcessorObjectAttach());
-    ObjectProcessor::AddProcessor(new ProcessorObjectCollision());
     ObjectProcessor::AddProcessor(new ProcessorObjectDelete());
     ObjectProcessor::AddProcessor(new ProcessorObjectHit());
     ObjectProcessor::AddProcessor(new ProcessorObjectLock());
@@ -167,6 +166,7 @@ void ProcessorInitializer()
     ObjectProcessor::AddProcessor(new ProcessorObjectRestock());
     ObjectProcessor::AddProcessor(new ProcessorObjectRotate());
     ObjectProcessor::AddProcessor(new ProcessorObjectScale());
+    ObjectProcessor::AddProcessor(new ProcessorObjectSound());
     ObjectProcessor::AddProcessor(new ProcessorObjectSpawn());
     ObjectProcessor::AddProcessor(new ProcessorObjectState());
     ObjectProcessor::AddProcessor(new ProcessorObjectTrap());
