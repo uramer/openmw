@@ -39,6 +39,7 @@
 #include "../mwbase/environment.hpp"
 #include "../mwbase/world.hpp"
 #include "../mwbase/mechanicsmanager.hpp"
+#include "../mwbase/soundmanager.hpp"
 
 #include "interpretercontext.hpp"
 #include "ref.hpp"
@@ -500,6 +501,14 @@ namespace MWScript
                     {
                         if (!targetPtr.isEmpty() && targetPtr.getCellRef().getRefId() == testedTargetId)
                             targetsAreEqual = true;
+                    }
+                    else
+                    {
+                        bool turningToPlayer = creatureStats.isTurningToPlayer();
+                        bool greeting = creatureStats.getGreetingState() == MWMechanics::Greet_InProgress;
+                        bool sayActive = MWBase::Environment::get().getSoundManager()->sayActive(actor);
+                        if (turningToPlayer || (greeting && sayActive))
+                            targetsAreEqual = (testedTargetId == "player"); // Currently the player ID is hardcoded
                     }
                     runtime.push(int(targetsAreEqual));
                 }

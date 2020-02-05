@@ -15,9 +15,7 @@ fi
 
 export RAKNET_ROOT=~/CrabNet
 
-export CODE_COVERAGE=1
 
-if [[ "${CC}" =~ "clang" ]]; then export CODE_COVERAGE=0; fi
 if [[ -z "${BUILD_OPENMW}" ]]; then export BUILD_OPENMW=ON; fi
 if [[ -z "${BUILD_OPENMW_CS}" ]]; then export BUILD_OPENMW_CS=ON; fi
 
@@ -39,7 +37,6 @@ ${ANALYZE} cmake .. \
     -DBUILD_OPENMW_MP=ON \
     -DBUILD_BROWSER=ON \
     -DBUILD_MASTER=ON \
-    -DBUILD_WITH_CODE_COVERAGE=${CODE_COVERAGE} \
     -DBUILD_UNITTESTS=1 \
     -DUSE_SYSTEM_TINYXML=1 \
     -DDESIRED_QT_VERSION=5 \
