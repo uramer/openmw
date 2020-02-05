@@ -1,16 +1,16 @@
-#ifndef OPENMW_PROCESSORSCRIPTLOCALSHORT_HPP
-#define OPENMW_PROCESSORSCRIPTLOCALSHORT_HPP
+#ifndef OPENMW_PROCESSORCLIENTSCRIPTLOCAL_HPP
+#define OPENMW_PROCESSORCLIENTSCRIPTLOCAL_HPP
 
 #include "BaseObjectProcessor.hpp"
 
 namespace mwmp
 {
-    class ProcessorScriptLocalShort final: public BaseObjectProcessor
+    class ProcessorClientScriptLocal final: public BaseObjectProcessor
     {
     public:
-        ProcessorScriptLocalShort()
+        ProcessorClientScriptLocal()
         {
-            BPP_INIT(ID_SCRIPT_LOCAL_SHORT)
+            BPP_INIT(ID_CLIENT_SCRIPT_LOCAL)
         }
 
         virtual void Do(ObjectPacket &packet, ObjectList &objectList)
@@ -22,4 +22,4 @@ namespace mwmp
     };
 }
 
-#endif //OPENMW_PROCESSORSCRIPTLOCALSHORT_HPP
+#endif //OPENMW_PROCESSORCLIENTSCRIPTLOCAL_HPP

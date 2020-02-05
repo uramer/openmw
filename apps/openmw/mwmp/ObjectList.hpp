@@ -68,7 +68,7 @@ namespace mwmp
         void addMusicPlay(std::string filename);
         void addVideoPlay(std::string filename, bool allowSkipping);
         void addConsoleCommandObject(const MWWorld::Ptr& ptr);
-        void addScriptLocalShort(const MWWorld::Ptr& ptr, int index, int shortVal);
+        void addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int shortVal);
         void addScriptLocalFloat(const MWWorld::Ptr& ptr, int index, float floatVal);
         void addScriptMemberShort(std::string refId, int index, int shortVal);
 
@@ -86,7 +86,7 @@ namespace mwmp
         void sendDoorState();
         void sendMusicPlay();
         void sendVideoPlay();
-        void sendScriptLocalShort();
+        void sendClientScriptLocal();
         void sendScriptLocalFloat();
         void sendScriptMemberShort();
         void sendContainer();

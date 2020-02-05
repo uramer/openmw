@@ -1223,7 +1223,7 @@ void ObjectList::addConsoleCommandObject(const MWWorld::Ptr& ptr)
     addBaseObject(baseObject);
 }
 
-void ObjectList::addScriptLocalShort(const MWWorld::Ptr& ptr, int index, int shortVal)
+void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int shortVal)
 {
     cell = *ptr.getCell()->getCell();
 
@@ -1364,16 +1364,16 @@ void ObjectList::sendVideoPlay()
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_VIDEO_PLAY)->Send();
 }
 
-void ObjectList::sendScriptLocalShort()
+void ObjectList::sendClientScriptLocal()
 {
-    LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Sending ID_SCRIPT_LOCAL_SHORT about %s", cell.getDescription().c_str());
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Sending ID_CLIENT_SCRIPT_LOCAL about %s", cell.getDescription().c_str());
 
     for (const auto &baseObject : baseObjects)
         LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s-%i, index: %i, shortVal: %i", baseObject.refId.c_str(),
                    baseObject.refNum, baseObject.index, baseObject.shortVal);
 
-    mwmp::Main::get().getNetworking()->getObjectPacket(ID_SCRIPT_LOCAL_SHORT)->setObjectList(this);
-    mwmp::Main::get().getNetworking()->getObjectPacket(ID_SCRIPT_LOCAL_SHORT)->Send();
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_CLIENT_SCRIPT_LOCAL)->setObjectList(this);
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_CLIENT_SCRIPT_LOCAL)->Send();
 }
 
 void ObjectList::sendScriptLocalFloat()

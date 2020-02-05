@@ -224,7 +224,7 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_SCRIPT_LOCAL_SHORT packet every time a local short changes its value
+            Send an ID_CLIENT_SCRIPT_LOCAL packet every time a local short changes its value
             in a script approved for packet sending
         */
         if (sendPackets)
@@ -232,8 +232,8 @@ namespace MWScript
             mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
             objectList->reset();
             objectList->packetOrigin = ScriptController::getPacketOriginFromContextType(getContextType());
-            objectList->addScriptLocalShort(mReference, index, value);
-            objectList->sendScriptLocalShort();
+            objectList->addClientScriptLocal(mReference, index, value);
+            objectList->sendClientScriptLocal();
         }
         /*
             End of tes3mp addition
