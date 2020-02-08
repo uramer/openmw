@@ -141,7 +141,6 @@ namespace MWGui
             */
             //source.getClass().restock(source);
 
-            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
             objectList->reset();
             objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
             objectList->addObjectGeneric(source);

@@ -708,7 +708,6 @@ void ObjectList::restockObjects(MWWorld::CellStore* cellStore)
             cell = *ptrFound.getCell()->getCell();
             action = mwmp::BaseObjectList::SET;
             containerSubAction = mwmp::BaseObjectList::RESTOCK_RESULT;
-            mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptrFound);
             addEntireContainer(ptrFound);
             sendContainer();
         }
