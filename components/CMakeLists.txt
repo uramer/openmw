@@ -91,9 +91,10 @@ add_component_dir (misc
     gcd constants utf8stream stringops resourcehelpers rng messageformatparser weakcache
     )
 
-add_component_dir (debug
-    debugging debuglog
-    )
+add_component_dir(debug
+        debugging debuglog
+        )
+
 
 IF(NOT WIN32 AND NOT APPLE)
     add_definitions(-DGLOBAL_DATA_PATH="${GLOBAL_DATA_PATH}")
@@ -223,30 +224,34 @@ add_component_dir (fallback
     )
 
 if(NOT WIN32 AND NOT ANDROID)
-    add_component_dir (crashcatcher
-        crashcatcher
-    )
+    if (BUILD_OPENMW OR BUILD_OPENCS)
+        add_component_dir (crashcatcher
+            crashcatcher
+        )
+    endif()
 endif()
 
-add_component_dir(detournavigator
-    debug
-    makenavmesh
-    findsmoothpath
-    recastmeshbuilder
-    recastmeshmanager
-    cachedrecastmeshmanager
-    navmeshmanager
-    navigatorimpl
-    asyncnavmeshupdater
-    chunkytrimesh
-    recastmesh
-    tilecachedrecastmeshmanager
-    recastmeshobject
-    navmeshtilescache
-    settings
-    navigator
-    findrandompointaroundcircle
-    )
+if (BUILD_OPENMW OR BUILD_OPENCS)
+    add_component_dir(detournavigator
+            debug
+            makenavmesh
+            findsmoothpath
+            recastmeshbuilder
+            recastmeshmanager
+            cachedrecastmeshmanager
+            navmeshmanager
+            navigatorimpl
+            asyncnavmeshupdater
+            chunkytrimesh
+            recastmesh
+            tilecachedrecastmeshmanager
+            recastmeshobject
+            navmeshtilescache
+            settings
+            navigator
+            findrandompointaroundcircle
+            )
+endif()
 
 set (ESM_UI ${CMAKE_SOURCE_DIR}/files/ui/contentselector.ui
     )
@@ -310,10 +315,14 @@ target_link_libraries(components
     ${OPENGL_gl_LIBRARY}
     ${MyGUI_LIBRARIES}
     ${BSAOPTHASH_LIBRARIES}
-    RecastNavigation::DebugUtils
-    RecastNavigation::Detour
-    RecastNavigation::Recast
     )
+
+if (BUILD_OPENMW OR BUILD_OPENCS)
+    target_link_libraries(components
+            RecastNavigation::DebugUtils
+            RecastNavigation::Detour
+            RecastNavigation::Recast)
+endif ()
 
 if (WIN32)
     target_link_libraries(components

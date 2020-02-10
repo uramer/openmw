@@ -266,11 +266,13 @@ if(NOT HAVE_STDINT_H)
     message(FATAL_ERROR "stdint.h was not found" )
 endif()
 
-
-IF(BUILD_OPENMW OR BUILD_OPENCS)
-
+if(BUILD_OPENMW OR BUILD_OPENCS OR BUILD_OPENMW_MP)
     find_package(OpenSceneGraph 3.3.4 REQUIRED osgDB osgViewer osgText osgGA osgParticle osgUtil osgFX osgShadow)
     include_directories(SYSTEM ${OPENSCENEGRAPH_INCLUDE_DIRS})
+    find_package(SDL2 REQUIRED)
+endif()
+
+IF(BUILD_OPENMW OR BUILD_OPENCS)
 
     set(USED_OSG_PLUGINS
                     osgdb_bmp
@@ -315,7 +317,6 @@ IF(BUILD_OPENMW OR BUILD_OPENCS)
     endif()
 
     find_package(MyGUI 3.2.2 REQUIRED)
-    find_package(SDL2 REQUIRED)
     find_package(OpenAL REQUIRED)
     find_package(Bullet ${REQUIRED_BULLET_VERSION} REQUIRED COMPONENTS BulletCollision LinearMath)
 ELSE()
@@ -650,7 +651,6 @@ endif(WIN32)
 # Extern
 IF(BUILD_OPENMW OR BUILD_OPENCS)
 set(RECASTNAVIGATION_STATIC ON CACHE BOOL "Build recastnavigation static libraries")
-
 add_subdirectory (extern/recastnavigation EXCLUDE_FROM_ALL)
 add_subdirectory (extern/osg-ffmpeg-videoplayer)
 add_subdirectory (extern/oics)
