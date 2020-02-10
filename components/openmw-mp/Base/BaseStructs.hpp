@@ -29,6 +29,7 @@ namespace mwmp
     struct ClientVariable
     {
         std::string id;
+        int index;
 
         char variableType;
 

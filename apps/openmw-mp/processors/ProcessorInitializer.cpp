@@ -72,7 +72,6 @@
 #include "object/ProcessorObjectState.hpp"
 #include "object/ProcessorObjectTrap.hpp"
 #include "object/ProcessorClientScriptLocal.hpp"
-#include "object/ProcessorScriptLocalFloat.hpp"
 #include "object/ProcessorScriptMemberShort.hpp"
 #include "object/ProcessorScriptMemberFloat.hpp"
 #include "object/ProcessorVideoPlay.hpp"
@@ -155,7 +154,6 @@ void ProcessorInitializer()
     ObjectProcessor::AddProcessor(new ProcessorObjectState());
     ObjectProcessor::AddProcessor(new ProcessorObjectTrap());
     ObjectProcessor::AddProcessor(new ProcessorClientScriptLocal());
-    ObjectProcessor::AddProcessor(new ProcessorScriptLocalFloat());
     ObjectProcessor::AddProcessor(new ProcessorScriptMemberShort());
     ObjectProcessor::AddProcessor(new ProcessorScriptMemberFloat());
     ObjectProcessor::AddProcessor(new ProcessorVideoPlay());

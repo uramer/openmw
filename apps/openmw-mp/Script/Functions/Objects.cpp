@@ -326,12 +326,12 @@ const char *ObjectFunctions::GetVideoFilename(unsigned int index) noexcept
 
 const char *ObjectFunctions::GetScriptVariableName(unsigned int index) noexcept
 {
-    return readObjectList->baseObjects.at(index).varName.c_str();
+    return readObjectList->baseObjects.at(index).clientVariable.id.c_str();
 }
 
 int ObjectFunctions::GetScriptVariableShortValue(unsigned int index) noexcept
 {
-    return readObjectList->baseObjects.at(index).shortVal;
+    return readObjectList->baseObjects.at(index).clientVariable.intValue;
 }
 
 unsigned int ObjectFunctions::GetContainerChangesSize(unsigned int objectIndex) noexcept
@@ -549,12 +549,12 @@ void ObjectFunctions::SetObjectDoorDestinationRotation(double x, double z) noexc
 
 void ObjectFunctions::SetScriptVariableName(const char* varName) noexcept
 {
-    tempObject.varName = varName;
+    tempObject.clientVariable.id = varName;
 }
 
 void ObjectFunctions::SetScriptVariableShortValue(int shortVal) noexcept
 {
-    tempObject.shortVal = shortVal;
+    tempObject.clientVariable.intValue = shortVal;
 }
 
 void ObjectFunctions::SetPlayerAsObject(unsigned short pid) noexcept

@@ -862,31 +862,26 @@ void ObjectList::runConsoleCommands(MWWorld::CellStore* cellStore)
     }
 }
 
-void ObjectList::setLocalShorts(MWWorld::CellStore* cellStore)
+void ObjectList::setClientLocals(MWWorld::CellStore* cellStore)
 {
     for (const auto &baseObject : baseObjects)
     {
-        LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s %i-%i, index: %i, shortVal: %i", baseObject.refId.c_str(),
-                   baseObject.refNum, baseObject.mpNum, baseObject.index, baseObject.shortVal);
+        std::string valueAsString;
+        std::string variableType;
 
-        MWWorld::Ptr ptrFound = cellStore->searchExact(baseObject.refNum, baseObject.mpNum);
-
-        if (ptrFound)
+        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::INTEGER)
         {
-            LOG_APPEND(TimedLog::LOG_VERBOSE, "-- Found %s %i-%i", ptrFound.getCellRef().getRefId().c_str(),
-                               ptrFound.getCellRef().getRefNum(), ptrFound.getCellRef().getMpNum());
-
-            ptrFound.getRefData().getLocals().mShorts.at(baseObject.index) = baseObject.shortVal;
+            valueAsString = std::to_string(baseObject.clientVariable.intValue);
+            variableType = "integer";
         }
-    }
-}
+        else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
+        {
+            valueAsString = std::to_string(baseObject.clientVariable.floatValue);
+            variableType = "float";
+        }
 
-void ObjectList::setLocalFloats(MWWorld::CellStore* cellStore)
-{
-    for (const auto &baseObject : baseObjects)
-    {
-        LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s %i-%i, index: %i, floatVal: %f", baseObject.refId.c_str(),
-                   baseObject.refNum, baseObject.mpNum, baseObject.index, baseObject.floatVal);
+        LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s %i-%i, index: %i, type %s, value: %s", baseObject.refId.c_str(),
+                   baseObject.refNum, baseObject.mpNum, baseObject.index, variableType.c_str(), valueAsString.c_str());
 
         MWWorld::Ptr ptrFound = cellStore->searchExact(baseObject.refNum, baseObject.mpNum);
 
@@ -895,7 +890,10 @@ void ObjectList::setLocalFloats(MWWorld::CellStore* cellStore)
             LOG_APPEND(TimedLog::LOG_VERBOSE, "-- Found %s %i-%i", ptrFound.getCellRef().getRefId().c_str(),
                                ptrFound.getCellRef().getRefNum(), ptrFound.getCellRef().getMpNum());
 
-            ptrFound.getRefData().getLocals().mFloats.at(baseObject.index) = baseObject.floatVal;
+            if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::INTEGER)
+                ptrFound.getRefData().getLocals().mShorts.at(baseObject.index) = baseObject.clientVariable.intValue;
+            else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
+                ptrFound.getRefData().getLocals().mFloats.at(baseObject.index) = baseObject.clientVariable.floatValue;
         }
     }
 }
@@ -1222,7 +1220,7 @@ void ObjectList::addConsoleCommandObject(const MWWorld::Ptr& ptr)
     addBaseObject(baseObject);
 }
 
-void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int shortVal)
+void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int value)
 {
     cell = *ptr.getCell()->getCell();
 
@@ -1230,12 +1228,13 @@ void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int sh
     baseObject.refId = ptr.getCellRef().getRefId();
     baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
     baseObject.mpNum = ptr.getCellRef().getMpNum();
-    baseObject.index = index;
-    baseObject.shortVal = shortVal;
+    baseObject.clientVariable.index = index;
+    baseObject.clientVariable.variableType = mwmp::VARIABLE_TYPE::INTEGER;
+    baseObject.clientVariable.intValue = value;
     addBaseObject(baseObject);
 }
 
-void ObjectList::addScriptLocalFloat(const MWWorld::Ptr& ptr, int index, float floatVal)
+void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, float value)
 {
     cell = *ptr.getCell()->getCell();
 
@@ -1243,8 +1242,9 @@ void ObjectList::addScriptLocalFloat(const MWWorld::Ptr& ptr, int index, float f
     baseObject.refId = ptr.getCellRef().getRefId();
     baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
     baseObject.mpNum = ptr.getCellRef().getMpNum();
-    baseObject.index = index;
-    baseObject.floatVal = floatVal;
+    baseObject.clientVariable.index = index;
+    baseObject.clientVariable.variableType = mwmp::VARIABLE_TYPE::FLOAT;
+    baseObject.clientVariable.floatValue = value;
     addBaseObject(baseObject);
 }
 
@@ -1368,23 +1368,27 @@ void ObjectList::sendClientScriptLocal()
     LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Sending ID_CLIENT_SCRIPT_LOCAL about %s", cell.getDescription().c_str());
 
     for (const auto &baseObject : baseObjects)
-        LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s-%i, index: %i, shortVal: %i", baseObject.refId.c_str(),
-                   baseObject.refNum, baseObject.index, baseObject.shortVal);
+    {
+        std::string valueAsString;
+        std::string variableType;
+
+        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::INTEGER)
+        {
+            valueAsString = std::to_string(baseObject.clientVariable.intValue);
+            variableType = "integer";
+        }
+        else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
+        {
+            valueAsString = std::to_string(baseObject.clientVariable.floatValue);
+            variableType = "float";
+        }
+
+        LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s %i-%i, index: %i, type %s, value: %s", baseObject.refId.c_str(),
+            baseObject.refNum, baseObject.mpNum, baseObject.clientVariable.index, variableType.c_str(), valueAsString.c_str());
+    }
 
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CLIENT_SCRIPT_LOCAL)->setObjectList(this);
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CLIENT_SCRIPT_LOCAL)->Send();
-}
-
-void ObjectList::sendScriptLocalFloat()
-{
-    LOG_MESSAGE_SIMPLE(TimedLog::LOG_VERBOSE, "Sending ID_SCRIPT_LOCAL_FLOAT about %s", cell.getDescription().c_str());
-
-    for (const auto &baseObject : baseObjects)
-        LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s-%i, index: %i, floatVal: %f", baseObject.refId.c_str(), 
-                   baseObject.refNum, baseObject.index, baseObject.floatVal);
-
-    mwmp::Main::get().getNetworking()->getObjectPacket(ID_SCRIPT_LOCAL_FLOAT)->setObjectList(this);
-    mwmp::Main::get().getNetworking()->getObjectPacket(ID_SCRIPT_LOCAL_FLOAT)->Send();
 }
 
 void ObjectList::sendScriptMemberShort()

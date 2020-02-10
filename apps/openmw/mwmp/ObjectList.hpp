@@ -41,8 +41,7 @@ namespace mwmp
         void setDoorDestinations(MWWorld::CellStore* cellStore);
         void runConsoleCommands(MWWorld::CellStore* cellStore);
 
-        void setLocalShorts(MWWorld::CellStore* cellStore);
-        void setLocalFloats(MWWorld::CellStore* cellStore);
+        void setClientLocals(MWWorld::CellStore* cellStore);
         void setMemberShorts();
 
         void playMusic();
@@ -68,8 +67,8 @@ namespace mwmp
         void addMusicPlay(std::string filename);
         void addVideoPlay(std::string filename, bool allowSkipping);
         void addConsoleCommandObject(const MWWorld::Ptr& ptr);
-        void addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int shortVal);
-        void addScriptLocalFloat(const MWWorld::Ptr& ptr, int index, float floatVal);
+        void addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int value);
+        void addClientScriptLocal(const MWWorld::Ptr& ptr, int index, float value);
         void addScriptMemberShort(std::string refId, int index, int shortVal);
 
         void sendObjectActivate();
@@ -87,7 +86,6 @@ namespace mwmp
         void sendMusicPlay();
         void sendVideoPlay();
         void sendClientScriptLocal();
-        void sendScriptLocalFloat();
         void sendScriptMemberShort();
         void sendContainer();
         void sendConsoleCommand();

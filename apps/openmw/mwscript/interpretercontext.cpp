@@ -267,8 +267,8 @@ namespace MWScript
             mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
             objectList->reset();
             objectList->packetOrigin = ScriptController::getPacketOriginFromContextType(getContextType());
-            objectList->addScriptLocalFloat(mReference, index, value);
-            objectList->sendScriptLocalFloat();
+            objectList->addClientScriptLocal(mReference, index, value);
+            objectList->sendClientScriptLocal();
         }
         /*
             End of tes3mp addition

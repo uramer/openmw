@@ -54,10 +54,11 @@ namespace mwmp
         std::string animGroup;
         int animMode;
 
+        ClientVariable clientVariable;
+
         int index;
         int shortVal;
         float floatVal;
-        std::string varName;
 
         bool isDisarmed;
         bool droppedByPlayer;

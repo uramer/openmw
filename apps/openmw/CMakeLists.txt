@@ -133,7 +133,7 @@ add_openmw_dir (mwmp/processors/object BaseObjectProcessor
     ProcessorObjectActivate ProcessorObjectAnimPlay ProcessorObjectAttach ProcessorObjectDelete ProcessorObjectHit
     ProcessorObjectLock ProcessorObjectMove ProcessorObjectPlace ProcessorObjectRestock ProcessorObjectRotate
     ProcessorObjectScale ProcessorObjectSound ProcessorObjectSpawn ProcessorObjectState ProcessorObjectTrap
-    ProcessorClientScriptLocal ProcessorScriptLocalFloat ProcessorScriptMemberShort ProcessorScriptMemberFloat
+    ProcessorClientScriptLocal ProcessorScriptMemberShort ProcessorScriptMemberFloat
     )
 
 add_openmw_dir (mwmp/processors/worldstate ProcessorCellReset ProcessorClientScriptGlobal ProcessorClientScriptSettings
