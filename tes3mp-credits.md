@@ -4,8 +4,8 @@ tes3mp Credits
 Programmers
 ----------------
 
-    Stanislav Zhukov (Koncord) - Architecture, networking & scripting systems, player sync, server browser & master server
-    David Cernat - World, NPC & quest sync, player sync improvements, state saving & loading, extensive bug fixes
+    David Cernat - World, NPC & quest sync, player sync improvements, state saving & loading, extensive scripting
+    Stanislav Zhukov (Koncord) - Foundation for networking & scripting systems, player sync, server browser & master server
 
 
 Additional programming
@@ -19,7 +19,6 @@ Additional programming
 Community administrators
 ------------------------
 
-    Capostrophic
     Volk Milit (Ja'Virr-Dar)
     Testman
 
@@ -27,6 +26,7 @@ Community administrators
 Community moderators
 --------------------
 
+    Learwolf
     Lysol
     Michael Fitzmayer (mupf)
     Nac
@@ -59,6 +59,7 @@ Super special thanks
     Bret Curtis (psi29a)
     Gabriel Pascu (iGrebla)
     greetasdf
+    Learwolf
     Marc Zinnschlag (Zini)
     Mitch (Zaberius)
     scrawl

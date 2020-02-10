@@ -2,7 +2,7 @@ TES3MP
 ======
 
 Copyright (c) 2008-2015, OpenMW Team  
-Copyright (c) 2016-2020, Stanislav Zhukov & David Cernat
+Copyright (c) 2016-2020, David Cernat & Stanislav Zhukov
 
 [![Build Status](https://travis-ci.org/TES3MP/openmw-tes3mp.svg?branch=0.7.0)](https://travis-ci.org/TES3MP/openmw-tes3mp)
 
