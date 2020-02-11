@@ -500,16 +500,20 @@ int Networking::mainLoop()
 {
     RakNet::Packet *packet;
 
+#ifndef _WIN32
     struct sigaction sigIntHandler;
     
     sigIntHandler.sa_handler = signalHandler;
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
+#endif
     
     while (running and !killLoop)
     {
+#ifndef _WIN32
         sigaction(SIGTERM, &sigIntHandler, NULL);
         sigaction(SIGINT, &sigIntHandler, NULL);
+#endif
         if (kbhit() && getch() == '\n')
             break;
         for (packet=peer->Receive(); packet; peer->DeallocatePacket(packet), packet=peer->Receive())
