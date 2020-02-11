@@ -396,6 +396,8 @@ namespace mwmp
         std::vector<StaticRecord> staticRecords;
         std::vector<WeaponRecord> weaponRecords;
 
+        std::vector<ESM::Cell> cellsToReset;
+
         bool isValid;
     };
 }

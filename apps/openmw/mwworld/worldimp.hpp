@@ -709,6 +709,16 @@ namespace MWWorld
             /*
                 Start of tes3mp addition
 
+                Make it possible to reload active cells (e.g. for CellReset)
+            */
+            void reloadCells(std::vector<ESM::Cell> * cells) override;
+            /*
+                End of tes3mp addition
+            */
+
+            /*
+                Start of tes3mp addition
+
                 Make it possible to unload a cell from elsewhere
             */
             void unloadCell(const ESM::Cell& cell) override;

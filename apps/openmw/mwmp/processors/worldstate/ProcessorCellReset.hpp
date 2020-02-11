@@ -2,6 +2,7 @@
 #define OPENMW_PROCESSORCELLRESET_HPP
 
 #include "../WorldstateProcessor.hpp"
+#include <apps/openmw/mwworld/player.hpp>
 
 namespace mwmp
 {
@@ -15,7 +16,19 @@ namespace mwmp
 
         virtual void Do(WorldstatePacket &packet, Worldstate &worldstate)
         {
-            // Placeholder
+            LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Received ID_CELL_RESET");
+
+            CellController* cellController = Main::get().getCellController();
+            MWBase::World * world = MWBase::Environment::get().getWorld();
+
+            world->reloadCells(&worldstate.cellsToReset);
+
+            /*for (ESM::Cell cell : worldstate.cellsToReset)
+            {
+                Main::get().getLocalPlayer()->storeCellState(cell, CellState::LOAD);
+            }
+            Main::get().getLocalPlayer()->sendCellStates();
+            Main::get().getLocalPlayer()->clearCellStates();*/
         }
     };
 }

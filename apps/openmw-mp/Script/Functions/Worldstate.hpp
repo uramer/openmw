@@ -81,6 +81,10 @@
     {"SendWorldDestinationOverride",      WorldstateFunctions::SendWorldDestinationOverride},\
     {"SendWorldRegionAuthority",          WorldstateFunctions::SendWorldRegionAuthority},\
     \
+    {"AddCellToReset",                    WorldstateFunctions::AddCellToReset},\
+    {"ClearCellsToReset",                 WorldstateFunctions::ClearCellsToReset},\
+    {"SendCellReset",                     WorldstateFunctions::SendCellReset},\
+    \
     {"ReadLastWorldstate",                WorldstateFunctions::ReadLastWorldstate},\
     {"CopyLastWorldstateToStore",         WorldstateFunctions::CopyLastWorldstateToStore}
 
@@ -485,6 +489,14 @@ public:
 
     /**
     * \brief Clear the list of refIds for which collision should be enforced irrespective
+    * \brief Add a cell with given cellDescription to the list of cells that should be reset on the client.
+    *
+    * \return void
+    */
+    static void AddCellToReset(const char * cellDescription) noexcept;
+
+    /**
+    * \brief Clear the list of refIdsd for which collision should be enforced irrespective
     *        of other settings.
     *
     * \return void
@@ -497,6 +509,13 @@ public:
     * \return void
     */
     static void ClearDestinationOverrides() noexcept;
+
+    /**
+    * \brief Clear the list of cells which should be reset on the client.
+    *
+    * \return void
+    */
+    static void ClearCellsToReset() noexcept;
 
     /**
     * \brief Save the .png image data of the map tile at a certain index in the read worldstate's
@@ -568,6 +587,14 @@ public:
     * \return void
     */
     static void SendWorldRegionAuthority(unsigned short pid) noexcept;
+
+    /**
+    * \brief Send a CellReset packet with a list of cells,
+    *
+    * \param pid The player ID attached to the packet.
+    * \return void
+    */
+    static void SendCellReset(unsigned short pid, bool sendToOtherPlayers) noexcept;
 
     /**
     * \brief Send a WorldMap packet with the current set of map changes in the write-only

@@ -2986,6 +2986,87 @@ namespace MWWorld
         End of tes3mp addition
     */
 
+    /*
+        Start of tes3mp addition
+
+        Make it possible to reload active cells (e.g. for CellReset)
+    */
+    void World::reloadCells(std::vector<ESM::Cell> * cells)
+    {
+        mwmp::CellController* cellController = mwmp::Main::get().getCellController();
+        MWWorld::Scene::CellStoreCollection activeCells = (*mWorldScene).getActiveCells();
+
+        MWWorld::Scene::CellStoreCollection activeToReset;
+
+        for (MWWorld::Scene::CellStoreCollection::iterator iter = activeCells.begin(); iter != activeCells.end(); iter++)
+        {
+            ESM::Cell iterCell = *(*iter)->getCell();
+            for (ESM::Cell cell : *cells)
+            {
+                if (cellController->isSameCell(iterCell, cell))
+                {
+                    activeToReset.insert(*iter);
+                    break;
+                }
+            }
+        }
+
+        if (!activeToReset.empty())
+        {
+            typedef std::pair<Ptr, CellStore*> returnPtr;
+            std::map<Ptr, CellStore*> moveBack;
+            for (MWWorld::Scene::CellStoreCollection::iterator iter = activeToReset.begin(); iter != activeToReset.end(); iter++)
+            {
+                ESM::Cell iterCell = *(*iter)->getCell();
+                MWWorld::CellStore * cellStore = cellController->getCellStore(iterCell);
+
+                cellStore->returnFromOtherCells();
+                std::vector<Ptr> movedRefs = cellStore->getMovedHere();
+                for (Ptr ref : movedRefs)
+                {
+                    moveBack.insert(returnPtr(ref, cellStore));
+                }
+            }
+
+            for (MWWorld::Scene::CellStoreCollection::iterator iter = activeCells.begin(); iter != activeCells.end(); iter++)
+            {
+                ESM::Cell iterCell = *(*iter)->getCell();
+                MWWorld::CellStore * cellStore = cellController->getCellStore(iterCell);
+                
+                mWorldScene->unloadCell(iter);
+                cellController->getCell(iterCell)->uninitializeLocalActors();
+                cellController->getCell(iterCell)->uninitializeDedicatedActors();
+
+                if (activeToReset.count(*iter) > 0)
+                {
+                    cellStore->clear();
+                    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Resetting cell %s!", iterCell.getDescription().c_str());
+                }
+            }
+
+            ESM::CellId pCellId = getPlayerPtr().getCell()->getCell()->getCellId();
+
+            changeToCell(pCellId, getPlayerPtr().getRefData().getPosition(), false, true);
+
+            for (returnPtr ret : moveBack)
+            {
+                ret.first.getCell()->moveTo(ret.first, ret.second);
+                cellController->getCell(*ret.second->getCell())->initializeDedicatedActor(ret.first);
+            }
+        }
+        else
+        {
+            for (ESM::Cell cell : *cells)
+            {
+                MWWorld::CellStore * cellStore = cellController->getCellStore(cell);
+                cellStore->clear();
+            }
+        }
+    }
+    /*
+        End of tes3mp addition
+    */
+
     bool World::getPlayerStandingOn (const MWWorld::ConstPtr& object)
     {
         MWWorld::Ptr player = getPlayerPtr();

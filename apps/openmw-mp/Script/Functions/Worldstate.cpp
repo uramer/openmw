@@ -3,7 +3,10 @@
 #include <apps/openmw-mp/Networking.hpp>
 #include <apps/openmw-mp/Player.hpp>
 #include <apps/openmw-mp/Script/ScriptFunctions.hpp>
+#include <apps/openmw-mp/CellController.hpp>
 #include <fstream>
+
+#include <apps/openmw-mp/Utils.hpp>
 
 #include "Worldstate.hpp"
 
@@ -262,6 +265,12 @@ void WorldstateFunctions::ClearSynchronizedClientGlobalIds() noexcept
     writeWorldstate.synchronizedClientGlobalIds.clear();
 }
 
+void WorldstateFunctions::AddCellToReset(const char *cellDescription) noexcept
+{
+    ESM::Cell cell = Utils::getCellFromDescription(cellDescription);
+    writeWorldstate.cellsToReset.push_back(cell);
+}
+
 void WorldstateFunctions::ClearEnforcedCollisionRefIds() noexcept
 {
     writeWorldstate.enforcedCollisionRefIds.clear();
@@ -270,6 +279,11 @@ void WorldstateFunctions::ClearEnforcedCollisionRefIds() noexcept
 void WorldstateFunctions::ClearDestinationOverrides() noexcept
 {
     writeWorldstate.destinationOverrides.clear();
+}
+
+void WorldstateFunctions::ClearCellsToReset() noexcept
+{
+    writeWorldstate.cellsToReset.clear();
 }
 
 void WorldstateFunctions::SaveMapTileImageFile(unsigned int index, const char *filePath) noexcept
@@ -447,6 +461,41 @@ void WorldstateFunctions::SendWorldRegionAuthority(unsigned short pid) noexcept
 
     // This packet should always be sent to all other players
     packet->Send(true);
+}
+
+void WorldstateFunctions::SendCellReset(unsigned short pid, bool sendToOtherPlayers) noexcept
+{
+    mwmp::WorldstatePacket *packet = mwmp::Networking::get().getWorldstatePacketController()->GetPacket(ID_CELL_RESET);
+
+    Player *player;
+    GET_PLAYER(pid, player, );
+
+    writeWorldstate.guid = player->guid;
+
+    packet->setWorldstate(&writeWorldstate);
+
+    packet->Send(sendToOtherPlayers);
+
+    if (sendToOtherPlayers)
+    {
+        packet->Send(false);
+    }
+
+    CellController * cellController = CellController::get();
+
+    for (ESM::Cell cell : writeWorldstate.cellsToReset)
+    {
+        if (sendToOtherPlayers)
+        {
+            TPlayers * players = Players::getPlayers();
+            for (TPlayers::iterator iter = players->begin(); iter != players->end(); iter++)
+            {
+                cellController->getCell(&cell)->removePlayer((*iter).second, true);
+            }
+        }
+        else
+            cellController->getCell(&cell)->removePlayer(Players::getPlayer(pid), true);
+    }
 }
 
 

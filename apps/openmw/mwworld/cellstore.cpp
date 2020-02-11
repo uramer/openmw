@@ -621,6 +621,41 @@ namespace MWWorld
         End of tes3mp addition
     */
 
+    /*
+        Start of tes3mp addition
+
+        Make it possible to get mMovedHere in the CellStore from elsewhere in the code
+    */
+    std::vector<Ptr> CellStore::getMovedHere()
+    {
+        std::vector<Ptr> hereVector;
+        for (CellStore::MovedRefTracker::iterator iter = mMovedHere.begin(); iter != mMovedHere.end(); ++iter)
+        {
+            hereVector.push_back(Ptr(iter->first, iter->second));
+        }
+        return hereVector;
+    }
+    /*
+        End of tes3mp addition
+    */
+
+    /*
+        Start of tes3mp addition
+
+        Make it possible to return all NPCs back to this cell from elsewhere in the code
+    */
+    void CellStore::returnFromOtherCells()
+    {
+        for (CellStore::MovedRefTracker::iterator iter = mMovedToAnotherCell.begin(); iter != mMovedToAnotherCell.end(); ++iter)
+        {
+            LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Returning actor from %d, %d!", iter->second->getCell()->getGridX(), iter->second->getCell()->getGridY());
+            iter->second->moveTo(iter->first, this);
+        }
+    }
+    /*
+        End of tes3mp addition
+    */
+
     float CellStore::getWaterLevel() const
     {
         if (isExterior())
@@ -1320,4 +1355,66 @@ namespace MWWorld
                 || enchantment->mData.mType == ESM::Enchantment::WhenStrikes)
             mRechargingItems.emplace_back(ptr.getBase(), static_cast<float>(enchantment->mData.mCharge));
     }
+    
+    /*
+        Start of tes3mp addition
+
+        Make it possible to clear cell data (e.g. to reset cells)
+    */
+    void CellStore::clear()
+    {
+        if (mState != State_Unloaded)
+        {
+            mState = State_Unloaded;
+
+            mIds.clear();
+
+            mActivators.mList.clear();
+            mPotions.mList.clear();
+            mAppas.mList.clear();
+            mArmors.mList.clear();
+            mBooks.mList.clear();
+            mClothes.mList.clear();
+            mContainers.mList.clear();
+            mDoors.mList.clear();
+            mIngreds.mList.clear();
+            mCreatureLists.mList.clear();
+            mItemLists.mList.clear();
+            mLights.mList.clear();
+            mLockpicks.mList.clear();
+            mMiscItems.mList.clear();
+            mProbes.mList.clear();
+            mRepairs.mList.clear();
+            mStatics.mList.clear();
+            mWeapons.mList.clear();
+            mBodyParts.mList.clear();
+
+            mwmp::CellController * cellController = mwmp::Main::get().getCellController();
+
+            for (std::list<LiveCellRef<ESM::Creature>>::iterator ref = mCreatures.mList.begin(); ref != mCreatures.mList.end(); ref++)
+            {
+                if (!cellController->isDedicatedActor(MWWorld::Ptr(&*ref, this)))
+                {
+                    mCreatures.mList.erase(ref);
+                }
+            }
+
+            for (std::list<LiveCellRef<ESM::NPC>>::iterator ref = mNpcs.mList.begin(); ref != mNpcs.mList.end(); ref++)
+            {
+                if (!cellController->isDedicatedActor(MWWorld::Ptr(&*ref, this)))
+                {
+                    mNpcs.mList.erase(ref);
+                }
+            }
+
+            mMovedHere.clear();
+            mMovedToAnotherCell.clear();
+            mMergedRefs.clear();
+
+            mFogState = NULL;
+        }
+    }
+    /*
+        End of tes3mp addition
+    */
 }

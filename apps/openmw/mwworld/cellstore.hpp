@@ -302,6 +302,26 @@ namespace MWWorld
                 End of tes3mp addition
             */
 
+            /*
+                Start of tes3mp addition
+
+                Make it possible to get the mContainers in the CellStore from elsewhere in the code
+            */
+            std::vector<Ptr> getMovedHere();
+            /*
+                End of tes3mp addition
+            */
+
+            /*
+                Start of tes3mp addition
+
+                Make it possible to get mMovedHere in the CellStore from elsewhere in the code
+            */
+            void returnFromOtherCells();
+            /*
+                End of tes3mp addition
+            */
+
             float getWaterLevel() const;
 
             bool movedHere(const MWWorld::Ptr& ptr) const;
@@ -449,6 +469,16 @@ namespace MWWorld
 
             void respawn ();
             ///< Check mLastRespawn and respawn references if necessary. This is a no-op if the cell is not loaded.
+
+            /*
+                Start of tes3mp addition
+
+                Make it possible to clear cell data (e.g. to reset cells).
+            */
+            void clear ();
+            /*
+                End of tes3mp addition
+            */
 
         private:
 
