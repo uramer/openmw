@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
+#include <stdexcept>
 
 #define BPP_INIT(packet_id) packetID = packet_id; strPacketID = #packet_id; className = typeid(this).name(); avoidReading = false;
 
