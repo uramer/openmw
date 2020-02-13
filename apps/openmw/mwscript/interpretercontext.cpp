@@ -234,8 +234,8 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_CLIENT_SCRIPT_LOCAL packet every time a local short changes its value
-            in a script approved for packet sending
+            Send an ID_CLIENT_SCRIPT_LOCAL packet when a local float changes its value as long as
+            it is being set in a script that has been approved for packet sending
         */
         if (sendPackets)
         {
@@ -267,8 +267,13 @@ namespace MWScript
             Start of tes3mp addition
 
             Avoid setting a local to a value it already is, preventing packet spam
+
+            Additionally, record the old value to check it below when determining if
+            it has changed enough to warrant sending a packet about it
         */
-        if (mLocals->mFloats.at(index) == value) return;
+        float oldValue = mLocals->mFloats.at(index);
+
+        if (oldValue == value) return;
         /*
             End of tes3mp addition
         */
@@ -278,11 +283,11 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_SCRIPT_LOCAL_FLOAT packet every time a local float changes its value
-            to one without decimals (to avoid packet spam for timers) in a script approved
-            for packet sending
+            Send an ID_CLIENT_SCRIPT_LOCAL packet when a local float changes its value as long as
+            its value has changed enough and it is being set in a script that has been approved for
+            packet sending
         */
-        if (sendPackets && value == (int) value)
+        if (floor(oldValue) != floor(value) && sendPackets)
         {
             mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
             objectList->reset();
@@ -383,7 +388,7 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global short changes its value as long as
+            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global long changes its value as long as
             it is being set in a script that has been approved for packet sending or the global itself
             has been set to always be synchronized
         */
@@ -404,8 +409,13 @@ namespace MWScript
             Start of tes3mp addition
 
             Avoid setting a global to a value it already is, preventing packet spam
+
+            Additionally, record the old value to check it below when determining if
+            it has changed enough to warrant sending a packet about it
         */
-        if (getGlobalFloat(name) == value) return;
+        float oldValue = getGlobalFloat(name);
+
+        if (oldValue == value) return;
         /*
             End of tes3mp addition
         */
@@ -413,11 +423,11 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global short changes its value as long as
-            it is being set in a script that has been approved for packet sending or the global itself
-            has been set to always be synchronized
+            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global float changes its value as long as
+            its value has changed enough and it is being set in a script that has been approved for
+            packet sending or the global itself has been set to always be synchronized
         */
-        if (sendPackets || mwmp::Main::isValidPacketGlobal(name))
+        if (floor(oldValue) != floor(value) && (sendPackets || mwmp::Main::isValidPacketGlobal(name)))
         {
             mwmp::Main::get().getNetworking()->getWorldstate()->sendClientGlobal(name, value);
         }
