@@ -219,6 +219,16 @@ namespace MWScript
         if (!mLocals)
             throw std::runtime_error ("local variables not available in this context");
 
+        /*
+            Start of tes3mp addition
+
+            Avoid setting a local to a value it already is, preventing packet spam
+        */
+        if (mLocals->mShorts.at(index) == value) return;
+        /*
+            End of tes3mp addition
+        */
+
         mLocals->mShorts.at (index) = value;
 
         /*
@@ -252,6 +262,16 @@ namespace MWScript
     {
         if (!mLocals)
             throw std::runtime_error ("local variables not available in this context");
+
+        /*
+            Start of tes3mp addition
+
+            Avoid setting a local to a value it already is, preventing packet spam
+        */
+        if (mLocals->mFloats.at(index) == value) return;
+        /*
+            End of tes3mp addition
+        */
 
         mLocals->mFloats.at (index) = value;
 
