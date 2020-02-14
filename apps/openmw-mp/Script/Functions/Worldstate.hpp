@@ -61,11 +61,13 @@
     {"AddSynchronizedClientScriptId",     WorldstateFunctions::AddSynchronizedClientScriptId},\
     {"AddSynchronizedClientGlobalId",     WorldstateFunctions::AddSynchronizedClientGlobalId},\
     {"AddEnforcedCollisionRefId",         WorldstateFunctions::AddEnforcedCollisionRefId},\
+    {"AddCellToReset",                    WorldstateFunctions::AddCellToReset},\
     {"AddDestinationOverride",            WorldstateFunctions::AddDestinationOverride},\
     \
     {"ClearSynchronizedClientScriptIds",  WorldstateFunctions::ClearSynchronizedClientScriptIds},\
     {"ClearSynchronizedClientGlobalIds",  WorldstateFunctions::ClearSynchronizedClientGlobalIds},\
     {"ClearEnforcedCollisionRefIds",      WorldstateFunctions::ClearEnforcedCollisionRefIds},\
+    {"ClearCellsToReset",                 WorldstateFunctions::ClearCellsToReset},\
     {"ClearDestinationOverrides",         WorldstateFunctions::ClearDestinationOverrides},\
     \
     {"SaveMapTileImageFile",              WorldstateFunctions::SaveMapTileImageFile},\
@@ -78,12 +80,9 @@
     {"SendWorldTime",                     WorldstateFunctions::SendWorldTime},\
     {"SendWorldWeather",                  WorldstateFunctions::SendWorldWeather},\
     {"SendWorldCollisionOverride",        WorldstateFunctions::SendWorldCollisionOverride},\
+    {"SendCellReset",                     WorldstateFunctions::SendCellReset},\
     {"SendWorldDestinationOverride",      WorldstateFunctions::SendWorldDestinationOverride},\
     {"SendWorldRegionAuthority",          WorldstateFunctions::SendWorldRegionAuthority},\
-    \
-    {"AddCellToReset",                    WorldstateFunctions::AddCellToReset},\
-    {"ClearCellsToReset",                 WorldstateFunctions::ClearCellsToReset},\
-    {"SendCellReset",                     WorldstateFunctions::SendCellReset},\
     \
     {"ReadLastWorldstate",                WorldstateFunctions::ReadLastWorldstate},\
     {"CopyLastWorldstateToStore",         WorldstateFunctions::CopyLastWorldstateToStore}
@@ -462,6 +461,13 @@ public:
     static void AddEnforcedCollisionRefId(const char* refId) noexcept;
 
     /**
+    * \brief Add a cell with given cellDescription to the list of cells that should be reset on the client.
+    *
+    * \return void
+    */
+    static void AddCellToReset(const char * cellDescription) noexcept;
+
+    /**
     * \brief Add a destination override containing the cell description for the old cell
     *        and the new cell.
     *
@@ -489,14 +495,6 @@ public:
 
     /**
     * \brief Clear the list of refIds for which collision should be enforced irrespective
-    * \brief Add a cell with given cellDescription to the list of cells that should be reset on the client.
-    *
-    * \return void
-    */
-    static void AddCellToReset(const char * cellDescription) noexcept;
-
-    /**
-    * \brief Clear the list of refIdsd for which collision should be enforced irrespective
     *        of other settings.
     *
     * \return void
@@ -504,18 +502,18 @@ public:
     static void ClearEnforcedCollisionRefIds() noexcept;
 
     /**
-    * \brief Clear the list of destination overrides.
-    *
-    * \return void
-    */
-    static void ClearDestinationOverrides() noexcept;
-
-    /**
     * \brief Clear the list of cells which should be reset on the client.
     *
     * \return void
     */
     static void ClearCellsToReset() noexcept;
+
+    /**
+    * \brief Clear the list of destination overrides.
+    *
+    * \return void
+    */
+    static void ClearDestinationOverrides() noexcept;
 
     /**
     * \brief Save the .png image data of the map tile at a certain index in the read worldstate's
@@ -589,14 +587,6 @@ public:
     static void SendWorldRegionAuthority(unsigned short pid) noexcept;
 
     /**
-    * \brief Send a CellReset packet with a list of cells,
-    *
-    * \param pid The player ID attached to the packet.
-    * \return void
-    */
-    static void SendCellReset(unsigned short pid, bool sendToOtherPlayers) noexcept;
-
-    /**
     * \brief Send a WorldMap packet with the current set of map changes in the write-only
     *        worldstate.
     *
@@ -644,6 +634,14 @@ public:
     * \return void
     */
     static void SendWorldCollisionOverride(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept;
+
+    /**
+    * \brief Send a CellReset packet with a list of cells,
+    *
+    * \param pid The player ID attached to the packet.
+    * \return void
+    */
+    static void SendCellReset(unsigned short pid, bool sendToOtherPlayers) noexcept;
 
     /**
     * \brief Send a WorldDestinationOverride packet with the current destination overrides in
