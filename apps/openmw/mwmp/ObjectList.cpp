@@ -1034,10 +1034,7 @@ void ObjectList::addObjectPlace(const MWWorld::Ptr& ptr, bool droppedByPlayer)
 
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = 0;
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.charge = ptr.getCellRef().getCharge();
     baseObject.enchantmentCharge = ptr.getCellRef().getEnchantmentCharge();
     baseObject.soul = ptr.getCellRef().getSoul();
@@ -1069,10 +1066,7 @@ void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr)
 
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = 0;
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.isSummon = false;
     baseObject.summonDuration = -1;
 
@@ -1087,10 +1081,7 @@ void ObjectList::addObjectSpawn(const MWWorld::Ptr& ptr, const MWWorld::Ptr& mas
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = 0;
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.isSummon = true;
     baseObject.summonSpellId = spellId;
     baseObject.summonEffectId = effectId;
@@ -1108,10 +1099,7 @@ void ObjectList::addObjectLock(const MWWorld::Ptr& ptr, int lockLevel)
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.lockLevel = lockLevel;
     addBaseObject(baseObject);
 }
@@ -1120,10 +1108,7 @@ void ObjectList::addObjectTrap(const MWWorld::Ptr& ptr, const ESM::Position& pos
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.isDisarmed = isDisarmed;
     baseObject.position = pos;
     addBaseObject(baseObject);
@@ -1133,10 +1118,7 @@ void ObjectList::addObjectScale(const MWWorld::Ptr& ptr, float scale)
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.scale = scale;
     addBaseObject(baseObject);
 }
@@ -1145,10 +1127,7 @@ void ObjectList::addObjectState(const MWWorld::Ptr& ptr, bool objectState)
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.objectState = objectState;
     addBaseObject(baseObject);
 }
@@ -1157,10 +1136,7 @@ void ObjectList::addObjectAnimPlay(const MWWorld::Ptr& ptr, std::string group, i
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.animGroup = group;
     baseObject.animMode = mode;
     addBaseObject(baseObject);
@@ -1170,10 +1146,7 @@ void ObjectList::addDoorState(const MWWorld::Ptr& ptr, MWWorld::DoorState state)
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.doorState = static_cast<int>(state);
     addBaseObject(baseObject);
 }
@@ -1197,25 +1170,7 @@ void ObjectList::addConsoleCommandObject(const MWWorld::Ptr& ptr)
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-
-    if (ptr == MWBase::Environment::get().getWorld()->getPlayerPtr())
-    {
-        baseObject.isPlayer = true;
-        baseObject.guid = mwmp::Main::get().getNetworking()->getLocalPlayer()->guid;
-    }
-    else if (mwmp::PlayerList::isDedicatedPlayer(ptr))
-    {
-        baseObject.isPlayer = true;
-        baseObject.guid = mwmp::PlayerList::getPlayer(ptr)->guid;
-    }
-    else
-    {
-        baseObject.isPlayer = false;
-        baseObject.refId = ptr.getCellRef().getRefId();
-        baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-        baseObject.mpNum = ptr.getCellRef().getMpNum();
-    }
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
 
     addBaseObject(baseObject);
 }
@@ -1224,10 +1179,7 @@ void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int va
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.clientVariable.index = index;
     baseObject.clientVariable.variableType = mwmp::VARIABLE_TYPE::INTEGER;
     baseObject.clientVariable.intValue = value;
@@ -1238,10 +1190,7 @@ void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, float 
 {
     cell = *ptr.getCell()->getCell();
 
-    mwmp::BaseObject baseObject;
-    baseObject.refId = ptr.getCellRef().getRefId();
-    baseObject.refNum = ptr.getCellRef().getRefNum().mIndex;
-    baseObject.mpNum = ptr.getCellRef().getMpNum();
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.clientVariable.index = index;
     baseObject.clientVariable.variableType = mwmp::VARIABLE_TYPE::FLOAT;
     baseObject.clientVariable.floatValue = value;
