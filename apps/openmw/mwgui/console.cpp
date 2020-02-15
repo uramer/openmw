@@ -227,7 +227,7 @@ namespace MWGui
                     objectList->cell = mwmp::Main::get().getLocalPlayer()->cell;
                 else
                 {
-                    objectList->addConsoleCommandObject(mPtr);
+                    objectList->addObjectGeneric(mPtr);
                 }
 
                 objectList->sendConsoleCommand();

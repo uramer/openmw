@@ -1166,15 +1166,6 @@ void ObjectList::addVideoPlay(std::string filename, bool allowSkipping)
     addBaseObject(baseObject);
 }
 
-void ObjectList::addConsoleCommandObject(const MWWorld::Ptr& ptr)
-{
-    cell = *ptr.getCell()->getCell();
-
-    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
-
-    addBaseObject(baseObject);
-}
-
 void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int value)
 {
     cell = *ptr.getCell()->getCell();
