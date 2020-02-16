@@ -1276,10 +1276,11 @@ void LocalPlayer::setFactions()
     MWWorld::Ptr ptrPlayer = getPlayerPtr();
     MWMechanics::NpcStats &ptrNpcStats = ptrPlayer.getClass().getNpcStats(ptrPlayer);
 
-    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Received ID_PLAYER_FACTION from server\n- action: %i", factionChanges.action);
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Received ID_PLAYER_FACTION from server - action: %i", factionChanges.action);
 
     for (const auto &faction : factionChanges.factions)
     {
+        LOG_APPEND(TimedLog::LOG_VERBOSE, " - processing faction: %s", faction.factionId.c_str());
         const ESM::Faction *esmFaction = MWBase::Environment::get().getWorld()->getStore().get<ESM::Faction>().search(faction.factionId);
 
         if (!esmFaction)
@@ -1288,12 +1289,17 @@ void LocalPlayer::setFactions()
             continue;
         }
 
-        // If the player isn't in this faction, make them join it
-        if (!ptrNpcStats.isInFaction(faction.factionId))
-            ptrNpcStats.joinFaction(faction.factionId);
-
         if (factionChanges.action == mwmp::FactionChanges::RANK)
         {
+
+            if (!ptrNpcStats.isInFaction(faction.factionId))
+            {
+                // If the player isn't in this faction, make them join it
+                ptrNpcStats.joinFaction(faction.factionId);
+                LOG_APPEND(TimedLog::LOG_VERBOSE, "\t>JOINED FACTION: %s on rank change to: %d.",
+                    faction.factionId.c_str(), faction.rank);
+            }
+
             // While the faction rank is different in the packet than in the NpcStats,
             // adjust the NpcStats accordingly
             while (faction.rank != ptrNpcStats.getFactionRanks().at(faction.factionId))
