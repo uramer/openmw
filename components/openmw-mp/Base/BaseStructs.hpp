@@ -22,7 +22,8 @@ namespace mwmp
 
     enum VARIABLE_TYPE
     {
-        INTEGER,
+        SHORT,
+        LONG,
         FLOAT
     };
 

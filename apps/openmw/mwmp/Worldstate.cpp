@@ -349,13 +349,24 @@ void Worldstate::setClientGlobals()
             if (!debugMessage.empty())
                 debugMessage += ", ";
 
-            std::string valueAsString = clientGlobal.variableType == mwmp::VARIABLE_TYPE::INTEGER ?
-                std::to_string(clientGlobal.intValue) : std::to_string(clientGlobal.floatValue);
+            std::string variableTypeAsString;
+            std::string valueAsString;
 
-            debugMessage += clientGlobal.id + ": " + valueAsString;
+            if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::SHORT || clientGlobal.variableType == mwmp::VARIABLE_TYPE::LONG)
+            {
+                variableTypeAsString = clientGlobal.variableType == mwmp::VARIABLE_TYPE::SHORT ? "short" : "long";
+                valueAsString = std::to_string(clientGlobal.intValue);
+            }
+            else if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::FLOAT)
+            {
+                variableTypeAsString = "float";
+                valueAsString = std::to_string(clientGlobal.floatValue);
+            }
+
+            debugMessage += clientGlobal.id + ": " + variableTypeAsString + " " + valueAsString;
         }
 
-        if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::INTEGER)
+        if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::SHORT || clientGlobal.variableType == mwmp::VARIABLE_TYPE::LONG)
             MWBase::Environment::get().getWorld()->setGlobalInt(clientGlobal.id, clientGlobal.intValue);
         else if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::FLOAT)
             MWBase::Environment::get().getWorld()->setGlobalInt(clientGlobal.id, clientGlobal.floatValue);
@@ -419,16 +430,24 @@ void Worldstate::setWeather()
         weather.queuedWeather, weather.transitionFactor, forceWeather);
 }
 
-void Worldstate::sendClientGlobal(std::string varName, int value)
+void Worldstate::sendClientGlobal(std::string varName, int value, mwmp::VARIABLE_TYPE variableType)
 {
     clientGlobals.clear();
 
     mwmp::ClientVariable clientVariable;
     clientVariable.id = varName;
-    clientVariable.variableType = mwmp::VARIABLE_TYPE::INTEGER;
+    clientVariable.variableType = variableType;
     clientVariable.intValue = value;
 
-    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_CLIENT_SCRIPT_GLOBAL with name %s, type integer, value %i", varName.c_str(), value);
+    std::string variableTypeAsString;
+
+    if (variableType == mwmp::VARIABLE_TYPE::SHORT)
+        variableTypeAsString = "short";
+    else if (variableType == mwmp::VARIABLE_TYPE::LONG)
+        variableTypeAsString = "long";
+
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending ID_CLIENT_SCRIPT_GLOBAL with name %s, type %s, value %i",
+        varName.c_str(), variableTypeAsString.c_str(), value);
 
     clientGlobals.push_back(clientVariable);
 

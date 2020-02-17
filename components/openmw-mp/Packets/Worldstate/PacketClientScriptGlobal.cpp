@@ -31,7 +31,7 @@ void PacketClientScriptGlobal::Packet(RakNet::BitStream *newBitstream, bool send
         RW(clientGlobal.id, send, true);
         RW(clientGlobal.variableType, send);
 
-        if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::INTEGER)
+        if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::SHORT || clientGlobal.variableType == mwmp::VARIABLE_TYPE::LONG)
             RW(clientGlobal.intValue, send);
         else if (clientGlobal.variableType == mwmp::VARIABLE_TYPE::FLOAT)
             RW(clientGlobal.floatValue, send);

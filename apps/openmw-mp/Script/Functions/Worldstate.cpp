@@ -215,11 +215,11 @@ void WorldstateFunctions::AddKill(const char* refId, int number) noexcept
     writeWorldstate.killChanges.push_back(kill);
 }
 
-void WorldstateFunctions::AddClientGlobalInteger(const char* id, int intValue) noexcept
+void WorldstateFunctions::AddClientGlobalInteger(const char* id, int intValue, unsigned int variableType) noexcept
 {
     mwmp::ClientVariable clientVariable;
     clientVariable.id = id;
-    clientVariable.variableType = mwmp::VARIABLE_TYPE::INTEGER;
+    clientVariable.variableType = variableType;
     clientVariable.intValue = intValue;
 
     writeWorldstate.clientGlobals.push_back(clientVariable);

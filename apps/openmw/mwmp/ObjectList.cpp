@@ -867,21 +867,21 @@ void ObjectList::setClientLocals(MWWorld::CellStore* cellStore)
     for (const auto &baseObject : baseObjects)
     {
         std::string valueAsString;
-        std::string variableType;
+        std::string variableTypeAsString;
 
-        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::INTEGER)
+        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT)
         {
             valueAsString = std::to_string(baseObject.clientVariable.intValue);
-            variableType = "integer";
+            variableTypeAsString = "short";
         }
         else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
         {
             valueAsString = std::to_string(baseObject.clientVariable.floatValue);
-            variableType = "float";
+            variableTypeAsString = "float";
         }
 
         LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s %i-%i, index: %i, type %s, value: %s", baseObject.refId.c_str(),
-                   baseObject.refNum, baseObject.mpNum, baseObject.index, variableType.c_str(), valueAsString.c_str());
+                   baseObject.refNum, baseObject.mpNum, baseObject.index, variableTypeAsString.c_str(), valueAsString.c_str());
 
         MWWorld::Ptr ptrFound = cellStore->searchExact(baseObject.refNum, baseObject.mpNum);
 
@@ -890,7 +890,7 @@ void ObjectList::setClientLocals(MWWorld::CellStore* cellStore)
             LOG_APPEND(TimedLog::LOG_VERBOSE, "-- Found %s %i-%i", ptrFound.getCellRef().getRefId().c_str(),
                                ptrFound.getCellRef().getRefNum(), ptrFound.getCellRef().getMpNum());
 
-            if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::INTEGER)
+            if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT)
                 ptrFound.getRefData().getLocals().mShorts.at(baseObject.index) = baseObject.clientVariable.intValue;
             else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
                 ptrFound.getRefData().getLocals().mFloats.at(baseObject.index) = baseObject.clientVariable.floatValue;
@@ -1166,13 +1166,13 @@ void ObjectList::addVideoPlay(std::string filename, bool allowSkipping)
     addBaseObject(baseObject);
 }
 
-void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int value)
+void ObjectList::addClientScriptLocal(const MWWorld::Ptr& ptr, int index, int value, mwmp::VARIABLE_TYPE variableType)
 {
     cell = *ptr.getCell()->getCell();
 
     mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
     baseObject.clientVariable.index = index;
-    baseObject.clientVariable.variableType = mwmp::VARIABLE_TYPE::INTEGER;
+    baseObject.clientVariable.variableType = variableType;
     baseObject.clientVariable.intValue = value;
     addBaseObject(baseObject);
 }
@@ -1312,10 +1312,10 @@ void ObjectList::sendClientScriptLocal()
         std::string valueAsString;
         std::string variableType;
 
-        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::INTEGER)
+        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT)
         {
             valueAsString = std::to_string(baseObject.clientVariable.intValue);
-            variableType = "integer";
+            variableType = "short";
         }
         else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
         {

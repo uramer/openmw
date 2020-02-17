@@ -419,10 +419,11 @@ public:
     * \brief Add a new client global integer to the client globals.
     *
     * \param id The id of the client global.
+    * \param variableType The variable type (0 for SHORT, 1 for LONG).
     * \param intValue The integer value of the client global.
     * \return void
     */
-    static void AddClientGlobalInteger(const char* id, int intValue) noexcept;
+    static void AddClientGlobalInteger(const char* id, int intValue, unsigned int variableType = 0) noexcept;
 
     /**
     * \brief Add a new client global float to the client globals.

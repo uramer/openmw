@@ -242,7 +242,7 @@ namespace MWScript
             mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
             objectList->reset();
             objectList->packetOrigin = ScriptController::getPacketOriginFromContextType(getContextType());
-            objectList->addClientScriptLocal(mReference, index, value);
+            objectList->addClientScriptLocal(mReference, index, value, mwmp::VARIABLE_TYPE::SHORT);
             objectList->sendClientScriptLocal();
         }
         /*
@@ -364,7 +364,7 @@ namespace MWScript
         */
         if (sendPackets || mwmp::Main::isValidPacketGlobal(name))
         {
-            mwmp::Main::get().getNetworking()->getWorldstate()->sendClientGlobal(name, value);
+            mwmp::Main::get().getNetworking()->getWorldstate()->sendClientGlobal(name, value, mwmp::VARIABLE_TYPE::SHORT);
         }
         /*
             End of tes3mp addition
@@ -394,7 +394,7 @@ namespace MWScript
         */
         if (sendPackets || mwmp::Main::isValidPacketGlobal(name))
         {
-            mwmp::Main::get().getNetworking()->getWorldstate()->sendClientGlobal(name, value);
+            mwmp::Main::get().getNetworking()->getWorldstate()->sendClientGlobal(name, value, mwmp::VARIABLE_TYPE::LONG);
         }
         /*
             End of tes3mp addition
