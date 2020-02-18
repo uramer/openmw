@@ -234,7 +234,7 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_CLIENT_SCRIPT_LOCAL packet when a local float changes its value as long as
+            Send an ID_CLIENT_SCRIPT_LOCAL packet when a local short changes its value if
             it is being set in a script that has been approved for packet sending
         */
         if (sendPackets)
@@ -255,7 +255,35 @@ namespace MWScript
         if (!mLocals)
             throw std::runtime_error ("local variables not available in this context");
 
+        /*
+            Start of tes3mp addition
+
+            Avoid setting a local to a value it already is, preventing packet spam
+        */
+        if (mLocals->mLongs.at(index) == value) return;
+        /*
+            End of tes3mp addition
+        */
+
         mLocals->mLongs.at (index) = value;
+
+        /*
+            Start of tes3mp addition
+
+            Send an ID_CLIENT_SCRIPT_LOCAL packet when a local long changes its value if
+            it is being set in a script that has been approved for packet sending
+        */
+        if (sendPackets)
+        {
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = ScriptController::getPacketOriginFromContextType(getContextType());
+            objectList->addClientScriptLocal(mReference, index, value, mwmp::VARIABLE_TYPE::LONG);
+            objectList->sendClientScriptLocal();
+        }
+        /*
+            End of tes3mp addition
+        */
     }
 
     void InterpreterContext::setLocalFloat (int index, float value)
@@ -283,9 +311,9 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_CLIENT_SCRIPT_LOCAL packet when a local float changes its value as long as
-            its value has changed enough and it is being set in a script that has been approved for
-            packet sending
+            Send an ID_CLIENT_SCRIPT_LOCAL packet when a local float changes its value if
+            its value has changed enough and it is being set in a script that has been approved
+            for packet sending
         */
         if (floor(oldValue) != floor(value) && sendPackets)
         {
@@ -358,9 +386,9 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global short changes its value as long as
-            it is being set in a script that has been approved for packet sending or the global itself
-            has been set to always be synchronized
+            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global short changes its value if
+            it is being set in a script that has been approved for packet sending or the global
+            itself has been set to always be synchronized
         */
         if (sendPackets || mwmp::Main::isValidPacketGlobal(name))
         {
@@ -388,9 +416,9 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global long changes its value as long as
-            it is being set in a script that has been approved for packet sending or the global itself
-            has been set to always be synchronized
+            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global long changes its value if
+            it is being set in a script that has been approved for packet sending or the global
+            itself has been set to always be synchronized
         */
         if (sendPackets || mwmp::Main::isValidPacketGlobal(name))
         {
@@ -423,9 +451,9 @@ namespace MWScript
         /*
             Start of tes3mp addition
 
-            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global float changes its value as long as
-            its value has changed enough and it is being set in a script that has been approved for
-            packet sending or the global itself has been set to always be synchronized
+            Send an ID_CLIENT_SCRIPT_GLOBAL packet when a global float changes its value if
+            its value has changed enough and it is being set in a script that has been approved
+            for packet sending or the global itself has been set to always be synchronized
         */
         if (floor(oldValue) != floor(value) && (sendPackets || mwmp::Main::isValidPacketGlobal(name)))
         {

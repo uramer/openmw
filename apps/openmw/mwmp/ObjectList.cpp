@@ -869,15 +869,15 @@ void ObjectList::setClientLocals(MWWorld::CellStore* cellStore)
         std::string valueAsString;
         std::string variableTypeAsString;
 
-        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT)
+        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT || baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::LONG)
         {
+            variableTypeAsString = baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT ? "short" : "long";
             valueAsString = std::to_string(baseObject.clientVariable.intValue);
-            variableTypeAsString = "short";
         }
         else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
         {
-            valueAsString = std::to_string(baseObject.clientVariable.floatValue);
             variableTypeAsString = "float";
+            valueAsString = std::to_string(baseObject.clientVariable.floatValue);
         }
 
         LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s %i-%i, index: %i, type %s, value: %s", baseObject.refId.c_str(),
@@ -892,6 +892,8 @@ void ObjectList::setClientLocals(MWWorld::CellStore* cellStore)
 
             if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT)
                 ptrFound.getRefData().getLocals().mShorts.at(baseObject.index) = baseObject.clientVariable.intValue;
+            else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::LONG)
+                ptrFound.getRefData().getLocals().mLongs.at(baseObject.index) = baseObject.clientVariable.intValue;
             else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
                 ptrFound.getRefData().getLocals().mFloats.at(baseObject.index) = baseObject.clientVariable.floatValue;
         }
@@ -1310,21 +1312,21 @@ void ObjectList::sendClientScriptLocal()
     for (const auto &baseObject : baseObjects)
     {
         std::string valueAsString;
-        std::string variableType;
+        std::string variableTypeAsString;
 
-        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT)
+        if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT || baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::LONG)
         {
+            variableTypeAsString = baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::SHORT ? "short" : "long";
             valueAsString = std::to_string(baseObject.clientVariable.intValue);
-            variableType = "short";
         }
         else if (baseObject.clientVariable.variableType == mwmp::VARIABLE_TYPE::FLOAT)
         {
+            variableTypeAsString = "float";
             valueAsString = std::to_string(baseObject.clientVariable.floatValue);
-            variableType = "float";
         }
 
         LOG_APPEND(TimedLog::LOG_VERBOSE, "- cellRef: %s %i-%i, index: %i, type %s, value: %s", baseObject.refId.c_str(),
-            baseObject.refNum, baseObject.mpNum, baseObject.clientVariable.index, variableType.c_str(), valueAsString.c_str());
+            baseObject.refNum, baseObject.mpNum, baseObject.clientVariable.index, variableTypeAsString.c_str(), valueAsString.c_str());
     }
 
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_CLIENT_SCRIPT_LOCAL)->setObjectList(this);
