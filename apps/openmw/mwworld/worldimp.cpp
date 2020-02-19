@@ -45,6 +45,7 @@
 #include <components/resource/resourcesystem.hpp>
 
 #include <components/sceneutil/positionattitudetransform.hpp>
+#include <components/sceneutil/vismask.hpp>
 
 #include <components/detournavigator/debug.hpp>
 #include <components/detournavigator/navigatorimpl.hpp>
@@ -68,7 +69,6 @@
 #include "../mwrender/npcanimation.hpp"
 #include "../mwrender/renderingmanager.hpp"
 #include "../mwrender/camera.hpp"
-#include "../mwrender/vismask.hpp"
 
 #include "../mwscript/globalscripts.hpp"
 
@@ -2558,7 +2558,7 @@ namespace MWWorld
         {
             // Adjust position so the location we wanted ends up in the middle of the object bounding box
             osg::ComputeBoundsVisitor computeBounds;
-            computeBounds.setTraversalMask(~MWRender::Mask_ParticleSystem);
+            computeBounds.setTraversalMask(~SceneUtil::Mask_ParticleSystem);
             dropped.getRefData().getBaseNode()->accept(computeBounds);
             osg::BoundingBox bounds = computeBounds.getBoundingBox();
             if (bounds.valid())
@@ -3242,28 +3242,15 @@ namespace MWWorld
         }
     }
 
-    struct ListObjectsVisitor
-    {
-        std::vector<MWWorld::Ptr> mObjects;
-
-        bool operator() (Ptr ptr)
-        {
-            if (ptr.getRefData().getBaseNode())
-                mObjects.push_back(ptr);
-            return true;
-        }
-    };
-
     void World::getItemsOwnedBy (const MWWorld::ConstPtr& npc, std::vector<MWWorld::Ptr>& out)
     {
         for (CellStore* cellstore : mWorldScene->getActiveCells())
         {
-            ListObjectsVisitor visitor;
-            cellstore->forEach(visitor);
-
-            for (const Ptr &object : visitor.mObjects)
-                if (Misc::StringUtils::ciEqual(object.getCellRef().getOwner(), npc.getCellRef().getRefId()))
-                    out.push_back(object);
+            cellstore->forEach([&] (const auto& ptr) {
+                if (ptr.getRefData().getBaseNode() && Misc::StringUtils::ciEqual(ptr.getCellRef().getOwner(), npc.getCellRef().getRefId()))
+                    out.push_back(ptr);
+                return true;
+            });
         }
     }
 

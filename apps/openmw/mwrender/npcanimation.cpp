@@ -18,6 +18,7 @@
 #include <components/sceneutil/actorutil.hpp>
 #include <components/sceneutil/attach.hpp>
 #include <components/sceneutil/visitor.hpp>
+#include <components/sceneutil/vismask.hpp>
 #include <components/sceneutil/skeleton.hpp>
 
 #include <components/settings/settings.hpp>
@@ -43,7 +44,6 @@
 #include "camera.hpp"
 #include "rotatecontroller.hpp"
 #include "renderbin.hpp"
-#include "vismask.hpp"
 
 namespace
 {
@@ -79,6 +79,34 @@ std::string getVampireHead(const std::string& race, bool female)
     if (!bodyPart)
         return std::string();
     return "meshes\\" + bodyPart->mModel;
+}
+
+std::string getShieldBodypartMesh(const std::vector<ESM::PartReference>& bodyparts, bool female)
+{
+    const MWWorld::ESMStore &store = MWBase::Environment::get().getWorld()->getStore();
+    const MWWorld::Store<ESM::BodyPart> &partStore = store.get<ESM::BodyPart>();
+    for (const auto& part : bodyparts)
+    {
+        if (part.mPart != ESM::PRT_Shield)
+            continue;
+
+        std::string bodypartName;
+        if (female && !part.mFemale.empty())
+            bodypartName = part.mFemale;
+        else if (!part.mMale.empty())
+            bodypartName = part.mMale;
+
+        if (!bodypartName.empty())
+        {
+            const ESM::BodyPart *bodypart = partStore.search(bodypartName);
+            if (bodypart == nullptr || bodypart->mData.mType != ESM::BodyPart::MT_Armor)
+                return std::string();
+            if (!bodypart->mModel.empty())
+                return "meshes\\" + bodypart->mModel;
+        }
+    }
+
+    return std::string();
 }
 
 }
@@ -507,7 +535,7 @@ void NpcAnimation::updateNpcBase()
 
         addAnimSource(smodel, smodel);
 
-        mObjectRoot->setNodeMask(Mask_FirstPerson);
+        mObjectRoot->setNodeMask(SceneUtil::Mask_FirstPerson);
         mObjectRoot->addCullCallback(new OverrideFieldOfViewCallback(mFirstPersonFieldOfView));
     }
 
@@ -519,36 +547,9 @@ std::string NpcAnimation::getShieldMesh(MWWorld::ConstPtr shield) const
     std::string mesh = shield.getClass().getModel(shield);
     const ESM::Armor *armor = shield.get<ESM::Armor>()->mBase;
     const std::vector<ESM::PartReference>& bodyparts = armor->mParts.mParts;
+    // Try to recover the body part model, use ground model as a fallback otherwise.
     if (!bodyparts.empty())
-    {
-        const MWWorld::ESMStore &store = MWBase::Environment::get().getWorld()->getStore();
-        const MWWorld::Store<ESM::BodyPart> &partStore = store.get<ESM::BodyPart>();
-
-        // Try to get shield model from bodyparts first, with ground model as fallback
-        for (const auto& part : bodyparts)
-        {
-            if (part.mPart != ESM::PRT_Shield)
-                continue;
-
-            std::string bodypartName;
-            if (!mNpc->isMale() && !part.mFemale.empty())
-                bodypartName = part.mFemale;
-            else if (!part.mMale.empty())
-                bodypartName = part.mMale;
-
-            if (!bodypartName.empty())
-            {
-                const ESM::BodyPart *bodypart = partStore.search(bodypartName);
-                if (bodypart == nullptr || bodypart->mData.mType != ESM::BodyPart::MT_Armor)
-                    return std::string();
-                else if (!bodypart->mModel.empty())
-                {
-                    mesh = "meshes\\" + bodypart->mModel;
-                    break;
-                }
-            }
-        }
-    }
+        mesh = getShieldBodypartMesh(bodyparts, !mNpc->isMale());
 
     if (mesh.empty())
         return std::string();
@@ -1002,9 +1003,19 @@ void NpcAnimation::showCarriedLeft(bool show)
     {
         osg::Vec4f glowColor = iter->getClass().getEnchantmentColor(*iter);
         std::string mesh = iter->getClass().getModel(*iter);
-        if (addOrReplaceIndividualPart(ESM::PRT_Shield, MWWorld::InventoryStore::Slot_CarriedLeft, 1,
-                                   mesh, !iter->getClass().getEnchantment(*iter).empty(), &glowColor))
+        // For shields we must try to use the body part model
+        if (iter->getTypeName() == typeid(ESM::Armor).name())
         {
+            const ESM::Armor *armor = iter->get<ESM::Armor>()->mBase;
+            const std::vector<ESM::PartReference>& bodyparts = armor->mParts.mParts;
+            if (!bodyparts.empty())
+                mesh = getShieldBodypartMesh(bodyparts, !mNpc->isMale());
+        }
+        if (mesh.empty() || addOrReplaceIndividualPart(ESM::PRT_Shield, MWWorld::InventoryStore::Slot_CarriedLeft, 1,
+                                        mesh, !iter->getClass().getEnchantment(*iter).empty(), &glowColor))
+        {
+            if (mesh.empty())
+                reserveIndividualPart(ESM::PRT_Shield, MWWorld::InventoryStore::Slot_CarriedLeft, 1);
             if (iter->getTypeName() == typeid(ESM::Light).name() && mObjectParts[ESM::PRT_Shield])
                 addExtraLight(mObjectParts[ESM::PRT_Shield]->getNode()->asGroup(), iter->get<ESM::Light>()->mBase);
         }

@@ -15,6 +15,7 @@
 #include <components/esm/loaddoor.hpp>
 #include <components/esm/doorstate.hpp>
 #include <components/sceneutil/positionattitudetransform.hpp>
+#include <components/sceneutil/vismask.hpp>
 
 #include "../mwbase/environment.hpp"
 #include "../mwbase/world.hpp"
@@ -37,7 +38,6 @@
 #include "../mwrender/objects.hpp"
 #include "../mwrender/renderinginterface.hpp"
 #include "../mwrender/animation.hpp"
-#include "../mwrender/vismask.hpp"
 
 #include "../mwmechanics/actorutil.hpp"
 
@@ -70,7 +70,7 @@ namespace MWClass
         if (!model.empty())
         {
             renderingInterface.getObjects().insertModel(ptr, model, true);
-            ptr.getRefData().getBaseNode()->setNodeMask(MWRender::Mask_Static);
+            ptr.getRefData().getBaseNode()->setNodeMask(SceneUtil::Mask_Static);
         }
     }
 

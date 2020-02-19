@@ -192,10 +192,15 @@
     Bug #5239: OpenMW-CS does not support non-ASCII characters in path names
     Bug #5241: On-self absorb spells cannot be detected
     Bug #5242: ExplodeSpell behavior differs from Cast behavior
+    Bug #5246: Water ripples persist after cell change
     Bug #5249: Wandering NPCs start walking too soon after they hello
     Bug #5250: Creatures display shield ground mesh instead of shield body part
     Bug #5255: "GetTarget, player" doesn't return 1 during NPC hello
     Bug #5261: Creatures can sometimes become stuck playing idles and never wander again
+    Bug #5264: "Damage Fatigue" Magic Effect Can Bring Fatigue below 0
+    Bug #5269: Editor: Cell lighting in resaved cleaned content files is corrupted
+    Bug #5278: Console command Show doesn't fall back to global variable after local var not found
+    Feature #1415: Infinite fall failsafe
     Feature #1774: Handle AvoidNode
     Feature #2229: Improve pathfinding AI
     Feature #3025: Analogue gamepad movement controls
