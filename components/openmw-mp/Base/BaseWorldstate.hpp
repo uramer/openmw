@@ -260,6 +260,7 @@ namespace mwmp
     struct PotionRecord
     {
         ESM::Potion data;
+        unsigned int quantity = 1;
         std::string baseId;
         BaseOverrides baseOverrides;
     };

@@ -27,6 +27,7 @@
     {"GetRecordFlags",                          RecordsDynamicFunctions::GetRecordFlags},\
     {"GetRecordValue",                          RecordsDynamicFunctions::GetRecordValue},\
     {"GetRecordWeight",                         RecordsDynamicFunctions::GetRecordWeight},\
+    {"GetRecordQuantity",                       RecordsDynamicFunctions::GetRecordQuantity},\
     \
     {"GetRecordEffectId",                       RecordsDynamicFunctions::GetRecordEffectId},\
     {"GetRecordEffectAttribute",                RecordsDynamicFunctions::GetRecordEffectAttribute},\
@@ -299,6 +300,15 @@ public:
     * \return The weight of the record.
     */
     static double GetRecordWeight(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the quantity of the record at a certain index in the read worldstate's
+    * dynamic records of the current type.
+    *
+    * \param index The index of the record.
+    * \return The brewed count of the record.
+    */
+    static unsigned int GetRecordQuantity(unsigned int index) noexcept;
 
     /**
     * \brief Get the ID of the effect at a certain index in the read worldstate's

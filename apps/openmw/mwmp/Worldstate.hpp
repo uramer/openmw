@@ -29,7 +29,7 @@ namespace mwmp
         void sendWeather(std::string region, int currentWeather, int nextWeather, int queuedWeather, float transitionFactor);
 
         void sendEnchantmentRecord(const ESM::Enchantment* enchantment);
-        void sendPotionRecord(const ESM::Potion* potion);
+        void sendPotionRecord(const ESM::Potion* potion, unsigned int quantity);
         void sendSpellRecord(const ESM::Spell* spell);
 
         void sendArmorRecord(const ESM::Armor* armor, std::string baseRefId = "");

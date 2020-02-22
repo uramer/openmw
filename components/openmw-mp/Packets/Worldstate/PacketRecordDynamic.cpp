@@ -167,6 +167,7 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
         {
             auto &recordData = record.data;
 
+            RW(record.quantity, send);
             RW(record.baseId, send, true);
             RW(recordData.mId, send, true);
             RW(recordData.mName, send, true);

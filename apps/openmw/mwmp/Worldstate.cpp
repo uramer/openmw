@@ -522,7 +522,7 @@ void Worldstate::sendEnchantmentRecord(const ESM::Enchantment* enchantment)
     getNetworking()->getWorldstatePacket(ID_RECORD_DYNAMIC)->Send();
 }
 
-void Worldstate::sendPotionRecord(const ESM::Potion* potion)
+void Worldstate::sendPotionRecord(const ESM::Potion* potion, unsigned int quantity)
 {
     potionRecords.clear();
 
@@ -532,6 +532,7 @@ void Worldstate::sendPotionRecord(const ESM::Potion* potion)
 
     mwmp::PotionRecord record;
     record.data = *potion;
+    record.quantity = quantity;
     potionRecords.push_back(record);
 
     getNetworking()->getWorldstatePacket(ID_RECORD_DYNAMIC)->setWorldstate(this);

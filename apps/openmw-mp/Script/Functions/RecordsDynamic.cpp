@@ -295,6 +295,16 @@ double RecordsDynamicFunctions::GetRecordWeight(unsigned int index) noexcept
     return -1;
 }
 
+unsigned int RecordsDynamicFunctions::GetRecordQuantity(unsigned int index) noexcept
+{
+    unsigned short readRecordsType = RecordsDynamicFunctions::GetRecordType();
+
+    if (readRecordsType == mwmp::RECORD_TYPE::POTION)
+        return WorldstateFunctions::readWorldstate->potionRecords.at(index).quantity;
+
+    return 1;
+}
+
 unsigned int RecordsDynamicFunctions::GetRecordEffectId(unsigned int recordIndex, unsigned int effectIndex) noexcept
 {
     return GetRecordEffects(recordIndex).mList.at(effectIndex).mEffectID;

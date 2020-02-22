@@ -317,8 +317,8 @@ void MWMechanics::Alchemy::addPotion (const std::string& name)
         Start of tes3mp change (major)
 
         Don't create a record and don't add the potion to the player's inventory;
-        instead just send its record to the server and expect the server to add it
-        to the player's inventory
+        instead just store its record in preparation for sending it to the server
+        and expect the server to add it to the player's inventory
     */
     /*
     const ESM::Potion* record = getRecord(newRecord);
@@ -329,8 +329,7 @@ void MWMechanics::Alchemy::addPotion (const std::string& name)
 
     mAlchemist.getClass().getContainerStore (mAlchemist).add (record->mId, 1, mAlchemist);
     */
-
-    mwmp::Main::get().getNetworking()->getWorldstate()->sendPotionRecord(&newRecord);
+    mStoredPotion = newRecord;
     /*
         End of tes3mp change (major)
     */
@@ -546,6 +545,18 @@ MWMechanics::Alchemy::Result MWMechanics::Alchemy::create (const std::string& na
     }
 
     count = brewedCount;
+
+    /*
+        Start of tes3mp addition
+
+        Send an ID_RECORD_DYNAMIC packet with the potion we've been creating
+        now that we know its quantity
+    */
+    mwmp::Main::get().getNetworking()->getWorldstate()->sendPotionRecord(&mStoredPotion, brewedCount);
+    /*
+        End of tes3mp addition
+    */
+
     return result;
 }
 
