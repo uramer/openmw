@@ -28,7 +28,7 @@ namespace mwmp
 
                 // Because we send PlayerInventory packets from the same OpenMW methods that we use to set the
                 // items received, we need to set a boolean to prevent resending the items set here
-                localPlayer.isReceivingInventory = true;
+                localPlayer.avoidSendingInventoryPackets = true;
 
                 if (inventoryAction == InventoryChanges::ADD)
                     localPlayer.addItems();
@@ -37,7 +37,7 @@ namespace mwmp
                 else // InventoryChanges::SET
                     localPlayer.setInventory();
 
-                localPlayer.isReceivingInventory = false;
+                localPlayer.avoidSendingInventoryPackets = false;
             }
         }
     };

@@ -19,7 +19,7 @@ namespace mwmp
         bool receivedCharacter;
 
         bool isUsingBed;
-        bool isReceivingInventory;
+        bool avoidSendingInventoryPackets;
         bool isReceivingQuickKeys;
         bool isPlayingAnimation;
         bool diedSinceArrestAttempt;

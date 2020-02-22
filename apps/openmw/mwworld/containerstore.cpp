@@ -212,7 +212,7 @@ MWWorld::ContainerStoreIterator MWWorld::ContainerStore::unstack(const Ptr &ptr,
     {
         mwmp::LocalPlayer *localPlayer = mwmp::Main::get().getLocalPlayer();
 
-        if (!localPlayer->isReceivingInventory)
+        if (!localPlayer->avoidSendingInventoryPackets)
             localPlayer->sendItemChange(ptr, ptr.getRefData().getCount() - count, mwmp::InventoryChanges::ADD);
     }
     /*
@@ -315,7 +315,7 @@ MWWorld::ContainerStoreIterator MWWorld::ContainerStore::add (const Ptr& itemPtr
     {
         mwmp::LocalPlayer *localPlayer = mwmp::Main::get().getLocalPlayer();
 
-        if (!localPlayer->isReceivingInventory)
+        if (!localPlayer->avoidSendingInventoryPackets)
         {
             int realCount = count;
 
@@ -540,7 +540,7 @@ int MWWorld::ContainerStore::remove(const Ptr& item, int count, const Ptr& actor
     {
         mwmp::LocalPlayer *localPlayer = mwmp::Main::get().getLocalPlayer();
 
-        if (!localPlayer->isReceivingInventory)
+        if (!localPlayer->avoidSendingInventoryPackets)
             localPlayer->sendItemChange(item, count, mwmp::InventoryChanges::REMOVE);
     }
     /*

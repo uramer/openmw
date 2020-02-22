@@ -75,7 +75,7 @@ LocalPlayer::LocalPlayer()
     jailEndText = "";
 
     isUsingBed = false;
-    isReceivingInventory = false;
+    avoidSendingInventoryPackets = false;
     isReceivingQuickKeys = false;
     isPlayingAnimation = false;
     diedSinceArrestAttempt = false;
