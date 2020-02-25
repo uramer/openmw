@@ -685,6 +685,8 @@ void LocalPlayer::addItems()
             if (!item.soul.empty())
                 itemPtr.getCellRef().setSoul(item.soul);
 
+            LOG_APPEND(TimedLog::LOG_INFO, "- Adding inventory item %s with count %i", item.refId.c_str(), item.count);
+
             ptrStore.add(itemPtr, item.count, ptrPlayer);
         }
         catch (std::exception&)
@@ -779,7 +781,11 @@ void LocalPlayer::removeItems()
     MWWorld::ContainerStore &ptrStore = ptrPlayer.getClass().getContainerStore(ptrPlayer);
 
     for (const auto &item : inventoryChanges.items)
+    {
         ptrStore.remove(item.refId, item.count, ptrPlayer);
+
+        LOG_APPEND(TimedLog::LOG_INFO, "- Removing inventory item %s with count %i", item.refId.c_str(), item.count);
+    }
 }
 
 void LocalPlayer::removeSpells()

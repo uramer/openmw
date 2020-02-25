@@ -576,7 +576,8 @@ MWMechanics::Alchemy::Result MWMechanics::Alchemy::create (const std::string& na
         Send an ID_RECORD_DYNAMIC packet with the potion we've been creating
         now that we know its quantity
 
-        Stop avoiding the sending of ID_PLAYER_INVENTORY packets
+        Stop avoiding the sending of ID_PLAYER_INVENTORY packets and send all
+        item removals stored so far
     */
     mwmp::Main::get().getNetworking()->getWorldstate()->sendPotionRecord(&mStoredPotion, brewedCount);
     mwmp::Main::get().getLocalPlayer()->avoidSendingInventoryPackets = false;
