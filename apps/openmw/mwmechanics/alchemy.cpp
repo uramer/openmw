@@ -22,6 +22,7 @@
 #include <components/openmw-mp/TimedLog.hpp>
 #include "../mwmp/Main.hpp"
 #include "../mwmp/Networking.hpp"
+#include "../mwmp/LocalPlayer.hpp"
 #include "../mwmp/Worldstate.hpp"
 /*
     End of tes3mp addition
@@ -278,6 +279,16 @@ void MWMechanics::Alchemy::removeIngredients()
         {
             iter->getContainerStore()->remove(*iter, 1, mAlchemist);
 
+            /*
+                Start of tes3mp addition
+
+                Store this item removal for later sending to avoid packet spam
+            */
+            mwmp::Main::get().getLocalPlayer()->storeItemRemoval(iter->getCellRef().getRefId(), 1);
+            /*
+                End of tes3mp addition
+            */
+
             if (iter->getRefData().getCount()<1)
                 *iter = MWWorld::Ptr();
         }
@@ -524,6 +535,19 @@ MWMechanics::Alchemy::Result MWMechanics::Alchemy::getReadyStatus() const
 
 MWMechanics::Alchemy::Result MWMechanics::Alchemy::create (const std::string& name, int& count)
 {
+    /*
+        Start of tes3mp addition
+
+        Instead of sending an ID_PLAYER_INVENTORY packet for every ingredient removal in
+        ContainerStore::remove(), as that would get very spammy when many potions are created
+        at the same time, just avoid sending packets here and store the item removals so they
+        can be sent in a single packet when all the potions have been created
+    */
+    mwmp::Main::get().getLocalPlayer()->avoidSendingInventoryPackets = true;
+    /*
+        End of tes3mp addition
+    */
+
     setPotionName(name);
     Result readyStatus = getReadyStatus();
 
@@ -551,8 +575,12 @@ MWMechanics::Alchemy::Result MWMechanics::Alchemy::create (const std::string& na
 
         Send an ID_RECORD_DYNAMIC packet with the potion we've been creating
         now that we know its quantity
+
+        Stop avoiding the sending of ID_PLAYER_INVENTORY packets
     */
     mwmp::Main::get().getNetworking()->getWorldstate()->sendPotionRecord(&mStoredPotion, brewedCount);
+    mwmp::Main::get().getLocalPlayer()->avoidSendingInventoryPackets = false;
+    mwmp::Main::get().getLocalPlayer()->sendStoredItemRemovals();
     /*
         End of tes3mp addition
     */

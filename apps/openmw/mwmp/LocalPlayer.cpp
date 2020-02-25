@@ -44,6 +44,8 @@
 using namespace mwmp;
 using namespace std;
 
+std::map<std::string, int> storedItemRemovals;
+
 LocalPlayer::LocalPlayer()
 {
     deathTime = time(0);
@@ -1453,6 +1455,32 @@ void LocalPlayer::sendItemChange(const std::string& refId, int count, unsigned i
     getNetworking()->getPlayerPacket(ID_PLAYER_INVENTORY)->Send();
 }
 
+void LocalPlayer::sendStoredItemRemovals()
+{
+    inventoryChanges.items.clear();
+
+    LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "Sending stored item removals for LocalPlayer:");
+
+    for (auto storedItemRemoval : storedItemRemovals)
+    {
+        mwmp::Item item;
+        item.refId = storedItemRemoval.first;
+        item.count = storedItemRemoval.second;
+        item.charge = -1;
+        item.enchantmentCharge = -1;
+        item.soul = "";
+        inventoryChanges.items.push_back(item);
+
+        LOG_APPEND(TimedLog::LOG_INFO, "- %s with count %i", item.refId.c_str(), item.count);
+    }
+
+    inventoryChanges.action = mwmp::InventoryChanges::ACTION_TYPE::REMOVE;
+    getNetworking()->getPlayerPacket(ID_PLAYER_INVENTORY)->setPlayer(this);
+    getNetworking()->getPlayerPacket(ID_PLAYER_INVENTORY)->Send();
+
+    storedItemRemovals.clear();
+}
+
 void LocalPlayer::sendSpellbook()
 {
     MWWorld::Ptr ptrPlayer = getPlayerPtr();
@@ -1708,6 +1736,11 @@ void LocalPlayer::storeCurrentContainer(const MWWorld::Ptr &container)
     currentContainer.refId = container.getCellRef().getRefId();
     currentContainer.refNum = container.getCellRef().getRefNum().mIndex;
     currentContainer.mpNum = container.getCellRef().getMpNum();
+}
+
+void LocalPlayer::storeItemRemoval(const std::string& refId, int count)
+{
+    storedItemRemovals[refId] = storedItemRemovals[refId] + count;
 }
 
 void LocalPlayer::playAnimation()

@@ -82,6 +82,7 @@ namespace mwmp
         void sendItemChange(const mwmp::Item& item, unsigned int action);
         void sendItemChange(const MWWorld::Ptr& itemPtr, int count, unsigned int action);
         void sendItemChange(const std::string& refId, int count, unsigned int action);
+        void sendStoredItemRemovals();
         void sendSpellbook();
         void sendSpellChange(std::string id, unsigned int action);
         void sendQuickKey(unsigned short slot, int type, const std::string& itemId = "");
@@ -103,6 +104,7 @@ namespace mwmp
 
         void storeCellState(const ESM::Cell& cell, int stateType);
         void storeCurrentContainer(const MWWorld::Ptr& container);
+        void storeItemRemoval(const std::string& refId, int count);
 
         void playAnimation();
         void playSpeech();
