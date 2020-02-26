@@ -615,6 +615,7 @@ void ObjectList::triggerTrapObjects(MWWorld::CellStore* cellStore)
             }
 
             ptrFound.getCellRef().setTrap("");
+            MWBase::Environment::get().getSoundManager()->playSound3D(ptrFound, "Disarm Trap", 1.0f, 1.0f);
         }
     }
 }

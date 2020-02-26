@@ -197,11 +197,11 @@ namespace MWClass
                     packet to do it instead
                 */
                 //ptr.getCellRef().setTrap("");
+                //MWBase::Environment::get().getSoundManager()->playSound3D(ptr, "Disarm Trap", 1.0f, 1.0f);
                 /*
                     End of tes3mp change (major)
                 */
 
-                MWBase::Environment::get().getSoundManager()->playSound3D(ptr, "Disarm Trap", 1.0f, 1.0f);
                 isTrapped = false;
 
                 /*
