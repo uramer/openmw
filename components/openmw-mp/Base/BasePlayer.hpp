@@ -250,6 +250,7 @@ namespace mwmp
         std::string birthsign;
         std::string chatMessage;
         CharGenState charGenState;
+        std::map<std::string, std::string> gameSettings;
 
         std::string sound;
         Animation animation;

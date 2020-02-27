@@ -13,6 +13,9 @@
     {"SetWildernessRestAllowed",    SettingFunctions::SetWildernessRestAllowed},\
     {"SetWaitAllowed",              SettingFunctions::SetWaitAllowed},\
     \
+    {"SetGameSettingValue",         SettingFunctions::SetGameSettingValue},\
+    {"ClearGameSettingValues",      SettingFunctions::ClearGameSettingValues},\
+    \
     {"SendSettings",                SettingFunctions::SendSettings}
 
 class SettingFunctions
@@ -110,12 +113,34 @@ public:
     static void SetWaitAllowed(unsigned short pid, bool state);
 
     /**
+    * \brief Set value for a game setting.
+    *
+    * This overrides the setting value set in OpenMW Launcher. Only applies to the Game category.
+    *
+    * \param pid The player ID.
+    * \param setting Name of a setting in the Game category
+    * \param value Value of the setting (as a string)
+    * \return void
+    */
+    static void SetGameSettingValue(unsigned short pid, const char* setting, const char* value);
+
+    /**
+    * \brief Clear the settings values
+    *
+    * Clear any changes done by SetGameSettingValue
+    *
+    * \param pid The player ID.
+    * \return void
+    */
+    static void ClearGameSettingValues(unsigned short pid);
+
+    /**
     * \brief Send a PlayerSettings packet to the player affected by it.
     *
     * \param pid The player ID to send it to.
     * \return void
     */
-    static void SendSettings(unsigned short pid) noexcept;
+    static void SendSettings(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept;
 };
 
 #endif //OPENMW_SETTINGSAPI_HPP

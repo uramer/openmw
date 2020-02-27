@@ -20,4 +20,31 @@ void PacketGameSettings::Packet(RakNet::BitStream *newBitstream, bool send)
     RW(player->waitAllowed, send);
     RW(player->enforcedLogLevel, send);
     RW(player->physicsFramerate, send);
+
+    uint32_t gameSettingCount = static_cast<uint32_t>(player->gameSettings.size());
+    RW(gameSettingCount, send);
+
+    std::string mapIndex;
+    std::string mapValue;
+
+    if (send)
+    {
+        for (auto&& gameSetting : player->gameSettings)
+        {
+            mapIndex = gameSetting.first;
+            mapValue = gameSetting.second;
+            RW(mapIndex, send, false);
+            RW(mapValue, send, false);
+        }
+    }
+    else
+    {
+        player->gameSettings.clear();
+        for (unsigned int n = 0; n < gameSettingCount; n++)
+        {
+            RW(mapIndex, send, false);
+            RW(mapValue, send, false);
+            player->gameSettings[mapIndex] = mapValue;
+        }
+    }
 }
