@@ -380,6 +380,11 @@ bool ObjectFunctions::DoesObjectHaveContainer(unsigned int index) noexcept
     return readObjectList->baseObjects.at(index).hasContainer;
 }
 
+bool ObjectFunctions::IsObjectDroppedByPlayer(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).droppedByPlayer;
+}
+
 void ObjectFunctions::SetObjectListCell(const char* cellDescription) noexcept
 {
     writeObjectList.cell = Utils::getCellFromDescription(cellDescription);
@@ -453,6 +458,11 @@ void ObjectFunctions::SetObjectLockLevel(int lockLevel) noexcept
 void ObjectFunctions::SetObjectDisarmState(bool disarmState) noexcept
 {
     tempObject.isDisarmed = disarmState;
+}
+
+void ObjectFunctions::SetObjectDroppedByPlayerState(bool droppedByPlayer) noexcept
+{
+    tempObject.droppedByPlayer = droppedByPlayer;
 }
 
 void ObjectFunctions::SetObjectPosition(double x, double y, double z) noexcept
@@ -598,7 +608,6 @@ void ObjectFunctions::SetContainerItemActionCountByIndex(unsigned int objectInde
 
 void ObjectFunctions::AddObject() noexcept
 {
-    tempObject.droppedByPlayer = false;
     writeObjectList.baseObjects.push_back(tempObject);
 
     tempObject = emptyObject;

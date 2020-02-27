@@ -80,6 +80,7 @@
     {"GetContainerItemActionCount",           ObjectFunctions::GetContainerItemActionCount},\
     \
     {"DoesObjectHaveContainer",               ObjectFunctions::DoesObjectHaveContainer},\
+    {"IsObjectDroppedByPlayer",               ObjectFunctions::IsObjectDroppedByPlayer},\
     \
     {"SetObjectListCell",                     ObjectFunctions::SetObjectListCell},\
     {"SetObjectListAction",                   ObjectFunctions::SetObjectListAction},\
@@ -97,6 +98,7 @@
     {"SetObjectState",                        ObjectFunctions::SetObjectState},\
     {"SetObjectLockLevel",                    ObjectFunctions::SetObjectLockLevel},\
     {"SetObjectDisarmState",                  ObjectFunctions::SetObjectDisarmState},\
+    {"SetObjectDroppedByPlayerState",         ObjectFunctions::SetObjectDroppedByPlayerState},\
     {"SetObjectPosition",                     ObjectFunctions::SetObjectPosition},\
     {"SetObjectRotation",                     ObjectFunctions::SetObjectRotation},\
     \
@@ -733,6 +735,17 @@ public:
     static bool DoesObjectHaveContainer(unsigned int index) noexcept;
 
     /**
+    * \brief Check whether the object at a certain index in the read object list has been
+    *        dropped by a player.
+    *
+    * Note: Only ObjectLists from ObjectPlace packets contain this information.
+    *
+    * \param index The index of the object.
+    * \return Whether the object has been dropped by a player.
+    */
+    static bool IsObjectDroppedByPlayer(unsigned int index) noexcept;
+
+    /**
     * \brief Set the cell of the temporary object list stored on the server.
     *
     * The cell is determined to be an exterior cell if it fits the pattern of a number followed
@@ -882,6 +895,14 @@ public:
     * \return void
     */
     static void SetObjectDisarmState(bool disarmState) noexcept;
+
+    /**
+    * \brief Set the droppedByPlayer state of the temporary object stored on the server.
+    *
+    * \param droppedByPlayer Whether the object has been dropped by a player or not.
+    * \return void
+    */
+    static void SetObjectDroppedByPlayerState(bool dropedByPlayerState) noexcept;
 
     /**
     * \brief Set the position of the temporary object stored on the server.
