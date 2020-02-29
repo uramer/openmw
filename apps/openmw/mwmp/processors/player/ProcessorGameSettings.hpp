@@ -11,6 +11,7 @@ namespace mwmp
 {
     class ProcessorGameSettings final: public PlayerProcessor
     {
+        const std::string GAME_SETTING_CATEGORY = "Game";
     public:
         ProcessorGameSettings()
         {
@@ -49,6 +50,10 @@ namespace mwmp
                 }
 
                 MWBase::Environment::get().getWorld()->setPhysicsFramerate(player->physicsFramerate);
+
+                for (auto setting : player->gameSettings) {
+                    Settings::Manager::setString(setting.first, GAME_SETTING_CATEGORY, setting.second);
+                }
             }
         }
     };

@@ -65,7 +65,21 @@ void SettingFunctions::SetWaitAllowed(unsigned short pid, bool state)
     player->waitAllowed = state;
 }
 
-void SettingFunctions::SendSettings(unsigned short pid) noexcept
+void SettingFunctions::SetGameSettingValue(unsigned short pid, const char* setting, const char* value) {
+    Player* player;
+    GET_PLAYER(pid, player, );
+
+    player->gameSettings[setting] = value;
+}
+
+void SettingFunctions::ClearGameSettingValues(unsigned short pid) {
+    Player* player;
+    GET_PLAYER(pid, player, );
+
+    player->gameSettings.clear();
+}
+
+void SettingFunctions::SendSettings(unsigned short pid, bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept
 {
     Player *player;
     GET_PLAYER(pid, player,);
@@ -73,5 +87,8 @@ void SettingFunctions::SendSettings(unsigned short pid) noexcept
     mwmp::PlayerPacket *packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GAME_SETTINGS);
     packet->setPlayer(player);
 
-    packet->Send(false);
+    if (!skipAttachedPlayer)
+        packet->Send(false);
+    if (sendToOtherPlayers)
+        packet->Send(true);
 }
