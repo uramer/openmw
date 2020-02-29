@@ -414,9 +414,13 @@ void ObjectList::placeObjects(MWWorld::CellStore* cellStore)
                 // Because gold automatically gets replaced with a new object, make sure we set the mpNum at the end
                 newPtr.getCellRef().setMpNum(baseObject.mpNum);
 
-                if (guid == Main::get().getLocalPlayer()->guid && baseObject.droppedByPlayer)
-                    world->PCDropped(newPtr);
+                if (baseObject.droppedByPlayer)
+                {
+                    MWBase::Environment::get().getSoundManager()->playSound3D(newPtr, newPtr.getClass().getDownSoundId(newPtr), 1.f, 1.f);
 
+                    if (guid == Main::get().getLocalPlayer()->guid)
+                        world->PCDropped(newPtr);
+                }
             }
             catch (std::exception&)
             {
