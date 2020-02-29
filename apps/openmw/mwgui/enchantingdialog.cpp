@@ -9,6 +9,18 @@
 #include <components/widgets/list.hpp>
 #include <components/settings/settings.hpp>
 
+/*
+    Start of tes3mp addition
+
+    Include additional headers for multiplayer purposes
+*/
+#include "../mwmp/Main.hpp"
+#include "../mwmp/Networking.hpp"
+#include "../mwmp/ObjectList.hpp"
+/*
+    End of tes3mp addition
+*/
+
 #include "../mwbase/environment.hpp"
 #include "../mwbase/mechanicsmanager.hpp"
 #include "../mwbase/world.hpp"
@@ -358,11 +370,40 @@ namespace MWGui
             MWBase::Environment::get().getWindowManager()->playSound("enchant success");
             MWBase::Environment::get().getWindowManager()->messageBox ("#{sEnchantmentMenu12}");
             MWBase::Environment::get().getWindowManager()->removeGuiMode (GM_Enchanting);
+
+            /*
+                Start of tes3mp addition
+
+                Send an ID_OBJECT_SOUND packet every time the player makes a sound here
+            */
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+            objectList->addObjectSound(MWMechanics::getPlayer(), "enchant success", 1.0, 1.0);
+            objectList->sendObjectSound();
+            /*
+                End of tes3mp addition
+            */
         }
         else
         {
             MWBase::Environment::get().getWindowManager()->playSound("enchant fail");
             MWBase::Environment::get().getWindowManager()->messageBox ("#{sNotifyMessage34}");
+
+            /*
+                Start of tes3mp addition
+
+                Send an ID_OBJECT_SOUND packet every time the player makes a sound here
+            */
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+            objectList->addObjectSound(MWMechanics::getPlayer(), "enchant fail", 1.0, 1.0);
+            objectList->sendObjectSound();
+            /*
+                End of tes3mp addition
+            */
+
             if (!mEnchanting.getGem().isEmpty() && !mEnchanting.getGem().getRefData().getCount())
             {
                 setSoulGem(MWWorld::Ptr());

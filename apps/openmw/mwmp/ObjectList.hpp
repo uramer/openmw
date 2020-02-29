@@ -37,6 +37,7 @@ namespace mwmp
         void restockObjects(MWWorld::CellStore* cellStore);
         void rotateObjects(MWWorld::CellStore* cellStore);
         void animateObjects(MWWorld::CellStore* cellStore);
+        void playObjectSounds(MWWorld::CellStore* cellStore);
         void activateDoors(MWWorld::CellStore* cellStore);
         void setDoorDestinations(MWWorld::CellStore* cellStore);
         void runConsoleCommands(MWWorld::CellStore* cellStore);
@@ -60,6 +61,7 @@ namespace mwmp
         void addObjectLock(const MWWorld::Ptr& ptr, int lockLevel);
         void addObjectTrap(const MWWorld::Ptr& ptr, const ESM::Position& pos, bool isDisarmed);
         void addObjectScale(const MWWorld::Ptr& ptr, float scale);
+        void addObjectSound(const MWWorld::Ptr& ptr, std::string soundId, float volume, float pitch);
         void addObjectState(const MWWorld::Ptr& ptr, bool objectState);
         void addObjectAnimPlay(const MWWorld::Ptr& ptr, std::string group, int mode);
 
@@ -79,6 +81,7 @@ namespace mwmp
         void sendObjectRestock();
         void sendObjectTrap();
         void sendObjectScale();
+        void sendObjectSound();
         void sendObjectState();
         void sendObjectAnimPlay();
         void sendDoorState();

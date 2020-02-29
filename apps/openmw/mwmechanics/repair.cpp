@@ -97,11 +97,39 @@ void Repair::repair(const MWWorld::Ptr &itemToRepair)
 
         MWBase::Environment::get().getWindowManager()->playSound("Repair");
         MWBase::Environment::get().getWindowManager()->messageBox("#{sRepairSuccess}");
+
+        /*
+            Start of tes3mp addition
+
+            Send an ID_OBJECT_SOUND packet every time the player makes a sound here
+        */
+        mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+        objectList->reset();
+        objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+        objectList->addObjectSound(MWMechanics::getPlayer(), "Repair", 1.0, 1.0);
+        objectList->sendObjectSound();
+        /*
+            End of tes3mp addition
+        */
     }
     else
     {
         MWBase::Environment::get().getWindowManager()->playSound("Repair Fail");
         MWBase::Environment::get().getWindowManager()->messageBox("#{sRepairFailed}");
+
+        /*
+            Start of tes3mp addition
+
+            Send an ID_OBJECT_SOUND packet every time the player makes a sound here
+        */
+        mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+        objectList->reset();
+        objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+        objectList->addObjectSound(MWMechanics::getPlayer(), "Repair Fail", 1.0, 1.0);
+        objectList->sendObjectSound();
+        /*
+            End of tes3mp addition
+        */
     }
 
     // tool used up?

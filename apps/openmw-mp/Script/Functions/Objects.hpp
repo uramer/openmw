@@ -27,6 +27,7 @@
     {"GetObjectSoul" ,                        ObjectFunctions::GetObjectSoul},\
     {"GetObjectGoldValue",                    ObjectFunctions::GetObjectGoldValue},\
     {"GetObjectScale",                        ObjectFunctions::GetObjectScale},\
+    {"GetObjectSoundId",                      ObjectFunctions::GetObjectSoundId},\
     {"GetObjectState",                        ObjectFunctions::GetObjectState},\
     {"GetObjectDoorState",                    ObjectFunctions::GetObjectDoorState},\
     {"GetObjectLockLevel",                    ObjectFunctions::GetObjectLockLevel},\
@@ -142,6 +143,7 @@
     {"SendObjectRestock",                     ObjectFunctions::SendObjectRestock},\
     {"SendObjectTrap",                        ObjectFunctions::SendObjectTrap},\
     {"SendObjectScale",                       ObjectFunctions::SendObjectScale},\
+    {"SendObjectSound",                       ObjectFunctions::SendObjectSound},\
     {"SendObjectState",                       ObjectFunctions::SendObjectState},\
     {"SendDoorState",                         ObjectFunctions::SendDoorState},\
     {"SendDoorDestination",                   ObjectFunctions::SendDoorDestination},\
@@ -345,6 +347,14 @@ public:
     * \return The object scale.
     */
     static double GetObjectScale(unsigned int index) noexcept;
+
+    /**
+    * \brief Get the object sound ID of the object at a certain index in the read object list.
+    *
+    * \param index The index of the object.
+    * \return The object sound ID.
+    */
+    static const char *GetObjectSoundId(unsigned int index) noexcept;
 
     /**
     * \brief Get the object state of the object at a certain index in the read object list.
@@ -1220,6 +1230,17 @@ public:
     * \return void
     */
     static void SendObjectScale(bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept;
+
+    /**
+    * \brief Send an ObjectSound packet.
+    *
+    * \param sendToOtherPlayers Whether this packet should be sent to players other than the
+    *                           player attached to the packet (false by default).
+    * \param skipAttachedPlayer Whether the packet should skip being sent to the player attached
+    *                           to the packet (false by default).
+    * \return void
+    */
+    static void SendObjectSound(bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept;
 
     /**
     * \brief Send an ObjectState packet.

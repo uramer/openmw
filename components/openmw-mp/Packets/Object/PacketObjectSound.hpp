@@ -10,7 +10,7 @@ namespace mwmp
     public:
         PacketObjectSound(RakNet::RakPeerInterface *peer);
 
-        virtual void Object(BaseObject &baseObject, bool send);
+        virtual void Packet(RakNet::BitStream *newBitstream, bool send);
     };
 }
 

@@ -17,7 +17,7 @@ namespace mwmp
         {
             BaseObjectProcessor::Do(packet, objectList);
 
-            //objectList.setObjectSounds(ptrCellStore);
+            objectList.playObjectSounds(ptrCellStore);
         }
 
     };

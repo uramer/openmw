@@ -1,5 +1,17 @@
 #include "action.hpp"
 
+/*
+    Start of tes3mp addition
+
+    Include additional headers for multiplayer purposes
+*/
+#include "../mwmp/Main.hpp"
+#include "../mwmp/Networking.hpp"
+#include "../mwmp/ObjectList.hpp"
+/*
+    End of tes3mp addition
+*/
+
 #include "../mwbase/environment.hpp"
 #include "../mwbase/world.hpp"
 
@@ -37,21 +49,69 @@ void MWWorld::Action::execute (const Ptr& actor, bool noSound)
         }
 
         if(mKeepSound && actor == MWMechanics::getPlayer())
+        {
             MWBase::Environment::get().getSoundManager()->playSound(mSoundId, 1.0, 1.0,
                 MWSound::Type::Sfx, envType, mSoundOffset
             );
+
+            /*
+                Start of tes3mp addition
+
+                Send an ID_OBJECT_SOUND packet every time an actor makes a sound here
+            */
+            mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+            objectList->reset();
+            objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+            objectList->addObjectSound(actor, mSoundId, 1.0, 1.0);
+            objectList->sendObjectSound();
+            /*
+                End of tes3mp addition
+            */
+        }
         else
         {
             bool local = mTarget.isEmpty() || !mTarget.isInCell(); // no usable target
             if(mKeepSound)
+            {
                 MWBase::Environment::get().getSoundManager()->playSound3D(
                     (local ? actor : mTarget).getRefData().getPosition().asVec3(),
                     mSoundId, 1.0, 1.0, MWSound::Type::Sfx, envType, mSoundOffset
                 );
+
+                /*
+                    Start of tes3mp addition
+
+                    Send an ID_OBJECT_SOUND packet every time an actor makes a sound here
+                */
+                mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+                objectList->reset();
+                objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+                objectList->addObjectSound(local ? actor : mTarget, mSoundId, 1.0, 1.0);
+                objectList->sendObjectSound();
+                /*
+                    End of tes3mp addition
+                */
+            }
             else
+            {
                 MWBase::Environment::get().getSoundManager()->playSound3D(local ? actor : mTarget,
                     mSoundId, 1.0, 1.0, MWSound::Type::Sfx, envType, mSoundOffset
                 );
+
+                /*
+                    Start of tes3mp addition
+
+                    Send an ID_OBJECT_SOUND packet every time an actor makes a sound here
+                */
+                mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+                objectList->reset();
+                objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+                objectList->addObjectSound(local ? actor : mTarget, mSoundId, 1.0, 1.0);
+                objectList->sendObjectSound();
+                /*
+                    End of tes3mp addition
+                */
+            }
         }
     }
 

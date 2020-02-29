@@ -97,10 +97,38 @@ bool rechargeItem(const MWWorld::Ptr &item, const MWWorld::Ptr &gem)
         MWBase::Environment::get().getWindowManager()->playSound("Enchant Success");
 
         player.getClass().getContainerStore(player).restack(item);
+
+        /*
+            Start of tes3mp addition
+
+            Send an ID_OBJECT_SOUND packet every time the player makes a sound here
+        */
+        mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+        objectList->reset();
+        objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+        objectList->addObjectSound(MWMechanics::getPlayer(), "Enchant Success", 1.0, 1.0);
+        objectList->sendObjectSound();
+        /*
+            End of tes3mp addition
+        */
     }
     else
     {
         MWBase::Environment::get().getWindowManager()->playSound("Enchant Fail");
+
+        /*
+            Start of tes3mp addition
+
+            Send an ID_OBJECT_SOUND packet every time the player makes a sound here
+        */
+        mwmp::ObjectList *objectList = mwmp::Main::get().getNetworking()->getObjectList();
+        objectList->reset();
+        objectList->packetOrigin = mwmp::CLIENT_GAMEPLAY;
+        objectList->addObjectSound(MWMechanics::getPlayer(), "Enchant Fail", 1.0, 1.0);
+        objectList->sendObjectSound();
+        /*
+            End of tes3mp addition
+        */
     }
 
     player.getClass().skillUsageSucceeded (player, ESM::Skill::Enchant, 0);

@@ -326,7 +326,7 @@ void ObjectList::activateObjects(MWWorld::CellStore* cellStore)
                 }
                 else
                 {
-                    LOG_APPEND(TimedLog::LOG_VERBOSE, "-- Could not find player to activatee!");
+                    LOG_APPEND(TimedLog::LOG_VERBOSE, "-- Could not find player to activate!");
                 }
             }
         }
@@ -758,6 +758,47 @@ void ObjectList::animateObjects(MWWorld::CellStore* cellStore)
     }
 }
 
+void ObjectList::playObjectSounds(MWWorld::CellStore* cellStore)
+{
+    for (const auto &baseObject : baseObjects)
+    {
+        MWWorld::Ptr ptrFound;
+        std::string objectDescription;
+
+        if (baseObject.isPlayer)
+        {
+            if (baseObject.guid == Main::get().getLocalPlayer()->guid)
+            {
+                objectDescription = "LocalPlayer " + Main::get().getLocalPlayer()->npc.mName;
+                ptrFound = Main::get().getLocalPlayer()->getPlayerPtr();
+            }
+            else
+            {
+                DedicatedPlayer *player = PlayerList::getPlayer(baseObject.guid);
+
+                if (player != 0)
+                {
+                    objectDescription = "DedicatedPlayer " + player->npc.mName;
+                    ptrFound = player->getPtr();
+                }
+            }
+        }
+        else
+        {
+            objectDescription = baseObject.refId + " " + std::to_string(baseObject.refNum) + "-" + std::to_string(baseObject.mpNum);
+            ptrFound = cellStore->searchExact(baseObject.refNum, baseObject.mpNum);
+        }
+
+        if (ptrFound)
+        {
+            LOG_APPEND(TimedLog::LOG_VERBOSE, "- Playing sound %s on %s", baseObject.soundId.c_str(), objectDescription.c_str());
+
+            MWBase::Environment::get().getSoundManager()->playSound3D(ptrFound, baseObject.soundId,
+                baseObject.volume, baseObject.pitch, MWSound::Type::Sfx, MWSound::PlayMode::Normal, 0);
+        }
+    }
+}
+
 void ObjectList::activateDoors(MWWorld::CellStore* cellStore)
 {
     for (const auto &baseObject : baseObjects)
@@ -1130,6 +1171,17 @@ void ObjectList::addObjectScale(const MWWorld::Ptr& ptr, float scale)
     addBaseObject(baseObject);
 }
 
+void ObjectList::addObjectSound(const MWWorld::Ptr& ptr, std::string soundId, float volume, float pitch)
+{
+    cell = *ptr.getCell()->getCell();
+
+    mwmp::BaseObject baseObject = getBaseObjectFromPtr(ptr);
+    baseObject.soundId = soundId;
+    baseObject.volume = volume;
+    baseObject.pitch = pitch;
+    addBaseObject(baseObject);
+}
+
 void ObjectList::addObjectState(const MWWorld::Ptr& ptr, bool objectState)
 {
     cell = *ptr.getCell()->getCell();
@@ -1260,6 +1312,12 @@ void ObjectList::sendObjectRestock()
 {
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_RESTOCK)->setObjectList(this);
     mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_RESTOCK)->Send();
+}
+
+void ObjectList::sendObjectSound()
+{
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_SOUND)->setObjectList(this);
+    mwmp::Main::get().getNetworking()->getObjectPacket(ID_OBJECT_SOUND)->Send();
 }
 
 void ObjectList::sendObjectTrap()

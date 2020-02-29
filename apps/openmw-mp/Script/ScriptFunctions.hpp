@@ -197,6 +197,7 @@ public:
             {"OnObjectLock",             Callback<unsigned short, const char*>()},
             {"OnObjectRestock",          Callback<unsigned short, const char*>()},
             {"OnObjectScale",            Callback<unsigned short, const char*>()},
+            {"OnObjectSound",            Callback<unsigned short, const char*>()},
             {"OnObjectTrap",             Callback<unsigned short, const char*>()},
             {"OnVideoPlay",              Callback<unsigned short, const char*>()},
             {"OnActorList",              Callback<unsigned short, const char*>()},

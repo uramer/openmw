@@ -41,6 +41,10 @@ namespace mwmp
         int lockLevel;
         float scale;
 
+        std::string soundId;
+        float volume;
+        float pitch;
+
         int doorState;
         bool teleportState;
         ESM::Cell destinationCell;

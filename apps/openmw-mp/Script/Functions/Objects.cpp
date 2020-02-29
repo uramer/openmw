@@ -134,6 +134,11 @@ double ObjectFunctions::GetObjectScale(unsigned int index) noexcept
     return readObjectList->baseObjects.at(index).scale;
 }
 
+const char *ObjectFunctions::GetObjectSoundId(unsigned int index) noexcept
+{
+    return readObjectList->baseObjects.at(index).soundId.c_str();
+}
+
 bool ObjectFunctions::GetObjectState(unsigned int index) noexcept
 {
     return readObjectList->baseObjects.at(index).objectState;
@@ -700,6 +705,17 @@ void ObjectFunctions::SendObjectTrap(bool sendToOtherPlayers, bool skipAttachedP
 void ObjectFunctions::SendObjectScale(bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept
 {
     mwmp::ObjectPacket *packet = mwmp::Networking::get().getObjectPacketController()->GetPacket(ID_OBJECT_SCALE);
+    packet->setObjectList(&writeObjectList);
+
+    if (!skipAttachedPlayer)
+        packet->Send(false);
+    if (sendToOtherPlayers)
+        packet->Send(true);
+}
+
+void ObjectFunctions::SendObjectSound(bool sendToOtherPlayers, bool skipAttachedPlayer) noexcept
+{
+    mwmp::ObjectPacket *packet = mwmp::Networking::get().getObjectPacketController()->GetPacket(ID_OBJECT_SOUND);
     packet->setObjectList(&writeObjectList);
 
     if (!skipAttachedPlayer)
