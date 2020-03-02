@@ -19,7 +19,9 @@ namespace mwmp_input {
                 windowInputBuffer.assign("");
             }
             else if (c == '\b') {
-                windowInputBuffer.erase(windowInputBuffer.size() - 1);
+                auto size = windowInputBuffer.size();
+                if (size > 0)
+                    windowInputBuffer.erase(size - 1);
             }
             else windowInputBuffer += c;
         }
