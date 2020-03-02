@@ -5,10 +5,10 @@ namespace mwmp_input {
     string windowInputBuffer;
     void handler() {
         char c;
-#ifndef WIN32 // on WIndows conio.h getch() and kbhit() are deprecated, use _getch() and _kbhit() instead
+#ifndef WIN32
         while (kbhit()) {
             c = getch();
-#else
+#else // on Windows conio.h getch() and kbhit() are deprecated, use _getch() and _kbhit() instead
         while (_kbhit()) {
             c = _getch();
 #endif
@@ -17,6 +17,9 @@ namespace mwmp_input {
                 cout << endl;
                 Script::Call<Script::CallbackIdentity("OnServerWindowInput")>(windowInputBuffer.c_str());
                 windowInputBuffer.assign("");
+            }
+            else if (c == '\b') {
+                windowInputBuffer.erase(windowInputBuffer.size() - 1);
             }
             else windowInputBuffer += c;
         }
