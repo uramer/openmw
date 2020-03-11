@@ -1373,6 +1373,7 @@ namespace MWScript
                     msg << "[Deleted]" << std::endl;
 
                 msg << "RefID: " << ptr.getCellRef().getRefId() << std::endl;
+                msg << "Memory address: " << ptr.getBase() << std::endl;
 
                 if (ptr.isInCell())
                 {
