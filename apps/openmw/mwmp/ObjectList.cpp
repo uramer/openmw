@@ -500,8 +500,7 @@ void ObjectList::spawnObjects(MWWorld::CellStore* cellStore)
                         baseObject.summonSpellId.c_str(), baseObject.summonEffectId, baseObject.summonDuration);
 
                     auto activeSpells = masterCreatureStats.getActiveSpells();
-                    if(!activeSpells.isSpellActive(baseObject.summonSpellId) ||
-                        activeSpells.getEffectDuration(activeEffects[0].mEffectId, baseObject.summonSpellId) < activeEffects[0].mDuration)
+                    if(!activeSpells.isSpellActive(baseObject.summonSpellId))
                         activeSpells.addSpell(baseObject.summonSpellId, false, activeEffects, "", masterCreatureStats.getActorId());
 
                     LOG_APPEND(TimedLog::LOG_INFO, "-- setting summoned creatureActorId for %i-%i to %i",
