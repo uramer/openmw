@@ -499,7 +499,10 @@ void ObjectList::spawnObjects(MWWorld::CellStore* cellStore)
                     LOG_APPEND(TimedLog::LOG_INFO, "-- adding active spell to master with id %s, effect %i, duration %f",
                         baseObject.summonSpellId.c_str(), baseObject.summonEffectId, baseObject.summonDuration);
 
-                    masterCreatureStats.getActiveSpells().addSpell(baseObject.summonSpellId, false, activeEffects, "", masterCreatureStats.getActorId());
+                    auto activeSpells = masterCreatureStats.getActiveSpells();
+                    if(!activeSpells.isSpellActive(baseObject.summonSpellId) ||
+                        activeSpells.getEffectDuration(activeEffects[0].mEffectId, baseObject.summonSpellId) < activeEffects[0].mDuration)
+                        activeSpells.addSpell(baseObject.summonSpellId, false, activeEffects, "", masterCreatureStats.getActorId());
 
                     LOG_APPEND(TimedLog::LOG_INFO, "-- setting summoned creatureActorId for %i-%i to %i",
                         newPtr.getCellRef().getRefNum(), newPtr.getCellRef().getMpNum(), creatureActorId);
