@@ -102,6 +102,7 @@
     {"SetObjectDroppedByPlayerState",         ObjectFunctions::SetObjectDroppedByPlayerState},\
     {"SetObjectPosition",                     ObjectFunctions::SetObjectPosition},\
     {"SetObjectRotation",                     ObjectFunctions::SetObjectRotation},\
+    {"SetObjectSound",                        ObjectFunctions::SetObjectSound},\
     \
     {"SetObjectSummonState",                  ObjectFunctions::SetObjectSummonState},\
     {"SetObjectSummonEffectId",               ObjectFunctions::SetObjectSummonEffectId},\
@@ -933,6 +934,8 @@ public:
     * \return void
     */
     static void SetObjectRotation(double x, double y, double z) noexcept;
+
+    static void SetObjectSound(const char* soundId, double volume, double pitch) noexcept;
 
     /**
     * \brief Set the summon state of the temporary object stored on the server.
