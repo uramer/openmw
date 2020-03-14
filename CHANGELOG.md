@@ -23,6 +23,7 @@
     Bug #3977: Non-ASCII characters in object ID's are not supported
     Bug #4009: Launcher does not show data files on the first run after installing
     Bug #4077: Enchanted items are not recharged if they are not in the player's inventory
+    Bug #4141: PCSkipEquip isn't set to 1 when reading books/scrolls
     Bug #4202: Open .omwaddon files without needing toopen openmw-cs first
     Bug #4240: Ash storm origin coordinates and hand shielding animation behavior are incorrect
     Bug #4262: Rain settings are hardcoded
@@ -36,6 +37,8 @@
     Bug #4411: Reloading a saved game while falling prevents damage in some cases
     Bug #4449: Value returned by GetWindSpeed is incorrect
     Bug #4456: AiActivate should not be cancelled after target activation
+    Bug #4493: If the setup doesn't find what it is expecting, it fails silently and displays the requester again instead of letting the user know what wasn't found.
+    Bug #4523: "player->ModCurrentFatigue -0.001" in global script does not cause the running player to fall
     Bug #4540: Rain delay when exiting water
     Bug #4594: Actors without AI packages don't use Hello dialogue
     Bug #4598: Script parser does not support non-ASCII characters
@@ -200,7 +203,8 @@
     Bug #5264: "Damage Fatigue" Magic Effect Can Bring Fatigue below 0
     Bug #5269: Editor: Cell lighting in resaved cleaned content files is corrupted
     Bug #5278: Console command Show doesn't fall back to global variable after local var not found
-    Feature #1415: Infinite fall failsafe
+    Bug #5300: NPCs don't switch from torch to shield when starting combat
+    Bug #5308: World map copying makes save loading much slower
     Feature #1774: Handle AvoidNode
     Feature #2229: Improve pathfinding AI
     Feature #3025: Analogue gamepad movement controls
@@ -224,6 +228,7 @@
     Feature #4730: Native animated containers support
     Feature #4784: Launcher: Duplicate Content Lists
     Feature #4812: Support NiSwitchNode
+    Feature #4831: Item search in the player's inventory
     Feature #4836: Daytime node switch
     Feature #4840: Editor: Transient terrain change support
     Feature #4859: Make water reflections more configurable
@@ -253,9 +258,11 @@
     Feature #5146: Safe Dispose corpse
     Feature #5147: Show spell magicka cost in spell buying window
     Feature #5170: Editor: Land shape editing, land selection
+    Feature #5172: Editor: Delete instances/references with keypress in scene window
     Feature #5193: Weapon sheathing
     Feature #5219: Impelement TestCells console command
     Feature #5224: Handle NiKeyframeController for NiTriShape
+    Feature #5304: Morrowind-style bump-mapping
     Task #4686: Upgrade media decoder to a more current FFmpeg API
     Task #4695: Optimize Distant Terrain memory consumption
     Task #4789: Optimize cell transitions

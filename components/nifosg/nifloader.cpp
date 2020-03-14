@@ -168,10 +168,10 @@ namespace
 
 namespace NifOsg
 {
-    class CollisionSwitch : public osg::Group
+    class CollisionSwitch : public osg::MatrixTransform
     {
     public:
-        CollisionSwitch(bool enabled) : osg::Group()
+        CollisionSwitch(const osg::Matrixf& transformations, bool enabled) : osg::MatrixTransform(transformations)
         {
             setEnabled(enabled);
         }
@@ -477,7 +477,7 @@ namespace NifOsg
             case Nif::RC_NiCollisionSwitch:
             {
                 bool enabled = nifNode->flags & Nif::NiNode::Flag_ActiveCollision;
-                node = new CollisionSwitch(enabled);
+                node = new CollisionSwitch(nifNode->trafo.toMatrix(), enabled);
                 dataVariance = osg::Object::STATIC;
 
                 break;
@@ -1536,6 +1536,10 @@ namespace NifOsg
                     {
                         // Set this texture to Off by default since we can't render it with the fixed-function pipeline
                         stateset->setTextureMode(texUnit, GL_TEXTURE_2D, osg::StateAttribute::OFF);
+                        osg::Matrix2 bumpMapMatrix(texprop->bumpMapMatrix.x(), texprop->bumpMapMatrix.y(),
+                                                   texprop->bumpMapMatrix.z(), texprop->bumpMapMatrix.w());
+                        stateset->addUniform(new osg::Uniform("bumpMapMatrix", bumpMapMatrix));
+                        stateset->addUniform(new osg::Uniform("envMapLumaBias", texprop->envMapLumaBias));
                     }
                     else if (i == Nif::NiTexturingProperty::DecalTexture)
                     {
@@ -1559,7 +1563,7 @@ namespace NifOsg
                         texture2d->setName("diffuseMap");
                         break;
                     case Nif::NiTexturingProperty::BumpTexture:
-                        texture2d->setName("normalMap");
+                        texture2d->setName("bumpMap");
                         break;
                     case Nif::NiTexturingProperty::GlowTexture:
                         texture2d->setName("emissiveMap");
