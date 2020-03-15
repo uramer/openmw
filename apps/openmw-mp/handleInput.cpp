@@ -1,5 +1,3 @@
-#include <Script/Script.hpp>
-#include <Kbhit.h>
 using namespace std;
 namespace mwmp_input {
     string windowInputBuffer;
