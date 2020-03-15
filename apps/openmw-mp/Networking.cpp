@@ -25,7 +25,7 @@
 #include "processors/ObjectProcessor.hpp"
 #include "processors/WorldstateProcessor.hpp"
 
-#include "handleInput.hpp"
+#include "handleInput.cpp"
 
 using namespace mwmp;
 using namespace std;
