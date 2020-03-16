@@ -860,9 +860,9 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
         RW(record.baseId, send, true);
         RW(recordData.mId, send, true);
         RW(recordData.mSound, send, true);
-        RW(recordData.mData.mVolume, send, true);
-        RW(recordData.mData.mMinRange, send, true);
-        RW(recordData.mData.mMaxRange, send, true);
+        RW(recordData.mData.mVolume, send);
+        RW(recordData.mData.mMinRange, send);
+        RW(recordData.mData.mMaxRange, send);
 
         if (!record.baseId.empty())
         {
