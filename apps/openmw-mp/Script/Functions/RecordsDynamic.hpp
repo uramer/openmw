@@ -99,6 +99,8 @@
     {"SetRecordAIServices",                     RecordsDynamicFunctions::SetRecordAIServices},\
     \
     {"SetRecordSound",                          RecordsDynamicFunctions::SetRecordSound},\
+    {"SetRecordMinRange",                       RecordsDynamicFunctions::SetRecordMinRange},\
+    {"SetRecordMaxRange",                       RecordsDynamicFunctions::SetRecordMaxRange},\
     {"SetRecordOpenSound",                      RecordsDynamicFunctions::SetRecordOpenSound},\
     {"SetRecordCloseSound",                     RecordsDynamicFunctions::SetRecordCloseSound},\
     \
@@ -848,6 +850,33 @@ public:
     * \return void
     */
     static void SetRecordSound(const char* sound) noexcept;
+
+    /**
+    * \brief Set the volume of the temporary record stored on the server for the currently
+    * specified record type.
+    *
+    * \param volume The volume of the record.
+    * \return void
+    */
+    static void SetRecordVolume(double volume) noexcept;
+
+    /**
+    * \brief Set the minimum range of the temporary record stored on the server for the currently
+    * specified record type.
+    *
+    * \param volume The minimum range of the record.
+    * \return void
+    */
+    static void SetRecordMinRange(double minRange) noexcept;
+
+    /**
+    * \brief Set the maximum range of the temporary record stored on the server for the currently
+    * specified record type.
+    *
+    * \param volume The maximum range of the record.
+    * \return void
+    */
+    static void SetRecordMaxRange(double maxRange) noexcept;
 
     /**
     * \brief Set the opening sound of the temporary record stored on the server for the

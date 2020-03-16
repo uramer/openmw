@@ -484,6 +484,13 @@ void ObjectFunctions::SetObjectRotation(double x, double y, double z) noexcept
     tempObject.position.rot[2] = z;
 }
 
+void ObjectFunctions::SetObjectSound(const char* soundId, double volume, double pitch) noexcept
+{
+    tempObject.soundId = soundId;
+    tempObject.volume = volume;
+    tempObject.pitch = pitch;
+}
+
 void ObjectFunctions::SetObjectSummonState(bool summonState) noexcept
 {
     tempObject.isSummon = summonState;
