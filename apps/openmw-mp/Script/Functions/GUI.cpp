@@ -84,6 +84,25 @@ void GUIFunctions::ListBox(unsigned short pid, int id, const char *label, const 
     packet->Send(false);
 }
 
+void GUIFunctions::CustomWindow(unsigned short pid, int id, const char* layout, double x, double y, double w, double h, bool relative)
+{
+    Player* player;
+    GET_PLAYER(pid, player, );
+
+    player->guiCustom.id = id;
+    player->guiCustom.layout = layout;
+    player->guiCustom.x = x;
+    player->guiCustom.y = y;
+    player->guiCustom.w = w;
+    player->guiCustom.h = h;
+    player->guiCustom.relative = relative;
+
+    mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
+    packet->setPlayer(player);
+
+    packet->Send(false);
+}
+
 void GUIFunctions::ClearQuickKeyChanges(unsigned short pid) noexcept
 {
     Player *player;

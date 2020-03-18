@@ -31,12 +31,13 @@
 #include "GUI/PlayerMarkerCollection.hpp"
 #include "GUI/GUIDialogList.hpp"
 #include "GUI/GUIChat.hpp"
+#include "GUI/GUICustomWindow.hpp"
 #include "LocalPlayer.hpp"
 #include "DedicatedPlayer.hpp"
 #include "PlayerList.hpp"
 
 
-mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0)
+mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0), mCustomWindow(0)
 {
     mChat = nullptr;
     keySay = SDL_SCANCODE_Y;
@@ -195,6 +196,33 @@ void mwmp::GUIController::onInputBoxDone(MWGui::WindowBase *parWindow)
     windowManager->popGuiMode();
 }
 
+void mwmp::GUIController::showCustomWindow(const BasePlayer::GUICustom& guiCustom)
+{
+    MWBase::WindowManager* windowManager = MWBase::Environment::get().getWindowManager();
+    windowManager->removeDialog(mCustomWindow);
+    if (!guiCustom.layout.empty()) {
+        windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
+        auto filename = storeLayout(guiCustom.id, guiCustom.layout);
+        mCustomWindow = 0;
+        mCustomWindow = new GUICustomWindow(filename);
+        if (guiCustom.relative) {
+            MyGUI::IntSize viewSize = MyGUI::RenderManager::getInstance().getViewSize();
+            float w = viewSize.width;
+            float h = viewSize.height;
+            mCustomWindow->setCoord(
+                (int)(guiCustom.x * w), (int)(guiCustom.y * h),
+                (int)(guiCustom.w * w), (int)(guiCustom.h * h));
+        }
+        else {
+            mCustomWindow->setCoord((int)guiCustom.x, (int)guiCustom.y, (int)guiCustom.w, (int)guiCustom.h);
+        }
+        mCustomWindow->setVisible(true);
+    }
+    else {
+        mCustomWindow = 0;
+    }
+}
+
 bool mwmp::GUIController::pressedKey(int key)
 {
     MWBase::WindowManager *windowManager = MWBase::Environment::get().getWindowManager();
@@ -260,6 +288,17 @@ void mwmp::GUIController::WM_UpdateVisible(MWGui::GuiMode mode)
         default:
             break;
     }
+}
+
+std::string mwmp::GUIController::storeLayout(int id, std::string layout)
+{
+    auto full_path = boost::filesystem::current_path();
+    std::string layout_name = "tes3mp_custom/" + std::to_string(id) + ".layout";
+    full_path /= "/resources/mygui/" + layout_name;
+    boost::filesystem::ofstream out(full_path);
+    out << layout;
+    out.close();
+    return layout_name;
 }
 
 class MarkerWidget: public MyGUI::Widget

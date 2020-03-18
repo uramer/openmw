@@ -6,6 +6,8 @@
 #include "PlayerProcessor.hpp"
 #include "player/ProcessorChatMsg.hpp"
 #include "player/ProcessorGUIMessageBox.hpp"
+#include "player/ProcessorGUICustom.hpp"
+#include "player/ProcessorGUIEvent.hpp"
 #include "player/ProcessorPlayerCharGen.hpp"
 #include "player/ProcessorPlayerAnimFlags.hpp"
 #include "player/ProcessorPlayerAnimPlay.hpp"
@@ -89,6 +91,8 @@ void ProcessorInitializer()
 {
     PlayerProcessor::AddProcessor(new ProcessorChatMsg());
     PlayerProcessor::AddProcessor(new ProcessorGUIMessageBox());
+    PlayerProcessor::AddProcessor(new ProcessorGUICustom());
+    PlayerProcessor::AddProcessor(new ProcessorGUIEvent());
     PlayerProcessor::AddProcessor(new ProcessorPlayerCharGen());
     PlayerProcessor::AddProcessor(new ProcessorPlayerAnimFlags());
     PlayerProcessor::AddProcessor(new ProcessorPlayerAnimPlay());

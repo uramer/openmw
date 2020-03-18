@@ -7,6 +7,7 @@
     {"InputDialog",                GUIFunctions::InputDialog},\
     {"PasswordDialog",             GUIFunctions::PasswordDialog},\
     {"ListBox",                    GUIFunctions::ListBox},\
+    {"CustomWindow",               GUIFunctions::CustomWindow},\
     \
     {"ClearQuickKeyChanges",       GUIFunctions::ClearQuickKeyChanges},\
     \
@@ -92,6 +93,8 @@ public:
     * \return void
     */
     static void ListBox(unsigned short pid, int id, const char *label, const char *items);
+
+    static void CustomWindow(unsigned short pid, int id, const char* layout, double x, double y, double w, double h, bool relative);
 
     /**
     * \brief Clear the last recorded quick key changes for a player.

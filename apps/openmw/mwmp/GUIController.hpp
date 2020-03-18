@@ -8,6 +8,7 @@
 #include <components/openmw-mp/Base/BasePlayer.hpp>
 #include "GUI/PlayerMarkerCollection.hpp"
 #include "GUI/TextInputDialog.hpp"
+#include "GUI/GUICustomWindow.hpp"
 
 namespace MWGui
 {
@@ -25,7 +26,8 @@ namespace mwmp
         enum GM
         {
             GM_TES3MP_InputBox = MWGui::GM_QuickKeysMenu + 1,
-            GM_TES3MP_ListBox
+            GM_TES3MP_ListBox,
+            GM_TES3MP_Custom
 
         };
         GUIController();
@@ -45,6 +47,8 @@ namespace mwmp
 
         void showDialogList(const BasePlayer::GUIMessageBox &guiMessageBox);
 
+        void showCustomWindow(const BasePlayer::GUICustom& guiCustom);
+
         /// Return true if any tes3mp gui element in active state
         bool hasFocusedElement();
         /// Returns 0 if there was no events
@@ -56,6 +60,7 @@ namespace mwmp
 
         void updatePlayersMarkers(MWGui::LocalMapBase *localMapBase);
         void updateGlobalMapMarkerTooltips(MWGui::MapWindow *pWindow);
+        std::string storeLayout(int id, std::string layout);
 
         ESM::CustomMarker createMarker(const RakNet::RakNetGUID &guid);
         PlayerMarkerCollection mPlayerMarkers;
@@ -71,6 +76,7 @@ namespace mwmp
         bool calledInteractiveMessage;
         TextInputDialog *mInputBox;
         GUIDialogList *mListBox;
+        GUICustomWindow *mCustomWindow;
         void onInputBoxDone(MWGui::WindowBase* parWindow);
         //MyGUI::Widget *oldFocusWidget, *currentFocusWidget;
     };

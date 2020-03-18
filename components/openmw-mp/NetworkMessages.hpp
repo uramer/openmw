@@ -112,7 +112,10 @@ enum GameMessages
     ID_PLAYER_ALLY,
     ID_WORLD_DESTINATION_OVERRIDE,
     ID_ACTOR_SPELLS_ACTIVE,
-    ID_PLACEHOLDER
+    ID_PLACEHOLDER,
+
+    ID_GUI_CUSTOM,
+    ID_GUI_EVENT
 };
 
 enum OrderingChannel
