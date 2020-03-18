@@ -751,7 +751,7 @@ namespace MWMechanics
     {
         for (std::map<CreatureStats::SummonKey, int>::iterator it = mSummonedCreatures.begin(); it != mSummonedCreatures.end(); )
         {
-            if (Misc::StringUtils::ciEqual(getSummonedCreature(it->first.first), refId))
+            if (Misc::StringUtils::ciEqual(getSummonedCreature(it->first.first), refId) && it->second == -1)
             {
                 it->second = actorId;
                 break;
