@@ -43,6 +43,7 @@
     {"SetRecordId",                             RecordsDynamicFunctions::SetRecordId},\
     {"SetRecordBaseId",                         RecordsDynamicFunctions::SetRecordBaseId},\
     {"SetRecordInventoryBaseId",                RecordsDynamicFunctions::SetRecordInventoryBaseId},\
+    {"SetRecordIndex",                          RecordsDynamicFunctions::SetRecordIndex},\
     \
     {"SetRecordSubtype",                        RecordsDynamicFunctions::SetRecordSubtype},\
     {"SetRecordName",                           RecordsDynamicFunctions::SetRecordName},\
@@ -429,6 +430,15 @@ public:
     * \return void
     */
     static void SetRecordInventoryBaseId(const char* inventoryBaseId) noexcept;
+
+    /**
+    * \brief Set the index of the temporary record stored on the server for
+    * the currently specified record type.
+    *
+    * \param index The index of the record.
+    * \return void
+    */
+    static void SetRecordIndex(int index) noexcept;
 
     /**
     * \brief Set the subtype of the temporary record stored on the server for

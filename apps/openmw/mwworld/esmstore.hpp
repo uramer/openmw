@@ -193,6 +193,34 @@ namespace MWWorld
             return ptr;
         }
 
+        /*
+            Start of tes3mp addition
+
+            We need to handle MagicEffects separately to override them correctly
+        */
+        const Store<ESM::MagicEffect>& getMagicEffects() const;
+
+        const ESM::MagicEffect* insert(const ESM::MagicEffect& x)
+        {
+            const int index = x.mIndex;
+
+            Store<ESM::MagicEffect>& store = const_cast<Store<ESM::MagicEffect>&>(getMagicEffects());
+            if (store.search(index) != 0)
+            {
+                const std::string msg = "Try to override existing record '" + std::to_string(index) + "'";
+                throw std::runtime_error(msg);
+            }
+            ESM::MagicEffect record = x;
+
+            record.mId = ESM::MagicEffect::indexToId(record.mIndex);
+
+            ESM::MagicEffect* ptr = store.insert(record);
+            return ptr;
+        }
+        /*
+            End of tes3mp addition
+        */
+
         /// Insert a record with set ID, and allow it to override a pre-existing static record.
         template <class T>
         const T *overrideRecord(const T &x) {
@@ -206,6 +234,21 @@ namespace MWWorld
             }
             return ptr;
         }
+
+        /*
+            Start of tes3mp addition
+
+            We need to handle MagicEffects separately to override them correctly
+        */
+        const ESM::MagicEffect* overrideRecord(const ESM::MagicEffect &x) {
+            ESM::MagicEffect record = ESM::MagicEffect(x);
+            Store<ESM::MagicEffect> &store = const_cast<Store<ESM::MagicEffect>&>(getMagicEffects());
+            ESM::MagicEffect* ptr = store.insert(record);
+            return ptr;
+        }
+        /*
+            End of tes3mp addition
+        */
 
         template <class T>
         const T *insertStatic(const T &x)
@@ -482,6 +525,19 @@ namespace MWWorld
     inline const Store<ESM::MagicEffect> &ESMStore::get<ESM::MagicEffect>() const {
         return mMagicEffects;
     }
+
+    /*
+        Start of tes3mp addition
+
+        A getter just for MagicEffect IndexedStore to work around an MSVC bug
+        https://developercommunity.visualstudio.com/content/problem/527472/error-c2910-cannot-be-explicitly-specialized.html
+    */
+    const Store<ESM::MagicEffect> &ESMStore::getMagicEffects() const {
+        return this->mMagicEffects;
+    }
+    /*
+        End of tes3mp addition
+    */
 
     template <>
     inline const Store<ESM::Skill> &ESMStore::get<ESM::Skill>() const {

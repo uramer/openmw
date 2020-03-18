@@ -80,6 +80,24 @@ namespace MWWorld
         if (!ret.second)
             ret.first->second = record;
     }
+    /*
+        Start of tes3mp addition
+
+        Implement insertion for IndexedStore to implement sime custom records
+    */
+    template<typename T>
+    T* IndexedStore<T>::insert(T &record)
+    {
+        throw std::runtime_error("insert not implemented");
+    }
+    ESM::MagicEffect* IndexedStore<ESM::MagicEffect>::insert(ESM::MagicEffect& record)
+    {
+        auto result = mStatic.insert(std::pair<int, ESM::MagicEffect>(record.mIndex, record));
+        return &result.first->second;
+    }
+    /*
+        End of tes3mp addition
+    */
     template<typename T>
     int IndexedStore<T>::getSize() const
     {

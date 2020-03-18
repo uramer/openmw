@@ -36,6 +36,7 @@ RepairRecord tempRepair;
 ScriptRecord tempScript;
 StaticRecord tempStatic;
 SoundRecord tempSound;
+MagicEffectRecord tempMagicEffect;
 
 BaseOverrides tempOverrides;
 
@@ -86,6 +87,7 @@ void RecordsDynamicFunctions::ClearRecords() noexcept
     WorldstateFunctions::writeWorldstate.scriptRecords.clear();
     WorldstateFunctions::writeWorldstate.staticRecords.clear();
     WorldstateFunctions::writeWorldstate.soundRecords.clear();
+    WorldstateFunctions::writeWorldstate.magicEffectRecords.clear();
 }
 
 unsigned short RecordsDynamicFunctions::GetRecordType() noexcept
@@ -368,6 +370,8 @@ void RecordsDynamicFunctions::SetRecordId(const char* id) noexcept
         tempBook.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::CLOTHING)
         tempClothing.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+        tempMagicEffect.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::MISCELLANEOUS)
         tempMiscellaneous.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
@@ -426,6 +430,8 @@ void RecordsDynamicFunctions::SetRecordBaseId(const char* baseId) noexcept
         tempBook.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::CLOTHING)
         tempClothing.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+        tempMagicEffect.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::MISCELLANEOUS)
         tempMiscellaneous.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
@@ -472,6 +478,16 @@ void RecordsDynamicFunctions::SetRecordInventoryBaseId(const char* inventoryBase
         tempNpc.inventoryBaseId = inventoryBaseId;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set inventoryBaseId for record type %i which lacks that property", writeRecordsType);
+}
+
+void RecordsDynamicFunctions::SetRecordIndex(int index) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+        tempMagicEffect.data.mIndex = index;
+    else
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set index for record type %i which lacks that property", writeRecordsType);
 }
 
 void RecordsDynamicFunctions::SetRecordSubtype(unsigned int subtype) noexcept
@@ -521,6 +537,8 @@ void RecordsDynamicFunctions::SetRecordName(const char* name) noexcept
         tempBook.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::CLOTHING)
         tempClothing.data.mName = name;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+        tempMagicEffect.name = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::MISCELLANEOUS)
         tempMiscellaneous.data.mName = name;
     else if (writeRecordsType == mwmp::RECORD_TYPE::WEAPON)
@@ -1668,6 +1686,12 @@ void RecordsDynamicFunctions::AddRecord() noexcept
         tempClothing.baseOverrides = tempOverrides;
         WorldstateFunctions::writeWorldstate.clothingRecords.push_back(tempClothing);
         tempClothing = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+    {
+        tempMagicEffect.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.magicEffectRecords.push_back(tempMagicEffect);
+        tempMagicEffect = {};
     }
     else if (writeRecordsType == mwmp::RECORD_TYPE::MISCELLANEOUS)
     {

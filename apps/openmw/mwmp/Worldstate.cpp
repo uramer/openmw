@@ -328,6 +328,18 @@ void Worldstate::addRecords()
         RecordHelper::overrideRecord(record);
     }
     }
+    else if (recordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+    {
+        for (auto&& record : magicEffectRecords)
+        {
+            bool hasBaseId = !record.baseId.empty();
+
+            LOG_APPEND(TimedLog::LOG_INFO, "- magic effect record %d\n-- base index is %s", record.data.mIndex,
+                hasBaseId ? record.baseId.c_str() : "empty");
+
+            RecordHelper::overrideRecord(record);
+        }
+    }
 }
 
 bool Worldstate::containsExploredMapTile(int cellX, int cellY)

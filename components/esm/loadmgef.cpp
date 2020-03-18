@@ -521,7 +521,15 @@ static std::map<short,std::string> genNameMap()
 
     return names;
 }
-const std::map<short,std::string> MagicEffect::sNames = genNameMap();
+/*
+    Start of tes3mp addition
+
+    Make the MagicEffect name map non-const to allow custom records
+*/
+std::map<short,std::string> MagicEffect::sNames = genNameMap();
+/*
+    End of tes3mp addition
+*/
 
 const std::string &MagicEffect::effectIdToString(short effectID)
 {

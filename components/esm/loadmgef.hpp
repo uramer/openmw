@@ -66,7 +66,15 @@ struct MagicEffect
         float mUnknown2; // Called "Size Cap" in CS
     }; // 36 bytes
 
-    static const std::map<short,std::string> sNames;
+/*
+    Start of tes3mp addition
+
+    Make the MagicEffect name map non-const to allow custom records
+*/
+    static std::map<short,std::string> sNames;
+/*
+End of tes3mp addition
+*/
 
     static const std::string &effectIdToString(short effectID);
     static short effectStringToId(const std::string &effect);

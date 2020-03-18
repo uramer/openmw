@@ -27,6 +27,7 @@
 #include <components/esm/loadstat.hpp>
 #include <components/esm/loadweap.hpp>
 #include <components/esm/loadsoun.hpp>
+#include <components\esm\loadmgef.hpp>
 
 #include <components/openmw-mp/Base/BaseStructs.hpp>
 
@@ -59,7 +60,8 @@ namespace mwmp
         SPELL,
         STATIC,
         WEAPON,
-        SOUND
+        SOUND,
+        MAGIC_EFFECT
     };
 
     // When using an existing record as a base, this struct tracks which changes
@@ -247,6 +249,14 @@ namespace mwmp
         BaseOverrides baseOverrides;
     };
 
+    struct MagicEffectRecord
+    {
+        ESM::MagicEffect data;
+        std::string baseId;
+        std::string name;
+        BaseOverrides baseOverrides;
+    };
+
     struct MiscellaneousRecord
     {
         ESM::Miscellaneous data;
@@ -400,6 +410,7 @@ namespace mwmp
         std::vector<IngredientRecord> ingredientRecords;
         std::vector<LightRecord> lightRecords;
         std::vector<LockpickRecord> lockpickRecords;
+        std::vector<MagicEffectRecord> magicEffectRecords;
         std::vector<MiscellaneousRecord> miscellaneousRecords;
         std::vector<NpcRecord> npcRecords;
         std::vector<PotionRecord> potionRecords;

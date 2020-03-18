@@ -885,6 +885,47 @@ void RecordHelper::overrideRecord(const mwmp::LockpickRecord& record)
         world->updatePtrsWithRefId(recordData.mId);
 }
 
+void RecordHelper::overrideRecord(const mwmp::MagicEffectRecord& record)
+{
+    const ESM::MagicEffect& recordData = record.data;
+
+    MWBase::World* world = MWBase::Environment::get().getWorld();
+    bool isExistingId = world->getStore().getMagicEffects().search(recordData.mIndex);
+
+    if (record.baseId.empty())
+    {
+        world->getModifiableStore().overrideRecord(recordData);
+    }
+    else {
+        int baseIndex = std::stoi(record.baseId);
+        if (world->getStore().getMagicEffects().search(baseIndex))
+        {
+            const ESM::MagicEffect* baseData = world->getStore().get<ESM::MagicEffect>().find(baseIndex);
+            ESM::MagicEffect finalData = *baseData;
+            finalData.mId = recordData.mId;
+            finalData.mIndex = recordData.mIndex;
+
+            if (record.baseOverrides.hasName) {
+                ESM::GameSetting gmst;
+                gmst.mId = "sEffect" + std::to_string(finalData.mIndex);
+                gmst.mValue = ESM::Variant(record.name);
+                auto insertedGmst = world->getModifiableStore().overrideRecord(gmst);
+                ESM::MagicEffect::sNames[(short)finalData.mIndex] = insertedGmst->mId;
+            }
+            else {
+                ESM::MagicEffect::sNames[(short)finalData.mIndex] = ESM::MagicEffect::sNames[(short)baseIndex];
+            }
+
+            world->getModifiableStore().overrideRecord(finalData);
+        }
+        else
+        {
+            LOG_APPEND(TimedLog::LOG_INFO, "-- Ignoring record override with invalid baseId %s", record.baseId.c_str());
+            return;
+        }
+    }
+}
+
 void RecordHelper::overrideRecord(const mwmp::MiscellaneousRecord& record)
 {
     const ESM::Miscellaneous &recordData = record.data;

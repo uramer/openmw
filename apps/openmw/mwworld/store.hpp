@@ -66,6 +66,15 @@ namespace MWWorld
         iterator end() const;
 
         void load(ESM::ESMReader &esm);
+        /*
+            Start of tes3mp addition
+
+            Implement insertion for IndexedStore to implement sime custom records
+        */
+        T* insert(T &record);
+        /*
+            End of tes3mp addition
+        */
 
         int getSize() const;
         void setUp();

@@ -21,6 +21,7 @@ namespace RecordHelper
     void overrideRecord(const mwmp::IngredientRecord& record);
     void overrideRecord(const mwmp::LightRecord& record);
     void overrideRecord(const mwmp::LockpickRecord& record);
+    void overrideRecord(const mwmp::MagicEffectRecord& record);
     void overrideRecord(const mwmp::MiscellaneousRecord& record);
     void overrideRecord(const mwmp::NpcRecord& record);
     void overrideRecord(const mwmp::PotionRecord& record);

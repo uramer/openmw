@@ -33,6 +33,8 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->bookRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::CLOTHING)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->clothingRecords);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+            worldstate->recordsCount = Utils::getVectorSize(worldstate->magicEffectRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::MISCELLANEOUS)
             worldstate->recordsCount = Utils::getVectorSize(worldstate->miscellaneousRecords);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::WEAPON)
@@ -102,6 +104,8 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
             Utils::resetVector(worldstate->bookRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::CLOTHING)
             Utils::resetVector(worldstate->clothingRecords, worldstate->recordsCount);
+        else if (worldstate->recordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+            Utils::resetVector(worldstate->magicEffectRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::MISCELLANEOUS)
             Utils::resetVector(worldstate->miscellaneousRecords, worldstate->recordsCount);
         else if (worldstate->recordsType == mwmp::RECORD_TYPE::WEAPON)
@@ -873,6 +877,23 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
             RW(overrides.hasMaxRange, send);
         }
     }
+    }
+    else if (worldstate->recordsType == mwmp::RECORD_TYPE::MAGIC_EFFECT)
+    {
+        for (auto&& record : worldstate->magicEffectRecords)
+        {
+            auto& recordData = record.data;
+            RW(recordData.mIndex, send, true);
+            RW(recordData.mId, send, true);
+            RW(record.baseId, send, true);
+            RW(record.name, send, true);
+
+            if (!record.baseId.empty())
+            {
+                auto&& overrides = record.baseOverrides;
+                RW(overrides.hasName, send);
+            }
+        }
     }
 }
 
