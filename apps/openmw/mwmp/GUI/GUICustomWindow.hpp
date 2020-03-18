@@ -15,11 +15,17 @@ namespace mwmp
         private:
             static const std::string BUTTON_PRESSED;
             static const std::string MOUSE_CLICK;
+            static const std::string FIELD;
             static void log(std::string event, std::string name, std::string data);
             void send(std::string tag, std::string data);
+
             void attachEventHandlers(MyGUI::Widget* widget);
             void buttonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode key, MyGUI::Char _char);
             void mouseClick(MyGUI::Widget* _sender);
+
+            std::map<std::string, MyGUI::Widget*> fieldWidgets;
+            void findFields(MyGUI::Widget* widget);
+            void collectFields();
     };
 }
 #endif //OPENMW_GUICUSTOM_HPP

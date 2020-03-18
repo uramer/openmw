@@ -24,6 +24,10 @@
     {"SetMapVisibility",           GUIFunctions::SetMapVisibility},\
     {"SetMapVisibilityAll",        GUIFunctions::SetMapVisibilityAll},\
     \
+    {"GetGUIFieldSize",            GUIFunctions::GetGUIFieldSize},\
+    {"GetGUIFieldKey",             GUIFunctions::GetGUIFieldKey},\
+    {"GetGUIFieldValue",           GUIFunctions::GetGUIFieldValue},\
+    \
     {"InitializeQuickKeyChanges",  GUIFunctions::InitializeQuickKeyChanges}
 
 class GUIFunctions
@@ -184,6 +188,11 @@ public:
     * \return void
     */
     static void SetMapVisibilityAll(unsigned short targetPid, unsigned short state) noexcept;
+
+    static unsigned int GetGUIFieldSize(unsigned short pid) noexcept;
+
+    static const char* GetGUIFieldKey(unsigned short pid, unsigned int index) noexcept;
+    static const char* GetGUIFieldValue(unsigned short pid, unsigned int index) noexcept;
 
     // All methods below are deprecated versions of methods from above
 

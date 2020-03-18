@@ -184,6 +184,30 @@ void GUIFunctions::SetMapVisibilityAll(unsigned short targetPid, unsigned short 
     LOG_MESSAGE(TimedLog::LOG_WARN, "stub");
 }
 
+unsigned int GUIFunctions::GetGUIFieldSize(unsigned short pid) noexcept
+{
+    Player* player;
+    GET_PLAYER(pid, player, 0);
+
+    return player->guiEvent.fields.size();
+}
+
+const char* GUIFunctions::GetGUIFieldKey(unsigned short pid, unsigned int index) noexcept
+{
+    Player* player;
+    GET_PLAYER(pid, player, "");
+
+    return player->guiEvent.fields[index].first.c_str();
+}
+
+const char* GUIFunctions::GetGUIFieldValue(unsigned short pid, unsigned int index) noexcept
+{
+    Player* player;
+    GET_PLAYER(pid, player, "");
+
+    return player->guiEvent.fields[index].second.c_str();
+}
+
 // All methods below are deprecated versions of methods from above
 
 void GUIFunctions::InitializeQuickKeyChanges(unsigned short pid) noexcept

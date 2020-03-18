@@ -183,6 +183,7 @@ namespace mwmp
         {
             std::string tag;
             std::string data;
+            std::vector<std::pair<std::string, std::string>> fields;
         };
 
         BasePlayer(RakNet::RakNetGUID guid) : guid(guid)
