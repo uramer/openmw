@@ -2,6 +2,7 @@
 
 #include <MyGUI_Widget.h>
 #include <MyGUI_EditBox.h>
+#include <MyGUI_ListBox.h>
 
 #include "../Networking.hpp"
 #include "../Main.hpp"
@@ -19,8 +20,7 @@ namespace mwmp
     {
         for (MyGUI::Widget* widget : mListWindowRoot)
         {
-            attachEventHandlers(widget);
-            findFields(widget);
+            traverse(widget);
         }
     }
 
@@ -44,18 +44,44 @@ namespace mwmp
         networking->getPlayerPacket(ID_GUI_EVENT)->Send();
     }
 
+    void GUICustomWindow::traverse(MyGUI::Widget* widget) {
+        attachEventHandlers(widget);
+        findFields(widget);
+        MyGUI::ListBox* listBox = dynamic_cast<MyGUI::ListBox*>(widget);
+        if (listBox != NULL) prepareList(listBox);
+
+        size_t children = widget->getChildCount();
+        for (size_t i = 0; i < children; i++) {
+            traverse(widget->getChildAt(i));
+        }
+    }
+
     void GUICustomWindow::attachEventHandlers(MyGUI::Widget* widget)
     {
-        int children = widget->getChildCount();
-        for (int i = 0; i < children; i++) {
-            auto child = widget->getChildAt(i);
-            attachEventHandlers(child);
-        }
         if (!widget->getUserString(BUTTON_PRESSED).empty()) {
             widget->eventKeyButtonPressed = newDelegate(this, &GUICustomWindow::buttonPressed);
         }
         if (!widget->getUserString(MOUSE_CLICK).empty()) {
             widget->eventMouseButtonClick = newDelegate(this, &GUICustomWindow::mouseClick);
+        }
+    }
+
+    void GUICustomWindow::findFields(MyGUI::Widget* widget) {
+        std::string key = widget->getUserString(FIELD);
+        if (!key.empty()) {
+            fieldWidgets[key] = widget;
+        }
+    }
+
+    void GUICustomWindow::prepareList(MyGUI::ListBox* listBox) {
+        if (listBox->getUserString("List").empty()) return;
+        size_t children = listBox->getChildCount();
+        for (size_t i = 0; i < children; i++) {
+            auto child = listBox->getChildAt(i);
+            std::string row = child->getUserString("Row");
+            if (!row.empty()) {
+                listBox->addItem(row);
+            }
         }
     }
 
@@ -73,18 +99,6 @@ namespace mwmp
         send(tag, data);
     }
 
-    void GUICustomWindow::findFields(MyGUI::Widget* widget) {
-        int children = widget->getChildCount();
-        for (int i = 0; i < children; i++) {
-            auto child = widget->getChildAt(i);
-            findFields(child);
-        }
-        std::string key = widget->getUserString(FIELD);
-        if (!key.empty()) {
-            fieldWidgets[key] = widget;
-        }
-    }
-
     void GUICustomWindow::collectFields() {
         LocalPlayer* localPlayer = Main::get().getLocalPlayer();
         localPlayer->guiEvent.fields.clear();
@@ -93,9 +107,17 @@ namespace mwmp
             std::string key = widgetIterator.first;
             MyGUI::Widget* widget = widgetIterator.second;
             std::string value = "";
+
             MyGUI::EditBox* editBox = dynamic_cast<MyGUI::EditBox*>(widget);
             if (editBox != NULL)
-                value = editBox->getCaption();
+                value = editBox->getCaption().asUTF8();
+
+            MyGUI::ListBox* listBox = dynamic_cast<MyGUI::ListBox*>(widget);
+            if (listBox != NULL) {
+                auto index = listBox->getIndexSelected();
+                if (index != MyGUI::ITEM_NONE)
+                    value = std::to_string(index);
+            }
             localPlayer->guiEvent.fields.push_back(make_pair(key, value));
         }
     }

@@ -19,12 +19,16 @@ namespace mwmp
             static void log(std::string event, std::string name, std::string data);
             void send(std::string tag, std::string data);
 
+            void traverse(MyGUI::Widget* widget);
             void attachEventHandlers(MyGUI::Widget* widget);
+            void findFields(MyGUI::Widget* widget);
+            void prepareList(MyGUI::ListBox* listBox);
+
+
             void buttonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode key, MyGUI::Char _char);
             void mouseClick(MyGUI::Widget* _sender);
 
             std::map<std::string, MyGUI::Widget*> fieldWidgets;
-            void findFields(MyGUI::Widget* widget);
             void collectFields();
     };
 }
