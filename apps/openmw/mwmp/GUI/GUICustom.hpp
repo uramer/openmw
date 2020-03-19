@@ -7,11 +7,11 @@
 namespace mwmp
 {
     class GUIController;
-    class GUICustomWindow : public MWGui::WindowBase
+    class GUICustom : public MWGui::WindowBase
     {
         friend class GUIController;
         public:
-            GUICustomWindow(const std::string& layout);
+            GUICustom(const std::string& layout);
         private:
             static const std::string BUTTON_PRESSED;
             static const std::string MOUSE_CLICK;
@@ -23,7 +23,6 @@ namespace mwmp
             void attachEventHandlers(MyGUI::Widget* widget);
             void findFields(MyGUI::Widget* widget);
             void prepareList(MyGUI::ListBox* listBox);
-
 
             void buttonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode key, MyGUI::Char _char);
             void mouseClick(MyGUI::Widget* _sender);

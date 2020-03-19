@@ -8,7 +8,7 @@
 #include <components/openmw-mp/Base/BasePlayer.hpp>
 #include "GUI/PlayerMarkerCollection.hpp"
 #include "GUI/TextInputDialog.hpp"
-#include "GUI/GUICustomWindow.hpp"
+#include "GUI/GUICustom.hpp"
 
 namespace MWGui
 {
@@ -76,7 +76,7 @@ namespace mwmp
         bool calledInteractiveMessage;
         TextInputDialog *mInputBox;
         GUIDialogList *mListBox;
-        std::map<int, GUICustomWindow*> mCustom;
+        std::map<int, GUICustom*> mCustom;
         void onInputBoxDone(MWGui::WindowBase* parWindow);
         //MyGUI::Widget *oldFocusWidget, *currentFocusWidget;
     };

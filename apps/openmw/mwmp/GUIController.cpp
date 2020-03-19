@@ -31,7 +31,7 @@
 #include "GUI/PlayerMarkerCollection.hpp"
 #include "GUI/GUIDialogList.hpp"
 #include "GUI/GUIChat.hpp"
-#include "GUI/GUICustomWindow.hpp"
+#include "GUI/GUICustom.hpp"
 #include "LocalPlayer.hpp"
 #include "DedicatedPlayer.hpp"
 #include "PlayerList.hpp"
@@ -204,7 +204,7 @@ void mwmp::GUIController::showCustom(const BasePlayer::GUICustom& guiCustom)
     if (!guiCustom.layout.empty()) {
         windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
         auto filename = storeLayout(guiCustom.id, guiCustom.layout);
-        mCustom[guiCustom.id] = new GUICustomWindow(filename);
+        mCustom[guiCustom.id] = new GUICustom(filename);
         mCustom[guiCustom.id]->setVisible(true);
     }
     else {
