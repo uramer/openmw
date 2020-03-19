@@ -37,7 +37,7 @@
 #include "PlayerList.hpp"
 
 
-mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0), mCustomWindow(0)
+mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0)
 {
     mChat = nullptr;
     keySay = SDL_SCANCODE_Y;
@@ -196,30 +196,22 @@ void mwmp::GUIController::onInputBoxDone(MWGui::WindowBase *parWindow)
     windowManager->popGuiMode();
 }
 
-void mwmp::GUIController::showCustomWindow(const BasePlayer::GUICustom& guiCustom)
+void mwmp::GUIController::showCustom(const BasePlayer::GUICustom& guiCustom)
 {
     MWBase::WindowManager* windowManager = MWBase::Environment::get().getWindowManager();
-    windowManager->removeDialog(mCustomWindow);
+    auto oldWindow = mCustom.find(guiCustom.id);
+    if(oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
     if (!guiCustom.layout.empty()) {
         windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
         auto filename = storeLayout(guiCustom.id, guiCustom.layout);
-        mCustomWindow = 0;
-        mCustomWindow = new GUICustomWindow(filename);
-        if (guiCustom.relative) {
-            MyGUI::IntSize viewSize = MyGUI::RenderManager::getInstance().getViewSize();
-            float w = viewSize.width;
-            float h = viewSize.height;
-            mCustomWindow->setCoord(
-                (int)(guiCustom.x * w), (int)(guiCustom.y * h),
-                (int)(guiCustom.w * w), (int)(guiCustom.h * h));
-        }
-        else {
-            mCustomWindow->setCoord((int)guiCustom.x, (int)guiCustom.y, (int)guiCustom.w, (int)guiCustom.h);
-        }
-        mCustomWindow->setVisible(true);
+        mCustom[guiCustom.id] = new GUICustomWindow(filename);
+        mCustom[guiCustom.id]->setVisible(true);
     }
     else {
-        mCustomWindow = 0;
+        if (windowManager->isGuiMode()) {
+            windowManager->popGuiMode();
+        }
+        mCustom.erase(guiCustom.id);
     }
 }
 

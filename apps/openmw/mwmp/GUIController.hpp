@@ -47,7 +47,7 @@ namespace mwmp
 
         void showDialogList(const BasePlayer::GUIMessageBox &guiMessageBox);
 
-        void showCustomWindow(const BasePlayer::GUICustom& guiCustom);
+        void showCustom(const BasePlayer::GUICustom& guiCustom);
 
         /// Return true if any tes3mp gui element in active state
         bool hasFocusedElement();
@@ -76,7 +76,7 @@ namespace mwmp
         bool calledInteractiveMessage;
         TextInputDialog *mInputBox;
         GUIDialogList *mListBox;
-        GUICustomWindow *mCustomWindow;
+        std::map<int, GUICustomWindow*> mCustom;
         void onInputBoxDone(MWGui::WindowBase* parWindow);
         //MyGUI::Widget *oldFocusWidget, *currentFocusWidget;
     };
