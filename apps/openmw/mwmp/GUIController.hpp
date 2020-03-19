@@ -47,7 +47,7 @@ namespace mwmp
 
         void showDialogList(const BasePlayer::GUIMessageBox &guiMessageBox);
 
-        void showCustom(const BasePlayer::GUICustom& guiCustom);
+        void processCustom(const BasePlayer::GUICustom& guiCustom);
 
         /// Return true if any tes3mp gui element in active state
         bool hasFocusedElement();

@@ -16,8 +16,8 @@ void PacketGUIEvent::Packet(RakNet::BitStream* newBitstream, bool send)
     RW(player->guiEvent.tag, send, true);
     RW(player->guiEvent.data, send, true);
 
-    uint32_t valueCount = static_cast<uint32_t>(player->guiEvent.fields.size());
-    RW(valueCount, send);
+    uint32_t fieldCount = static_cast<uint32_t>(player->guiEvent.fields.size());
+    RW(fieldCount, send);
     std::string mapIndex;
     std::string mapValue;
     if (send)
@@ -26,17 +26,17 @@ void PacketGUIEvent::Packet(RakNet::BitStream* newBitstream, bool send)
         {
             mapIndex = value.first;
             mapValue = value.second;
-            RW(mapIndex, send, false);
-            RW(mapValue, send, false);
+            RW(mapIndex, send, true);
+            RW(mapValue, send, true);
         }
     }
     else
     {
         player->guiEvent.fields.clear();
-        for (uint32_t n = 0; n < valueCount; n++)
+        for (uint32_t n = 0; n < fieldCount; n++)
         {
-            RW(mapIndex, send, false);
-            RW(mapValue, send, false);
+            RW(mapIndex, send, true);
+            RW(mapValue, send, true);
             player->guiEvent.fields.push_back(make_pair(mapIndex, mapValue));
         }
     }

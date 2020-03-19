@@ -7,7 +7,6 @@
     {"InputDialog",                GUIFunctions::InputDialog},\
     {"PasswordDialog",             GUIFunctions::PasswordDialog},\
     {"ListBox",                    GUIFunctions::ListBox},\
-    {"CustomWindow",               GUIFunctions::CustomWindow},\
     \
     {"ClearQuickKeyChanges",       GUIFunctions::ClearQuickKeyChanges},\
     \
@@ -24,7 +23,12 @@
     {"SetMapVisibility",           GUIFunctions::SetMapVisibility},\
     {"SetMapVisibilityAll",        GUIFunctions::SetMapVisibilityAll},\
     \
-    {"GetGUIFieldSize",            GUIFunctions::GetGUIFieldSize},\
+    {"GUICustom",                  GUIFunctions::GUICustom},\
+    {"SetGUILayout",               GUIFunctions::SetGUILayout},\
+    {"ClearGUIProperties",         GUIFunctions::ClearGUIProperties},\
+    {"SetGUIProperty",             GUIFunctions::SetGUIProperty},\
+    \
+    {"GetGUIFieldSize",            GUIFunctions::GetGUIFieldsSize},\
     {"GetGUIFieldKey",             GUIFunctions::GetGUIFieldKey},\
     {"GetGUIFieldValue",           GUIFunctions::GetGUIFieldValue},\
     \
@@ -97,8 +101,6 @@ public:
     * \return void
     */
     static void ListBox(unsigned short pid, int id, const char *label, const char *items);
-
-    static void CustomWindow(unsigned short pid, int id, const char* layout, double x, double y, double w, double h, bool relative);
 
     /**
     * \brief Clear the last recorded quick key changes for a player.
@@ -189,8 +191,11 @@ public:
     */
     static void SetMapVisibilityAll(unsigned short targetPid, unsigned short state) noexcept;
 
-    static unsigned int GetGUIFieldSize(unsigned short pid) noexcept;
-
+    static void GUICustom(unsigned short pid, int id, bool hide);
+    static void SetGUILayout(unsigned short pid, const char* layout);
+    static void ClearGUIProperties(unsigned short pid);
+    static void SetGUIProperty(unsigned short pid, const char* key, const char* value);
+    static unsigned int GetGUIFieldsSize(unsigned short pid) noexcept;
     static const char* GetGUIFieldKey(unsigned short pid, unsigned int index) noexcept;
     static const char* GetGUIFieldValue(unsigned short pid, unsigned int index) noexcept;
 

@@ -15,6 +15,9 @@ namespace mwmp
     const std::string GUICustom::BUTTON_PRESSED = "ButtonPressed";
     const std::string GUICustom::MOUSE_CLICK = "MouseClick";
     const std::string GUICustom::FIELD = "Field";
+    const std::string GUICustom::LIST = "List";
+    const std::string GUICustom::ROW = "Row";
+    const std::string GUICustom::BIND = "Bind:";
 
     GUICustom::GUICustom(const std::string& layout): WindowBase(layout)
     {
@@ -44,9 +47,19 @@ namespace mwmp
         networking->getPlayerPacket(ID_GUI_EVENT)->Send();
     }
 
+    void GUICustom::updateProperties(BasePlayer::PropertyList properties) {
+        for (auto property : properties) {
+            if (propertyMap.find(property.first) == propertyMap.end()) continue;
+            auto match = propertyMap[property.first];
+            MyGUI::Widget* widget = match.first;
+            widget->setProperty(match.second, property.second);
+        }
+    }
+
     void GUICustom::traverse(MyGUI::Widget* widget) {
         attachEventHandlers(widget);
         findFields(widget);
+        findPropertyBindings(widget);
         MyGUI::ListBox* listBox = dynamic_cast<MyGUI::ListBox*>(widget);
         if (listBox != NULL) prepareList(listBox);
 
@@ -74,13 +87,24 @@ namespace mwmp
     }
 
     void GUICustom::prepareList(MyGUI::ListBox* listBox) {
-        if (listBox->getUserString("List").empty()) return;
+        if (listBox->getUserString(LIST).empty()) return;
         size_t children = listBox->getChildCount();
         for (size_t i = 0; i < children; i++) {
             auto child = listBox->getChildAt(i);
-            std::string row = child->getUserString("Row");
+            std::string row = child->getUserString(ROW);
             if (!row.empty()) {
                 listBox->addItem(row);
+            }
+        }
+    }
+
+    void GUICustom::findPropertyBindings(MyGUI::Widget* widget) {
+        for (auto userString : widget->getUserStrings()) {
+            bool prefix = std::mismatch(BIND.begin(), BIND.end(), userString.first.begin()).first == BIND.end();
+            if (prefix)
+            {
+                std::string property = userString.first.substr(BIND.size());
+                if(!property.empty()) propertyMap[userString.second] = std::make_pair(widget, property);
             }
         }
     }

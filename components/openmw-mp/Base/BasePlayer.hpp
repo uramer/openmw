@@ -168,22 +168,21 @@ namespace mwmp
             std::string data;
         };
 
+        typedef std::vector<std::pair<std::string, std::string>> PropertyList;
         struct GUICustom
         {
             int id;
+            bool hide;
             std::string layout;
-            bool relative;
-            float x;
-            float y;
-            float h;
-            float w;
+            PropertyList properties;
         };
 
+        typedef std::vector<std::pair<std::string, std::string>> FieldList;
         struct GUIEvent
         {
             std::string tag;
             std::string data;
-            std::vector<std::pair<std::string, std::string>> fields;
+            FieldList fields;
         };
 
         BasePlayer(RakNet::RakNetGUID guid) : guid(guid)

@@ -84,25 +84,6 @@ void GUIFunctions::ListBox(unsigned short pid, int id, const char *label, const 
     packet->Send(false);
 }
 
-void GUIFunctions::CustomWindow(unsigned short pid, int id, const char* layout, double x, double y, double w, double h, bool relative)
-{
-    Player* player;
-    GET_PLAYER(pid, player, );
-
-    player->guiCustom.id = id;
-    player->guiCustom.layout = layout;
-    player->guiCustom.x = x;
-    player->guiCustom.y = y;
-    player->guiCustom.w = w;
-    player->guiCustom.h = h;
-    player->guiCustom.relative = relative;
-
-    mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
-    packet->setPlayer(player);
-
-    packet->Send(false);
-}
-
 void GUIFunctions::ClearQuickKeyChanges(unsigned short pid) noexcept
 {
     Player *player;
@@ -184,7 +165,42 @@ void GUIFunctions::SetMapVisibilityAll(unsigned short targetPid, unsigned short 
     LOG_MESSAGE(TimedLog::LOG_WARN, "stub");
 }
 
-unsigned int GUIFunctions::GetGUIFieldSize(unsigned short pid) noexcept
+void GUIFunctions::GUICustom(unsigned short pid, int id, bool hide)
+{
+    Player* player;
+    GET_PLAYER(pid, player, );
+
+    player->guiCustom.id = id;
+    player->guiCustom.hide = hide;
+
+    mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
+    packet->setPlayer(player);
+
+    packet->Send(false);
+}
+
+void GUIFunctions::SetGUILayout(unsigned short pid, const char* layout) {
+    Player* player;
+    GET_PLAYER(pid, player, );
+
+    player->guiCustom.layout = layout;
+}
+
+void GUIFunctions::ClearGUIProperties(unsigned short pid) {
+    Player* player;
+    GET_PLAYER(pid, player, );
+
+    player->guiCustom.properties.clear();
+}
+
+void GUIFunctions::SetGUIProperty(unsigned short pid, const char* key, const char* value) {
+    Player* player;
+    GET_PLAYER(pid, player, );
+
+    player->guiCustom.properties.push_back(std::make_pair(key, value));
+}
+
+unsigned int GUIFunctions::GetGUIFieldsSize(unsigned short pid) noexcept
 {
     Player* player;
     GET_PLAYER(pid, player, 0);

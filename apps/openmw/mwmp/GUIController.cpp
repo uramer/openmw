@@ -196,18 +196,22 @@ void mwmp::GUIController::onInputBoxDone(MWGui::WindowBase *parWindow)
     windowManager->popGuiMode();
 }
 
-void mwmp::GUIController::showCustom(const BasePlayer::GUICustom& guiCustom)
+void mwmp::GUIController::processCustom(const BasePlayer::GUICustom& guiCustom)
 {
     MWBase::WindowManager* windowManager = MWBase::Environment::get().getWindowManager();
     auto oldWindow = mCustom.find(guiCustom.id);
-    if(oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
-    if (!guiCustom.layout.empty()) {
-        windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
-        auto filename = storeLayout(guiCustom.id, guiCustom.layout);
-        mCustom[guiCustom.id] = new GUICustom(filename);
-        mCustom[guiCustom.id]->setVisible(true);
+    if (!guiCustom.hide) {
+        if (!guiCustom.layout.empty()) {
+            if(oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
+            windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
+            auto filename = storeLayout(guiCustom.id, guiCustom.layout);
+            mCustom[guiCustom.id] = new GUICustom(filename);
+            mCustom[guiCustom.id]->setVisible(true);
+        }
+        if(mCustom.count(guiCustom.id) > 0) mCustom[guiCustom.id]->updateProperties(guiCustom.properties);
     }
     else {
+        if (oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
         if (windowManager->isGuiMode()) {
             windowManager->popGuiMode();
         }
