@@ -17,6 +17,8 @@ namespace mwmp
     const std::string GUICustom::MOUSE_CLICK = "MouseClick";
     const std::string GUICustom::FIELD = "Field";
     const std::string GUICustom::BIND = "Bind:";
+    const std::string GUICustom::ANCHOR = "Anchor";
+    const std::string GUICustom::RELATIVE_POSITION = "RelativePosition";
 
     GUICustom::GUICustom(int id, const std::string& layout): WindowBase(layout)
     {
@@ -28,12 +30,12 @@ namespace mwmp
     }
 
     void GUICustom::positionRelatively() {
-        std::string relativePosition = mMainWidget->getUserString("RelativePosition");
+        std::string relativePosition = mMainWidget->getUserString(RELATIVE_POSITION);
         if (relativePosition.empty()) return;
 
         int anchorX = 0;
         int anchorY = 0;
-        std::string anchor = mMainWidget->getUserString("Anchor");
+        std::string anchor = mMainWidget->getUserString(ANCHOR);
         if (!anchor.empty()) {
             try {
                 size_t posX = anchor.find(" ");
@@ -46,7 +48,6 @@ namespace mwmp
                 LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Custom UI: Anchor property format error: %s", e.what());
             }
         }
-        
         
         int positionX = 0;
         int positionY = 0;

@@ -15,12 +15,18 @@ namespace mwmp
         public:
             GUICustom(int id, const std::string& layout);
         private:
-            int id;
+            
             static const std::string BUTTON_PRESSED;
             static const std::string MOUSE_CLICK;
             static const std::string FIELD;
             static const std::string BIND;
+            static const std::string ANCHOR;
+            static const std::string RELATIVE_POSITION;
+
             static void log(std::string event, std::string name, std::string data);
+
+            int id;
+
             void send(std::string event, std::string data);
 
             void updateProperties(BasePlayer::FieldList properties);
