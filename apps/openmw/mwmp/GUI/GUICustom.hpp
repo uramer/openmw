@@ -23,7 +23,7 @@ namespace mwmp
             static const std::string ROW;
             static const std::string BIND;
             static void log(std::string event, std::string name, std::string data);
-            void send(std::string tag, std::string data);
+            void send(std::string event, std::string data);
 
             void updateProperties(BasePlayer::FieldList properties);
 
@@ -37,6 +37,7 @@ namespace mwmp
 
             void buttonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode key, MyGUI::Char _char);
             void mouseClick(MyGUI::Widget* _sender);
+            void listMouseItemActivate(MyGUI::ListBox* _sender, size_t _index);
 
             void collectFields();
     };

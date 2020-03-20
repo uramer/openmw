@@ -35,12 +35,12 @@ namespace mwmp
         );
     }
 
-    void GUICustom::send(std::string tag, std::string data) {
+    void GUICustom::send(std::string event, std::string data) {
         LocalPlayer* localPlayer = Main::get().getLocalPlayer();
         Networking* networking = Main::get().getNetworking();
 
         localPlayer->guiCustom.id = id;
-        localPlayer->guiCustom.event = tag;
+        localPlayer->guiCustom.event = event;
         localPlayer->guiCustom.data = data;
 
         collectFields();
@@ -89,6 +89,9 @@ namespace mwmp
     }
 
     void GUICustom::prepareList(MyGUI::ListBox* listBox) {
+        if (!listBox->getUserString(MOUSE_CLICK).empty()) {
+            listBox->eventListMouseItemActivate = newDelegate(this, &GUICustom::listMouseItemActivate);
+        }
         if (listBox->getUserString(LIST).empty()) return;
         size_t children = listBox->getChildCount();
         for (size_t i = 0; i < children; i++) {
@@ -119,10 +122,17 @@ namespace mwmp
     }
 
     void GUICustom::mouseClick(MyGUI::Widget* _sender) {
-        std::string tag = _sender->getUserString(MOUSE_CLICK);
+        std::string event = _sender->getUserString(MOUSE_CLICK);
         std::string data = "";
-        log(MOUSE_CLICK, tag, data);
-        send(tag, data);
+        log(MOUSE_CLICK, event, data);
+        send(event, data);
+    }
+
+    void GUICustom::listMouseItemActivate(MyGUI::ListBox* _sender, size_t _index) {
+        std::string event = _sender->getUserString(MOUSE_CLICK);
+        std::string data = "";
+        log(MOUSE_CLICK, event, data);
+        send(event, data);
     }
 
     void GUICustom::collectFields() {
