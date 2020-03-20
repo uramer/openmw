@@ -209,7 +209,7 @@ public:
             {"OnPlayerSendMessage",      Callback<unsigned short, const char*>()},
             {"OnPlayerEndCharGen",       Callback<unsigned short>()},
             {"OnGUIAction",              Callback<unsigned short, int, const char*>()},
-            {"OnGUIEvent",               Callback<unsigned short, const char*, const char*>()},
+            {"OnGUICustom",              Callback<unsigned short, int, const char*, const char*>()},
             {"OnWorldKillCount",         Callback<unsigned short>()},
             {"OnWorldMap",               Callback<unsigned short>()},
             {"OnWorldWeather",           Callback<unsigned short>()},

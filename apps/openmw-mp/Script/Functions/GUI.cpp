@@ -171,6 +171,7 @@ void GUIFunctions::GUICustom(unsigned short pid, int id, bool hide)
     GET_PLAYER(pid, player, );
 
     player->guiCustom.id = id;
+    player->guiCustom.event = "";
     player->guiCustom.hide = hide;
 
     mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
@@ -183,21 +184,21 @@ void GUIFunctions::SetGUILayout(unsigned short pid, const char* layout) {
     Player* player;
     GET_PLAYER(pid, player, );
 
-    player->guiCustom.layout = layout;
+    player->guiCustom.data = layout;
 }
 
 void GUIFunctions::ClearGUIProperties(unsigned short pid) {
     Player* player;
     GET_PLAYER(pid, player, );
 
-    player->guiCustom.properties.clear();
+    player->guiCustom.fields.clear();
 }
 
 void GUIFunctions::SetGUIProperty(unsigned short pid, const char* key, const char* value) {
     Player* player;
     GET_PLAYER(pid, player, );
 
-    player->guiCustom.properties.push_back(std::make_pair(key, value));
+    player->guiCustom.fields.push_back(std::make_pair(key, value));
 }
 
 unsigned int GUIFunctions::GetGUIFieldsSize(unsigned short pid) noexcept
@@ -205,7 +206,7 @@ unsigned int GUIFunctions::GetGUIFieldsSize(unsigned short pid) noexcept
     Player* player;
     GET_PLAYER(pid, player, 0);
 
-    return player->guiEvent.fields.size();
+    return player->guiCustom.fields.size();
 }
 
 const char* GUIFunctions::GetGUIFieldKey(unsigned short pid, unsigned int index) noexcept
@@ -213,7 +214,7 @@ const char* GUIFunctions::GetGUIFieldKey(unsigned short pid, unsigned int index)
     Player* player;
     GET_PLAYER(pid, player, "");
 
-    return player->guiEvent.fields[index].first.c_str();
+    return player->guiCustom.fields[index].first.c_str();
 }
 
 const char* GUIFunctions::GetGUIFieldValue(unsigned short pid, unsigned int index) noexcept
@@ -221,7 +222,7 @@ const char* GUIFunctions::GetGUIFieldValue(unsigned short pid, unsigned int inde
     Player* player;
     GET_PLAYER(pid, player, "");
 
-    return player->guiEvent.fields[index].second.c_str();
+    return player->guiCustom.fields[index].second.c_str();
 }
 
 // All methods below are deprecated versions of methods from above

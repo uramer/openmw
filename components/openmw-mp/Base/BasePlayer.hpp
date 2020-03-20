@@ -168,20 +168,13 @@ namespace mwmp
             std::string data;
         };
 
-        typedef std::vector<std::pair<std::string, std::string>> PropertyList;
+        typedef std::vector<std::pair<std::string, std::string>> FieldList;
         struct GUICustom
         {
             int id;
             bool hide;
-            std::string layout;
-            PropertyList properties;
-        };
-
-        typedef std::vector<std::pair<std::string, std::string>> FieldList;
-        struct GUIEvent
-        {
-            std::string tag;
             std::string data;
+            std::string event;
             FieldList fields;
         };
 
@@ -205,7 +198,6 @@ namespace mwmp
 
         GUIMessageBox guiMessageBox;
         GUICustom guiCustom;
-        GUIEvent guiEvent;
 
         // Track only the indexes of the attributes that have been changed,
         // with the attribute values themselves being stored in creatureStats.mAttributes

@@ -13,8 +13,9 @@ namespace mwmp
     {
         friend class GUIController;
         public:
-            GUICustom(const std::string& layout);
+            GUICustom(int id, const std::string& layout);
         private:
+            int id;
             static const std::string BUTTON_PRESSED;
             static const std::string MOUSE_CLICK;
             static const std::string FIELD;
@@ -24,7 +25,7 @@ namespace mwmp
             static void log(std::string event, std::string name, std::string data);
             void send(std::string tag, std::string data);
 
-            void updateProperties(BasePlayer::PropertyList properties);
+            void updateProperties(BasePlayer::FieldList properties);
 
             void traverse(MyGUI::Widget* widget);
             void attachEventHandlers(MyGUI::Widget* widget);

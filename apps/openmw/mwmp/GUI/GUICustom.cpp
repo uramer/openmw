@@ -19,8 +19,9 @@ namespace mwmp
     const std::string GUICustom::ROW = "Row";
     const std::string GUICustom::BIND = "Bind:";
 
-    GUICustom::GUICustom(const std::string& layout): WindowBase(layout)
+    GUICustom::GUICustom(int id, const std::string& layout): WindowBase(layout)
     {
+        this->id = id;
         for (MyGUI::Widget* widget : mListWindowRoot)
         {
             traverse(widget);
@@ -38,16 +39,17 @@ namespace mwmp
         LocalPlayer* localPlayer = Main::get().getLocalPlayer();
         Networking* networking = Main::get().getNetworking();
 
-        localPlayer->guiEvent.tag = tag;
-        localPlayer->guiEvent.data = data;
+        localPlayer->guiCustom.id = id;
+        localPlayer->guiCustom.event = tag;
+        localPlayer->guiCustom.data = data;
 
         collectFields();
 
-        networking->getPlayerPacket(ID_GUI_EVENT)->setPlayer(localPlayer);
-        networking->getPlayerPacket(ID_GUI_EVENT)->Send();
+        networking->getPlayerPacket(ID_GUI_CUSTOM)->setPlayer(localPlayer);
+        networking->getPlayerPacket(ID_GUI_CUSTOM)->Send();
     }
 
-    void GUICustom::updateProperties(BasePlayer::PropertyList properties) {
+    void GUICustom::updateProperties(BasePlayer::FieldList properties) {
         for (auto property : properties) {
             if (propertyMap.find(property.first) == propertyMap.end()) continue;
             auto match = propertyMap[property.first];
@@ -125,7 +127,7 @@ namespace mwmp
 
     void GUICustom::collectFields() {
         LocalPlayer* localPlayer = Main::get().getLocalPlayer();
-        localPlayer->guiEvent.fields.clear();
+        localPlayer->guiCustom.fields.clear();
 
         for (auto widgetIterator: fieldWidgets) {
             std::string key = widgetIterator.first;
@@ -142,7 +144,7 @@ namespace mwmp
                 if (index != MyGUI::ITEM_NONE)
                     value = std::to_string(index);
             }
-            localPlayer->guiEvent.fields.push_back(make_pair(key, value));
+            localPlayer->guiCustom.fields.push_back(make_pair(key, value));
         }
     }
 }

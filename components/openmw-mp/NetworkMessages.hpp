@@ -114,8 +114,7 @@ enum GameMessages
     ID_ACTOR_SPELLS_ACTIVE,
     ID_PLACEHOLDER,
 
-    ID_GUI_CUSTOM,
-    ID_GUI_EVENT
+    ID_GUI_CUSTOM
 };
 
 enum OrderingChannel

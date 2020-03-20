@@ -15,10 +15,8 @@ namespace mwmp
 
         void Do(PlayerPacket &packet, Player &player) override
         {
-            DEBUG_PRINTF(strPacketID.c_str());
-
-            Script::Call<Script::CallbackIdentity("OnGUIAction")>(
-                player.getId(), (int)player.guiMessageBox.id, player.guiMessageBox.data.c_str());
+            Script::Call<Script::CallbackIdentity("OnGUICustom")>(
+                player.getId(), player.guiCustom.id, player.guiCustom.event.c_str(), player.guiCustom.data.c_str());
         }
     };
 }

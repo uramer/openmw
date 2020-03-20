@@ -14,16 +14,17 @@ void PacketGUICustom::Packet(RakNet::BitStream *newBitstream, bool send)
     PlayerPacket::Packet(newBitstream, send);
 
     RW(player->guiCustom.id, send);
-    RW(player->guiCustom.layout, send, true);
+    RW(player->guiCustom.event, send, true);
+    RW(player->guiCustom.data, send, true);
     RW(player->guiCustom.hide, send);
 
-    uint32_t propertyCount = static_cast<uint32_t>(player->guiCustom.properties.size());
+    uint32_t propertyCount = static_cast<uint32_t>(player->guiCustom.fields.size());
     RW(propertyCount, send);
     std::string mapIndex;
     std::string mapValue;
     if (send)
     {
-        for (auto value : player->guiCustom.properties)
+        for (auto value : player->guiCustom.fields)
         {
             mapIndex = value.first;
             mapValue = value.second;
@@ -33,12 +34,12 @@ void PacketGUICustom::Packet(RakNet::BitStream *newBitstream, bool send)
     }
     else
     {
-        player->guiCustom.properties.clear();
+        player->guiCustom.fields.clear();
         for (uint32_t n = 0; n < propertyCount; n++)
         {
             RW(mapIndex, send, true);
             RW(mapValue, send, true);
-            player->guiCustom.properties.push_back(make_pair(mapIndex, mapValue));
+            player->guiCustom.fields.push_back(make_pair(mapIndex, mapValue));
         }
     }
 }

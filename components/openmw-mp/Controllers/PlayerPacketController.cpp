@@ -3,7 +3,6 @@
 #include "../Packets/Player/PacketPlayerCharGen.hpp"
 #include "../Packets/Player/PacketGUIBoxes.hpp"
 #include "../Packets/Player/PacketGUICustom.hpp"
-#include "../Packets/Player/PacketGUIEvent.hpp"
 #include "../Packets/Player/PacketLoaded.hpp"
 #include "../Packets/Player/PacketGameSettings.hpp"
 #include "../Packets/Player/PacketPlayerSpellsActive.hpp"
@@ -59,7 +58,6 @@ mwmp::PlayerPacketController::PlayerPacketController(RakNet::RakPeerInterface *p
     AddPacket<PacketChatMessage>(&packets, peer);
     AddPacket<PacketGUIBoxes>(&packets, peer);
     AddPacket<PacketGUICustom>(&packets, peer);
-    AddPacket<PacketGUIEvent>(&packets, peer);
     AddPacket<PacketLoaded>(&packets, peer);
     AddPacket<PacketGameSettings>(&packets, peer);
     AddPacket<PacketPlayerSpellsActive>(&packets, peer);

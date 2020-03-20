@@ -20,7 +20,7 @@ namespace mwmp
             if (isLocal())
             {
                 LOG_MESSAGE_SIMPLE(TimedLog::LOG_INFO, "ID_GUI_CUSTOM, Type %d, MSG %s", player->guiCustom.id,
-                                   player->guiCustom.layout.c_str());
+                                   player->guiCustom.data.c_str());
 
                 Main::get().getGUIController()->processCustom(player->guiCustom);
             }
