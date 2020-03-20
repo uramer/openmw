@@ -138,6 +138,11 @@ namespace mwmp
         bool hasCloseSound = false;
 
         bool hasScriptText = false;
+
+        bool hasHasAmbi = true;
+        bool hasAmbientColor = true;
+        bool hasSunlightColor = true;
+        bool hasFog = true;
     };
 
     struct ActivatorRecord

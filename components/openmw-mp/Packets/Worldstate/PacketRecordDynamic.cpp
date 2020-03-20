@@ -495,6 +495,23 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
 
             RW(record.baseId, send, true);
             RW(recordData.mName, send, true);
+            RW(recordData.mHasAmbi, send, true);
+            // don't send ambient lighting information to fix black lighting in cell records that lack this information
+            if (recordData.mHasAmbi) {
+                RW(recordData.mAmbi.mAmbient, send, true);
+                RW(recordData.mAmbi.mSunlight, send, true);
+                RW(recordData.mAmbi.mFog, send, true);
+                RW(recordData.mAmbi.mFogDensity, send, true);
+            }
+
+            if (!record.baseId.empty())
+            {
+                auto&& overrides = record.baseOverrides;
+                RW(overrides.hasHasAmbi, send);
+                RW(overrides.hasAmbientColor, send);
+                RW(overrides.hasSunlightColor, send);
+                RW(overrides.hasFog, send);
+            }
         }
     }
     else if (worldstate->recordsType == mwmp::RECORD_TYPE::CONTAINER)

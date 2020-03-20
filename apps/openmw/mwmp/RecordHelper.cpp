@@ -351,6 +351,17 @@ void RecordHelper::overrideRecord(const mwmp::CellRecord& record)
         finalData.mName = recordData.mName;
         finalData.mCellId.mWorldspace = Misc::StringUtils::lowerCase(recordData.mName);
 
+        if (record.baseOverrides.hasHasAmbi)
+            finalData.mHasAmbi= recordData.mHasAmbi;
+        if (record.baseOverrides.hasAmbientColor)
+            finalData.mAmbi.mAmbient = recordData.mAmbi.mAmbient;
+        if (record.baseOverrides.hasSunlightColor)
+            finalData.mAmbi.mSunlight = recordData.mAmbi.mSunlight;
+        if (record.baseOverrides.hasFog) {
+            finalData.mAmbi.mFog = recordData.mAmbi.mFog;
+            finalData.mAmbi.mFogDensity = recordData.mAmbi.mFogDensity;
+        }
+
         world->unloadCell(finalData);
         world->clearCellStore(finalData);
         world->getModifiableStore().overrideRecord(finalData);

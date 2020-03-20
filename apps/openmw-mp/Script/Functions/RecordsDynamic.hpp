@@ -104,6 +104,11 @@
     \
     {"SetRecordScriptText",                     RecordsDynamicFunctions::SetRecordScriptText},\
     \
+    {"SetRecordHasAmbient",                     RecordsDynamicFunctions::SetRecordHasAmbient},\
+    {"SetRecordAmbientColor",                   RecordsDynamicFunctions::SetRecordAmbientColor},\
+    {"SetRecordSunlightColor",                  RecordsDynamicFunctions::SetRecordSunlightColor},\
+    {"SetRecordFog",                            RecordsDynamicFunctions::SetRecordFog},\
+    \
     {"SetRecordIdByIndex",                      RecordsDynamicFunctions::SetRecordIdByIndex},\
     {"SetRecordEnchantmentIdByIndex",           RecordsDynamicFunctions::SetRecordEnchantmentIdByIndex},\
     \
@@ -875,6 +880,43 @@ public:
     * \return void
     */
     static void SetRecordScriptText(const char* scriptText) noexcept;
+
+    /**
+    * \brief Set the has ambient of the temporary record stored on the server for the
+    * currently specified record type.
+    *
+    * \param bool Has ambient of the record
+    * \return void
+    */
+    static void SetRecordHasAmbient(bool hasAmbi) noexcept;
+
+    /**
+    * \brief Set the ambient color of the temporary record stored on the server for the
+    * currently specified record type.
+    *
+    * \param color Ambient color of the record
+    * \return void
+    */
+    static void SetRecordAmbientColor(unsigned int red, unsigned int green, unsigned int blue) noexcept;
+
+    /**
+    * \brief Set the sunlight color of the temporary record stored on the server for the
+    * currently specified record type.
+    *
+    * \param color Sunlight color of the record
+    * \return void
+    */
+    static void SetRecordSunlightColor(unsigned int red, unsigned int green, unsigned int blue) noexcept;
+
+    /**
+    * \brief Set the fog of the temporary record stored on the server for the
+    * currently specified record type.
+    *
+    * \param color Fog color of the record
+    * \param density Fog density of the record 
+    * \return void
+    */
+    static void SetRecordFog(unsigned int red, unsigned int green, unsigned int blue, double density) noexcept;
 
     /**
     * \brief Set the id of the record at a certain index in the records stored on the server.

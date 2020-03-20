@@ -1465,6 +1465,71 @@ void RecordsDynamicFunctions::SetRecordScriptText(const char* scriptText) noexce
     tempOverrides.hasScriptText = true;
 }
 
+void RecordsDynamicFunctions::SetRecordHasAmbient(bool hasAmbi) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        tempCell.data.mHasAmbi = hasAmbi;
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set has ambient for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasHasAmbi = true;
+}
+
+void RecordsDynamicFunctions::SetRecordAmbientColor(unsigned int red, unsigned int green, unsigned int blue) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        tempCell.data.mAmbi.mAmbient = red + (green << 8) + (blue << 16);
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set ambient color for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasAmbientColor = true;
+}
+
+void RecordsDynamicFunctions::SetRecordSunlightColor(unsigned int red, unsigned int green, unsigned int blue) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        tempCell.data.mAmbi.mSunlight = red + (green << 8) + (blue << 16);
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set ambient color for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasSunlightColor = true;
+}
+
+void RecordsDynamicFunctions::SetRecordFog(unsigned int red, unsigned int green, unsigned int blue, double density) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        tempCell.data.mAmbi.mFog = red + (green << 8) + (blue << 16);
+        tempCell.data.mAmbi.mFogDensity = density;
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set ambient color for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasFog = true;
+}
+
 void RecordsDynamicFunctions::SetRecordIdByIndex(unsigned int index, const char* id) noexcept
 {
     unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
