@@ -3,6 +3,7 @@
 #include <MyGUI_Widget.h>
 #include <MyGUI_EditBox.h>
 #include <MyGUI_ListBox.h>
+#include <MyGUI_RenderManager.h>
 
 #include "../Networking.hpp"
 #include "../Main.hpp"
@@ -20,10 +21,53 @@ namespace mwmp
     GUICustom::GUICustom(int id, const std::string& layout): WindowBase(layout)
     {
         this->id = id;
-        for (MyGUI::Widget* widget : mListWindowRoot)
-        {
+        for (MyGUI::Widget* widget : mListWindowRoot) {
             traverse(widget);
         }
+        positionRelatively();
+    }
+
+    void GUICustom::positionRelatively() {
+        std::string relativePosition = mMainWidget->getUserString("RelativePosition");
+        if (relativePosition.empty()) return;
+
+        int anchorX = 0;
+        int anchorY = 0;
+        std::string anchor = mMainWidget->getUserString("Anchor");
+        if (!anchor.empty()) {
+            try {
+                size_t posX = anchor.find(" ");
+                if (posX != std::string::npos) {
+                    anchorX = std::stoi(anchor.substr(0, posX));
+                    anchorY = std::stoi(anchor.substr(posX + 1));
+                }
+            }
+            catch (std::exception e) {
+                LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Custom UI: Anchor property format error: %s", e.what());
+            }
+        }
+        
+        
+        int positionX = 0;
+        int positionY = 0;
+        try {
+            size_t posX = relativePosition.find(" ");
+            if (posX != std::string::npos) {
+                positionX = std::stoi(relativePosition.substr(0, posX));
+                positionY = std::stoi(relativePosition.substr(posX + 1));
+            }
+        }
+        catch (std::exception e) {
+            LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Custom UI: RelativePosition property format error: %s", e.what());
+        }
+
+        MyGUI::IntSize layerSize = MyGUI::RenderManager::getInstance().getViewSize();
+        if (mMainWidget->getLayer()) layerSize = mMainWidget->getLayer()->getSize();
+
+        MyGUI::IntCoord coord = mMainWidget->getCoord();
+        coord.left = layerSize.width * (positionX * 0.01) - anchorX;
+        coord.top = layerSize.height * (positionY * 0.01) - anchorY;
+        mMainWidget->setCoord(coord);
     }
 
     void GUICustom::log(std::string event, std::string name, std::string data) {

@@ -24,6 +24,7 @@ namespace mwmp
             void send(std::string event, std::string data);
 
             void updateProperties(BasePlayer::FieldList properties);
+            void positionRelatively();
 
             void traverse(MyGUI::Widget* widget);
             template<class T>
