@@ -191,7 +191,7 @@ public:
     */
     static void SetMapVisibilityAll(unsigned short targetPid, unsigned short state) noexcept;
 
-    static void GUICustom(unsigned short pid, int id, bool hide);
+    static void GUICustom(unsigned short pid, int id, bool hide, bool background);
     static void SetGUILayout(unsigned short pid, const char* layout);
     static void ClearGUIProperties(unsigned short pid);
     static void SetGUIProperty(unsigned short pid, const char* key, const char* value);

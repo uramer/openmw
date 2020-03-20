@@ -165,7 +165,7 @@ void GUIFunctions::SetMapVisibilityAll(unsigned short targetPid, unsigned short 
     LOG_MESSAGE(TimedLog::LOG_WARN, "stub");
 }
 
-void GUIFunctions::GUICustom(unsigned short pid, int id, bool hide)
+void GUIFunctions::GUICustom(unsigned short pid, int id, bool hide, bool background)
 {
     Player* player;
     GET_PLAYER(pid, player, );
@@ -173,6 +173,7 @@ void GUIFunctions::GUICustom(unsigned short pid, int id, bool hide)
     player->guiCustom.id = id;
     player->guiCustom.event = "";
     player->guiCustom.hide = hide;
+    player->guiCustom.guiMode = !background;
 
     mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
     packet->setPlayer(player);

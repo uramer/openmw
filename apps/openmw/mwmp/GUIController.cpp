@@ -203,7 +203,7 @@ void mwmp::GUIController::processCustom(const BasePlayer::GUICustom& guiCustom)
     if (!guiCustom.hide) {
         if (!guiCustom.data.empty()) {
             if(oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
-            windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
+            if(guiCustom.guiMode) windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
             auto filename = storeLayout(guiCustom.id, guiCustom.data);
             mCustom[guiCustom.id] = new GUICustom(guiCustom.id, filename);
             mCustom[guiCustom.id]->setVisible(true);
@@ -212,7 +212,7 @@ void mwmp::GUIController::processCustom(const BasePlayer::GUICustom& guiCustom)
     }
     else {
         if (oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
-        if (windowManager->isGuiMode()) {
+        if (guiCustom.guiMode && windowManager->isGuiMode()) {
             windowManager->popGuiMode();
         }
         mCustom.erase(guiCustom.id);

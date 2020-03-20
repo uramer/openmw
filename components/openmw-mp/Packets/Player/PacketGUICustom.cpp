@@ -17,6 +17,7 @@ void PacketGUICustom::Packet(RakNet::BitStream *newBitstream, bool send)
     RW(player->guiCustom.event, send, true);
     RW(player->guiCustom.data, send, true);
     RW(player->guiCustom.hide, send);
+    RW(player->guiCustom.guiMode, send);
 
     uint32_t propertyCount = static_cast<uint32_t>(player->guiCustom.fields.size());
     RW(propertyCount, send);
