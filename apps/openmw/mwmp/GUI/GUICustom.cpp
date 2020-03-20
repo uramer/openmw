@@ -114,11 +114,11 @@ namespace mwmp
         }
     }
 
-    void GUICustom::buttonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode key, MyGUI::Char _char) {
-        std::string tag = _sender->getUserString(BUTTON_PRESSED);
-        std::string data = std::to_string(_char);
-        log(BUTTON_PRESSED, tag, data);
-        send(tag, data);
+    void GUICustom::buttonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char) {
+        std::string event = _sender->getUserString(BUTTON_PRESSED);
+        std::string data = std::to_string(_key.getValue());
+        log(BUTTON_PRESSED, event, data);
+        send(event, data);
     }
 
     void GUICustom::mouseClick(MyGUI::Widget* _sender) {
