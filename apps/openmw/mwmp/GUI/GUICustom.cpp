@@ -60,9 +60,8 @@ namespace mwmp
         attachEventHandlers<MyGUI::Widget>(widget);
         findFields(widget);
         findPropertyBindings(widget);
-        MyGUI::ListBox* listBox = dynamic_cast<MyGUI::ListBox*>(widget);
-        if (listBox != NULL) {
-            attachEventHandlers<MyGUI::ListBox>(listBox);
+        if (widget->isType<MyGUI::ListBox>()) {
+            attachEventHandlers<MyGUI::ListBox>(static_cast<MyGUI::ListBox*>(widget));
         }
 
         size_t children = widget->getChildCount();
@@ -139,16 +138,16 @@ namespace mwmp
             MyGUI::Widget* widget = widgetIterator.second;
             std::string value = "";
 
-            MyGUI::EditBox* editBox = dynamic_cast<MyGUI::EditBox*>(widget);
-            if (editBox != NULL)
-                value = editBox->getCaption().asUTF8();
+            if (widget->isType<MyGUI::EditBox>()) {
+                value = static_cast<MyGUI::EditBox*>(widget)->getCaption().asUTF8();
+            }
 
-            MyGUI::ListBox* listBox = dynamic_cast<MyGUI::ListBox*>(widget);
-            if (listBox != NULL) {
-                auto index = listBox->getIndexSelected();
+            if (widget->isType<MyGUI::ListBox>()) {
+                auto index = static_cast<MyGUI::ListBox*>(widget)->getIndexSelected();
                 if (index != MyGUI::ITEM_NONE)
                     value = std::to_string(index);
             }
+
             localPlayer->guiCustom.fields.push_back(make_pair(key, value));
         }
     }
