@@ -15,8 +15,6 @@ namespace mwmp
     const std::string GUICustom::BUTTON_PRESSED = "ButtonPressed";
     const std::string GUICustom::MOUSE_CLICK = "MouseClick";
     const std::string GUICustom::FIELD = "Field";
-    const std::string GUICustom::LIST = "List";
-    const std::string GUICustom::ROW = "Row";
     const std::string GUICustom::BIND = "Bind:";
 
     GUICustom::GUICustom(int id, const std::string& layout): WindowBase(layout)
@@ -59,11 +57,13 @@ namespace mwmp
     }
 
     void GUICustom::traverse(MyGUI::Widget* widget) {
-        attachEventHandlers(widget);
+        attachEventHandlers<MyGUI::Widget>(widget);
         findFields(widget);
         findPropertyBindings(widget);
         MyGUI::ListBox* listBox = dynamic_cast<MyGUI::ListBox*>(widget);
-        if (listBox != NULL) prepareList(listBox);
+        if (listBox != NULL) {
+            attachEventHandlers<MyGUI::ListBox>(listBox);
+        }
 
         size_t children = widget->getChildCount();
         for (size_t i = 0; i < children; i++) {
@@ -71,7 +71,8 @@ namespace mwmp
         }
     }
 
-    void GUICustom::attachEventHandlers(MyGUI::Widget* widget)
+    template<>
+    void GUICustom::attachEventHandlers<MyGUI::Widget>(MyGUI::Widget* widget)
     {
         if (!widget->getUserString(BUTTON_PRESSED).empty()) {
             widget->eventKeyButtonPressed = newDelegate(this, &GUICustom::buttonPressed);
@@ -81,25 +82,19 @@ namespace mwmp
         }
     }
 
+    template<>
+    void GUICustom::attachEventHandlers<MyGUI::ListBox>(MyGUI::ListBox* listBox)
+    {
+        if (!listBox->getUserString(MOUSE_CLICK).empty()) {
+            listBox->eventListMouseItemActivate = newDelegate(this, &GUICustom::listMouseItemActivate);
+            listBox->eventListSelectAccept = newDelegate(this, &GUICustom::listMouseItemActivate);
+        }
+    }
+
     void GUICustom::findFields(MyGUI::Widget* widget) {
         std::string key = widget->getUserString(FIELD);
         if (!key.empty()) {
             fieldWidgets[key] = widget;
-        }
-    }
-
-    void GUICustom::prepareList(MyGUI::ListBox* listBox) {
-        if (!listBox->getUserString(MOUSE_CLICK).empty()) {
-            listBox->eventListMouseItemActivate = newDelegate(this, &GUICustom::listMouseItemActivate);
-        }
-        if (listBox->getUserString(LIST).empty()) return;
-        size_t children = listBox->getChildCount();
-        for (size_t i = 0; i < children; i++) {
-            auto child = listBox->getChildAt(i);
-            std::string row = child->getUserString(ROW);
-            if (!row.empty()) {
-                listBox->addItem(row);
-            }
         }
     }
 

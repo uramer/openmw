@@ -19,8 +19,6 @@ namespace mwmp
             static const std::string BUTTON_PRESSED;
             static const std::string MOUSE_CLICK;
             static const std::string FIELD;
-            static const std::string LIST;
-            static const std::string ROW;
             static const std::string BIND;
             static void log(std::string event, std::string name, std::string data);
             void send(std::string event, std::string data);
@@ -28,10 +26,14 @@ namespace mwmp
             void updateProperties(BasePlayer::FieldList properties);
 
             void traverse(MyGUI::Widget* widget);
+            template<class T>
+            void attachEventHandlers(T* widget);
+            template<>
             void attachEventHandlers(MyGUI::Widget* widget);
+            template<>
+            void attachEventHandlers(MyGUI::ListBox* widget);
             std::map<std::string, MyGUI::Widget*> fieldWidgets;
             void findFields(MyGUI::Widget* widget);
-            void prepareList(MyGUI::ListBox* listBox);
             std::map<std::string, std::pair<MyGUI::Widget*, std::string>> propertyMap;
             void findPropertyBindings(MyGUI::Widget* widget);
 
