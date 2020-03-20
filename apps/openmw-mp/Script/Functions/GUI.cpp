@@ -170,10 +170,26 @@ void GUIFunctions::GUICustom(unsigned short pid, int id, bool hide, bool backgro
     Player* player;
     GET_PLAYER(pid, player, );
 
+    player->guiCustom.resource = false;
     player->guiCustom.id = id;
     player->guiCustom.event = "";
     player->guiCustom.hide = hide;
     player->guiCustom.guiMode = !background;
+
+    mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
+    packet->setPlayer(player);
+
+    packet->Send(false);
+}
+
+void GUIFunctions::GUIResource(unsigned short pid, const char* name, const char* resource)
+{
+    Player* player;
+    GET_PLAYER(pid, player, );
+
+    player->guiCustom.resource = true;
+    player->guiCustom.event = name;
+    player->guiCustom.data = resource;
 
     mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
     packet->setPlayer(player);

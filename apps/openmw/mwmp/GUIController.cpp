@@ -198,24 +198,30 @@ void mwmp::GUIController::onInputBoxDone(MWGui::WindowBase *parWindow)
 
 void mwmp::GUIController::processCustom(const BasePlayer::GUICustom& guiCustom)
 {
-    MWBase::WindowManager* windowManager = MWBase::Environment::get().getWindowManager();
-    auto oldWindow = mCustom.find(guiCustom.id);
-    if (!guiCustom.hide) {
-        if (!guiCustom.data.empty()) {
-            if(oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
-            if(guiCustom.guiMode) windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
-            auto filename = storeLayout(guiCustom.id, guiCustom.data);
-            mCustom[guiCustom.id] = new GUICustom(guiCustom.id, filename);
-            mCustom[guiCustom.id]->setVisible(true);
-        }
-        if(mCustom.count(guiCustom.id) > 0) mCustom[guiCustom.id]->updateProperties(guiCustom.fields);
+    if (guiCustom.resource) {
+        std::string filename = storeResource(guiCustom.event, guiCustom.data);
+        MyGUI::ResourceManager::getInstance().load(filename);
     }
     else {
-        if (oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
-        if (guiCustom.guiMode && windowManager->isGuiMode()) {
-            windowManager->popGuiMode();
+        MWBase::WindowManager* windowManager = MWBase::Environment::get().getWindowManager();
+        auto oldWindow = mCustom.find(guiCustom.id);
+        if (!guiCustom.hide) {
+            if (!guiCustom.data.empty()) {
+                if (oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
+                if (guiCustom.guiMode) windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
+                auto filename = storeLayout(guiCustom.id, guiCustom.data);
+                mCustom[guiCustom.id] = new GUICustom(guiCustom.id, filename);
+                mCustom[guiCustom.id]->setVisible(true);
+            }
+            if (mCustom.count(guiCustom.id) > 0) mCustom[guiCustom.id]->updateProperties(guiCustom.fields);
         }
-        mCustom.erase(guiCustom.id);
+        else {
+            if (oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
+            if (guiCustom.guiMode && windowManager->isGuiMode()) {
+                windowManager->popGuiMode();
+            }
+            mCustom.erase(guiCustom.id);
+        }
     }
 }
 
@@ -295,6 +301,21 @@ std::string mwmp::GUIController::storeLayout(int id, std::string layout)
     out << layout;
     out.close();
     return layout_name;
+}
+
+std::string mwmp::GUIController::storeResource(std::string name, std::string source)
+{
+    auto full_path = boost::filesystem::current_path();
+    for (char c : name) {
+        if (!(std::isalnum(c) || c == '_'))
+            throw std::exception("Custom UI: Illegal character in resource name.");
+    }
+    std::string file_name = "tes3mp_custom/" + name + ".xml";
+    full_path /= "/resources/mygui/" + file_name;
+    boost::filesystem::ofstream out(full_path);
+    out << source;
+    out.close();
+    return file_name;
 }
 
 class MarkerWidget: public MyGUI::Widget

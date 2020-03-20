@@ -13,9 +13,11 @@ void PacketGUICustom::Packet(RakNet::BitStream *newBitstream, bool send)
 {
     PlayerPacket::Packet(newBitstream, send);
 
-    RW(player->guiCustom.id, send);
+    RW(player->guiCustom.resource, send);
     RW(player->guiCustom.event, send, true);
     RW(player->guiCustom.data, send, true);
+    if (player->guiCustom.resource) return;
+    RW(player->guiCustom.id, send);
     RW(player->guiCustom.hide, send);
     RW(player->guiCustom.guiMode, send);
 

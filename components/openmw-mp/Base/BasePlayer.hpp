@@ -174,6 +174,7 @@ namespace mwmp
             int id;
             bool hide;
             bool guiMode;
+            bool resource;
             std::string data;
             std::string event;
             FieldList fields;

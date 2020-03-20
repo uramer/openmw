@@ -72,7 +72,7 @@ namespace mwmp
 
     void GUICustom::log(std::string event, std::string name, std::string data) {
         LOG_MESSAGE_SIMPLE(
-            TimedLog::LOG_VERBOSE, "Custom GUI event: %s, tag: %s, data: %s",
+            TimedLog::LOG_VERBOSE, "Custom UI: event %s, tag: %s, data: %s",
             event.c_str(), name.c_str(), data.c_str()
         );
     }
