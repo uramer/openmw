@@ -36,6 +36,9 @@
 #include "DedicatedPlayer.hpp"
 #include "PlayerList.hpp"
 
+#include "GUI\MPEditBox.hpp"
+#include "GUI\MPAutoSizedButton.hpp"
+
 
 mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0)
 {
@@ -56,6 +59,11 @@ void mwmp::GUIController::cleanUp()
     if (mChat != nullptr)
         delete mChat;
     mChat = nullptr;
+}
+
+void mwmp::GUIController::registerWidgets() {
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPEditBox>("Widget");
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPAutoSizedButton>("Widget");
 }
 
 void mwmp::GUIController::refreshGuiMode(MWGui::GuiMode guiMode)
@@ -213,7 +221,7 @@ void mwmp::GUIController::processCustom(const BasePlayer::GUICustom& guiCustom)
                 mCustom[guiCustom.id] = new GUICustom(guiCustom.id, filename);
                 mCustom[guiCustom.id]->setVisible(true);
             }
-            if (mCustom.count(guiCustom.id) > 0) mCustom[guiCustom.id]->updateProperties(guiCustom.fields);
+            if (mCustom.count(guiCustom.id) > 0) mCustom[guiCustom.id]->updateProps(guiCustom.fields);
         }
         else {
             if (oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);

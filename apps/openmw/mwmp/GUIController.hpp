@@ -34,6 +34,8 @@ namespace mwmp
         ~GUIController();
         void cleanUp();
 
+        void registerWidgets();
+
         void refreshGuiMode(MWGui::GuiMode guiMode);
 
         void setupChat();

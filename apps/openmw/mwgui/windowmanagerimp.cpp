@@ -239,6 +239,7 @@ namespace MWGui
         ItemWidget::registerComponents();
         SpellView::registerComponents();
         Gui::registerAllWidgets();
+        mwmp::Main::get().getGUIController()->registerWidgets();
 
         int fontSize = Settings::Manager::getInt("font size", "GUI");
         fontSize = std::min(std::max(12, fontSize), 20);
