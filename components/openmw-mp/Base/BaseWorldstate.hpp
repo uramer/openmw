@@ -139,11 +139,11 @@ namespace mwmp
 
         bool hasScriptText = false;
 
-        bool hasHasAmbi = false;
+        bool hasAmbiState = false;
         bool hasAmbientColor = false;
         bool hasSunlightColor = false;
         bool hasFog = false;
-        bool hasHasWater = false;
+        bool hasWaterState = false;
         bool hasWaterLevel = false;
 
     };

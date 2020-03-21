@@ -506,11 +506,11 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
             if (!record.baseId.empty())
             {
                 auto&& overrides = record.baseOverrides;
-                RW(overrides.hasHasAmbi, send);
+                RW(overrides.hasAmbiState, send);
                 RW(overrides.hasAmbientColor, send);
                 RW(overrides.hasSunlightColor, send);
                 RW(overrides.hasFog, send);
-                RW(overrides.hasHasWater, send);
+                RW(overrides.hasWaterState, send);
                 RW(overrides.hasWaterLevel, send);
             }
         }

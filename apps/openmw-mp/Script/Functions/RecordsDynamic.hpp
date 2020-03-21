@@ -884,10 +884,10 @@ public:
     static void SetRecordScriptText(const char* scriptText) noexcept;
 
     /**
-    * \brief Set the has ambient of the temporary record stored on the server for the
+    * \brief Set the ambient state of the temporary record stored on the server for the
     * currently specified record type.
     *
-    * \param bool Has ambient of the record
+    * \param bool Ambient state of the record
     * \return void
     */
     static void SetRecordHasAmbient(bool hasAmbi) noexcept;
@@ -921,10 +921,10 @@ public:
     static void SetRecordFog(unsigned int red, unsigned int green, unsigned int blue, double density) noexcept;
 
     /**
-    * \brief Set the has water of the temporary record stored on the server for the
+    * \brief Set the water state of the temporary record stored on the server for the
     * currently specified record type.
     *
-    * \param hasWater Has water of the record
+    * \param hasWater Water state of the record
     * \return void
     */
     static void SetRecordHasWater(bool hasWater) noexcept;

@@ -1478,7 +1478,7 @@ void RecordsDynamicFunctions::SetRecordHasAmbient(bool hasAmbi) noexcept
         return;
     }
 
-    tempOverrides.hasHasAmbi = true;
+    tempOverrides.hasAmbiState = true;
 }
 
 void RecordsDynamicFunctions::SetRecordAmbientColor(unsigned int red, unsigned int green, unsigned int blue) noexcept
@@ -1546,7 +1546,7 @@ void RecordsDynamicFunctions::SetRecordHasWater(bool hasWater) noexcept
         return;
     }
 
-    tempOverrides.hasHasWater = true;
+    tempOverrides.hasWaterState = true;
 }
 
 void RecordsDynamicFunctions::SetRecordWaterLevel(double waterLevel) noexcept

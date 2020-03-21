@@ -351,7 +351,7 @@ void RecordHelper::overrideRecord(const mwmp::CellRecord& record)
         finalData.mName = recordData.mName;
         finalData.mCellId.mWorldspace = Misc::StringUtils::lowerCase(recordData.mName);
 
-        if (record.baseOverrides.hasHasAmbi)
+        if (record.baseOverrides.hasAmbiState)
             finalData.mHasAmbi= recordData.mHasAmbi;
         if (record.baseOverrides.hasAmbientColor)
             finalData.mAmbi.mAmbient = recordData.mAmbi.mAmbient;
@@ -361,7 +361,7 @@ void RecordHelper::overrideRecord(const mwmp::CellRecord& record)
             finalData.mAmbi.mFog = recordData.mAmbi.mFog;
             finalData.mAmbi.mFogDensity = recordData.mAmbi.mFogDensity;
         }
-        if (record.baseOverrides.hasHasWater) {
+        if (record.baseOverrides.hasWaterState) {
             bool hasWater = recordData.mData.mFlags & ESM::Cell::Flags::HasWater;
             if (hasWater)
                 finalData.mData.mFlags |= ESM::Cell::Flags::HasWater;
