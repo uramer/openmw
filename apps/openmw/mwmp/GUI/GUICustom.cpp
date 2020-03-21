@@ -30,44 +30,20 @@ namespace mwmp
     }
 
     void GUICustom::positionRelatively() {
-        std::string relativePosition = mMainWidget->getUserString(RELATIVE_POSITION);
-        if (relativePosition.empty()) return;
+        std::string positionString = mMainWidget->getUserString(RELATIVE_POSITION);
+        if (positionString.empty()) return;
 
-        int anchorX = 0;
-        int anchorY = 0;
-        std::string anchor = mMainWidget->getUserString(ANCHOR);
-        if (!anchor.empty()) {
-            try {
-                size_t posX = anchor.find(" ");
-                if (posX != std::string::npos) {
-                    anchorX = std::stoi(anchor.substr(0, posX));
-                    anchorY = std::stoi(anchor.substr(posX + 1));
-                }
-            }
-            catch (std::exception e) {
-                LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Custom UI: Anchor property format error: %s", e.what());
-            }
-        }
+        std::string anchorString = mMainWidget->getUserString(ANCHOR);
+        MyGUI::FloatSize anchor = MyGUI::FloatSize::parse(anchorString);
         
-        int positionX = 0;
-        int positionY = 0;
-        try {
-            size_t posX = relativePosition.find(" ");
-            if (posX != std::string::npos) {
-                positionX = std::stoi(relativePosition.substr(0, posX));
-                positionY = std::stoi(relativePosition.substr(posX + 1));
-            }
-        }
-        catch (std::exception e) {
-            LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Custom UI: RelativePosition property format error: %s", e.what());
-        }
+        MyGUI::FloatSize position = MyGUI::FloatSize::parse(positionString);
 
         MyGUI::IntSize layerSize = MyGUI::RenderManager::getInstance().getViewSize();
         if (mMainWidget->getLayer()) layerSize = mMainWidget->getLayer()->getSize();
 
         MyGUI::IntCoord coord = mMainWidget->getCoord();
-        coord.left = layerSize.width * (positionX * 0.01) - anchorX;
-        coord.top = layerSize.height * (positionY * 0.01) - anchorY;
+        coord.left += layerSize.width * position.width - anchor.width * coord.width;
+        coord.top += layerSize.height * position.height - anchor.height * coord.height;
         mMainWidget->setCoord(coord);
     }
 
