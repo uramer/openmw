@@ -39,6 +39,7 @@
 #include "GUI/MPTextBox.hpp"
 #include "GUI/MPEditBox.hpp"
 #include "GUI/MPAutoSizedButton.hpp"
+#include "GUI/MPListBox.hpp"
 
 
 mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0)
@@ -66,6 +67,7 @@ void mwmp::GUIController::registerWidgets() {
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPTextBox>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPEditBox>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPAutoSizedButton>("Widget");
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPListBox>("Widget");
 }
 
 void mwmp::GUIController::refreshGuiMode(MWGui::GuiMode guiMode)
