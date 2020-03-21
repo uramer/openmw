@@ -6,8 +6,19 @@ namespace Gui
     const std::string MPWidget::FIELD = "Field";
     const char MPWidget::BIND = '=';
     const char MPWidget::EVENT = '@';
-    const std::string MPWidget::BUTTON_PRESS = "ButtonPress";
+    const char MPWidget::DELIMETER = '|';
+
+    const std::string MPWidget::BUTTON_DOWN = "ButtonDown";
+    const std::string MPWidget::BUTTON_UP = "ButtonUp";
+    const std::string MPWidget::MOUSE_DOWN = "MouseDown";
+    const std::string MPWidget::MOUSE_UP = "MouseUp";
     const std::string MPWidget::MOUSE_CLICK = "MouseClick";
+    const std::string MPWidget::MOUSE_DOUBLECLICK = "MouseDoubleClick";
+    const std::string MPWidget::MOUSE_WHEEL = "MouseWheel";
+    const std::string MPWidget::FOCUS = "Focus";
+    const std::string MPWidget::FOCUS_LOST = "FocusLost";
+    const std::string MPWidget::ROOT_FOCUS = "RootFocus";
+    const std::string MPWidget::ROOT_FOCUS_LOST = "RootFocusLost";
 
     bool MPWidget::hasField() {
         return !mFieldTag.empty();
@@ -64,25 +75,110 @@ namespace Gui
     }
 
     void MPWidget::bindEvent(ParsedProperty property, const std::string value) {
-        if (events.count(property.eventName) == 0) events[property.eventName] = {};
-        events[property.eventName][property.key] = make_pair(value, property.bind);
+        std::string event = property.eventName;
+        if (events.count(event) == 0) events[event] = {};
+        events[event][property.key] = make_pair(value, property.bind);
 
-        if (property.eventName == BUTTON_PRESS) {
-            if(widget->eventKeyButtonPressed.empty())
-                widget->eventKeyButtonPressed = MyGUI::newDelegate(this, &MPWidget::buttonPressed);
+        if (event == BUTTON_DOWN) {
+            if (widget->eventKeyButtonPressed.empty())
+                widget->eventKeyButtonPressed = MyGUI::newDelegate(this, &MPWidget::buttonDown);
         }
-        else if(property.eventName == MOUSE_CLICK) {
+        else if (event == BUTTON_UP) {
+            if (widget->eventKeyButtonReleased.empty())
+                widget->eventKeyButtonReleased = MyGUI::newDelegate(this, &MPWidget::buttonUp);
+        }
+        else if (event == MOUSE_DOWN) {
+            if (widget->eventMouseButtonPressed.empty())
+                widget->eventMouseButtonPressed = MyGUI::newDelegate(this, &MPWidget::mouseDown);
+        }
+        else if (event == MOUSE_UP) {
+            if (widget->eventMouseButtonReleased.empty())
+                widget->eventMouseButtonReleased = MyGUI::newDelegate(this, &MPWidget::mouseUp);
+        }
+        else if(event == MOUSE_CLICK) {
             if (widget->eventMouseButtonClick.empty())
-                widget->eventMouseButtonClick = MyGUI::newDelegate(this, &MPWidget::mouseClicked);
+                widget->eventMouseButtonClick = MyGUI::newDelegate(this, &MPWidget::mouseClick);
+        }
+        else if (event == MOUSE_DOUBLECLICK) {
+            if (widget->eventMouseButtonDoubleClick.empty())
+                widget->eventMouseButtonDoubleClick = MyGUI::newDelegate(this, &MPWidget::mouseDoubleClick);
+        }
+        else if (event == MOUSE_WHEEL) {
+            if (widget->eventMouseWheel.empty())
+                widget->eventMouseWheel = MyGUI::newDelegate(this, &MPWidget::mouseWheel);
+        }
+        else if (event == FOCUS) {
+            if(widget->eventMouseSetFocus.empty())
+                widget->eventMouseSetFocus = MyGUI::newDelegate(this, &MPWidget::focus);
+            if (widget->eventKeySetFocus.empty())
+                widget->eventKeySetFocus = MyGUI::newDelegate(this, &MPWidget::focus);
+        }
+        else if (event == FOCUS_LOST) {
+            if (widget->eventMouseLostFocus.empty())
+                widget->eventMouseLostFocus = MyGUI::newDelegate(this, &MPWidget::focusLost);
+            if (widget->eventKeyLostFocus.empty())
+                widget->eventKeyLostFocus = MyGUI::newDelegate(this, &MPWidget::focusLost);
+        }
+        else if (event == ROOT_FOCUS) {
+            if (widget->eventRootKeyChangeFocus.empty())
+                widget->eventRootKeyChangeFocus = MyGUI::newDelegate(this, &MPWidget::rootFocus);
+        }
+        else if (event == ROOT_FOCUS_LOST) {
+            if (widget->eventRootKeyChangeFocus.empty())
+                widget->eventRootKeyChangeFocus = MyGUI::newDelegate(this, &MPWidget::rootFocusLost);
         }
     }
 
-    void MPWidget::buttonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char) {
-        triggerEvent(BUTTON_PRESS, std::to_string(_key.getValue()));
+    void MPWidget::buttonDown(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char) {
+        triggerEvent(BUTTON_DOWN, std::to_string(_key.getValue()));
     }
 
-    void MPWidget::mouseClicked(MyGUI::Widget* _sender) {
+    void MPWidget::buttonUp(MyGUI::Widget* _sender, MyGUI::KeyCode _key) {
+        triggerEvent(BUTTON_UP, std::to_string(_key.getValue()));
+    }
+
+    void MPWidget::mouseDown(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id) {
+        std::ostringstream data;
+        data << _id.getValue() << DELIMETER << _left << DELIMETER << _top;
+        triggerEvent(MOUSE_DOWN, data.str());
+    }
+
+    void MPWidget::mouseUp(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id) {
+        std::ostringstream data;
+        data << _id.getValue() << DELIMETER << _left << DELIMETER << _top;
+        triggerEvent(MOUSE_UP, data.str());
+    }
+
+    void MPWidget::mouseClick(MyGUI::Widget* _sender) {
         triggerEvent(MOUSE_CLICK, "");
+    }
+
+    void MPWidget::mouseDoubleClick(MyGUI::Widget* _sender) {
+        triggerEvent(MOUSE_DOUBLECLICK, "");
+    }
+
+    void MPWidget::mouseWheel(MyGUI::Widget* _sender, int _rel) {
+        triggerEvent(MOUSE_WHEEL, std::to_string(_rel));
+    }
+
+    void MPWidget::focus(MyGUI::Widget* _sender, MyGUI::Widget* _old) {
+        triggerEvent(FOCUS, "");
+    }
+
+    void MPWidget::focusLost(MyGUI::Widget* _sender, MyGUI::Widget* _old) {
+        triggerEvent(FOCUS_LOST, "");
+    }
+
+    void MPWidget::rootFocus(MyGUI::Widget* _sender, bool _focus) {
+        if (_focus) {
+            triggerEvent(ROOT_FOCUS, "");
+        }
+    }
+
+    void MPWidget::rootFocusLost(MyGUI::Widget* _sender, bool _focus) {
+        if (!_focus) {
+            triggerEvent(ROOT_FOCUS_LOST, "");
+        }
     }
 
     void MPWidget::triggerEvent(const std::string eventName, const std::string data) {
