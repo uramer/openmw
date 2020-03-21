@@ -17,13 +17,14 @@ namespace Gui
     public:
         MyGUI::IntSize getRequestedSize();
         void setCaption(const MyGUI::UString& _value);
-        MPAutoSizedButton() : Gui::Button(), MPWidget() {
+        MPAutoSizedButton() : Gui::Button(), MPWidget(), mPadding(24, 8) {
             MPWidget::initialize(this);
         }
 
     protected:
         void setPropertyRaw(const std::string& _key, const std::string& _value);
         std::string mFontSize;
+        MyGUI::IntSize mPadding;
     };
 }
 #endif //OPENMW_MPAUTOSIZEDBUTTON_HPP

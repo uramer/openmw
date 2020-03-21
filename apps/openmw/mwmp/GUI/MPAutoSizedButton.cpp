@@ -4,12 +4,7 @@ namespace Gui
 {
     MyGUI::IntSize MPAutoSizedButton::getRequestedSize()
     {
-        MyGUI::IntSize padding(24, 8);
-        if (isUserString("TextPadding"))
-            padding = MyGUI::IntSize::parse(getUserString("TextPadding"));
-
-        MyGUI::IntSize size = getTextSize() + MyGUI::IntSize(padding.width, padding.height);
-        return size;
+        return getTextSize() + mPadding;
     }
 
     void MPAutoSizedButton::setCaption(const MyGUI::UString& _value)
@@ -22,6 +17,11 @@ namespace Gui
         if (_key == "ExpandDirection")
         {
             mExpandDirection = MyGUI::Align::parse(_value);
+        }
+        else if (_key == "TextPadding")
+        {
+            mPadding = MyGUI::IntSize::parse(_value);
+            notifySizeChange(this);
         }
         else
         {
