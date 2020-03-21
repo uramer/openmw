@@ -48,15 +48,15 @@ namespace Gui
             static std::string makePropertyKey(ParsedProperty property);
 
             std::string mFieldTag = "";
-            StringMap props;
-            StringMap binds;
+            StringMap mProps;
+            StringMap mBinds;
             typedef std::string EventName;
             typedef std::pair<std::string, bool> EventValueBind;
-            std::map<EventName, std::map<std::string, EventValueBind>> events;
+            std::map<EventName, std::map<std::string, EventValueBind>> mEvents;
 
             void initialize(MyGUI::Widget* widget);
 
-            void bindEvent(ParsedProperty property, const std::string value);
+            void bindEvent(const std::string event, const std::string value);
             void buttonDown(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char);
             void buttonUp(MyGUI::Widget* _sender, MyGUI::KeyCode _key);
             void mouseDown(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id);

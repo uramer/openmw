@@ -36,9 +36,9 @@ namespace Gui
         for (auto prop : newProps) {
             std::string tag = prop.first;
             std::string value = prop.second;
-            if (binds.count(tag) == 0) continue;
-            props[tag] = value;
-            widget->setProperty(binds[tag], value);
+            if (mBinds.count(tag) == 0) continue;
+            mProps[tag] = value;
+            widget->setProperty(mBinds[tag], value);
         }
     }
 
@@ -74,58 +74,41 @@ namespace Gui
         widget->setUserData(this);
     }
 
-    void MPWidget::bindEvent(ParsedProperty property, const std::string value) {
-        std::string event = property.eventName;
-        if (events.count(event) == 0) events[event] = {};
-        events[event][property.key] = make_pair(value, property.bind);
-
+    void MPWidget::bindEvent(const std::string event, const std::string value) {
         if (event == BUTTON_DOWN) {
-            if (widget->eventKeyButtonPressed.empty())
-                widget->eventKeyButtonPressed = MyGUI::newDelegate(this, &MPWidget::buttonDown);
+            widget->eventKeyButtonPressed += MyGUI::newDelegate(this, &MPWidget::buttonDown);
         }
         else if (event == BUTTON_UP) {
-            if (widget->eventKeyButtonReleased.empty())
-                widget->eventKeyButtonReleased = MyGUI::newDelegate(this, &MPWidget::buttonUp);
+            widget->eventKeyButtonReleased += MyGUI::newDelegate(this, &MPWidget::buttonUp);
         }
         else if (event == MOUSE_DOWN) {
-            if (widget->eventMouseButtonPressed.empty())
-                widget->eventMouseButtonPressed = MyGUI::newDelegate(this, &MPWidget::mouseDown);
+            widget->eventMouseButtonPressed += MyGUI::newDelegate(this, &MPWidget::mouseDown);
         }
         else if (event == MOUSE_UP) {
-            if (widget->eventMouseButtonReleased.empty())
-                widget->eventMouseButtonReleased = MyGUI::newDelegate(this, &MPWidget::mouseUp);
+            widget->eventMouseButtonReleased += MyGUI::newDelegate(this, &MPWidget::mouseUp);
         }
         else if(event == MOUSE_CLICK) {
-            if (widget->eventMouseButtonClick.empty())
-                widget->eventMouseButtonClick = MyGUI::newDelegate(this, &MPWidget::mouseClick);
+            widget->eventMouseButtonClick += MyGUI::newDelegate(this, &MPWidget::mouseClick);
         }
         else if (event == MOUSE_DOUBLECLICK) {
-            if (widget->eventMouseButtonDoubleClick.empty())
-                widget->eventMouseButtonDoubleClick = MyGUI::newDelegate(this, &MPWidget::mouseDoubleClick);
+            widget->eventMouseButtonDoubleClick += MyGUI::newDelegate(this, &MPWidget::mouseDoubleClick);
         }
         else if (event == MOUSE_WHEEL) {
-            if (widget->eventMouseWheel.empty())
-                widget->eventMouseWheel = MyGUI::newDelegate(this, &MPWidget::mouseWheel);
+            widget->eventMouseWheel += MyGUI::newDelegate(this, &MPWidget::mouseWheel);
         }
         else if (event == FOCUS) {
-            if(widget->eventMouseSetFocus.empty())
-                widget->eventMouseSetFocus = MyGUI::newDelegate(this, &MPWidget::focus);
-            if (widget->eventKeySetFocus.empty())
-                widget->eventKeySetFocus = MyGUI::newDelegate(this, &MPWidget::focus);
+            widget->eventMouseSetFocus += MyGUI::newDelegate(this, &MPWidget::focus);
+            widget->eventKeySetFocus += MyGUI::newDelegate(this, &MPWidget::focus);
         }
         else if (event == FOCUS_LOST) {
-            if (widget->eventMouseLostFocus.empty())
-                widget->eventMouseLostFocus = MyGUI::newDelegate(this, &MPWidget::focusLost);
-            if (widget->eventKeyLostFocus.empty())
-                widget->eventKeyLostFocus = MyGUI::newDelegate(this, &MPWidget::focusLost);
+            widget->eventMouseLostFocus += MyGUI::newDelegate(this, &MPWidget::focusLost);
+            widget->eventKeyLostFocus += MyGUI::newDelegate(this, &MPWidget::focusLost);
         }
         else if (event == ROOT_FOCUS) {
-            if (widget->eventRootKeyChangeFocus.empty())
-                widget->eventRootKeyChangeFocus = MyGUI::newDelegate(this, &MPWidget::rootFocus);
+            widget->eventRootKeyChangeFocus += MyGUI::newDelegate(this, &MPWidget::rootFocus);
         }
         else if (event == ROOT_FOCUS_LOST) {
-            if (widget->eventRootKeyChangeFocus.empty())
-                widget->eventRootKeyChangeFocus = MyGUI::newDelegate(this, &MPWidget::rootFocusLost);
+            widget->eventRootKeyChangeFocus += MyGUI::newDelegate(this, &MPWidget::rootFocusLost);
         }
     }
 
@@ -182,8 +165,8 @@ namespace Gui
     }
 
     void MPWidget::triggerEvent(const std::string eventName, const std::string data) {
-        if (events.count(eventName) == 0) return;
-        std::map<std::string, EventValueBind> properties = events[eventName];
+        if (mEvents.count(eventName) == 0) return;
+        std::map<std::string, EventValueBind> properties = mEvents[eventName];
         for (auto property : properties) {
             std::string key = property.first;
             std::string value = property.second.first;
@@ -195,8 +178,8 @@ namespace Gui
                 if (!bind) {
                     setPropertyRaw(key, value);
                 }
-                else if (props.count(value) > 0) {
-                    setPropertyRaw(key, props[value]);
+                else if (mProps.count(value) > 0) {
+                    setPropertyRaw(key, mProps[value]);
                 }
             }
         }
@@ -205,10 +188,13 @@ namespace Gui
     void MPWidget::setPropertyOverride(const std::string& _key, const std::string& _value) {
         ParsedProperty property = parseProperty(_key);
         if (property.bind) {
-            binds[_value] = makePropertyKey(property);
+            mBinds[_value] = makePropertyKey(property);
         }
         if (property.event) {
-            bindEvent(property, _value);
+            bool first = mEvents.count(property.eventName) == 0;
+            if (first) mEvents[property.eventName] = {};
+            mEvents[property.eventName][property.key] = make_pair(_value, property.bind);
+            if(first) bindEvent(property.eventName, _value);
         }
         if (!property.event && !property.bind) {
             setPropertyRaw(_key, _value);
