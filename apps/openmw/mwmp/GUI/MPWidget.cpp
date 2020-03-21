@@ -1,4 +1,5 @@
 #include "MPWidget.hpp"
+#include "MPSplitter.hpp"
 
 namespace Gui
 {
@@ -6,7 +7,6 @@ namespace Gui
     const std::string MPWidget::FIELD = "Field";
     const char MPWidget::BIND = '=';
     const char MPWidget::EVENT = '@';
-    const char MPWidget::DELIMETER = '|';
 
     const std::string MPWidget::BUTTON_DOWN = "ButtonDown";
     const std::string MPWidget::BUTTON_UP = "ButtonUp";
@@ -121,14 +121,14 @@ namespace Gui
     }
 
     void MPWidget::mouseDown(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id) {
-        std::ostringstream data;
-        data << _id.getValue() << DELIMETER << _left << DELIMETER << _top;
+        MPSplitter data;
+        data << _id.getValue() << _left << _top;
         triggerEvent(MOUSE_DOWN, data.str());
     }
 
     void MPWidget::mouseUp(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id) {
-        std::ostringstream data;
-        data << _id.getValue() << DELIMETER << _left << DELIMETER << _top;
+        MPSplitter data;
+        data << _id.getValue() << _left << _top;
         triggerEvent(MOUSE_UP, data.str());
     }
 

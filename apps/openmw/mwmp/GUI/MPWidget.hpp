@@ -14,7 +14,6 @@ namespace Gui
             static const std::string FIELD;
             static const char BIND;
             static const char EVENT;
-            static const char DELIMETER;
 
             static const std::string BUTTON_DOWN;
             static const std::string BUTTON_UP;
@@ -27,6 +26,8 @@ namespace Gui
             static const std::string FOCUS_LOST;
             static const std::string ROOT_FOCUS;
             static const std::string ROOT_FOCUS_LOST;
+
+            static std::vector<std::string> split(std::string text);
 
             typedef MyGUI::delegates::CMultiDelegate2<std::string, std::string> SendHandler;
             SendHandler eventSend;
