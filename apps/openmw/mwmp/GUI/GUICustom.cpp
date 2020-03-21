@@ -10,6 +10,7 @@
 #include "../LocalPlayer.hpp"
 
 #include <components/openmw-mp/TimedLog.hpp>
+#include <components\widgets\imagebutton.hpp>
 
 namespace mwmp
 {
@@ -83,6 +84,14 @@ namespace mwmp
         findPropertyBindings(widget);
         if (widget->isType<MyGUI::ListBox>()) {
             attachEventHandlers<MyGUI::ListBox>(static_cast<MyGUI::ListBox*>(widget));
+        }
+        if (widget->isType<Gui::ImageButton>()) {
+            auto button = static_cast<Gui::ImageButton*>(widget);
+            std::string textureRect = button->getUserString("TextureRect");
+            if (!textureRect.empty()) {
+                MyGUI::IntCoord coord = MyGUI::IntCoord::parse(textureRect);
+                button->setTextureRect(coord);
+            }
         }
 
         size_t children = widget->getChildCount();
