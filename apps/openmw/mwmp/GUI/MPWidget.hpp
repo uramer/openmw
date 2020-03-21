@@ -56,7 +56,7 @@ namespace Gui
 
             void initialize(MyGUI::Widget* widget);
 
-            void bindEvent(const std::string event, const std::string value);
+            virtual void bindEvent(const std::string event, const std::string value);
             void buttonDown(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char);
             void buttonUp(MyGUI::Widget* _sender, MyGUI::KeyCode _key);
             void mouseDown(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id);
@@ -76,4 +76,11 @@ namespace Gui
             MyGUI::Widget* widget;
     };
 }
+
+#define MP_DERIVED(className) \
+protected:\
+void setPropertyOverride(const std::string& _key, const std::string& _value) {\
+    MPWidget::setPropertyOverride(_key, _value);\
+}
+
 #endif //OPENMW_MPWIDGET_HPP

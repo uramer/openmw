@@ -12,6 +12,7 @@ namespace Gui
         public MPWidget
     {
         MYGUI_RTTI_DERIVED(MPAutoSizedButton)
+        MP_DERIVED(MPAutoSizedButton)
 
     public:
         MyGUI::IntSize getRequestedSize();
@@ -19,10 +20,8 @@ namespace Gui
         MPAutoSizedButton() : Gui::Button(), MPWidget() {
             MPWidget::initialize(this);
         }
-        std::string fieldValue();
 
     protected:
-        void setPropertyOverride(const std::string& _key, const std::string& _value);
         void setPropertyRaw(const std::string& _key, const std::string& _value);
         std::string mFontSize;
     };
