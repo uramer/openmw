@@ -36,8 +36,9 @@
 #include "DedicatedPlayer.hpp"
 #include "PlayerList.hpp"
 
-#include "GUI\MPEditBox.hpp"
-#include "GUI\MPAutoSizedButton.hpp"
+#include "GUI/MPTextBox.hpp"
+#include "GUI/MPEditBox.hpp"
+#include "GUI/MPAutoSizedButton.hpp"
 
 
 mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0)
@@ -62,6 +63,7 @@ void mwmp::GUIController::cleanUp()
 }
 
 void mwmp::GUIController::registerWidgets() {
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPTextBox>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPEditBox>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPAutoSizedButton>("Widget");
 }

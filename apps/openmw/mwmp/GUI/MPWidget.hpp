@@ -16,6 +16,7 @@ namespace Gui
             static const char EVENT;
             static const std::string BUTTON_PRESS;
             static const std::string MOUSE_CLICK;
+
             typedef MyGUI::delegates::CMultiDelegate2<std::string, std::string> SendHandler;
             SendHandler eventSend;
 

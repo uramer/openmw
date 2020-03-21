@@ -9,7 +9,7 @@ namespace Gui
     class MPAutoSizedButton :
         public AutoSizedWidget,
         public Button,
-        private MPWidget
+        public MPWidget
     {
         MYGUI_RTTI_DERIVED(MPAutoSizedButton)
 
