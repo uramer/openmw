@@ -361,10 +361,21 @@ void RecordHelper::overrideRecord(const mwmp::CellRecord& record)
             finalData.mAmbi.mFog = recordData.mAmbi.mFog;
             finalData.mAmbi.mFogDensity = recordData.mAmbi.mFogDensity;
         }
+        if (record.baseOverrides.hasHasWater) {
+            bool hasWater = recordData.mData.mFlags & ESM::Cell::Flags::HasWater;
+            if (hasWater)
+                finalData.mData.mFlags |= ESM::Cell::Flags::HasWater;
+            else
+                finalData.mData.mFlags &= ~ESM::Cell::Flags::HasWater;
+        }
+        if (record.baseOverrides.hasWaterLevel) {
+            finalData.mWater = recordData.mWater;
+        }
 
         world->unloadCell(finalData);
         world->clearCellStore(finalData);
         world->getModifiableStore().overrideRecord(finalData);
+
     }
     else
     {

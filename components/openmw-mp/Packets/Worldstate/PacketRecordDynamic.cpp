@@ -510,6 +510,8 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
                 RW(overrides.hasAmbientColor, send);
                 RW(overrides.hasSunlightColor, send);
                 RW(overrides.hasFog, send);
+                RW(overrides.hasHasWater, send);
+                RW(overrides.hasWaterLevel, send);
             }
         }
     }

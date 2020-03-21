@@ -108,6 +108,8 @@
     {"SetRecordAmbientColor",                   RecordsDynamicFunctions::SetRecordAmbientColor},\
     {"SetRecordSunlightColor",                  RecordsDynamicFunctions::SetRecordSunlightColor},\
     {"SetRecordFog",                            RecordsDynamicFunctions::SetRecordFog},\
+    {"SetRecordHasWater",                       RecordsDynamicFunctions::SetRecordHasWater},\
+    {"SetRecordWaterLevel",                     RecordsDynamicFunctions::SetRecordWaterLevel},\
     \
     {"SetRecordIdByIndex",                      RecordsDynamicFunctions::SetRecordIdByIndex},\
     {"SetRecordEnchantmentIdByIndex",           RecordsDynamicFunctions::SetRecordEnchantmentIdByIndex},\
@@ -917,6 +919,24 @@ public:
     * \return void
     */
     static void SetRecordFog(unsigned int red, unsigned int green, unsigned int blue, double density) noexcept;
+
+    /**
+    * \brief Set the has water of the temporary record stored on the server for the
+    * currently specified record type.
+    *
+    * \param hasWater Has water of the record
+    * \return void
+    */
+    static void SetRecordHasWater(bool hasWater) noexcept;
+
+    /**
+    * \brief Set the water level of the temporary record stored on the server for the
+    * currently specified record type.
+    *
+    * \param waterLevel waterLevel of the record
+    * \return void
+    */
+    static void SetRecordWaterLevel(double waterLevel) noexcept;
 
     /**
     * \brief Set the id of the record at a certain index in the records stored on the server.

@@ -143,6 +143,9 @@ namespace mwmp
         bool hasAmbientColor = false;
         bool hasSunlightColor = false;
         bool hasFog = false;
+        bool hasHasWater = false;
+        bool hasWaterLevel = false;
+
     };
 
     struct ActivatorRecord

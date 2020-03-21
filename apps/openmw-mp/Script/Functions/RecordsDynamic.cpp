@@ -1530,6 +1530,41 @@ void RecordsDynamicFunctions::SetRecordFog(unsigned int red, unsigned int green,
     tempOverrides.hasFog = true;
 }
 
+void RecordsDynamicFunctions::SetRecordHasWater(bool hasWater) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        if(hasWater)
+            tempCell.data.mData.mFlags |= ESM::Cell::Flags::HasWater;
+        else
+            tempCell.data.mData.mFlags &= ~ESM::Cell::Flags::HasWater;
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set ambient color for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasHasWater = true;
+}
+
+void RecordsDynamicFunctions::SetRecordWaterLevel(double waterLevel) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        tempCell.data.mWater = waterLevel;
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set ambient color for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasWaterLevel = true;
+}
+
 void RecordsDynamicFunctions::SetRecordIdByIndex(unsigned int index, const char* id) noexcept
 {
     unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
