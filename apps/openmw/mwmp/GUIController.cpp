@@ -38,6 +38,7 @@
 
 #include "GUI/MPTextBox.hpp"
 #include "GUI/MPEditBox.hpp"
+#include "GUI/MPButton.hpp"
 #include "GUI/MPAutoSizedButton.hpp"
 #include "GUI/MPListBox.hpp"
 
@@ -66,6 +67,7 @@ void mwmp::GUIController::cleanUp()
 void mwmp::GUIController::registerWidgets() {
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPTextBox>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPEditBox>("Widget");
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPButton>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPAutoSizedButton>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPListBox>("Widget");
 }

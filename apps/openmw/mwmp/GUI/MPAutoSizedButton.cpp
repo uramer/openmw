@@ -25,8 +25,7 @@ namespace Gui
         }
         else
         {
-            Button::setPropertyOverride(_key, _value);
-            MPWidget::setPropertyRaw(_key, _value);
+            MPButton::setPropertyRaw(_key, _value);
         }
     }
 }
