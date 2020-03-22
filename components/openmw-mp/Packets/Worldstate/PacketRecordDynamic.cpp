@@ -495,13 +495,13 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
 
             RW(record.baseId, send, true);
             RW(recordData.mName, send, true);
-            RW(recordData.mHasAmbi, send, true);
+            RW(recordData.mHasAmbi, send);
             RW(recordData.mAmbi.mAmbient, send, true);
             RW(recordData.mAmbi.mSunlight, send, true);
             RW(recordData.mAmbi.mFog, send, true);
-            RW(recordData.mAmbi.mFogDensity, send, true);
-            RW(recordData.mData.mFlags, send, true);
-            RW(recordData.mWater, send, true);
+            RW(recordData.mAmbi.mFogDensity, send);
+            RW(recordData.mData.mFlags, send);
+            RW(recordData.mWater, send);
 
             if (!record.baseId.empty())
             {
