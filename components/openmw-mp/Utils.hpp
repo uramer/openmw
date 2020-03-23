@@ -65,5 +65,21 @@ namespace Utils
 
     std::string intToHexStr(unsigned val);
     unsigned int hexStrToInt(std::string hexString);
+
+    template<typename T, typename E>
+    void setFlag(T& flags, E bit, bool value) {
+        if (value)
+            flags |= bit;
+        else
+            flags &= ~bit;
+    }
+
+    template<typename T, typename E>
+    void setFlag(T& flags, E bit, T source) {
+        if (source & bit)
+            flags |= bit;
+        else
+            flags &= ~bit;
+    }
 }
 #endif //UTILS_HPP

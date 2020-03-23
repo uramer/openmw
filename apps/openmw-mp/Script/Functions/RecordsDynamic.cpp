@@ -8,6 +8,7 @@
 #include <fstream>
 
 #include "RecordsDynamic.hpp"
+#include "Utils.hpp"
 
 using namespace std;
 using namespace mwmp;
@@ -735,16 +736,11 @@ void RecordsDynamicFunctions::SetRecordAutoCalc(int autoCalc) noexcept
         tempEnchantment.data.mData.mAutocalc = autoCalc;
     else if (writeRecordsType == mwmp::RECORD_TYPE::NPC)
     {
+        Utils::setFlag(tempNpc.data.mFlags, ESM::NPC::Autocalc, autoCalc);
         if (autoCalc)
-        {
-            tempNpc.data.mFlags |= ESM::NPC::Autocalc;
             tempNpc.data.mNpdtType = ESM::NPC::NPC_WITH_AUTOCALCULATED_STATS;
-        }
         else
-        {
-            tempNpc.data.mFlags &= ~ESM::NPC::Autocalc;
             tempNpc.data.mNpdtType = ESM::NPC::NPC_DEFAULT;
-        }
     }
     else
     {
@@ -1535,10 +1531,7 @@ void RecordsDynamicFunctions::SetRecordHasWater(bool hasWater) noexcept
     unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
 
     if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
-        if(hasWater)
-            tempCell.data.mData.mFlags |= ESM::Cell::Flags::HasWater;
-        else
-            tempCell.data.mData.mFlags &= ~ESM::Cell::Flags::HasWater;
+        Utils::setFlag(tempCell.data.mData.mFlags, ESM::Cell::Flags::HasWater, hasWater);
     }
     else
     {

@@ -4,6 +4,7 @@
 #include "../mwworld/worldimp.hpp"
 
 #include "RecordHelper.hpp"
+#include <apps/openmw-mp/Utils.hpp>
 
 void RecordHelper::overrideRecord(const mwmp::ActivatorRecord& record)
 {
@@ -337,7 +338,7 @@ void RecordHelper::overrideRecord(const mwmp::CellRecord& record)
 
     if (record.baseId.empty())
     {
-        recordData.mData.mFlags |= ESM::Cell::Flags::Interior;
+        Utils::setFlag(recordData.mData.mFlags, ESM::Cell::Flags::Interior, true);
         recordData.mCellId.mWorldspace = Misc::StringUtils::lowerCase(recordData.mName);
 
         world->unloadCell(recordData);
@@ -362,11 +363,11 @@ void RecordHelper::overrideRecord(const mwmp::CellRecord& record)
             finalData.mAmbi.mFogDensity = recordData.mAmbi.mFogDensity;
         }
         if (record.baseOverrides.hasWaterState) {
-            bool hasWater = recordData.mData.mFlags & ESM::Cell::Flags::HasWater;
-            if (hasWater)
-                finalData.mData.mFlags |= ESM::Cell::Flags::HasWater;
-            else
-                finalData.mData.mFlags &= ~ESM::Cell::Flags::HasWater;
+            Utils::setFlag(
+                finalData.mData.mFlags,
+                ESM::Cell::Flags::HasWater,
+                recordData.mData.mFlags
+            );
         }
         if (record.baseOverrides.hasWaterLevel) {
             finalData.mWater = recordData.mWater;
@@ -1061,11 +1062,7 @@ void RecordHelper::overrideRecord(const mwmp::NpcRecord& record)
         if (record.baseOverrides.hasAutoCalc)
         {
             finalData.mNpdtType = recordData.mNpdtType;
-
-            if ((recordData.mFlags & ESM::NPC::Autocalc) != 0)
-                finalData.mFlags |= ESM::NPC::Autocalc;
-            else
-                finalData.mFlags &= ~ESM::NPC::Autocalc;
+            Utils::setFlag(finalData.mFlags, ESM::NPC::Autocalc, recordData.mFlags);
         }
 
         if (!record.inventoryBaseId.empty() && doesRecordIdExist<ESM::NPC>(record.inventoryBaseId))
