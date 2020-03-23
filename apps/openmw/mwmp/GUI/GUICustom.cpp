@@ -64,6 +64,7 @@ namespace mwmp
             Gui::MPWidget* mpWidget = *widget->getUserData<Gui::MPWidget*>();
             mMPWidgets.push_back(mpWidget);
             mpWidget->eventSend += MyGUI::newDelegate(this, &GUICustom::send);
+            mpWidget->initializeLayout(this);
             if (mpWidget->hasField()) {
                 fieldWidgets[mpWidget->fieldTag()] = mpWidget;
             }
@@ -79,7 +80,7 @@ namespace mwmp
         Networking* networking = Main::get().getNetworking();
 
         localPlayer->guiCustom.id = id;
-        localPlayer->guiCustom.event = event;
+        localPlayer->guiCustom.key = event;
         localPlayer->guiCustom.data = data;
 
         collectFields();

@@ -16,7 +16,7 @@ namespace mwmp
         void Do(PlayerPacket &packet, Player &player) override
         {
             Script::Call<Script::CallbackIdentity("OnGUICustom")>(
-                player.getId(), player.guiCustom.id, player.guiCustom.event.c_str(), player.guiCustom.data.c_str());
+                player.getId(), player.guiCustom.id, player.guiCustom.key.c_str(), player.guiCustom.data.c_str());
         }
     };
 }

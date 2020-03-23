@@ -217,18 +217,21 @@ void mwmp::GUIController::onInputBoxDone(MWGui::WindowBase *parWindow)
 void mwmp::GUIController::processCustom(const BasePlayer::GUICustom& guiCustom)
 {
     if (guiCustom.resource) {
-        std::string filename = storeResource(guiCustom.event, guiCustom.data);
+        std::string filename = storeResource(guiCustom.key, guiCustom.data);
         MyGUI::ResourceManager::getInstance().load(filename);
+    }
+    else if (guiCustom.layout) {
+        auto filename = storeLayout(guiCustom.key, guiCustom.data);
+        mLayouts[guiCustom.key] = filename;
     }
     else {
         MWBase::WindowManager* windowManager = MWBase::Environment::get().getWindowManager();
         auto oldWindow = mCustom.find(guiCustom.id);
         if (!guiCustom.hide) {
-            if (!guiCustom.data.empty()) {
+            if (!guiCustom.key.empty()) {
                 if (oldWindow != mCustom.end()) windowManager->removeDialog(oldWindow->second);
                 if (guiCustom.guiMode) windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
-                auto filename = storeLayout(guiCustom.id, guiCustom.data);
-                mCustom[guiCustom.id] = new GUICustom(guiCustom.id, filename);
+                mCustom[guiCustom.id] = new GUICustom(guiCustom.id, mLayouts[guiCustom.key]);
                 mCustom[guiCustom.id]->setVisible(true);
             }
             if (mCustom.count(guiCustom.id) > 0) mCustom[guiCustom.id]->updateProps(guiCustom.fields);
@@ -310,13 +313,17 @@ void mwmp::GUIController::WM_UpdateVisible(MWGui::GuiMode mode)
     }
 }
 
-std::string mwmp::GUIController::storeLayout(int id, std::string layout)
+std::string mwmp::GUIController::storeLayout(std::string name , std::string source)
 {
     auto full_path = boost::filesystem::current_path();
-    std::string layout_name = "tes3mp_custom/" + std::to_string(id) + ".layout";
+    for (char c : name) {
+        if (!(std::isalnum(c) || c == '_'))
+            throw std::exception("Custom UI: Illegal character in resource name.");
+    }
+    std::string layout_name = "tes3mp_custom/" + name + ".layout";
     full_path /= "/resources/mygui/" + layout_name;
     boost::filesystem::ofstream out(full_path);
-    out << layout;
+    out << source;
     out.close();
     return layout_name;
 }

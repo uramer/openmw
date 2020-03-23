@@ -62,7 +62,7 @@ namespace mwmp
 
         void updatePlayersMarkers(MWGui::LocalMapBase *localMapBase);
         void updateGlobalMapMarkerTooltips(MWGui::MapWindow *pWindow);
-        std::string storeLayout(int id, std::string layout);
+        std::string storeLayout(std::string name, std::string source);
         std::string storeResource(std::string name, std::string source);
 
         ESM::CustomMarker createMarker(const RakNet::RakNetGUID &guid);
@@ -80,6 +80,7 @@ namespace mwmp
         TextInputDialog *mInputBox;
         GUIDialogList *mListBox;
         std::map<int, GUICustom*> mCustom;
+        std::map <std::string, std::string> mLayouts;
         void onInputBoxDone(MWGui::WindowBase* parWindow);
         //MyGUI::Widget *oldFocusWidget, *currentFocusWidget;
     };

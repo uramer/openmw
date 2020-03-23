@@ -165,14 +165,16 @@ void GUIFunctions::SetMapVisibilityAll(unsigned short targetPid, unsigned short 
     LOG_MESSAGE(TimedLog::LOG_WARN, "stub");
 }
 
-void GUIFunctions::GUICustom(unsigned short pid, int id, bool hide, bool background)
+void GUIFunctions::GUICustom(unsigned short pid, int id, const char* layout, bool hide, bool background)
 {
     Player* player;
     GET_PLAYER(pid, player, );
 
     player->guiCustom.resource = false;
+    player->guiCustom.layout = false;
     player->guiCustom.id = id;
-    player->guiCustom.event = "";
+    player->guiCustom.key = layout;
+    player->guiCustom.data = "";
     player->guiCustom.hide = hide;
     player->guiCustom.guiMode = !background;
 
@@ -182,14 +184,15 @@ void GUIFunctions::GUICustom(unsigned short pid, int id, bool hide, bool backgro
     packet->Send(false);
 }
 
-void GUIFunctions::GUIResource(unsigned short pid, const char* name, const char* resource)
+void GUIFunctions::GUIResource(unsigned short pid, const char* name, const char* source)
 {
     Player* player;
     GET_PLAYER(pid, player, );
 
     player->guiCustom.resource = true;
-    player->guiCustom.event = name;
-    player->guiCustom.data = resource;
+    player->guiCustom.layout = false;
+    player->guiCustom.key = name;
+    player->guiCustom.data = source;
 
     mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
     packet->setPlayer(player);
@@ -197,11 +200,20 @@ void GUIFunctions::GUIResource(unsigned short pid, const char* name, const char*
     packet->Send(false);
 }
 
-void GUIFunctions::SetGUILayout(unsigned short pid, const char* layout) {
+void GUIFunctions::GUILayout(unsigned short pid, const char* name, const char* source)
+{
     Player* player;
     GET_PLAYER(pid, player, );
 
-    player->guiCustom.data = layout;
+    player->guiCustom.resource = false;
+    player->guiCustom.layout = true;
+    player->guiCustom.key = name;
+    player->guiCustom.data = source;
+
+    mwmp::PlayerPacket* packet = mwmp::Networking::get().getPlayerPacketController()->GetPacket(ID_GUI_CUSTOM);
+    packet->setPlayer(player);
+
+    packet->Send(false);
 }
 
 void GUIFunctions::ClearGUIProperties(unsigned short pid) {

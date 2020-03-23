@@ -42,6 +42,10 @@ namespace Gui
         }
     }
 
+    void MPWidget::initializeLayout(MWGui::Layout* layout) {
+        mLayout = layout;
+    }
+
     MPWidget::ParsedProperty MPWidget::parseProperty(const std::string key) {
         ParsedProperty result;
         size_t offset = 0;
@@ -72,6 +76,10 @@ namespace Gui
         this->widget = widget;
         widget->setUserString(MP_FLAG, "1");
         widget->setUserData(this);
+    }
+
+    MyGUI::Widget* MPWidget::getWidget(const std::string name) {
+        return mLayout->getWidget(name);
     }
 
     void MPWidget::bindEvent(const std::string event, const std::string value) {

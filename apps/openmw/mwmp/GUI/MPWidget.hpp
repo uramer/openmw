@@ -36,6 +36,8 @@ namespace Gui
             virtual std::string fieldValue();
             void applyProps(PropList props);
 
+            virtual void initializeLayout(MWGui::Layout* layout);
+
         protected:
             typedef std::map<std::string, std::string> StringMap;
             struct ParsedProperty {
@@ -55,7 +57,8 @@ namespace Gui
             std::map<EventName, std::map<std::string, EventValueBind>> mEvents;
 
             void initializeWidget(MyGUI::Widget* widget);
-            void initialize(MyGUI::Widget* widget);
+
+            MyGUI::Widget* getWidget(const std::string name);
 
             virtual void bindEvent(const std::string event, const std::string value);
             void buttonDown(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char);
@@ -74,6 +77,7 @@ namespace Gui
             void setPropertyOverride(const std::string& _key, const std::string& _value);
             virtual void setPropertyRaw(const std::string& _key, const std::string& _value);
         private:
+            MWGui::Layout* mLayout;
             MyGUI::Widget* widget;
     };
 }

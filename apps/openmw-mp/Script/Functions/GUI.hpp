@@ -25,7 +25,7 @@
     \
     {"GUICustom",                  GUIFunctions::GUICustom},\
     {"GUIResource",                GUIFunctions::GUIResource},\
-    {"SetGUILayout",               GUIFunctions::SetGUILayout},\
+    {"GUILayout",                  GUIFunctions::GUILayout},\
     {"ClearGUIProperties",         GUIFunctions::ClearGUIProperties},\
     {"SetGUIProperty",             GUIFunctions::SetGUIProperty},\
     \
@@ -192,9 +192,9 @@ public:
     */
     static void SetMapVisibilityAll(unsigned short targetPid, unsigned short state) noexcept;
 
-    static void GUICustom(unsigned short pid, int id, bool hide, bool background);
-    static void GUIResource(unsigned short pid, const char* name, const char* resource);
-    static void SetGUILayout(unsigned short pid, const char* layout);
+    static void GUICustom(unsigned short pid, int id, const char* layout, bool hide, bool background);
+    static void GUIResource(unsigned short pid, const char* name, const char* source);
+    static void GUILayout(unsigned short pid, const char* name, const char* source);
     static void ClearGUIProperties(unsigned short pid);
     static void SetGUIProperty(unsigned short pid, const char* key, const char* value);
     static unsigned int GetGUIFieldsSize(unsigned short pid) noexcept;
