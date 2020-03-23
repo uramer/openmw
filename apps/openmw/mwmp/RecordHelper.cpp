@@ -1497,3 +1497,49 @@ void RecordHelper::overrideRecord(const mwmp::WeaponRecord& record)
     if (isExistingId)
         world->updatePtrsWithRefId(recordData.mId);
 }
+
+void RecordHelper::overrideRecord(const mwmp::SoundRecord& record) {
+    const ESM::Sound& recordData = record.data;
+
+    if (recordData.mId.empty())
+    {
+        LOG_APPEND(TimedLog::LOG_INFO, "-- Ignoring record override with no id provided");
+        return;
+    }
+
+    bool isExistingId = doesRecordIdExist<ESM::Sound>(recordData.mId);
+    MWBase::World* world = MWBase::Environment::get().getWorld();
+
+    if (record.baseId.empty())
+    {
+        world->getModifiableStore().overrideRecord(recordData);
+    }
+    else if (doesRecordIdExist<ESM::Sound>(record.baseId))
+    {
+        const ESM::Sound* baseData = world->getStore().get<ESM::Sound>().search(record.baseId);
+        ESM::Sound finalData = *baseData;
+        finalData.mId = recordData.mId;
+
+        if (record.baseOverrides.hasSound)
+            finalData.mSound = recordData.mSound;
+
+        if (record.baseOverrides.hasVolume)
+            finalData.mData.mVolume = recordData.mData.mVolume;
+
+        if (record.baseOverrides.hasMinRange)
+            finalData.mData.mMinRange = recordData.mData.mMinRange;
+
+        if (record.baseOverrides.hasMaxRange)
+            finalData.mData.mMaxRange = recordData.mData.mMaxRange;
+
+        world->getModifiableStore().overrideRecord(finalData);
+    }
+    else
+    {
+        LOG_APPEND(TimedLog::LOG_INFO, "-- Ignoring record override with invalid baseId %s", record.baseId.c_str());
+        return;
+    }
+
+    if (isExistingId)
+        world->updatePtrsWithRefId(recordData.mId);
+}

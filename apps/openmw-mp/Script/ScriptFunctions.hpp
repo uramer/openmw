@@ -214,7 +214,8 @@ public:
             {"OnWorldWeather",           Callback<unsigned short>()},
             {"OnClientScriptGlobal",     Callback<unsigned short>()},
             {"OnMpNumIncrement",         Callback<int>()},
-            {"OnRequestDataFileList",    Callback<>()}
+            {"OnRequestDataFileList",    Callback<>()},
+            {"OnServerWindowInput",      Callback<const char *>()}
     };
 };
 

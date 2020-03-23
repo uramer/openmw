@@ -26,6 +26,7 @@
 #include <components/esm/loadspel.hpp>
 #include <components/esm/loadstat.hpp>
 #include <components/esm/loadweap.hpp>
+#include <components/esm/loadsoun.hpp>
 
 #include <components/openmw-mp/Base/BaseStructs.hpp>
 
@@ -57,7 +58,8 @@ namespace mwmp
         SCRIPT,
         SPELL,
         STATIC,
-        WEAPON
+        WEAPON,
+        SOUND
     };
 
     // When using an existing record as a base, this struct tracks which changes
@@ -149,6 +151,9 @@ namespace mwmp
         bool hasQuasiEx = false;
         bool hasRegion = false;
 
+        bool hasVolume = false;
+        bool hasMinRange = false;
+        bool hasMaxRange = false;
     };
 
     struct ActivatorRecord
@@ -318,6 +323,13 @@ namespace mwmp
         BaseOverrides baseOverrides;
     };
 
+    struct SoundRecord
+    {
+        ESM::Sound data;
+        std::string baseId;
+        BaseOverrides baseOverrides;
+    };
+
     static const int maxImageDataSize = 1800;
 
     struct MapTile
@@ -404,6 +416,7 @@ namespace mwmp
         std::vector<ProbeRecord> probeRecords;
         std::vector<RepairRecord> repairRecords;
         std::vector<ScriptRecord> scriptRecords;
+        std::vector<SoundRecord> soundRecords;
         std::vector<SpellRecord> spellRecords;
         std::vector<StaticRecord> staticRecords;
         std::vector<WeaponRecord> weaponRecords;

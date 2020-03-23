@@ -36,6 +36,7 @@ ProbeRecord tempProbe;
 RepairRecord tempRepair;
 ScriptRecord tempScript;
 StaticRecord tempStatic;
+SoundRecord tempSound;
 
 BaseOverrides tempOverrides;
 
@@ -85,6 +86,7 @@ void RecordsDynamicFunctions::ClearRecords() noexcept
     WorldstateFunctions::writeWorldstate.repairRecords.clear();
     WorldstateFunctions::writeWorldstate.scriptRecords.clear();
     WorldstateFunctions::writeWorldstate.staticRecords.clear();
+    WorldstateFunctions::writeWorldstate.soundRecords.clear();
 }
 
 unsigned short RecordsDynamicFunctions::GetRecordType() noexcept
@@ -399,6 +401,8 @@ void RecordsDynamicFunctions::SetRecordId(const char* id) noexcept
         tempScript.data.mId = id;
     else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
         tempStatic.data.mId = id;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::SOUND)
+        tempSound.data.mId = id;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set id for record type %i which lacks that property", writeRecordsType);
 }
@@ -453,6 +457,8 @@ void RecordsDynamicFunctions::SetRecordBaseId(const char* baseId) noexcept
         tempScript.baseId = baseId;
     else if (writeRecordsType == mwmp::RECORD_TYPE::STATIC)
         tempStatic.baseId = baseId;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::SOUND)
+        tempSound.baseId = baseId;
     else
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set baseId for record type %i which lacks that property", writeRecordsType);
 }
@@ -1407,6 +1413,8 @@ void RecordsDynamicFunctions::SetRecordSound(const char* sound) noexcept
 
     if (writeRecordsType == mwmp::RECORD_TYPE::LIGHT)
         tempLight.data.mSound = sound;
+    else if (writeRecordsType == mwmp::RECORD_TYPE::SOUND)
+        tempSound.data.mSound = sound;
     else
     {
         LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set sound for record type %i which lacks that property", writeRecordsType);
@@ -1414,6 +1422,51 @@ void RecordsDynamicFunctions::SetRecordSound(const char* sound) noexcept
     }
 
     tempOverrides.hasSound = true;
+}
+
+void RecordsDynamicFunctions::SetRecordVolume(double volume) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::SOUND)
+        tempSound.data.mData.mVolume = volume;
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set sound for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasVolume = true;
+}
+
+void RecordsDynamicFunctions::SetRecordMinRange(double minRange) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::SOUND)
+        tempSound.data.mData.mMinRange = minRange;
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set sound for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasMinRange = true;
+}
+
+void RecordsDynamicFunctions::SetRecordMaxRange(double maxRange) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::SOUND)
+        tempSound.data.mData.mMinRange = maxRange;
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set sound for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasMaxRange = true;
 }
 
 void RecordsDynamicFunctions::SetRecordOpenSound(const char* sound) noexcept
@@ -1859,6 +1912,12 @@ void RecordsDynamicFunctions::AddRecord() noexcept
         tempStatic.baseOverrides = tempOverrides;
         WorldstateFunctions::writeWorldstate.staticRecords.push_back(tempStatic);
         tempStatic = {};
+    }
+    else if (writeRecordsType == mwmp::RECORD_TYPE::SOUND)
+    {
+        tempSound.baseOverrides = tempOverrides;
+        WorldstateFunctions::writeWorldstate.soundRecords.push_back(tempSound);
+        tempSound = {};
     }
 
     effectCount = 0;
