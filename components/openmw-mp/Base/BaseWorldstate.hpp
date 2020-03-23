@@ -145,6 +145,9 @@ namespace mwmp
         bool hasFog = false;
         bool hasWaterState = false;
         bool hasWaterLevel = false;
+        bool hasNoSleep = false;
+        bool hasQuasiEx = false;
+        bool hasRegion = false;
 
     };
 

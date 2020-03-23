@@ -512,6 +512,9 @@ void PacketRecordDynamic::Packet(RakNet::BitStream *newBitstream, bool send)
                 RW(overrides.hasFog, send);
                 RW(overrides.hasWaterState, send);
                 RW(overrides.hasWaterLevel, send);
+                RW(overrides.hasNoSleep, send);
+                RW(overrides.hasQuasiEx, send);
+                RW(overrides.hasRegion, send);
             }
         }
     }

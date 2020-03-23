@@ -372,6 +372,23 @@ void RecordHelper::overrideRecord(const mwmp::CellRecord& record)
         if (record.baseOverrides.hasWaterLevel) {
             finalData.mWater = recordData.mWater;
         }
+        if (record.baseOverrides.hasNoSleep) {
+            Utils::setFlag(
+                finalData.mData.mFlags,
+                ESM::Cell::Flags::NoSleep,
+                recordData.mData.mFlags
+            );
+        }
+        if (record.baseOverrides.hasQuasiEx) {
+            Utils::setFlag(
+                finalData.mData.mFlags,
+                ESM::Cell::Flags::QuasiEx,
+                recordData.mData.mFlags
+            );
+        }
+        if (record.baseOverrides.hasRegion) {
+            finalData.mRegion = recordData.mRegion;
+        }
 
         world->unloadCell(finalData);
         world->clearCellStore(finalData);

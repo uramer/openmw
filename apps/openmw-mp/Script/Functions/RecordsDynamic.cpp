@@ -1558,6 +1558,55 @@ void RecordsDynamicFunctions::SetRecordWaterLevel(double waterLevel) noexcept
     tempOverrides.hasWaterLevel = true;
 }
 
+void RecordsDynamicFunctions::SetRecordNoSleep(bool noSleep) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        Utils::setFlag(tempCell.data.mData.mFlags, ESM::Cell::Flags::NoSleep, noSleep);
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set no sleep state for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasNoSleep = true;
+}
+
+void RecordsDynamicFunctions::SetRecordQuasiEx(bool quasiEx) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        Utils::setFlag(tempCell.data.mData.mFlags, ESM::Cell::Flags::QuasiEx, quasiEx);
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set quasi exterior state for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasQuasiEx = true;
+}
+
+void RecordsDynamicFunctions::SetRecordRegion(const char* region) noexcept
+{
+    unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;
+
+    if (writeRecordsType == mwmp::RECORD_TYPE::CELL) {
+        tempCell.data.mRegion = region;
+    }
+    else
+    {
+        LOG_MESSAGE_SIMPLE(TimedLog::LOG_ERROR, "Tried to set quasi exterior state for record type %i which lacks that property", writeRecordsType);
+        return;
+    }
+
+    tempOverrides.hasRegion = true;
+}
+
+
 void RecordsDynamicFunctions::SetRecordIdByIndex(unsigned int index, const char* id) noexcept
 {
     unsigned short writeRecordsType = WorldstateFunctions::writeWorldstate.recordsType;

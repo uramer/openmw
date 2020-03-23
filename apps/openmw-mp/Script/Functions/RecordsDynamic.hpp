@@ -110,6 +110,9 @@
     {"SetRecordFog",                            RecordsDynamicFunctions::SetRecordFog},\
     {"SetRecordHasWater",                       RecordsDynamicFunctions::SetRecordHasWater},\
     {"SetRecordWaterLevel",                     RecordsDynamicFunctions::SetRecordWaterLevel},\
+    {"SetRecordNoSleep",                        RecordsDynamicFunctions::SetRecordNoSleep},\
+    {"SetRecordQuasiEx",                        RecordsDynamicFunctions::SetRecordQuasiEx},\
+    {"SetRecordRegion",                         RecordsDynamicFunctions::SetRecordRegion},\
     \
     {"SetRecordIdByIndex",                      RecordsDynamicFunctions::SetRecordIdByIndex},\
     {"SetRecordEnchantmentIdByIndex",           RecordsDynamicFunctions::SetRecordEnchantmentIdByIndex},\
@@ -937,6 +940,31 @@ public:
     * \return void
     */
     static void SetRecordWaterLevel(double waterLevel) noexcept;
+
+    /**
+    * \brief Set whether players are allowed to sleep in the temporary record
+    * stored on the server for the currently specified record type.
+    *
+    * \param noSleep Whether players are allowed to sleep
+    * \return void
+    */
+    static void SetRecordNoSleep(bool noSleep) noexcept;
+
+    /**
+    * \brief Set whether the temporary record stored on the server for the
+    * currently specified record type is a quasi exterior.
+    * \param quasiEx Whether the record is a quasi exterior.
+    * \return void
+    */
+    static void SetRecordQuasiEx(bool quasiEx) noexcept;
+
+    /**
+    * \brief Set region of the temporary record stored on the server for the
+    * currently specified record type.
+    * \param region The region of the record
+    * \return void
+    */
+    static void SetRecordRegion(const char* region) noexcept;
 
     /**
     * \brief Set the id of the record at a certain index in the records stored on the server.
