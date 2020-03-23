@@ -14,7 +14,7 @@ namespace Gui
         MP_DERIVED(MPButton)
         public:
             MPButton() : Gui::Button(), MPWidget() {
-                MPWidget::initialize(this);
+                MPWidget::initializeWidget(this);
             }
 
         protected:

@@ -13,7 +13,7 @@ namespace Gui
         MYGUI_RTTI_DERIVED(MPTextBox)
         public:
             MPTextBox(): TextBox(), MPWidget() {
-                MPWidget::initialize(this);
+                MPWidget::initializeWidget(this);
             }
         protected:
             void setPropertyOverride(const std::string& _key, const std::string& _value);

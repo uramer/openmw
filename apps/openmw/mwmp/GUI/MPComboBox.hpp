@@ -18,7 +18,7 @@ namespace Gui
             static const std::string CHANGE;
 
             MPComboBox() : ComboBox(), MPWidget() {
-                MPWidget::initialize(this);
+                MPWidget::initializeWidget(this);
             }
             std::string fieldValue();
         protected:

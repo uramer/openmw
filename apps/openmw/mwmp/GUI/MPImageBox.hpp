@@ -17,7 +17,7 @@ namespace Gui
             static const std::string SELECT_ACCEPT;
 
             MPImageBox(): ImageBox(), MPWidget(), mUseWholeTexture(1) {
-                MPWidget::initialize(this);
+                MPWidget::initializeWidget(this);
             }
 
         protected:

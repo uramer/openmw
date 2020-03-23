@@ -15,7 +15,7 @@ namespace Gui
         MyGUI::IntSize getRequestedSize();
         void setCaption(const MyGUI::UString& _value);
         MPAutoSizedButton() : MPButton(), mPadding(24, 8) {
-            MPWidget::initialize(this);
+            MPWidget::initializeWidget(this);
         }
 
     protected:

@@ -1,6 +1,7 @@
 #pragma once
 #include <MyGUI_Widget.h>
 #include <components\openmw-mp\Base\BasePlayer.hpp>
+#include <apps\openmw\mwgui\layout.hpp>
 #ifndef OPENMW_MPWIDGET_HPP
 #define OPENMW_MPWIDGET_HPP
 
@@ -26,8 +27,6 @@ namespace Gui
             static const std::string FOCUS_LOST;
             static const std::string ROOT_FOCUS;
             static const std::string ROOT_FOCUS_LOST;
-
-            static std::vector<std::string> split(std::string text);
 
             typedef MyGUI::delegates::CMultiDelegate2<std::string, std::string> SendHandler;
             SendHandler eventSend;
@@ -55,6 +54,7 @@ namespace Gui
             typedef std::pair<std::string, bool> EventValueBind;
             std::map<EventName, std::map<std::string, EventValueBind>> mEvents;
 
+            void initializeWidget(MyGUI::Widget* widget);
             void initialize(MyGUI::Widget* widget);
 
             virtual void bindEvent(const std::string event, const std::string value);

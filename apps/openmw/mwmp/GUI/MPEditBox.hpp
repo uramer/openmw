@@ -17,7 +17,7 @@ namespace Gui
             static const std::string SELECT_ACCEPT;
 
             MPEditBox(): EditBox(), MPWidget() {
-                MPWidget::initialize(this);
+                MPWidget::initializeWidget(this);
             }
             std::string fieldValue();
         protected:

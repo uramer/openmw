@@ -68,7 +68,7 @@ namespace Gui
         return property.key + EVENT + property.eventName;
     }
 
-    void MPWidget::initialize(MyGUI::Widget* widget) {
+    void MPWidget::initializeWidget(MyGUI::Widget* widget) {
         this->widget = widget;
         widget->setUserString(MP_FLAG, "1");
         widget->setUserData(this);
