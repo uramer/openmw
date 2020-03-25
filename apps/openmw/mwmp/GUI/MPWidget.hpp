@@ -67,7 +67,6 @@ namespace Gui
                 bool bind = false;
                 std::string value = "";
                 bool widget = false;
-                std::string widgetName = "";
             };
             static ParsedValue parseValue(const std::string value);
             static std::string makeValue(ParsedValue value);
@@ -80,6 +79,7 @@ namespace Gui
             void initializeWidget(MyGUI::Widget* widget);
 
             MyGUI::Widget* getWidget(const std::string name) {
+                if (name.empty()) return widget;
                 return mLayout->getWidget(name);
             }
 
