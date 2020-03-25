@@ -5,6 +5,7 @@ namespace Gui
 {
     const std::string MPWidget::MP_FLAG = "MP";
     const std::string MPWidget::FIELD = "Field";
+    const std::string MPWidget::NEED_TOOLTIP = "NeedTooltip";
     const char MPWidget::BIND = '=';
     const char MPWidget::EVENT = '@';
     const char MPWidget::WIDGET = '#';
@@ -20,6 +21,8 @@ namespace Gui
     const std::string MPWidget::FOCUS_LOST = "FocusLost";
     const std::string MPWidget::ROOT_FOCUS = "RootFocus";
     const std::string MPWidget::ROOT_FOCUS_LOST = "RootFocusLost";
+    const std::string MPWidget::TOOLTIP_SHOW = "ToolTipShow";
+    const std::string MPWidget::TOOLTIP_HIDE = "ToolTipHide";
 
     bool MPWidget::hasField() {
         return !mFieldTag.empty();
@@ -170,6 +173,20 @@ namespace Gui
         }
     }
 
+    void MPWidget::toolTipShow(MyGUI::Widget* _sender, const MyGUI::ToolTipInfo& _info) {
+        if (_info.type == _info.Show) {
+            MPSplitter data;
+            data << _info.point.left << _info.point.top;
+            triggerEvent(TOOLTIP_SHOW, data.str());
+        }
+    }
+
+    void MPWidget::toolTipHide(MyGUI::Widget* _sender, const MyGUI::ToolTipInfo& _info) {
+        if (_info.type == _info.Hide) {
+            triggerEvent(TOOLTIP_HIDE, "");
+        }
+    }
+
     void MPWidget::triggerEvent(const std::string eventName, const std::string data) {
         if (mEvents.count(eventName) == 0) return;
         MyGUI::VectorStringPairs properties = mEvents[eventName];
@@ -282,6 +299,12 @@ namespace Gui
         }
         else if (event == ROOT_FOCUS_LOST) {
             widget->eventRootKeyChangeFocus += MyGUI::newDelegate(this, &MPWidget::rootFocusLost);
+        }
+        else if (event == TOOLTIP_SHOW) {
+            widget->eventToolTip += MyGUI::newDelegate(this, &MPWidget::toolTipShow);
+        }
+        else if (event == TOOLTIP_HIDE) {
+            widget->eventToolTip += MyGUI::newDelegate(this, &MPWidget::toolTipHide);
         }
     }
 

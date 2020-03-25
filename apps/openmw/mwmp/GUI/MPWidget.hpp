@@ -19,6 +19,7 @@ namespace Gui
             typedef mwmp::BasePlayer::FieldList PropList;
             static const std::string MP_FLAG;
             static const std::string FIELD;
+            static const std::string NEED_TOOLTIP;
             static const char BIND;
             static const char EVENT;
             static const char WIDGET;
@@ -34,6 +35,8 @@ namespace Gui
             static const std::string FOCUS_LOST;
             static const std::string ROOT_FOCUS;
             static const std::string ROOT_FOCUS_LOST;
+            static const std::string TOOLTIP_SHOW;
+            static const std::string TOOLTIP_HIDE;
 
             static MPWidget* fromWidget(MyGUI::Widget* widget) {
                 if (!widget->getUserString(MP_FLAG).empty()) {
@@ -100,6 +103,8 @@ namespace Gui
             void focusLost(MyGUI::Widget* _sender, MyGUI::Widget* _old);
             void rootFocus(MyGUI::Widget* _sender, bool _focus);
             void rootFocusLost(MyGUI::Widget* _sender, bool _focus);
+            void toolTipShow(MyGUI::Widget* _sender, const MyGUI::ToolTipInfo& _info);
+            void toolTipHide(MyGUI::Widget* _sender, const MyGUI::ToolTipInfo& _info);
 
             void setPropertyOverride(const std::string& _key, const std::string& _value);
             virtual void setPropertyRaw(const std::string& _key, const std::string& _value);
