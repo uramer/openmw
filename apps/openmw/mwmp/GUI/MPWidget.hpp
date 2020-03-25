@@ -7,6 +7,12 @@
 
 namespace Gui
 {
+    class MPLayout {
+        public:
+            virtual MyGUI::Widget* getWidget(const std::string name) { return 0; };
+            virtual std::string getProp(const std::string name) { return ""; };
+            virtual void send(const std::string event, const std::string data) {};
+    };
     class MPWidget
     {
         public:
@@ -15,6 +21,7 @@ namespace Gui
             static const std::string FIELD;
             static const char BIND;
             static const char EVENT;
+            static const char WIDGET;
 
             static const std::string BUTTON_DOWN;
             static const std::string BUTTON_UP;
@@ -28,39 +35,60 @@ namespace Gui
             static const std::string ROOT_FOCUS;
             static const std::string ROOT_FOCUS_LOST;
 
-            typedef MyGUI::delegates::CMultiDelegate2<std::string, std::string> SendHandler;
-            SendHandler eventSend;
+            static MPWidget* fromWidget(MyGUI::Widget* widget) {
+                if (!widget->getUserString(MP_FLAG).empty()) {
+                    return *widget->getUserData<MPWidget*>();
+                }
+                return 0;
+            }
+
+            MPWidget() : mLayout(0), widget(0) {
+                mLayoutReady = false;
+            }
 
             bool hasField();
             std::string fieldTag();
             virtual std::string fieldValue();
             void applyProps(PropList props);
 
-            virtual void initializeLayout(MWGui::Layout* layout);
+            virtual void initializeLayout(MPLayout* layout);
 
         protected:
-            typedef std::map<std::string, std::string> StringMap;
-            struct ParsedProperty {
+            struct ParsedKey {
                 std::string key = "";
-                bool bind = false;
                 bool event = false;
                 std::string eventName = "";
+                bool widget = false;
+                std::string widgetName = "";
             };
-            static ParsedProperty parseProperty(const std::string key);
-            static std::string makePropertyKey(ParsedProperty property);
+            static ParsedKey parseKey(const std::string key);
+            static std::string makeKey(ParsedKey key);
+            struct ParsedValue {
+                bool bind = false;
+                std::string value = "";
+                bool widget = false;
+                std::string widgetName = "";
+            };
+            static ParsedValue parseValue(const std::string value);
+            static std::string makeValue(ParsedValue value);
 
             std::string mFieldTag = "";
-            StringMap mProps;
-            StringMap mBinds;
+            std::map<std::string, std::string> mBinds;
             typedef std::string EventName;
-            typedef std::pair<std::string, bool> EventValueBind;
-            std::map<EventName, std::map<std::string, EventValueBind>> mEvents;
+            std::map<EventName, MyGUI::VectorStringPairs> mEvents;
 
             void initializeWidget(MyGUI::Widget* widget);
 
-            MyGUI::Widget* getWidget(const std::string name);
+            MyGUI::Widget* getWidget(const std::string name) {
+                return mLayout->getWidget(name);
+            }
 
-            virtual void bindEvent(const std::string event, const std::string value);
+            std::string getProp(const std::string name) {
+                return mLayout->getProp(name);
+            }
+
+            virtual void bindEvent(const std::string event);
+            void triggerEvent(const std::string eventName, const std::string data);
             void buttonDown(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char);
             void buttonUp(MyGUI::Widget* _sender, MyGUI::KeyCode _key);
             void mouseDown(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id);
@@ -72,13 +100,14 @@ namespace Gui
             void focusLost(MyGUI::Widget* _sender, MyGUI::Widget* _old);
             void rootFocus(MyGUI::Widget* _sender, bool _focus);
             void rootFocusLost(MyGUI::Widget* _sender, bool _focus);
-            void triggerEvent(const std::string eventName, const std::string data);
 
             void setPropertyOverride(const std::string& _key, const std::string& _value);
             virtual void setPropertyRaw(const std::string& _key, const std::string& _value);
         private:
-            MWGui::Layout* mLayout;
+            MPLayout* mLayout;
+            bool mLayoutReady;
             MyGUI::Widget* widget;
+            std::map <std::string, std::pair<std::string, std::string>> mCrossWidgetProperties;
     };
 }
 

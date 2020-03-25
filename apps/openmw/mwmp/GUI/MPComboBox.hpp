@@ -23,7 +23,7 @@ namespace Gui
             std::string fieldValue();
         protected:
             std::string rowData(size_t index);
-            void bindEvent(const std::string event, const std::string value);
+            void bindEvent(const std::string event);
             void accept(MyGUI::Widget* _sender);
             void change(MyGUI::Widget* _sender, size_t _index);
 

@@ -18,14 +18,14 @@ namespace Gui
         return data.str();
     }
 
-    void MPComboBox::bindEvent(const std::string event, const std::string value) {
+    void MPComboBox::bindEvent(const std::string event) {
         if (event == ACCEPT) {
             eventComboAccept += MyGUI::newDelegate(this, &MPComboBox::accept);
         }
         else if (event == CHANGE) {
             eventComboChangePosition += MyGUI::newDelegate(this, &MPComboBox::change);
         }
-        else MPWidget::bindEvent(event, value);
+        else MPWidget::bindEvent(event);
     }
 
     void MPComboBox::accept(MyGUI::Widget* _sender) {

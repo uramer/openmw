@@ -7,6 +7,7 @@ namespace Gui
     const std::string MPWidget::FIELD = "Field";
     const char MPWidget::BIND = '=';
     const char MPWidget::EVENT = '@';
+    const char MPWidget::WIDGET = '#';
 
     const std::string MPWidget::BUTTON_DOWN = "ButtonDown";
     const std::string MPWidget::BUTTON_UP = "ButtonUp";
@@ -37,39 +38,104 @@ namespace Gui
             std::string tag = prop.first;
             std::string value = prop.second;
             if (mBinds.count(tag) == 0) continue;
-            mProps[tag] = value;
             widget->setProperty(mBinds[tag], value);
         }
     }
 
-    void MPWidget::initializeLayout(MWGui::Layout* layout) {
+    void MPWidget::initializeLayout(MPLayout* layout) {
         mLayout = layout;
+        mLayoutReady = true;
+        for (auto propertyIterator : mCrossWidgetProperties) {
+            std::string widget = propertyIterator.first;
+            std::string key = propertyIterator.second.first;
+            std::string value = propertyIterator.second.second;
+            getWidget(widget)->setProperty(key, value);
+        }
     }
 
-    MPWidget::ParsedProperty MPWidget::parseProperty(const std::string key) {
-        ParsedProperty result;
+    MPWidget::ParsedKey MPWidget::parseKey(const std::string key) {
+        ParsedKey result;
         size_t offset = 0;
-        if (key.at(0) == BIND) {
-            result.bind = true;
-            offset = 1;
+        const size_t keyStart = 0;
+
+        size_t widgetStart = std::string::npos;
+        size_t pos = key.find(WIDGET, offset);
+        if (pos != std::string::npos) {
+            result.widget = true;
+            widgetStart = pos + 1;
+            offset = pos + 1;
         }
 
-        size_t pos = key.find(EVENT);
+        size_t eventStart = std::string::npos;
+        pos = key.find(EVENT, offset);
         if (pos != std::string::npos) {
             result.event = true;
-            result.key = key.substr(offset, pos - offset);
-            result.eventName = key.substr(pos + 1);
+            eventStart = pos + 1;
+        }
+
+        if (result.widget && result.event) {
+            result.key = key.substr(keyStart, widgetStart - keyStart - 1);
+            result.widgetName = key.substr(widgetStart, eventStart - widgetStart - 1);
+            result.eventName= key.substr(eventStart);
+        }
+        else if (result.widget) {
+            result.key = key.substr(keyStart, widgetStart - keyStart - 1);
+            result.widgetName = key.substr(widgetStart);
+        }
+        else if (result.event) {
+            result.key = key.substr(keyStart, eventStart - keyStart - 1);
+            result.eventName = key.substr(eventStart);
         }
         else {
-            result.key = key.substr(offset);
+            result.key = key;
         }
 
         return result;
     }
 
-    std::string MPWidget::makePropertyKey(ParsedProperty property) {
-        if (!property.event) return property.key;
-        return property.key + EVENT + property.eventName;
+    std::string MPWidget::makeKey(MPWidget::ParsedKey key) {
+        std::ostringstream result;
+        result << key.key;
+        if (key.widget) result << WIDGET << key.widgetName;
+        if (key.event) result << EVENT << key.eventName;
+        return result.str();
+    }
+
+    MPWidget::ParsedValue MPWidget::parseValue(const std::string value) {
+        ParsedValue result;
+        size_t keyStart = 0;
+
+        if (value[0] == BIND) {
+            result.bind = true;
+            keyStart = 1;
+        }
+
+        size_t widgetStart = std::string::npos;
+        if (!result.bind) {
+            size_t pos = value.find(WIDGET);
+            if (pos != std::string::npos) {
+                result.widget = true;
+                widgetStart = pos + 1;
+            }
+        }
+        
+        if (result.widget) {
+            result.value = value.substr(keyStart, widgetStart - keyStart - 1);
+            result.widgetName = value.substr(widgetStart);
+        }
+        else {
+            result.value = value.substr(keyStart);
+        }
+
+        return result;
+    }
+
+    std::string MPWidget::makeValue(MPWidget::ParsedValue value) {
+        std::ostringstream result;
+        if (value.bind) result << BIND;
+        result << value.value;
+        if (value.widget) result << WIDGET << value.widgetName;
+        return result.str();
     }
 
     void MPWidget::initializeWidget(MyGUI::Widget* widget) {
@@ -78,11 +144,7 @@ namespace Gui
         widget->setUserData(this);
     }
 
-    MyGUI::Widget* MPWidget::getWidget(const std::string name) {
-        return mLayout->getWidget(name);
-    }
-
-    void MPWidget::bindEvent(const std::string event, const std::string value) {
+    void MPWidget::bindEvent(const std::string event) {
         if (event == BUTTON_DOWN) {
             widget->eventKeyButtonPressed += MyGUI::newDelegate(this, &MPWidget::buttonDown);
         }
@@ -174,38 +236,52 @@ namespace Gui
 
     void MPWidget::triggerEvent(const std::string eventName, const std::string data) {
         if (mEvents.count(eventName) == 0) return;
-        std::map<std::string, EventValueBind> properties = mEvents[eventName];
+        MyGUI::VectorStringPairs properties = mEvents[eventName];
         for (auto property : properties) {
             std::string key = property.first;
-            std::string value = property.second.first;
+            std::string value = property.second;
             if (key.empty()) {
-                eventSend(value, data);
+                mLayout->send(value, data);
             }
             else {
-                bool bind = property.second.second;
-                if (!bind) {
-                    setPropertyRaw(key, value);
-                }
-                else if (mProps.count(value) > 0) {
-                    setPropertyRaw(key, mProps[value]);
-                }
+                setPropertyOverride(key, value);
             }
         }
     }
 
     void MPWidget::setPropertyOverride(const std::string& _key, const std::string& _value) {
-        ParsedProperty property = parseProperty(_key);
-        if (property.bind) {
-            mBinds[_value] = makePropertyKey(property);
+        ParsedKey parsedKey = parseKey(_key);
+
+        if (parsedKey.event) {
+            ParsedKey eventKey = parsedKey;
+            eventKey.event = false;
+            bool first = mEvents.count(eventKey.eventName) == 0;
+            if (first) mEvents[eventKey.eventName] = {};
+            mEvents[eventKey.eventName].push_back(make_pair(makeKey(eventKey), _value));
+            if (first) bindEvent(eventKey.eventName);
         }
-        if (property.event) {
-            bool first = mEvents.count(property.eventName) == 0;
-            if (first) mEvents[property.eventName] = {};
-            mEvents[property.eventName][property.key] = make_pair(_value, property.bind);
-            if(first) bindEvent(property.eventName, _value);
-        }
-        if (!property.event && !property.bind) {
-            setPropertyRaw(_key, _value);
+        else {
+            ParsedValue parsedValue = parseValue(_value);
+
+            if (parsedKey.widget) {
+                parsedKey.widget = false;
+                std::string key = makeKey(parsedKey);
+                if (mLayoutReady)
+                    getWidget(parsedKey.widgetName)->setProperty(key, _value);
+                else
+                    mCrossWidgetProperties[parsedKey.widgetName] = make_pair(key, _value);
+            }
+            else {
+                std::string value = _value;
+                if (parsedValue.bind) {
+                    parsedValue.bind = false;
+                    mBinds[parsedValue.value] = _key;
+                    if (mLayoutReady) {
+                        value = getProp(parsedValue.value);
+                    }
+                }
+                setPropertyRaw(_key, value);
+            }
         }
     }
 

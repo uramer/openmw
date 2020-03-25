@@ -21,7 +21,7 @@ namespace Gui
         return data.str();
     }
 
-    void MPListBox::bindEvent(const std::string event, const std::string value) {
+    void MPListBox::bindEvent(const std::string event) {
         if (event == SELECT) {
             eventListChangePosition += MyGUI::newDelegate(this, &MPListBox::select);
         }
@@ -37,7 +37,7 @@ namespace Gui
         else if (event == SCROLL) {
             eventListChangeScroll += MyGUI::newDelegate(this, &MPListBox::scroll);
         }
-        else MPWidget::bindEvent(event, value);
+        else MPWidget::bindEvent(event);
     }
 
     void MPListBox::select(MyGUI::Widget* _sender, size_t _index) {

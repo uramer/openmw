@@ -21,7 +21,7 @@ namespace Gui
             }
             std::string fieldValue();
         protected:
-            void bindEvent(const std::string event, const std::string value);
+            void bindEvent(const std::string event);
             void textChange(MyGUI::Widget* _sender);
             void selectAccept(MyGUI::Widget* _sender);
             void setPropertyRaw(const std::string& _key, const std::string& _value);

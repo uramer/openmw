@@ -9,14 +9,14 @@ namespace Gui
         return getCaption();
     }
 
-    void MPEditBox::bindEvent(const std::string event, const std::string value) {
+    void MPEditBox::bindEvent(const std::string event) {
         if (event == TEXT_CHANGE) {
             eventEditTextChange += MyGUI::newDelegate(this, &MPEditBox::textChange);
         }
         else if (event == SELECT_ACCEPT) {
             eventEditSelectAccept += MyGUI::newDelegate(this, &MPEditBox::selectAccept);
         }
-        else MPWidget::bindEvent(event, value);
+        else MPWidget::bindEvent(event);
     }
 
     void MPEditBox::textChange(MyGUI::Widget* _sender) {

@@ -18,9 +18,9 @@ namespace mwmp
     const std::string GUICustom::ANCHOR = "Anchor";
     const std::string GUICustom::RELATIVE_POSITION = "RelativePosition";
 
-    GUICustom::GUICustom(int id, const std::string& layout): WindowBase(layout)
+    GUICustom::GUICustom(int id, const std::string& layout): WindowBase(layout), MPLayout()
     {
-        this->id = id;
+        mId = id;
         for (MyGUI::Widget* widget : mListWindowRoot) {
             traverse(widget);
         }
@@ -31,6 +31,32 @@ namespace mwmp
         for (Gui::MPWidget* mpWidget : mMPWidgets) {
             mpWidget->applyProps(newProps);
         }
+        for (auto prop : newProps) {
+            mProps[prop.first] = prop.second;
+        }
+    }
+
+    MyGUI::Widget* GUICustom::getWidget(const std::string name) {
+        return WindowBase::getWidget(name);
+    }
+
+    std::string GUICustom::getProp(const std::string name) {
+        if (mProps.count(name) > 0) return mProps[name];
+        else "";
+    }
+
+    void GUICustom::send(const std::string event, const std::string data) {
+        LocalPlayer* localPlayer = Main::get().getLocalPlayer();
+        Networking* networking = Main::get().getNetworking();
+
+        localPlayer->guiCustom.id = mId;
+        localPlayer->guiCustom.key = event;
+        localPlayer->guiCustom.data = data;
+
+        collectFields();
+
+        networking->getPlayerPacket(ID_GUI_CUSTOM)->setPlayer(localPlayer);
+        networking->getPlayerPacket(ID_GUI_CUSTOM)->Send();
     }
 
     void GUICustom::log(std::string event, std::string name, std::string data) {
@@ -59,14 +85,12 @@ namespace mwmp
     }
 
     void GUICustom::traverse(MyGUI::Widget* widget) {
-        std::string MP = widget->getUserString(Gui::MPWidget::MP_FLAG);
-        if (!MP.empty()) {
-            Gui::MPWidget* mpWidget = *widget->getUserData<Gui::MPWidget*>();
+        Gui::MPWidget* mpWidget = Gui::MPWidget::fromWidget(widget);
+        if (mpWidget) {
             mMPWidgets.push_back(mpWidget);
-            mpWidget->eventSend += MyGUI::newDelegate(this, &GUICustom::send);
             mpWidget->initializeLayout(this);
             if (mpWidget->hasField()) {
-                fieldWidgets[mpWidget->fieldTag()] = mpWidget;
+                mFieldWidgets[mpWidget->fieldTag()] = mpWidget;
             }
         }
         size_t children = widget->getChildCount();
@@ -75,25 +99,11 @@ namespace mwmp
         }
     }
 
-    void GUICustom::send(std::string event, std::string data) {
-        LocalPlayer* localPlayer = Main::get().getLocalPlayer();
-        Networking* networking = Main::get().getNetworking();
-
-        localPlayer->guiCustom.id = id;
-        localPlayer->guiCustom.key = event;
-        localPlayer->guiCustom.data = data;
-
-        collectFields();
-
-        networking->getPlayerPacket(ID_GUI_CUSTOM)->setPlayer(localPlayer);
-        networking->getPlayerPacket(ID_GUI_CUSTOM)->Send();
-    }
-
     void GUICustom::collectFields() {
         LocalPlayer* localPlayer = Main::get().getLocalPlayer();
         localPlayer->guiCustom.fields.clear();
 
-        for (auto widgetIterator : fieldWidgets) {
+        for (auto widgetIterator : mFieldWidgets) {
             std::string key = widgetIterator.first;
             Gui::MPWidget* widget = widgetIterator.second;
             localPlayer->guiCustom.fields.push_back(make_pair(key, widget->fieldValue()));
