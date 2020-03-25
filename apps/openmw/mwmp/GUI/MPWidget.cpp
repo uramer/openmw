@@ -8,7 +8,7 @@ namespace Gui
     const std::string MPWidget::NEED_TOOLTIP = "NeedTooltip";
     const char MPWidget::BIND = '=';
     const char MPWidget::EVENT = '@';
-    const char MPWidget::WIDGET = '#';
+    const char MPWidget::WIDGET = '$';
 
     const std::string MPWidget::BUTTON_DOWN = "ButtonDown";
     const std::string MPWidget::BUTTON_UP = "ButtonUp";
