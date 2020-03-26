@@ -336,5 +336,8 @@ namespace Gui
         else if (_key == "Pinned") {
             mPinned = MyGUI::utility::parseBool(_value);
         }
+        else if (_key == "Skin") {
+            widget->changeWidgetSkin(_value);
+        }
     }
 }
