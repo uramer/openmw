@@ -49,6 +49,8 @@
 #include "GUI/MPBookRender.hpp"
 #include "GUI/MPMenuBar.hpp"
 #include "GUI/MPPopupMenu.hpp"
+#include "GUI/MPMultiListBox.hpp"
+#include "GUI/MPMultiListItem.hpp"
 
 
 mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0)
@@ -86,6 +88,8 @@ void mwmp::GUIController::registerWidgets() {
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPBookRender>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPMenuBar>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPPopupMenu>("Widget");
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPMultiListBox>("Widget");
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPMultiListItem>("Widget");
 }
 
 void mwmp::GUIController::refreshGuiMode(MWGui::GuiMode guiMode)
