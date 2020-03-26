@@ -13,6 +13,15 @@ namespace Gui
         return rowData(getItemSelect());
     }
 
+    void MPListBox::addItemWithData(std::string item) {
+        std::string empty("");
+        auto parts = MPSplitter::split(item);
+        switch (parts.size()) {
+        case 0: addItem(empty, empty); break;
+        case 1: addItem(parts[0], empty); break;
+        default: addItem(parts[0], parts[1]); break;
+        }
+    }
     const size_t npos = -1;
     std::string MPListBox::rowData(size_t index) {
         if (index == npos) return "|";
@@ -66,12 +75,18 @@ namespace Gui
 
     void MPListBox::setPropertyRaw(const std::string& _key, const std::string& _value) {
         if (_key == "AddItem") {
-            auto parts = MPSplitter::split(_value);
+            addItemWithData(_value);
+        }
+        else if (_key == "SetItems") {
+            size_t size = getItemCount();
+            while (size > 0) {
+                removeItemAt(size - 1);
+                size--;
+            }
             std::string empty("");
-            switch (parts.size()) {
-                case 0: addItem(empty , empty); break;
-                case 1: addItem(parts[0], empty); break;
-                default: addItem(parts[0], parts[1]); break;
+            auto items = MPSplitter::split(_value);
+            for (std::string item : items) {
+                addItemWithData(item);
             }
         }
         else {

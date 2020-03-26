@@ -8,25 +8,28 @@ namespace Gui
         size_t pos = 0;
         size_t searchpos = 0;
         size_t last = text.size() - 1;
+        std::string segment = "";
         std::vector<std::string> result;
         do {
             size_t found = text.find(DELIMETER, searchpos);
             bool escaped = false;
             if (found < last && text.at(found + 1) == DELIMETER) {
+                segment += text.substr(pos, found - pos + 1);
+                pos = found + 2;
                 searchpos = found + 2;
                 continue;
             }
-            std::string segment;
             if (found == std::string::npos) {
-                segment = text.substr(pos);
+                segment += text.substr(pos);
                 pos = std::string::npos;
             }
             else {
-                segment = text.substr(pos, found - 1);
+                segment += text.substr(pos, found - pos);
                 pos = found + 1;
                 searchpos = found + 1;
             }
             result.push_back(segment);
+            segment = "";
         } while (pos != std::string::npos);
         return result;
     }
