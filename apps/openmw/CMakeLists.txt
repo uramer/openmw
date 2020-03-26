@@ -100,6 +100,8 @@ add_openmw_dir (mwmp Main Networking LocalSystem LocalPlayer DedicatedPlayer Pla
     )
 
 add_openmw_dir (mwmp/GUI GUIChat GUILogin PlayerMarkerCollection GUIDialogList TextInputDialog
+    GUIChat GUICustom GUIDialogList GUILogin MPAutoSizedButton MPBookRender MPButton MPComboBox MPEditBox MPImageBox
+    MPListBox MPProgressBar MPSplitter MPTextBox MPWidget MPWindow PlayerMarkerCollection TextInputDialog
     )
 
 add_openmw_dir(mwmp/processors BaseClientPacketProcessor SystemProcessor PlayerProcessor ObjectProcessor ActorProcessor
@@ -123,6 +125,7 @@ add_openmw_dir (mwmp/processors/player ProcessorChatMessage ProcessorGUIMessageB
     ProcessorPlayerLevel ProcessorPlayerMiscellaneous ProcessorPlayerMomentum ProcessorPlayerPosition ProcessorPlayerQuickKeys
     ProcessorPlayerReputation ProcessorPlayerResurrect ProcessorPlayerShapeshift ProcessorPlayerSkill ProcessorPlayerSpeech
     ProcessorPlayerSpellbook ProcessorPlayerStatsDynamic ProcessorPlayerTopic
+	ProcessorGUICustom
     )
 
 add_openmw_dir (mwmp/processors/object BaseObjectProcessor

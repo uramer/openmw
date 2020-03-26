@@ -188,7 +188,7 @@ add_component_dir (openmw-mp/Packets/System
 add_component_dir (openmw-mp/Packets/Player
         PlayerPacket
 
-        PacketChatMessage PacketGUIBoxes PacketGameSettings
+        PacketChatMessage PacketGUIBoxes PacketGameSettings PacketGUICustom
 
         PacketPlayerBaseInfo PacketPlayerCharGen PacketPlayerAlly PacketPlayerAnimFlags PacketPlayerAnimPlay
         PacketPlayerAttack PacketPlayerAttribute PacketPlayerBehavior PacketPlayerBook PacketPlayerBounty

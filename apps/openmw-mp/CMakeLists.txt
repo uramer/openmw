@@ -92,6 +92,7 @@ source_group(tes3mp-server\\processors\\actor FILES ${PROCESSORS_ACTOR})
 
 set(PROCESSORS_PLAYER
         processors/player/ProcessorChatMsg.hpp processors/player/ProcessorGUIMessageBox.hpp
+		processors/player/ProcessorGUICustom.hpp
         processors/player/ProcessorPlayerAnimFlags.hpp processors/player/ProcessorPlayerAnimPlay.hpp
         processors/player/ProcessorPlayerAttack.hpp processors/player/ProcessorPlayerAttribute.hpp
         processors/player/ProcessorPlayerBook.hpp processors/player/ProcessorPlayerBounty.hpp
