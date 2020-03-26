@@ -8,7 +8,7 @@ namespace Gui
         }
         else {
             Widget::setPropertyOverride(_key, _value);
-            MPWidget::setPropertyRaw(_key, _value);
+            MPBase::setPropertyRaw(_key, _value);
         }
     }
 }

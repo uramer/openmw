@@ -16,7 +16,7 @@ namespace Gui
         }
         else {
             ImageBox::setPropertyOverride(_key, _value);
-            MPWidget::setPropertyRaw(_key, _value);
+            MPBase::setPropertyRaw(_key, _value);
         }
     }
 

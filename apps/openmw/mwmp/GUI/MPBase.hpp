@@ -13,7 +13,7 @@ namespace Gui
             virtual std::string getProp(const std::string name) { return ""; };
             virtual void send(const std::string event, const std::string data) {};
     };
-    class MPWidget
+    class MPBase
     {
         public:
             typedef mwmp::BasePlayer::FieldList PropList;
@@ -38,14 +38,14 @@ namespace Gui
             static const std::string TOOLTIP_SHOW;
             static const std::string TOOLTIP_HIDE;
 
-            static MPWidget* fromWidget(MyGUI::Widget* widget) {
+            static MPBase* fromWidget(MyGUI::Widget* widget) {
                 if (!widget->getUserString(MP_FLAG).empty()) {
-                    return *widget->getUserData<MPWidget*>();
+                    return *widget->getUserData<MPBase*>();
                 }
                 return 0;
             }
 
-            MPWidget() : mLayout(0), widget(0) {
+            MPBase() : mLayout(0), widget(0) {
                 mLayoutReady = false;
             }
 
@@ -119,7 +119,7 @@ namespace Gui
 #define MP_DERIVED(className) \
 protected:\
 void setPropertyOverride(const std::string& _key, const std::string& _value) {\
-    MPWidget::setPropertyOverride(_key, _value);\
+    MPBase::setPropertyOverride(_key, _value);\
 }
 
 #endif //OPENMW_MPWIDGET_HPP

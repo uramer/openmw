@@ -8,10 +8,11 @@
 #include "../Networking.hpp"
 #include "../Main.hpp"
 #include "../LocalPlayer.hpp"
+#include "../GUI/MPBase.hpp"
 
 #include <components/openmw-mp/TimedLog.hpp>
 #include <components\widgets\imagebutton.hpp>
-#include <apps\openmw\mwmp\GUI\MPWidget.hpp>
+
 
 namespace mwmp
 {
@@ -28,7 +29,7 @@ namespace mwmp
     }
 
     void GUICustom::updateProps(BasePlayer::FieldList newProps) {
-        for (Gui::MPWidget* mpWidget : mMPWidgets) {
+        for (Gui::MPBase* mpWidget : mMPWidgets) {
             mpWidget->applyProps(newProps);
         }
         for (auto prop : newProps) {
@@ -85,7 +86,7 @@ namespace mwmp
     }
 
     void GUICustom::traverse(MyGUI::Widget* widget) {
-        Gui::MPWidget* mpWidget = Gui::MPWidget::fromWidget(widget);
+        Gui::MPBase* mpWidget = Gui::MPBase::fromWidget(widget);
         if (mpWidget) {
             mMPWidgets.push_back(mpWidget);
             mpWidget->initializeLayout(this);
@@ -105,7 +106,7 @@ namespace mwmp
 
         for (auto widgetIterator : mFieldWidgets) {
             std::string key = widgetIterator.first;
-            Gui::MPWidget* widget = widgetIterator.second;
+            Gui::MPBase* widget = widgetIterator.second;
             localPlayer->guiCustom.fields.push_back(make_pair(key, widget->fieldValue()));
         }
     }

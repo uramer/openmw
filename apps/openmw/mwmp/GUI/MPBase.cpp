@@ -1,38 +1,38 @@
-#include "MPWidget.hpp"
+#include "MPBase.hpp"
 #include "MPSplitter.hpp"
 
 namespace Gui
 {
-    const std::string MPWidget::MP_FLAG = "MP";
-    const std::string MPWidget::FIELD = "Field";
-    const std::string MPWidget::NEED_TOOLTIP = "NeedTooltip";
-    const char MPWidget::BIND = '=';
-    const char MPWidget::EVENT = '@';
-    const char MPWidget::WIDGET = '$';
+    const std::string MPBase::MP_FLAG = "MP";
+    const std::string MPBase::FIELD = "Field";
+    const std::string MPBase::NEED_TOOLTIP = "NeedTooltip";
+    const char MPBase::BIND = '=';
+    const char MPBase::EVENT = '@';
+    const char MPBase::WIDGET = '$';
 
-    const std::string MPWidget::BUTTON_DOWN = "ButtonDown";
-    const std::string MPWidget::BUTTON_UP = "ButtonUp";
-    const std::string MPWidget::MOUSE_DOWN = "MouseDown";
-    const std::string MPWidget::MOUSE_UP = "MouseUp";
-    const std::string MPWidget::MOUSE_CLICK = "MouseClick";
-    const std::string MPWidget::MOUSE_DOUBLECLICK = "MouseDoubleClick";
-    const std::string MPWidget::MOUSE_WHEEL = "MouseWheel";
-    const std::string MPWidget::FOCUS = "Focus";
-    const std::string MPWidget::FOCUS_LOST = "FocusLost";
-    const std::string MPWidget::ROOT_FOCUS = "RootFocus";
-    const std::string MPWidget::ROOT_FOCUS_LOST = "RootFocusLost";
-    const std::string MPWidget::TOOLTIP_SHOW = "ToolTipShow";
-    const std::string MPWidget::TOOLTIP_HIDE = "ToolTipHide";
+    const std::string MPBase::BUTTON_DOWN = "ButtonDown";
+    const std::string MPBase::BUTTON_UP = "ButtonUp";
+    const std::string MPBase::MOUSE_DOWN = "MouseDown";
+    const std::string MPBase::MOUSE_UP = "MouseUp";
+    const std::string MPBase::MOUSE_CLICK = "MouseClick";
+    const std::string MPBase::MOUSE_DOUBLECLICK = "MouseDoubleClick";
+    const std::string MPBase::MOUSE_WHEEL = "MouseWheel";
+    const std::string MPBase::FOCUS = "Focus";
+    const std::string MPBase::FOCUS_LOST = "FocusLost";
+    const std::string MPBase::ROOT_FOCUS = "RootFocus";
+    const std::string MPBase::ROOT_FOCUS_LOST = "RootFocusLost";
+    const std::string MPBase::TOOLTIP_SHOW = "ToolTipShow";
+    const std::string MPBase::TOOLTIP_HIDE = "ToolTipHide";
 
-    bool MPWidget::hasField() {
+    bool MPBase::hasField() {
         return !mFieldTag.empty();
     }
 
-    std::string MPWidget::fieldTag() {
+    std::string MPBase::fieldTag() {
         return mFieldTag;
     }
 
-    void MPWidget::applyProps(PropList newProps) {
+    void MPBase::applyProps(PropList newProps) {
         for (auto prop : newProps) {
             std::string tag = prop.first;
             std::string value = prop.second;
@@ -41,7 +41,7 @@ namespace Gui
         }
     }
 
-    MPWidget::ParsedKey MPWidget::parseKey(const std::string key) {
+    MPBase::ParsedKey MPBase::parseKey(const std::string key) {
         ParsedKey result;
         size_t offset = 0;
         const size_t keyStart = 0;
@@ -81,7 +81,7 @@ namespace Gui
         return result;
     }
 
-    std::string MPWidget::makeKey(MPWidget::ParsedKey key) {
+    std::string MPBase::makeKey(MPBase::ParsedKey key) {
         std::ostringstream result;
         result << key.key;
         if (key.widget) result << WIDGET << key.widgetName;
@@ -89,7 +89,7 @@ namespace Gui
         return result.str();
     }
 
-    MPWidget::ParsedValue MPWidget::parseValue(const std::string value) {
+    MPBase::ParsedValue MPBase::parseValue(const std::string value) {
         ParsedValue result;
         size_t keyStart = 0;
 
@@ -107,7 +107,7 @@ namespace Gui
         return result;
     }
 
-    std::string MPWidget::makeValue(MPWidget::ParsedValue value) {
+    std::string MPBase::makeValue(MPBase::ParsedValue value) {
         std::ostringstream result;
         if (value.bind) result << BIND;
         if (value.widget) result << WIDGET;
@@ -115,65 +115,65 @@ namespace Gui
         return result.str();
     }
 
-    void MPWidget::initializeWidget(MyGUI::Widget* widget) {
+    void MPBase::initializeWidget(MyGUI::Widget* widget) {
         this->widget = widget;
         widget->setUserString(MP_FLAG, "1");
         widget->setUserData(this);
     }
 
-    void MPWidget::buttonDown(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char) {
+    void MPBase::buttonDown(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char) {
         triggerEvent(BUTTON_DOWN, std::to_string(_key.getValue()));
     }
 
-    void MPWidget::buttonUp(MyGUI::Widget* _sender, MyGUI::KeyCode _key) {
+    void MPBase::buttonUp(MyGUI::Widget* _sender, MyGUI::KeyCode _key) {
         triggerEvent(BUTTON_UP, std::to_string(_key.getValue()));
     }
 
-    void MPWidget::mouseDown(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id) {
+    void MPBase::mouseDown(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id) {
         MPSplitter data;
         data << _id.getValue() << _left << _top;
         triggerEvent(MOUSE_DOWN, data.str());
     }
 
-    void MPWidget::mouseUp(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id) {
+    void MPBase::mouseUp(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id) {
         MPSplitter data;
         data << _id.getValue() << _left << _top;
         triggerEvent(MOUSE_UP, data.str());
     }
 
-    void MPWidget::mouseClick(MyGUI::Widget* _sender) {
+    void MPBase::mouseClick(MyGUI::Widget* _sender) {
         triggerEvent(MOUSE_CLICK, "");
     }
 
-    void MPWidget::mouseDoubleClick(MyGUI::Widget* _sender) {
+    void MPBase::mouseDoubleClick(MyGUI::Widget* _sender) {
         triggerEvent(MOUSE_DOUBLECLICK, "");
     }
 
-    void MPWidget::mouseWheel(MyGUI::Widget* _sender, int _rel) {
+    void MPBase::mouseWheel(MyGUI::Widget* _sender, int _rel) {
         triggerEvent(MOUSE_WHEEL, std::to_string(_rel));
     }
 
-    void MPWidget::focus(MyGUI::Widget* _sender, MyGUI::Widget* _old) {
+    void MPBase::focus(MyGUI::Widget* _sender, MyGUI::Widget* _old) {
         triggerEvent(FOCUS, "");
     }
 
-    void MPWidget::focusLost(MyGUI::Widget* _sender, MyGUI::Widget* _old) {
+    void MPBase::focusLost(MyGUI::Widget* _sender, MyGUI::Widget* _old) {
         triggerEvent(FOCUS_LOST, "");
     }
 
-    void MPWidget::rootFocus(MyGUI::Widget* _sender, bool _focus) {
+    void MPBase::rootFocus(MyGUI::Widget* _sender, bool _focus) {
         if (_focus) {
             triggerEvent(ROOT_FOCUS, "");
         }
     }
 
-    void MPWidget::rootFocusLost(MyGUI::Widget* _sender, bool _focus) {
+    void MPBase::rootFocusLost(MyGUI::Widget* _sender, bool _focus) {
         if (!_focus) {
             triggerEvent(ROOT_FOCUS_LOST, "");
         }
     }
 
-    void MPWidget::toolTipShow(MyGUI::Widget* _sender, const MyGUI::ToolTipInfo& _info) {
+    void MPBase::toolTipShow(MyGUI::Widget* _sender, const MyGUI::ToolTipInfo& _info) {
         if (_info.type == _info.Show) {
             MPSplitter data;
             data << _info.point.left << _info.point.top;
@@ -181,13 +181,13 @@ namespace Gui
         }
     }
 
-    void MPWidget::toolTipHide(MyGUI::Widget* _sender, const MyGUI::ToolTipInfo& _info) {
+    void MPBase::toolTipHide(MyGUI::Widget* _sender, const MyGUI::ToolTipInfo& _info) {
         if (_info.type == _info.Hide) {
             triggerEvent(TOOLTIP_HIDE, "");
         }
     }
 
-    void MPWidget::triggerEvent(const std::string eventName, const std::string data) {
+    void MPBase::triggerEvent(const std::string eventName, const std::string data) {
         if (mEvents.count(eventName) == 0) return;
         MyGUI::VectorStringPairs properties = mEvents[eventName];
         for (auto property : properties) {
@@ -202,7 +202,7 @@ namespace Gui
         }
     }
 
-    void MPWidget::setPropertyOverride(const std::string& _key, const std::string& _value) {
+    void MPBase::setPropertyOverride(const std::string& _key, const std::string& _value) {
         ParsedKey parsedKey = parseKey(_key);
 
         if (parsedKey.event) {
@@ -232,7 +232,7 @@ namespace Gui
                     }
                     else if (mLayoutReady) {
                         MyGUI::Widget* widget = getWidget(parsedValue.value);
-                        MPWidget* mpWidget = 0;
+                        MPBase* mpWidget = 0;
                         if(widget) mpWidget = fromWidget(widget);
                         if (mpWidget) value = mpWidget->fieldValue();
                     }
@@ -249,11 +249,11 @@ namespace Gui
         }
     }
 
-    std::string MPWidget::fieldValue() {
+    std::string MPBase::fieldValue() {
         return "";
     }
 
-    void MPWidget::initializeLayout(MPLayout* layout) {
+    void MPBase::initializeLayout(MPLayout* layout) {
         mLayout = layout;
         mLayoutReady = true;
         for (auto propertyIterator : mCrossWidgetProperties) {
@@ -264,51 +264,51 @@ namespace Gui
         }
     }
 
-    void MPWidget::bindEvent(const std::string event) {
+    void MPBase::bindEvent(const std::string event) {
         if (event == BUTTON_DOWN) {
-            widget->eventKeyButtonPressed += MyGUI::newDelegate(this, &MPWidget::buttonDown);
+            widget->eventKeyButtonPressed += MyGUI::newDelegate(this, &MPBase::buttonDown);
         }
         else if (event == BUTTON_UP) {
-            widget->eventKeyButtonReleased += MyGUI::newDelegate(this, &MPWidget::buttonUp);
+            widget->eventKeyButtonReleased += MyGUI::newDelegate(this, &MPBase::buttonUp);
         }
         else if (event == MOUSE_DOWN) {
-            widget->eventMouseButtonPressed += MyGUI::newDelegate(this, &MPWidget::mouseDown);
+            widget->eventMouseButtonPressed += MyGUI::newDelegate(this, &MPBase::mouseDown);
         }
         else if (event == MOUSE_UP) {
-            widget->eventMouseButtonReleased += MyGUI::newDelegate(this, &MPWidget::mouseUp);
+            widget->eventMouseButtonReleased += MyGUI::newDelegate(this, &MPBase::mouseUp);
         }
         else if (event == MOUSE_CLICK) {
-            widget->eventMouseButtonClick += MyGUI::newDelegate(this, &MPWidget::mouseClick);
+            widget->eventMouseButtonClick += MyGUI::newDelegate(this, &MPBase::mouseClick);
         }
         else if (event == MOUSE_DOUBLECLICK) {
-            widget->eventMouseButtonDoubleClick += MyGUI::newDelegate(this, &MPWidget::mouseDoubleClick);
+            widget->eventMouseButtonDoubleClick += MyGUI::newDelegate(this, &MPBase::mouseDoubleClick);
         }
         else if (event == MOUSE_WHEEL) {
-            widget->eventMouseWheel += MyGUI::newDelegate(this, &MPWidget::mouseWheel);
+            widget->eventMouseWheel += MyGUI::newDelegate(this, &MPBase::mouseWheel);
         }
         else if (event == FOCUS) {
-            widget->eventMouseSetFocus += MyGUI::newDelegate(this, &MPWidget::focus);
-            widget->eventKeySetFocus += MyGUI::newDelegate(this, &MPWidget::focus);
+            widget->eventMouseSetFocus += MyGUI::newDelegate(this, &MPBase::focus);
+            widget->eventKeySetFocus += MyGUI::newDelegate(this, &MPBase::focus);
         }
         else if (event == FOCUS_LOST) {
-            widget->eventMouseLostFocus += MyGUI::newDelegate(this, &MPWidget::focusLost);
-            widget->eventKeyLostFocus += MyGUI::newDelegate(this, &MPWidget::focusLost);
+            widget->eventMouseLostFocus += MyGUI::newDelegate(this, &MPBase::focusLost);
+            widget->eventKeyLostFocus += MyGUI::newDelegate(this, &MPBase::focusLost);
         }
         else if (event == ROOT_FOCUS) {
-            widget->eventRootKeyChangeFocus += MyGUI::newDelegate(this, &MPWidget::rootFocus);
+            widget->eventRootKeyChangeFocus += MyGUI::newDelegate(this, &MPBase::rootFocus);
         }
         else if (event == ROOT_FOCUS_LOST) {
-            widget->eventRootKeyChangeFocus += MyGUI::newDelegate(this, &MPWidget::rootFocusLost);
+            widget->eventRootKeyChangeFocus += MyGUI::newDelegate(this, &MPBase::rootFocusLost);
         }
         else if (event == TOOLTIP_SHOW) {
-            widget->eventToolTip += MyGUI::newDelegate(this, &MPWidget::toolTipShow);
+            widget->eventToolTip += MyGUI::newDelegate(this, &MPBase::toolTipShow);
         }
         else if (event == TOOLTIP_HIDE) {
-            widget->eventToolTip += MyGUI::newDelegate(this, &MPWidget::toolTipHide);
+            widget->eventToolTip += MyGUI::newDelegate(this, &MPBase::toolTipHide);
         }
     }
 
-    void MPWidget::setPropertyRaw(const std::string& _key, const std::string& _value) {
+    void MPBase::setPropertyRaw(const std::string& _key, const std::string& _value) {
         if (_key == FIELD) {
             mFieldTag = _value;
         }

@@ -4,7 +4,7 @@
 
 #include "apps/openmw/mwgui/windowbase.hpp"
 #include "../LocalPlayer.hpp"
-#include <apps\openmw\mwmp\GUI\MPWidget.hpp>
+#include "../GUI/MPBase.hpp"
 
 namespace mwmp
 {
@@ -26,8 +26,8 @@ namespace mwmp
 
             int mId;
             std::map <std::string, std::string> mProps;
-            std::map<std::string, Gui::MPWidget*> mFieldWidgets;
-            std::vector<Gui::MPWidget*> mMPWidgets;
+            std::map<std::string, Gui::MPBase*> mFieldWidgets;
+            std::vector<Gui::MPBase*> mMPWidgets;
 
             void positionRelatively();
             void traverse(MyGUI::Widget* widget);

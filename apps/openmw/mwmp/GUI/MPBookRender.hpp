@@ -1,6 +1,6 @@
 #pragma once
 #include <MyGUI_Widget.h>
-#include "MPWidget.hpp"
+#include "MPBase.hpp"
 #include <components/widgets/box.hpp>
 #include <apps\openmw\mwgui\formatting.hpp>
 #ifndef OPENMW_MPBOOKRENDER_HPP
@@ -10,7 +10,7 @@ namespace Gui
 {
     class MPBookRender :
         public MyGUI::Widget,
-        public MPWidget
+        public MPBase
     {
         MYGUI_RTTI_DERIVED(MPBookRender)
         MP_DERIVED(MPBookRender)
@@ -19,8 +19,8 @@ namespace Gui
             typedef MWGui::Formatting::Paginator::Pages Pages;
             typedef MWGui::Formatting::BookFormatter BookFormatter;
 
-            MPBookRender() : Widget(), MPWidget() {
-                MPWidget::initializeWidget(this);
+            MPBookRender() : Widget(), MPBase() {
+                MPBase::initializeWidget(this);
             }
 
         protected:

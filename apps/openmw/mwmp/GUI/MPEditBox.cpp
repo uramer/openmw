@@ -16,7 +16,7 @@ namespace Gui
         else if (event == SELECT_ACCEPT) {
             eventEditSelectAccept += MyGUI::newDelegate(this, &MPEditBox::selectAccept);
         }
-        else MPWidget::bindEvent(event);
+        else MPBase::bindEvent(event);
     }
 
     void MPEditBox::textChange(MyGUI::Widget* _sender) {
@@ -29,6 +29,6 @@ namespace Gui
 
     void MPEditBox::setPropertyRaw(const std::string& _key, const std::string& _value) {
         EditBox::setPropertyOverride(_key, _value);
-        MPWidget::setPropertyRaw(_key, _value);
+        MPBase::setPropertyRaw(_key, _value);
     }
 }

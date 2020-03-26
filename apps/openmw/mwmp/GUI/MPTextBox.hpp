@@ -1,5 +1,5 @@
 #pragma once
-#include "MPWidget.hpp"
+#include "MPBase.hpp"
 #include <MyGUI_TextBox.h>
 #ifndef OPENMW_MPTEXTBOX_HPP
 #define OPENMW_MPTEXTBOX_HPP
@@ -8,12 +8,12 @@ namespace Gui
 {
     class MPTextBox :
         public MyGUI::TextBox,
-        public MPWidget
+        public MPBase
     {
         MYGUI_RTTI_DERIVED(MPTextBox)
         public:
-            MPTextBox(): TextBox(), MPWidget() {
-                MPWidget::initializeWidget(this);
+            MPTextBox(): TextBox(), MPBase() {
+                MPBase::initializeWidget(this);
             }
         protected:
             void setPropertyOverride(const std::string& _key, const std::string& _value);

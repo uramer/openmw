@@ -1,5 +1,5 @@
 #pragma once
-#include "MPWidget.hpp"
+#include "MPBase.hpp"
 #include <MyGUI_ImageBox.h>
 #ifndef OPENMW_MPIMAGEBOX_HPP
 #define OPENMW_MPIMAGEBOX_HPP
@@ -8,7 +8,7 @@ namespace Gui
 {
     class MPImageBox : 
         public MyGUI::ImageBox, 
-        public MPWidget
+        public MPBase
     {
         MYGUI_RTTI_DERIVED(MPImageBox)
         MP_DERIVED(MPImageBox)
@@ -16,8 +16,8 @@ namespace Gui
             static const std::string TEXT_CHANGE;
             static const std::string SELECT_ACCEPT;
 
-            MPImageBox(): ImageBox(), MPWidget(), mUseWholeTexture(1) {
-                MPWidget::initializeWidget(this);
+            MPImageBox(): ImageBox(), MPBase(), mUseWholeTexture(1) {
+                MPBase::initializeWidget(this);
             }
 
         protected:

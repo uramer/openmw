@@ -25,7 +25,7 @@ namespace Gui
         else if (event == CHANGE) {
             eventComboChangePosition += MyGUI::newDelegate(this, &MPComboBox::change);
         }
-        else MPWidget::bindEvent(event);
+        else MPBase::bindEvent(event);
     }
 
     void MPComboBox::accept(MyGUI::Widget* _sender) {
@@ -48,7 +48,7 @@ namespace Gui
         }
         else {
             ComboBox::setPropertyOverride(_key, _value);
-            MPWidget::setPropertyRaw(_key, _value);
+            MPBase::setPropertyRaw(_key, _value);
         }
     }
 }

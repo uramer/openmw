@@ -1,5 +1,5 @@
 #pragma once
-#include "MPWidget.hpp"
+#include "MPBase.hpp"
 #include <apps\openmw\mwgui\exposedwindow.hpp>
 #ifndef OPENMW_MPWINDOW_HPP
 #define OPENMW_MPWINDOW_HPP
@@ -8,13 +8,13 @@ namespace Gui
 {
     class MPWindow :
         public MWGui::Window,
-        public MPWidget
+        public MPBase
     {
         MYGUI_RTTI_DERIVED(MPWindow)
         MP_DERIVED(MPWindow)
         public:
-            MPWindow() : Window(), MPWidget() {
-                MPWidget::initializeWidget(this);
+            MPWindow() : Window(), MPBase() {
+                MPBase::initializeWidget(this);
             }
 
         protected:

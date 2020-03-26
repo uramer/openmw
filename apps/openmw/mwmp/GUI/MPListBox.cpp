@@ -37,7 +37,7 @@ namespace Gui
         else if (event == SCROLL) {
             eventListChangeScroll += MyGUI::newDelegate(this, &MPListBox::scroll);
         }
-        else MPWidget::bindEvent(event);
+        else MPBase::bindEvent(event);
     }
 
     void MPListBox::select(MyGUI::Widget* _sender, size_t _index) {
@@ -76,7 +76,7 @@ namespace Gui
         }
         else {
             ListBox::setPropertyOverride(_key, _value);
-            MPWidget::setPropertyRaw(_key, _value);
+            MPBase::setPropertyRaw(_key, _value);
         }
     }
 }

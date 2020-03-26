@@ -1,5 +1,5 @@
 #pragma once
-#include "MPWidget.hpp"
+#include "MPBase.hpp"
 #include <MyGUI_ListBox.h>
 #ifndef OPENMW_MPLISTBOX_HPP
 #define OPENMW_MPLISTBOX_HPP
@@ -8,7 +8,7 @@ namespace Gui
 {
     class MPListBox : 
         public MyGUI::ListBox,
-        public MPWidget
+        public MPBase
     {
         MYGUI_RTTI_DERIVED(MPListBox)
         MP_DERIVED(MPListBox)
@@ -19,8 +19,8 @@ namespace Gui
             static const std::string ITEM_FOCUS_LOST;
             static const std::string SCROLL;
 
-            MPListBox(): ListBox(), MPWidget() {
-                MPWidget::initializeWidget(this);
+            MPListBox(): ListBox(), MPBase() {
+                MPBase::initializeWidget(this);
             }
             std::string fieldValue();
         protected:

@@ -1,6 +1,6 @@
 #pragma once
 #include <MyGUI_ComboBox.h>
-#include "MPWidget.hpp"
+#include "MPBase.hpp"
 #include <components/widgets/box.hpp>
 #ifndef OPENMW_MPCOMBOBOX_HPP
 #define OPENMW_MPCOMBOBOX_HPP
@@ -9,7 +9,7 @@ namespace Gui
 {
     class MPComboBox :
         public MyGUI::ComboBox,
-        public MPWidget
+        public MPBase
     {
         MYGUI_RTTI_DERIVED(MPComboBox)
         MP_DERIVED(MPComboBox)
@@ -17,8 +17,8 @@ namespace Gui
             static const std::string ACCEPT;
             static const std::string CHANGE;
 
-            MPComboBox() : ComboBox(), MPWidget() {
-                MPWidget::initializeWidget(this);
+            MPComboBox() : ComboBox(), MPBase() {
+                MPBase::initializeWidget(this);
             }
             std::string fieldValue();
         protected:

@@ -1,5 +1,5 @@
 #pragma once
-#include "MPWidget.hpp"
+#include "MPBase.hpp"
 #include <MyGUI_EditBox.h>
 #ifndef OPENMW_MPEDITBOX_HPP
 #define OPENMW_MPEDITBOX_HPP
@@ -8,7 +8,7 @@ namespace Gui
 {
     class MPEditBox : 
         public MyGUI::EditBox, 
-        public MPWidget
+        public MPBase
     {
         MYGUI_RTTI_DERIVED(MPEditBox)
         MP_DERIVED(MPEditBox)
@@ -16,8 +16,8 @@ namespace Gui
             static const std::string TEXT_CHANGE;
             static const std::string SELECT_ACCEPT;
 
-            MPEditBox(): EditBox(), MPWidget() {
-                MPWidget::initializeWidget(this);
+            MPEditBox(): EditBox(), MPBase() {
+                MPBase::initializeWidget(this);
             }
             std::string fieldValue();
         protected:
