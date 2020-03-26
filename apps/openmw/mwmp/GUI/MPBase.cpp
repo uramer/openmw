@@ -334,7 +334,7 @@ namespace Gui
             widget->_setWidgetState(_value);
         }
         else if (_key == "Pinned") {
-            
+            mPinned = MyGUI::utility::parseBool(_value);
         }
     }
 }
