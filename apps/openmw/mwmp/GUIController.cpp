@@ -325,6 +325,19 @@ void mwmp::GUIController::WM_UpdateVisible(MWGui::GuiMode mode)
     }
 }
 
+const std::map<std::string, MWGui::GuiWindow> mwmp::GUIController::mForceHideNames = {
+    { "Inventory", MWGui::GuiWindow::GW_Inventory},
+    { "Map", MWGui::GuiWindow::GW_Map},
+    { "Magic", MWGui::GuiWindow::GW_Magic},
+    { "Stats", MWGui::GuiWindow::GW_Stats}
+};
+void mwmp::GUIController::forceHide(std::string window) {
+    MWBase::WindowManager* windowManager = MWBase::Environment::get().getWindowManager();
+    if (mForceHideNames.count(window) > 0) {
+        windowManager->forceHide(mForceHideNames.at(window));
+    }
+}
+
 std::string mwmp::GUIController::storeLayout(std::string name , std::string source)
 {
     auto full_path = boost::filesystem::current_path();

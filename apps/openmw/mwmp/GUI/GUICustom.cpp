@@ -8,7 +8,9 @@
 #include "../Networking.hpp"
 #include "../Main.hpp"
 #include "../LocalPlayer.hpp"
-#include "../GUI/MPBase.hpp"
+#include "./MPBase.hpp"
+#include "./MPSplitter.hpp"
+#include "../GuiController.hpp"
 
 #include <components/openmw-mp/TimedLog.hpp>
 #include <components\widgets\imagebutton.hpp>
@@ -26,6 +28,15 @@ namespace mwmp
             traverse(widget);
         }
         positionRelatively();
+
+        std::string replaces = mMainWidget->getUserString("Replaces");
+        GUIController* gui = Main::get().getGUIController();
+        if (!replaces.empty()) {
+            auto windows = Gui::MPSplitter::split(replaces);
+            for (std::string window : windows) {
+                gui->forceHide(window);
+            }
+        }
     }
 
     void GUICustom::updateProps(BasePlayer::FieldList newProps) {

@@ -60,6 +60,9 @@ namespace mwmp
 
         void WM_UpdateVisible(MWGui::GuiMode mode);
 
+        static const std::map<std::string, MWGui::GuiWindow> mForceHideNames;
+        void forceHide(std::string window);
+
         void updatePlayersMarkers(MWGui::LocalMapBase *localMapBase);
         void updateGlobalMapMarkerTooltips(MWGui::MapWindow *pWindow);
         std::string storeLayout(std::string name, std::string source);
