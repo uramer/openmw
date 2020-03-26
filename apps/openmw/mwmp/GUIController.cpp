@@ -47,6 +47,8 @@
 #include "GUI/MPImageBox.hpp"
 #include "GUI/MPProgressBar.hpp"
 #include "GUI/MPBookRender.hpp"
+#include "GUI/MPMenuBar.hpp"
+#include "GUI/MPPopupMenu.hpp"
 
 
 mwmp::GUIController::GUIController(): mInputBox(0), mListBox(0)
@@ -82,6 +84,8 @@ void mwmp::GUIController::registerWidgets() {
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPImageBox>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPProgressBar>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPBookRender>("Widget");
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPMenuBar>("Widget");
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPPopupMenu>("Widget");
 }
 
 void mwmp::GUIController::refreshGuiMode(MWGui::GuiMode guiMode)
