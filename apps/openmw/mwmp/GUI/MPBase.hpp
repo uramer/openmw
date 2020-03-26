@@ -18,8 +18,6 @@ namespace Gui
         public:
             typedef mwmp::BasePlayer::FieldList PropList;
             static const std::string MP_FLAG;
-            static const std::string FIELD;
-            static const std::string NEED_TOOLTIP;
             static const char BIND;
             static const char EVENT;
             static const char WIDGET;

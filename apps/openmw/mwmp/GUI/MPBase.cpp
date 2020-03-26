@@ -4,8 +4,6 @@
 namespace Gui
 {
     const std::string MPBase::MP_FLAG = "MP";
-    const std::string MPBase::FIELD = "Field";
-    const std::string MPBase::NEED_TOOLTIP = "NeedTooltip";
     const char MPBase::BIND = '=';
     const char MPBase::EVENT = '@';
     const char MPBase::WIDGET = '$';
@@ -309,8 +307,11 @@ namespace Gui
     }
 
     void MPBase::setPropertyRaw(const std::string& _key, const std::string& _value) {
-        if (_key == FIELD) {
+        if (_key == "Field") {
             mFieldTag = _value;
+        }
+        else if (_key == "State") {
+            widget->_setWidgetState(_value);
         }
     }
 }
