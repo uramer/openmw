@@ -241,6 +241,7 @@ void mwmp::GUIController::processCustom(const BasePlayer::GUICustom& guiCustom)
                 if (guiCustom.guiMode) windowManager->pushGuiMode((MWGui::GuiMode)GM_TES3MP_Custom);
                 mCustom[guiCustom.id] = new GUICustom(guiCustom.id, mLayouts[guiCustom.key]);
                 mCustom[guiCustom.id]->setVisible(true);
+                mCustom[guiCustom.id]->updateVisible(windowManager->getMode());
             }
             if (mCustom.count(guiCustom.id) > 0) mCustom[guiCustom.id]->updateProps(guiCustom.fields);
         }
@@ -318,6 +319,9 @@ void mwmp::GUIController::WM_UpdateVisible(MWGui::GuiMode mode)
         }
         default:
             break;
+    }
+    for (auto iter : mCustom) {
+        iter.second->updateVisible(mode);
     }
 }
 

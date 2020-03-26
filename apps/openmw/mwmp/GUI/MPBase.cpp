@@ -1,5 +1,6 @@
 #include "MPBase.hpp"
 #include "MPSplitter.hpp"
+#include "../../mwgui/mode.hpp"
 
 namespace Gui
 {
@@ -36,6 +37,22 @@ namespace Gui
             std::string value = prop.second;
             if (mBinds.count(tag) == 0) continue;
             widget->setProperty(mBinds[tag], value);
+        }
+    }
+
+    void MPBase::updateVisible(MWGui::GuiMode mode) {
+        if (mPinnable) {
+            if (mode == MWGui::GuiMode::GM_None)
+            {
+                widget->setVisible(mPinned);
+            }
+            else if (mode == MWGui::GuiMode::GM_Inventory)
+            {
+                widget->setVisible(true);
+            }
+            else {
+                widget->setVisible(false);
+            }
         }
     }
 
@@ -260,6 +277,9 @@ namespace Gui
             std::string value = propertyIterator.second.second;
             getWidget(widget)->setProperty(key, value);
         }
+
+        mPinnable = MyGUI::utility::parseBool(widget->getUserString("Pinnable"));
+        
     }
 
     void MPBase::bindEvent(const std::string event) {
@@ -312,6 +332,9 @@ namespace Gui
         }
         else if (_key == "State") {
             widget->_setWidgetState(_value);
+        }
+        else if (_key == "Pinned") {
+            
         }
     }
 }

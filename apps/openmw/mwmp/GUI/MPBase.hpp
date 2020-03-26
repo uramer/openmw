@@ -1,7 +1,8 @@
 #pragma once
 #include <MyGUI_Widget.h>
 #include <components\openmw-mp\Base\BasePlayer.hpp>
-#include <apps\openmw\mwgui\layout.hpp>
+#include "../../mwgui/mode.hpp"
+#include "../../mwgui/layout.hpp"
 #ifndef OPENMW_MPBASE_HPP
 #define OPENMW_MPBASE_HPP
 
@@ -45,12 +46,15 @@ namespace Gui
 
             MPBase() : mLayout(0), widget(0) {
                 mLayoutReady = false;
+                mPinnable = false;
+                mPinned = false;
             }
 
             bool hasField();
             std::string fieldTag();
             virtual std::string fieldValue();
             void applyProps(PropList props);
+            void updateVisible(MWGui::GuiMode mode);
 
             virtual void initializeLayout(MPLayout* layout);
 
@@ -107,6 +111,8 @@ namespace Gui
             void setPropertyOverride(const std::string& _key, const std::string& _value);
             virtual void setPropertyRaw(const std::string& _key, const std::string& _value);
         private:
+            bool mPinnable;
+            bool mPinned;
             MPLayout* mLayout;
             bool mLayoutReady;
             MyGUI::Widget* widget;

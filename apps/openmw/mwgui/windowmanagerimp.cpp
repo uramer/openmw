@@ -736,6 +736,16 @@ namespace MWGui
             mStatsWindow->setVisible(mStatsWindow->pinned() && !isConsoleMode() && !(mForceHidden & GW_Stats) && (mAllowed & GW_Stats));
             mInventoryWindow->setVisible(mInventoryWindow->pinned() && !isConsoleMode() && !(mForceHidden & GW_Inventory) && (mAllowed & GW_Inventory));
             mSpellWindow->setVisible(mSpellWindow->pinned() && !isConsoleMode() && !(mForceHidden & GW_Magic) && (mAllowed & GW_Magic));
+
+            /*
+                Start of tes3mp addition
+
+                Pass the GuiMode further on to the multiplayer-specific GUI controller
+            */
+            mwmp::Main::get().getGUIController()->WM_UpdateVisible(GuiMode::GM_None);
+            /*
+                End of tes3mp addition
+            */
             return;
         }
         else if (getMode() != GM_Inventory)

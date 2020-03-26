@@ -5,6 +5,7 @@
 #include "apps/openmw/mwgui/windowbase.hpp"
 #include "../LocalPlayer.hpp"
 #include "../GUI/MPBase.hpp"
+#include "../../mwgui/mode.hpp"
 
 namespace mwmp
 {
@@ -13,6 +14,7 @@ namespace mwmp
         public:
             GUICustom(int id, const std::string& layout);
             void updateProps(BasePlayer::FieldList newProps);
+            void updateVisible(MWGui::GuiMode mode);
 
             MyGUI::Widget* getWidget(const std::string name);
             std::string getProp(const std::string name);

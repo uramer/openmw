@@ -19,7 +19,7 @@ namespace mwmp
     const std::string GUICustom::ANCHOR = "Anchor";
     const std::string GUICustom::RELATIVE_POSITION = "RelativePosition";
 
-    GUICustom::GUICustom(int id, const std::string& layout): WindowBase(layout), MPLayout()
+    GUICustom::GUICustom(int id, const std::string& layout) : WindowBase(layout), MPLayout()
     {
         mId = id;
         for (MyGUI::Widget* widget : mListWindowRoot) {
@@ -34,6 +34,12 @@ namespace mwmp
         }
         for (auto prop : newProps) {
             mProps[prop.first] = prop.second;
+        }
+    }
+
+    void GUICustom::updateVisible(MWGui::GuiMode mode) {
+        for (Gui::MPBase* mpWidget : mMPWidgets) {
+            mpWidget->updateVisible(mode);
         }
     }
 
