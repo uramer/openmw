@@ -1,7 +1,6 @@
 #pragma once
 #include <MyGUI_ProgressBar.h>
 #include "MPBase.hpp"
-#include <components/widgets/box.hpp>
 #ifndef OPENMW_MPPROGRESSBAR_HPP
 #define OPENMW_MPPROGRESSBAR_HPP
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "MPButton.hpp"
+#include <components/widgets/box.hpp>
 #ifndef OPENMW_MPAUTOSIZEDBUTTON_HPP
 #define OPENMW_MPAUTOSIZEDBUTTON_HPP
 
