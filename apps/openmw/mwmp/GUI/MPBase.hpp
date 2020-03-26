@@ -2,8 +2,8 @@
 #include <MyGUI_Widget.h>
 #include <components\openmw-mp\Base\BasePlayer.hpp>
 #include <apps\openmw\mwgui\layout.hpp>
-#ifndef OPENMW_MPWIDGET_HPP
-#define OPENMW_MPWIDGET_HPP
+#ifndef OPENMW_MPBASE_HPP
+#define OPENMW_MPBASE_HPP
 
 namespace Gui
 {
@@ -122,4 +122,4 @@ void setPropertyOverride(const std::string& _key, const std::string& _value) {\
     MPBase::setPropertyOverride(_key, _value);\
 }
 
-#endif //OPENMW_MPWIDGET_HPP
+#endif //OPENMW_MPBASE_HPP

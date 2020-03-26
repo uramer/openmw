@@ -36,6 +36,7 @@
 #include "DedicatedPlayer.hpp"
 #include "PlayerList.hpp"
 
+#include "GUI/MPWidget.hpp"
 #include "GUI/MPWindow.hpp"
 #include "GUI/MPTextBox.hpp"
 #include "GUI/MPEditBox.hpp"
@@ -70,6 +71,7 @@ void mwmp::GUIController::cleanUp()
 }
 
 void mwmp::GUIController::registerWidgets() {
+    MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPWidget>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPWindow>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPTextBox>("Widget");
     MyGUI::FactoryManager::getInstance().registerFactory<Gui::MPEditBox>("Widget");
