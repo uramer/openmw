@@ -35,26 +35,26 @@ namespace Gui
     }
 
     template<typename T>
-    MPSplitter& MPSplitter::operator<<(T& obj) {
+    MPSplitter& MPSplitter::operator<<(const T& obj) {
         if (!mFirst) mStream << DELIMETER;
         std::ostringstream converter;
         converter << obj;
-        return this->operator<<(converter.str());
+        return this << converter.str();
     }
 
-    MPSplitter& MPSplitter::operator<<(std::string obj) {
+    MPSplitter& MPSplitter::operator<<(const std::string& obj) {
         if (!mFirst) mStream << DELIMETER;
-        std::string text = obj;
         size_t pos = 0;
+        size_t size = obj.size();
         do {
-            size_t found = text.find(DELIMETER, pos);
+            size_t found = obj.find(DELIMETER, pos);
             if (found == std::string::npos) {
                 break;
             }
-            mStream << text.substr(pos, found - pos + 1) << DELIMETER;
+            mStream << obj.substr(pos, found - pos + 1) << DELIMETER;
             pos = found + 1;
-        } while (pos < text.size());
-        mStream << text.substr(pos);
+        } while (pos < size);
+        mStream << obj.substr(pos);
         mFirst = false;
         return *this;
     }

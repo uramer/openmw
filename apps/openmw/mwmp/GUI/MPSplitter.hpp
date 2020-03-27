@@ -17,8 +17,8 @@ namespace Gui
             static std::vector<std::string> split(std::string text);
 
             template<typename T>
-            MPSplitter& operator<<(T& obj);
-            MPSplitter& operator<<(std::string obj);
+            MPSplitter& operator<<(const T& obj);
+            MPSplitter& operator<<(const std::string& obj);
             MPSplitter& operator<<(int obj);
             MPSplitter& operator<<(size_t obj);
 
