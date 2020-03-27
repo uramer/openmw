@@ -20,7 +20,7 @@ namespace Gui
             }
             std::string fieldValue();
         protected:
-            void bindEvent(const std::string event);
+            void bindEvent(const std::string& event);
             void scroll(MyGUI::ScrollBar* _sender, size_t _position);
             void setPropertyRaw(const std::string& _key, const std::string& _value);
     };

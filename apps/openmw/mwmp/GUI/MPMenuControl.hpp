@@ -21,7 +21,7 @@ namespace Gui
             }
         protected:
             std::string itemData(MyGUI::MenuItem* _item);
-            void bindEvent(const std::string event);
+            void bindEvent(const std::string& event);
             void accept(MyGUI::MenuControl* _sender, MyGUI::MenuItem* _item);
             void close(MyGUI::MenuControl* _sender);
 

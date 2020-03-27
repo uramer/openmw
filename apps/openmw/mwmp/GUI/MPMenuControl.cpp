@@ -17,7 +17,7 @@ namespace Gui
         return data;
     }
 
-    void MPMenuControl::bindEvent(const std::string event) {
+    void MPMenuControl::bindEvent(const std::string& event) {
         if (event == ACCEPT) {
             eventMenuCtrlAccept += MyGUI::newDelegate(this, &MPMenuControl::accept);
         }

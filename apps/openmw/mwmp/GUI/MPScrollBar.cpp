@@ -8,7 +8,7 @@ namespace Gui
         return std::to_string(getScrollPosition());
     }
 
-    void MPScrollBar::bindEvent(const std::string event) {
+    void MPScrollBar::bindEvent(const std::string& event) {
         if (event == SCROLL) {
             eventScrollChangePosition += MyGUI::newDelegate(this, &MPScrollBar::scroll);
         }

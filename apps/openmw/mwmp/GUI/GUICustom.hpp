@@ -16,15 +16,15 @@ namespace mwmp
             void updateProps(BasePlayer::FieldList newProps);
             void updateVisible(MWGui::GuiMode mode);
 
-            MyGUI::Widget* getWidget(const std::string name);
-            std::string getProp(const std::string name);
-            void send(const std::string event, const std::string data);
+            MyGUI::Widget* getWidget(const std::string& name);
+            std::string getProp(const std::string& name);
+            void send(const std::string& event, const std::string& data);
 
         private:
             static const std::string ANCHOR;
             static const std::string RELATIVE_POSITION;
 
-            static void log(std::string event, std::string name, std::string data);
+            static void log(const std::string& event, const std::string& name, const std::string& data);
 
             int mId;
             std::map <std::string, std::string> mProps;

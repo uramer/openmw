@@ -9,7 +9,7 @@ namespace Gui
         return getCaption();
     }
 
-    void MPEditBox::bindEvent(const std::string event) {
+    void MPEditBox::bindEvent(const std::string& event) {
         if (event == TEXT_CHANGE) {
             eventEditTextChange += MyGUI::newDelegate(this, &MPEditBox::textChange);
         }

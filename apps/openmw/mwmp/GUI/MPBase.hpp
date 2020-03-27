@@ -10,9 +10,9 @@ namespace Gui
 {
     class MPLayout {
         public:
-            virtual MyGUI::Widget* getWidget(const std::string name) { return 0; };
-            virtual std::string getProp(const std::string name) { return ""; };
-            virtual void send(const std::string event, const std::string data) {};
+            virtual MyGUI::Widget* getWidget(const std::string& name) { return 0; };
+            virtual std::string getProp(const std::string& name) { return ""; };
+            virtual void send(const std::string& event, const std::string& data) {};
     };
     class MPBase
     {
@@ -66,14 +66,14 @@ namespace Gui
                 bool widget = false;
                 std::string widgetName = "";
             };
-            static ParsedKey parseKey(const std::string key);
+            static ParsedKey parseKey(const std::string& key);
             static std::string makeKey(ParsedKey key);
             struct ParsedValue {
                 bool bind = false;
                 std::string value = "";
                 bool widget = false;
             };
-            static ParsedValue parseValue(const std::string value);
+            static ParsedValue parseValue(const std::string& value);
             static std::string makeValue(ParsedValue value);
 
             std::string mFieldTag = "";
@@ -83,17 +83,17 @@ namespace Gui
 
             void initializeWidget(MyGUI::Widget* widget);
 
-            MyGUI::Widget* getWidget(const std::string name) {
+            MyGUI::Widget* getWidget(const std::string& name) {
                 if (name.empty()) return widget;
                 return mLayout->getWidget(name);
             }
 
-            std::string getProp(const std::string name) {
+            std::string getProp(const std::string& name) {
                 return mLayout->getProp(name);
             }
 
-            virtual void bindEvent(const std::string event);
-            void triggerEvent(const std::string eventName, const std::string data);
+            virtual void bindEvent(const std::string& event);
+            void triggerEvent(const std::string& eventName, const std::string& data);
             void buttonDown(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char);
             void buttonUp(MyGUI::Widget* _sender, MyGUI::KeyCode _key);
             void mouseDown(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id);

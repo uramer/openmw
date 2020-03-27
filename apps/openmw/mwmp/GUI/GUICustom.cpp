@@ -54,16 +54,16 @@ namespace mwmp
         }
     }
 
-    MyGUI::Widget* GUICustom::getWidget(const std::string name) {
+    MyGUI::Widget* GUICustom::getWidget(const std::string& name) {
         return WindowBase::getWidget(name);
     }
 
-    std::string GUICustom::getProp(const std::string name) {
+    std::string GUICustom::getProp(const std::string& name) {
         if (mProps.count(name) > 0) return mProps[name];
         else "";
     }
 
-    void GUICustom::send(const std::string event, const std::string data) {
+    void GUICustom::send(const std::string& event, const std::string& data) {
         LocalPlayer* localPlayer = Main::get().getLocalPlayer();
         Networking* networking = Main::get().getNetworking();
 
@@ -77,7 +77,7 @@ namespace mwmp
         networking->getPlayerPacket(ID_GUI_CUSTOM)->Send();
     }
 
-    void GUICustom::log(std::string event, std::string name, std::string data) {
+    void GUICustom::log(const std::string& event, const std::string& name, const std::string& data) {
         LOG_MESSAGE_SIMPLE(
             TimedLog::LOG_VERBOSE, "Custom UI: event %s, tag: %s, data: %s",
             event.c_str(), name.c_str(), data.c_str()

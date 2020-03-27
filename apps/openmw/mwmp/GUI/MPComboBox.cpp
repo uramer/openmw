@@ -18,7 +18,7 @@ namespace Gui
         return data.str();
     }
 
-    void MPComboBox::bindEvent(const std::string event) {
+    void MPComboBox::bindEvent(const std::string& event) {
         if (event == ACCEPT) {
             eventComboAccept += MyGUI::newDelegate(this, &MPComboBox::accept);
         }

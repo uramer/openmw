@@ -30,7 +30,7 @@ namespace Gui
         return data.str();
     }
 
-    void MPListBox::bindEvent(const std::string event) {
+    void MPListBox::bindEvent(const std::string& event) {
         if (event == SELECT) {
             eventListChangePosition += MyGUI::newDelegate(this, &MPListBox::select);
         }

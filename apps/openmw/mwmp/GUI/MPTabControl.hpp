@@ -21,7 +21,7 @@ namespace Gui
             std::string fieldValue();
         protected:
             std::string itemData(size_t position);
-            void bindEvent(const std::string event);
+            void bindEvent(const std::string& event);
             void select(MyGUI::TabControl* _sender, size_t _position);
             void setPropertyRaw(const std::string& _key, const std::string& _value);
     };

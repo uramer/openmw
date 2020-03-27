@@ -56,7 +56,7 @@ namespace Gui
         }
     }
 
-    MPBase::ParsedKey MPBase::parseKey(const std::string key) {
+    MPBase::ParsedKey MPBase::parseKey(const std::string& key) {
         ParsedKey result;
         size_t offset = 0;
         const size_t keyStart = 0;
@@ -104,7 +104,7 @@ namespace Gui
         return result.str();
     }
 
-    MPBase::ParsedValue MPBase::parseValue(const std::string value) {
+    MPBase::ParsedValue MPBase::parseValue(const std::string& value) {
         ParsedValue result;
         size_t keyStart = 0;
 
@@ -202,7 +202,7 @@ namespace Gui
         }
     }
 
-    void MPBase::triggerEvent(const std::string eventName, const std::string data) {
+    void MPBase::triggerEvent(const std::string& eventName, const std::string& data) {
         if (mEvents.count(eventName) == 0) return;
         MyGUI::VectorStringPairs properties = mEvents[eventName];
         for (auto property : properties) {
@@ -282,7 +282,7 @@ namespace Gui
         
     }
 
-    void MPBase::bindEvent(const std::string event) {
+    void MPBase::bindEvent(const std::string& event) {
         if (event == BUTTON_DOWN) {
             widget->eventKeyButtonPressed += MyGUI::newDelegate(this, &MPBase::buttonDown);
         }

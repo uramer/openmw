@@ -14,7 +14,7 @@ namespace Gui
         return std::to_string(position);
     }
 
-    void MPTabControl::bindEvent(const std::string event) {
+    void MPTabControl::bindEvent(const std::string& event) {
         if (event == SELECT) {
             eventTabChangeSelect += MyGUI::newDelegate(this, &MPTabControl::select);
         }
