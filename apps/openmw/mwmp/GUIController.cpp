@@ -350,34 +350,32 @@ void mwmp::GUIController::forceHide(std::string window) {
     }
 }
 
-std::string mwmp::GUIController::storeLayout(std::string name , std::string source)
+void mwmp::GUIController::storeFile(const std::string& name , const std::string& source)
 {
     auto full_path = boost::filesystem::current_path();
     for (char c : name) {
         if (!(std::isalnum(c) || c == '_'))
-            throw std::exception("Custom UI: Illegal character in resource name.");
+            throw std::runtime_error("Custom UI: Illegal character in layout name.");
     }
-    std::string layout_name = "tes3mp_custom/" + name + ".layout";
-    full_path /= "/resources/mygui/" + layout_name;
+
+    full_path /= "/resources/mygui/" + name;
     boost::filesystem::ofstream out(full_path);
     out << source;
     out.close();
+}
+
+std::string mwmp::GUIController::storeLayout(const std::string& name, const std::string& source)
+{
+    std::string layout_name = "tes3mp_custom/" + name + ".layout";
+    storeFile(layout_name, source);
     return layout_name;
 }
 
-std::string mwmp::GUIController::storeResource(std::string name, std::string source)
+std::string mwmp::GUIController::storeResource(const std::string& name, const std::string& source)
 {
-    auto full_path = boost::filesystem::current_path();
-    for (char c : name) {
-        if (!(std::isalnum(c) || c == '_'))
-            throw std::exception("Custom UI: Illegal character in resource name.");
-    }
-    std::string file_name = "tes3mp_custom/" + name + ".xml";
-    full_path /= "/resources/mygui/" + file_name;
-    boost::filesystem::ofstream out(full_path);
-    out << source;
-    out.close();
-    return file_name;
+    std::string resource_name = "tes3mp_custom/" + name + ".xml";
+    storeFile(resource_name, source);
+    return resource_name;
 }
 
 class MarkerWidget: public MyGUI::Widget

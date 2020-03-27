@@ -65,8 +65,10 @@ namespace mwmp
 
         void updatePlayersMarkers(MWGui::LocalMapBase *localMapBase);
         void updateGlobalMapMarkerTooltips(MWGui::MapWindow *pWindow);
-        std::string storeLayout(std::string name, std::string source);
-        std::string storeResource(std::string name, std::string source);
+
+        void storeFile(const std::string& name, const std::string& source);
+        std::string storeLayout(const std::string& name, const std::string& source);
+        std::string storeResource(const std::string& name, const std::string& source);
 
         ESM::CustomMarker createMarker(const RakNet::RakNetGUID &guid);
         PlayerMarkerCollection mPlayerMarkers;
