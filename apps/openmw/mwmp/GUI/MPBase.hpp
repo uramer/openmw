@@ -1,6 +1,6 @@
 #pragma once
 #include <MyGUI_Widget.h>
-#include <components\openmw-mp\Base\BasePlayer.hpp>
+#include <components/openmw-mp/Base/BasePlayer.hpp>
 #include "../../mwgui/mode.hpp"
 #include "../../mwgui/layout.hpp"
 #ifndef OPENMW_MPBASE_HPP

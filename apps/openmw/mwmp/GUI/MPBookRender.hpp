@@ -1,7 +1,7 @@
 #pragma once
 #include <MyGUI_Widget.h>
 #include "MPBase.hpp"
-#include <apps\openmw\mwgui\formatting.hpp>
+#include <apps/openmw/mwgui/formatting.hpp>
 #ifndef OPENMW_MPBOOKRENDER_HPP
 #define OPENMW_MPBOOKRENDER_HPP
 

@@ -13,7 +13,7 @@
 #include "../GuiController.hpp"
 
 #include <components/openmw-mp/TimedLog.hpp>
-#include <components\widgets\imagebutton.hpp>
+#include <components/widgets/imagebutton.hpp>
 
 
 namespace mwmp

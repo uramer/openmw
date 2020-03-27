@@ -1,6 +1,6 @@
 #pragma once
 #include "MPBase.hpp"
-#include <apps\openmw\mwgui\exposedwindow.hpp>
+#include <apps/openmw/mwgui/exposedwindow.hpp>
 #ifndef OPENMW_MPWINDOW_HPP
 #define OPENMW_MPWINDOW_HPP
 

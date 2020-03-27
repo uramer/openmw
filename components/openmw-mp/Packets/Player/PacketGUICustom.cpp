@@ -1,5 +1,5 @@
 #include "PacketGUICustom.hpp"
-#include <components\openmw-mp\NetworkMessages.hpp>
+#include <components/openmw-mp/NetworkMessages.hpp>
 
 using namespace mwmp;
 
