@@ -3,7 +3,7 @@
 
 
 #include "../PlayerProcessor.hpp"
-#include <apps/openmw/mwmp/Main.cpp>
+#include "apps/openmw/mwmp/Main.hpp"
 
 namespace mwmp
 {
