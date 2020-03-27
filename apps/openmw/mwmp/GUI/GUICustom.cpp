@@ -10,7 +10,7 @@
 #include "../LocalPlayer.hpp"
 #include "./MPBase.hpp"
 #include "./MPSplitter.hpp"
-#include "../GuiController.hpp"
+#include "../GUIController.hpp"
 
 #include <components/openmw-mp/TimedLog.hpp>
 #include <components/widgets/imagebutton.hpp>
