@@ -66,6 +66,7 @@ namespace mwmp
         void updatePlayersMarkers(MWGui::LocalMapBase *localMapBase);
         void updateGlobalMapMarkerTooltips(MWGui::MapWindow *pWindow);
 
+        bool validateFilename(const std::string& name);
         void storeFile(const std::string& name, const std::string& source);
         std::string storeLayout(const std::string& name, const std::string& source);
         std::string storeResource(const std::string& name, const std::string& source);
