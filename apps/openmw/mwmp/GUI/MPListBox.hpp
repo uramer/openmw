@@ -24,7 +24,7 @@ namespace Gui
             }
             std::string fieldValue();
         protected:
-            void addItemWithData(std::string item);
+            void addItemWithData(const std::string& item);
             std::string rowData(size_t index);
 
             void bindEvent(const std::string& event);

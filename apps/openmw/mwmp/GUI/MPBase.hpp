@@ -53,7 +53,7 @@ namespace Gui
             bool hasField();
             std::string fieldTag();
             virtual std::string fieldValue();
-            void applyProps(PropList props);
+            void applyProps(const PropList& props);
             void updateVisible(MWGui::GuiMode mode);
 
             virtual void initializeLayout(MPLayout* layout);
@@ -67,14 +67,14 @@ namespace Gui
                 std::string widgetName = "";
             };
             static ParsedKey parseKey(const std::string& key);
-            static std::string makeKey(ParsedKey key);
+            static std::string makeKey(const ParsedKey& key);
             struct ParsedValue {
                 bool bind = false;
                 std::string value = "";
                 bool widget = false;
             };
             static ParsedValue parseValue(const std::string& value);
-            static std::string makeValue(ParsedValue value);
+            static std::string makeValue(const ParsedValue& value);
 
             std::string mFieldTag = "";
             std::map<std::string, std::string> mBinds;

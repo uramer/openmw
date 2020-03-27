@@ -31,7 +31,7 @@ namespace Gui
         return mFieldTag;
     }
 
-    void MPBase::applyProps(PropList newProps) {
+    void MPBase::applyProps(const PropList& newProps) {
         for (auto prop : newProps) {
             std::string tag = prop.first;
             std::string value = prop.second;
@@ -96,7 +96,7 @@ namespace Gui
         return result;
     }
 
-    std::string MPBase::makeKey(MPBase::ParsedKey key) {
+    std::string MPBase::makeKey(const MPBase::ParsedKey& key) {
         std::ostringstream result;
         result << key.key;
         if (key.widget) result << WIDGET << key.widgetName;
@@ -122,7 +122,7 @@ namespace Gui
         return result;
     }
 
-    std::string MPBase::makeValue(MPBase::ParsedValue value) {
+    std::string MPBase::makeValue(const MPBase::ParsedValue& value) {
         std::ostringstream result;
         if (value.bind) result << BIND;
         if (value.widget) result << WIDGET;
@@ -279,7 +279,6 @@ namespace Gui
         }
 
         mPinnable = MyGUI::utility::parseBool(widget->getUserString("Pinnable"));
-        
     }
 
     void MPBase::bindEvent(const std::string& event) {

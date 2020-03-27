@@ -13,7 +13,7 @@ namespace Gui
         return rowData(getItemSelect());
     }
 
-    void MPListBox::addItemWithData(std::string item) {
+    void MPListBox::addItemWithData(const std::string& item) {
         std::string empty("");
         auto parts = MPSplitter::split(item);
         switch (parts.size()) {
