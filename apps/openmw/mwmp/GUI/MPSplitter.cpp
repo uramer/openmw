@@ -12,7 +12,6 @@ namespace Gui
         std::vector<std::string> result;
         do {
             size_t found = text.find(DELIMETER, searchpos);
-            bool escaped = false;
             if (found < last && text.at(found + 1) == DELIMETER) {
                 segment += text.substr(pos, found - pos + 1);
                 pos = found + 2;
@@ -39,7 +38,7 @@ namespace Gui
         if (!mFirst) mStream << DELIMETER;
         std::ostringstream converter;
         converter << obj;
-        return this << converter.str();
+        return this->operator<<(converter.str());
     }
 
     MPSplitter& MPSplitter::operator<<(const std::string& obj) {
