@@ -15,7 +15,7 @@ namespace mwmp
 
         void Do(PlayerPacket &packet, Player &player) override
         {
-            player.sendToLoaded(&packet);
+            if (!player.pauseMovement) player.sendToLoaded(&packet);
         }
     };
 }

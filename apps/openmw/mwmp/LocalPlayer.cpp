@@ -61,6 +61,7 @@ LocalPlayer::LocalPlayer()
     waitAllowed = true;
 
     ignorePosPacket = false;
+    pauseMovement = false;
     ignoreJailTeleportation = false;
     ignoreJailSkillIncreases = false;
     

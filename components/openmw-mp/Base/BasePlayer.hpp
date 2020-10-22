@@ -276,6 +276,7 @@ namespace mwmp
         bool waitAllowed;
 
         bool ignorePosPacket;
+        bool pauseMovement;
 
         unsigned int movementFlags;
         char movementAnim;

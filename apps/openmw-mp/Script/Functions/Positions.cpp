@@ -121,3 +121,10 @@ void PositionFunctions::SendMomentum(unsigned short pid) noexcept
 
     packet->Send(false);
 }
+
+void PositionFunctions::PauseMovement(unsigned short pid, bool unpause) noexcept
+{
+    Player* player;
+    GET_PLAYER(pid, player, );
+    player->pauseMovement = !unpause;
+}

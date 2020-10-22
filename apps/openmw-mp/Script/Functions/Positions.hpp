@@ -20,7 +20,8 @@
     {"SetMomentum",         PositionFunctions::SetMomentum},\
     \
     {"SendPos",             PositionFunctions::SendPos},\
-    {"SendMomentum",        PositionFunctions::SendMomentum}
+    {"SendMomentum",        PositionFunctions::SendMomentum},\
+    {"PauseMovement",       PositionFunctions::PauseMovement}
 
 
 class PositionFunctions
@@ -153,6 +154,8 @@ public:
     * \return void
     */
     static void SendMomentum(unsigned short pid) noexcept;
+
+    static void PauseMovement(unsigned short pid, bool pause) noexcept;
 };
 
 #endif //OPENMW_POSITIONAPI_HPP
